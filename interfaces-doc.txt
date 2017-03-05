@@ -12,11 +12,23 @@ class Question
 class Answer
 {
     private ChatId chatId;
-    
+    private Object answerBody;
 }
 
 // интерфейсы
 interface MessengerAdapter
 {
-    void ask(Question question)
+    void ask(Question question, int timeout);
+}
+
+interface BotBody
+{
+    void answer(Answer answer, int timeout);
+}
+
+interface JobSiteAdapter
+{
+    void connect(AuthData authData, int timeout);
+    void register(AuthData authData, int timeout);
+    void pushCV(CV cv);
 }
