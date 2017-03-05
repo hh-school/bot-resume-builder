@@ -1,0 +1,22 @@
+// постараюсь сделать максимально читаемо (возможно, получится не очень формально)
+
+// трансфер-типы
+class Question
+{
+    private ChatId chatId;
+    private String text;
+    private AnswerType answerType;  // перечисление: YesNo, AnyString, SelectedFromList
+    private List<String> allowedAnswers;
+}
+
+class Answer
+{
+    private ChatId chatId;
+    
+}
+
+// интерфейсы
+interface MessengerAdapter
+{
+    void ask(Question question)
+}
