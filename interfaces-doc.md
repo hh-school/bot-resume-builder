@@ -1,6 +1,7 @@
 ﻿// постараюсь сделать максимально читаемо (возможно, получится не очень формально)
 
 // трансфер-типы
+'''Java
 class Question
 {
     private ChatId chatId;
@@ -32,3 +33,4 @@ interface JobSiteAdapter
     void register(AuthData authData, int timeout);
     void pushCV(CV cv);
 }
+'''
