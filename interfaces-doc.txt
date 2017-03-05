@@ -1,11 +1,11 @@
-// постараюсь сделать максимально читаемо (возможно, получится не очень формально)
+п»ї// РїРѕСЃС‚Р°СЂР°СЋСЃСЊ СЃРґРµР»Р°С‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅРѕ С‡РёС‚Р°РµРјРѕ (РІРѕР·РјРѕР¶РЅРѕ, РїРѕР»СѓС‡РёС‚СЃСЏ РЅРµ РѕС‡РµРЅСЊ С„РѕСЂРјР°Р»СЊРЅРѕ)
 
-// трансфер-типы
+// С‚СЂР°РЅСЃС„РµСЂ-С‚РёРїС‹
 class Question
 {
     private ChatId chatId;
     private String text;
-    private AnswerType answerType;  // перечисление: YesNo, AnyString, SelectedFromList
+    private AnswerType answerType;  // РїРµСЂРµС‡РёСЃР»РµРЅРёРµ: YesNo, AnyString, SelectedFromList
     private List<String> allowedAnswers;
 }
 
@@ -15,7 +15,7 @@ class Answer
     
 }
 
-// интерфейсы
+// РёРЅС‚РµСЂС„РµР№СЃС‹
 interface MessengerAdapter
 {
     void ask(Question question)
