@@ -1,6 +1,4 @@
-﻿// постараюсь сделать максимально читаемо (возможно, получится не очень формально)
-
-// трансфер-типы
+﻿трансфер-типы
 ```Java
 class Question
 {
@@ -15,8 +13,9 @@ class Answer
     private ChatId chatId;
     private Object answerBody;
 }
-
-// интерфейсы
+```
+интерфейсы
+```Java
 interface MessengerAdapter
 {
     void ask(Question question, int timeout);
