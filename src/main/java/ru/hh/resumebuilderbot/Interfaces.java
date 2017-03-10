@@ -21,16 +21,16 @@ class Question {
 //    private ru.hh.resumebuilderbot.AnswerType answerType;
 //    private List<String> allowedAnswers;
 
-    public Question(ChatId chatId, String text) {
+    Question(ChatId chatId, String text) {
         this.chatId = chatId;
         this.text = text;
     }
 
-    public ChatId getChatId() {
+    ChatId getChatId() {
         return chatId;
     }
 
-    public String getText() {
+    String getText() {
         return text;
     }
 }
@@ -39,9 +39,17 @@ class Answer {
     private ChatId chatId;
     private Object answerBody;
 
-    public Answer(ChatId chatId, Object answerBody) {
+    Answer(ChatId chatId, Object answerBody) {
         this.chatId = chatId;
         this.answerBody = answerBody;
+    }
+
+    ChatId getChatId() {
+        return chatId;
+    }
+
+    Object getAnswerBody() {
+        return answerBody;
     }
 }
 
@@ -49,15 +57,21 @@ interface MessengerAdapter {
     // Задать вопрос пользователю
     void ask(Question question, int timeoutMs);
 
+    // Подписать бота на ответы пользователя
     void setListener(AbstractBotBody bot);
 
-    // Начать принимать сообщения от пользователя
+    // Начать принимать ответы пользователя
     void start();
 }
 
 interface AbstractBotBody {
+    // Вызывается при новом ответе пользователя
     void onAnswer(Answer answer, int timeoutMs);
+
+    // Вызывается при добавлении нового пользователя
     void onStartChat(ChatId chatId);
+
+    // Начать выполнение бота
     void start();
 }
 
@@ -65,8 +79,7 @@ abstract class AuthData {}
 
 abstract class CV {}
 
-interface JobSiteAdapter
-{
+interface JobSiteAdapter {
     void connect(AuthData authData, int timeout);
     void register(AuthData authData, int timeout);
     void pushCV(CV cv);

@@ -2,20 +2,20 @@ package ru.hh.resumebuilderbot;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-// Заглушка для адаптера с серверу Telegram
-public class TelegramAdapter implements MessengerAdapter {
+// Заглушка для адаптера к серверу hh.ru
+public class HHAdapter implements JobSiteAdapter {
     @Override
-    public void ask(Question question, int timeoutMs) {
+    public void connect(AuthData authData, int timeout) {
         throw new NotImplementedException();
     }
 
     @Override
-    public void setListener(AbstractBotBody bot) {
+    public void register(AuthData authData, int timeout) {
         throw new NotImplementedException();
     }
 
     @Override
-    public void start() {
+    public void pushCV(CV cv) {
         throw new NotImplementedException();
     }
 }
