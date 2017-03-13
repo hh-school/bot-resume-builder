@@ -63,12 +63,12 @@ public class TestMessengerAdapter implements MessengerAdapter {
             maxRandomValue += entry.getWeight();
         }
         Random rng = new Random();
-        int randomValue = rng.nextInt(maxRandomValue + 1);
+        int randomValue = rng.nextInt(maxRandomValue);
         int counter = 0;
         for (Entry entry : candidates)
         {
             counter += entry.getWeight();
-            if (counter >= randomValue)
+            if (counter > randomValue)
             {
                 return entry.getAnswer();
             }
