@@ -5,7 +5,7 @@ class ConsoleMessengerAdapter implements MessengerAdapter {
     private AbstractBotBody listener;
 
     @Override
-    public void setListener(AbstractBotBody bot) {
+    public void setHandler(AbstractBotBody bot) {
         listener = bot;
     }
 

@@ -10,7 +10,7 @@ public class TelegramAdapter implements MessengerAdapter {
     }
 
     @Override
-    public void setListener(AbstractBotBody bot) {
+    public void setHandler(AbstractBotBody bot) {
         throw new NotImplementedException();
     }
 

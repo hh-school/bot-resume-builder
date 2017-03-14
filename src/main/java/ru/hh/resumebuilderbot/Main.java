@@ -5,16 +5,13 @@ public class Main {
         // connect to database
         // ...
 
-        MessengerAdapter messenger = new ConsoleMessengerAdapter();
-        BotBody bot = new BotBody(messenger);
-
+        MessengerAdapter messengerAdapter = new ConsoleMessengerAdapter();
         // connect to telegram server
-        messenger.setListener(bot);
+        BotBody bot = new BotBody(messengerAdapter);
 
-        // connect to job site
+        // configure connection to job site
         // ...
 
-        messenger.start();
-        bot.start();
+        messengerAdapter.start();
     }
 }

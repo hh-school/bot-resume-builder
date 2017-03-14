@@ -58,7 +58,7 @@ interface MessengerAdapter {
     void ask(Question question, int timeoutMs);
 
     // Подписать бота на ответы пользователя
-    void setListener(AbstractBotBody bot);
+    void setHandler(AbstractBotBody handler);
 
     // Начать принимать ответы пользователя
     void start();
@@ -70,9 +70,6 @@ interface AbstractBotBody {
 
     // Вызывается при добавлении нового пользователя
     void onStartChat(ChatId chatId);
-
-    // Начать выполнение бота
-    void start();
 }
 
 abstract class AuthData {}
