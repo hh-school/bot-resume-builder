@@ -1,4 +1,3 @@
 package ru.hh.resumebuilderbot;
 
-public class AuthData {
-}
+abstract class AuthData {}

@@ -1,6 +1,5 @@
 package ru.hh.resumebuilderbot;
 
-// Реализация логики бота
 public class BotBody implements AbstractBotBody {
     private MessengerAdapter messengerAdapter;
 

@@ -2,7 +2,7 @@ package ru.hh.resumebuilderbot;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-// Заглушка для адаптера с серверу Telegram
+// MessengerAdapter stub for Telegram
 public class TelegramAdapter implements MessengerAdapter {
     @Override
     public void ask(Question question, int timeoutMs) {

@@ -1,4 +1,7 @@
 package ru.hh.resumebuilderbot;
 
-public class AbstractBotBody {
+interface AbstractBotBody {
+    void onAnswer(Answer answer, int timeoutMs);
+
+    void onStartChat(ChatId chatId);
 }

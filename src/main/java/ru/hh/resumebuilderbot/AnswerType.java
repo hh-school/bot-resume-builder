@@ -1,4 +1,7 @@
 package ru.hh.resumebuilderbot;
 
-public class AnswerType {
+enum AnswerType {
+    YesNo,
+    AnyString,
+    SelectedFromList
 }

@@ -1,6 +1,5 @@
 package ru.hh.resumebuilderbot;
 
-// Реализация мессенджера, отображающего диалог в консоли
 class ConsoleMessengerAdapter implements MessengerAdapter {
     private AbstractBotBody listener;
 

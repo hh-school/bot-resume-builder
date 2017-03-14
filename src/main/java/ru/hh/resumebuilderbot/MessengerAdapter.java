@@ -1,4 +1,9 @@
 package ru.hh.resumebuilderbot;
 
-public class MessengerAdapter {
+interface MessengerAdapter {
+    void ask(Question question, int timeoutMs);
+
+    void setHandler(AbstractBotBody handler);
+
+    void start();
 }
