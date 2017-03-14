@@ -3,9 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by Trympyrym on 10.03.2017.
- */
 public class TestMessengerAdapter implements MessengerAdapter {
 
     private final String defaultAnswerText = "cant understand your question";

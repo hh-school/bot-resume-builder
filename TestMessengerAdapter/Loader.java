@@ -4,9 +4,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.regex.Pattern;
 
-/**
- * Created by Trympyrym on 10.03.2017.
- */
 public class Loader {
 
     private final String questionMark = "question=";

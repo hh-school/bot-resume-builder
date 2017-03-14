@@ -1,8 +1,5 @@
 import java.util.regex.Pattern;
 
-/**
- * Created by Trympyrym on 10.03.2017.
- */
 public class Entry
 {
     private Pattern pattern;
