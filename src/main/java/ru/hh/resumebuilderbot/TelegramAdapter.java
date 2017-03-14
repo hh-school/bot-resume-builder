@@ -1,21 +1,19 @@
 package ru.hh.resumebuilderbot;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 // MessengerAdapter stub for Telegram
 public class TelegramAdapter implements MessengerAdapter {
     @Override
     public void ask(Question question, int timeoutMs) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     public void setHandler(AbstractBotBody bot) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     public void start() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 }

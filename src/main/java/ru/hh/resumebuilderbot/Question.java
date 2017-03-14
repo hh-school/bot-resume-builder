@@ -3,6 +3,7 @@ package ru.hh.resumebuilderbot;
 class Question {
     private final ChatId chatId;
     private final String text;
+// todo: add answerType and allowedAnswers fields
 //    private ru.hh.resumebuilderbot.AnswerType answerType;
 //    private List<String> allowedAnswers;
 
@@ -19,4 +20,3 @@ class Question {
         return text;
     }
 }
-
