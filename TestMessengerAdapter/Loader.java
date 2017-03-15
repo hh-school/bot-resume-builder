@@ -12,70 +12,43 @@ public class Loader {
 
     private List<Entry> entries;
     private Entry currentEntry;
-    private State currentState;
     private StringBuilder stringBuilder;
-
-    private enum State
-    {
-        BEFORE_READING_QUESTION, READING_QUESTION, READING_ANSWER
-    }
 
     public Loader(List<Entry> entries) {
         this.entries = entries;
     }
 
     public void load(String filename) throws IOException {
-        prepareLoading();
+
         Files.lines(Paths.get(filename)).forEach((String line) -> {loadLine(line);});
     }
 
-    private void prepareLoading()
+        private void loadLine(String line)
     {
-        currentState = State.BEFORE_READING_QUESTION;
-    }
-
-    private void loadLine(String line)
-    {
-        if (currentState == State.BEFORE_READING_QUESTION)
+        if (questionBegins(line))
         {
-            if (questionBegins(line))
-            {
-                currentState = State.READING_QUESTION;
-                currentEntry = new Entry();
-                stringBuilder = new StringBuilder(line.substring(questionMark.length()));
-            }
+            currentEntry = new Entry();
+            stringBuilder = new StringBuilder(line.substring(questionMark.length()));
+            return;
         }
 
-        else if (currentState == State.READING_QUESTION)
+        if (answerBegins(line))
         {
-            if (answerBegins(line))
-            {
-                currentState = State.READING_ANSWER;
-                currentEntry.setPattern(Pattern.compile(stringBuilder.toString()));
-                stringBuilder = new StringBuilder(line.substring(answerMark.length()));
-            }
-            else
-            {
-                stringBuilder.append(System.lineSeparator());
-                stringBuilder.append(line);
-            }
+            currentEntry.setPattern(Pattern.compile(stringBuilder.toString()));
+            stringBuilder = new StringBuilder(line.substring(answerMark.length()));
+            return;
         }
 
-        else
+        if (weightBegins(line))
         {
-            if (weightBegins(line))
-            {
-                currentState = State.BEFORE_READING_QUESTION;
-                currentEntry.setAnswer(stringBuilder.toString());
-                currentEntry.setWeight(Integer.parseInt(line.substring(weightMark.length())));
-                entries.add(currentEntry);
-            }
-            else
-            {
-                stringBuilder.append(System.lineSeparator());
-                stringBuilder.append(line);
-            }
+            currentEntry.setAnswer(stringBuilder.toString());
+            currentEntry.setWeight(Integer.parseInt(line.substring(weightMark.length())));
+            entries.add(currentEntry);
+            return;
         }
+
+        stringBuilder.append(System.lineSeparator());
+        stringBuilder.append(line);
     }
 
     private boolean questionBegins(String line)
