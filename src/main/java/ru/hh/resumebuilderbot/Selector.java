@@ -11,6 +11,10 @@ public class Selector {
     public Selector(Answer answer) {
         this.answer = answer;
         parsers = new HashMap<>();
+        parsers.put(Pattern.compile("/start"), new StartMessageHandler());
+        parsers.put(Pattern.compile("/show"), new ShowMessageHandler());
+        parsers.put(Pattern.compile("/clearAllAndStart"), new ClearAllAndStartMessageHandler());
+        parsers.put(Pattern.compile(".*"), new AnswerMessageHandler());
     }
 
     public MessageHandler select()
