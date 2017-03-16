@@ -1,7 +1,10 @@
 package ru.hh.resumebuilderbot;
 
+import java.util.Map;
+
 public class BotBody implements AbstractBotBody {
     private MessengerAdapter messengerAdapter;
+    private Map<ChatId, UserData> userData;
 
     BotBody(MessengerAdapter messengerAdapter) {
         this.messengerAdapter = messengerAdapter;
@@ -10,8 +13,10 @@ public class BotBody implements AbstractBotBody {
 
     @Override
     public void onAnswer(Answer answer, int timeoutMs) {
-        Question question = new Question(answer.getChatId(), "question text");
-        messengerAdapter.ask(question, 0);
+        Selector selector = new Selector(answer);
+        MessageHandler messageHandler = selector.select();
+        NextQuestionGenerator nextQuestionGenerator = messageHandler.handle(userData, answer);
+        messengerAdapter.ask(nextQuestionGenerator.generate(), 1000);
     }
 
     @Override
