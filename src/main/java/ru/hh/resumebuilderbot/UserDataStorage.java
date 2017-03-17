@@ -20,14 +20,16 @@ public class UserDataStorage {
         instance.userDataMap.put(chatId, new UserData());
     }
 
-    public static void registerAnswer(ChatId chatId, Object answerBody)
+    public static void registerAnswer(Answer answer)
     {
+        ChatId chatId = answer.getChatId();
+        String answerText = answer.getAnswerBody().toString();
         UserData userData = instance.userDataMap.get(chatId);
         synchronized (userData)
         {
             int currentQuestionNumber = userData.getCurrentState().getCurrentQuestion();
             String currentQuestionText = QuestionsStorage.getQuestion(currentQuestionNumber);
-            userData.registerAnswer(currentQuestionText, answerBody.toString());
+            userData.registerAnswer(currentQuestionText, answerText);
             userData.incrementCurrentQuestion();
         }
     }
