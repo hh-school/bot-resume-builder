@@ -1,8 +1,7 @@
-package ru.hh.resumebuilderbot.QuestionGenerator;
+package ru.hh.resumebuilderbot.question_generator;
 
 import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.Question;
-import ru.hh.resumebuilderbot.QuestionGenerator.QuestionGenerator;
 
 public class FixedQuestionGenerator implements QuestionGenerator {
 

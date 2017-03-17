@@ -1,7 +1,7 @@
-package ru.hh.resumebuilderbot.MessageHandler;
+package ru.hh.resumebuilderbot.message_handler;
 
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.QuestionGenerator.QuestionGenerator;
+import ru.hh.resumebuilderbot.question_generator.QuestionGenerator;
 
 public interface MessageHandler {
     public QuestionGenerator handle(Answer answer);
