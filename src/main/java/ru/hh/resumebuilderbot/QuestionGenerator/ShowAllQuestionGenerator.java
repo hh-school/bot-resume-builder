@@ -5,7 +5,7 @@ import ru.hh.resumebuilderbot.Question;
 
 public class ShowAllQuestionGenerator implements QuestionGenerator {
     @Override
-    public Question generate(ChatId chatId) {
+    public Question generateNext(ChatId chatId) {
         return null;
     }
 }

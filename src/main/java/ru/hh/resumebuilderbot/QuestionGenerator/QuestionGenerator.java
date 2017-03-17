@@ -4,5 +4,5 @@ import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.Question;
 
 public interface QuestionGenerator {
-    public Question generate(ChatId chatId);
+    public Question generateNext(ChatId chatId);
 }
