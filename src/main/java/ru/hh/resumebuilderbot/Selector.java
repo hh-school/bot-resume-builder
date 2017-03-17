@@ -13,7 +13,7 @@ public class Selector {
         parsers = new HashMap<>();
         parsers.put(Pattern.compile("/start"), new StartMessageHandler());
         parsers.put(Pattern.compile("/show"), new ShowMessageHandler());
-        parsers.put(Pattern.compile("/clearAllAndStart"), new ClearAllAndStartMessageHandler());
+        parsers.put(Pattern.compile("/clear"), new ClearMessageHandler());
         parsers.put(Pattern.compile(".*"), new AnswerMessageHandler());
     }
 
