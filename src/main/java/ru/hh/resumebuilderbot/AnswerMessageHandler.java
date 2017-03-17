@@ -2,7 +2,7 @@ package ru.hh.resumebuilderbot;
 
 public class AnswerMessageHandler implements MessageHandler {
     @Override
-    public NextQuestionGenerator handle(Answer answer) {
+    public QuestionGenerator handle(Answer answer) {
         UserDataStorage.registerAnswer(answer);
         ChatId chatId = answer.getChatId();
         CurrentUserState currentUserState = UserDataStorage.getCurrentState(chatId);

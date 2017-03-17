@@ -1,6 +1,6 @@
 package ru.hh.resumebuilderbot;
 
-public class QuestionGeneratorByNumber implements NextQuestionGenerator {
+public class QuestionGeneratorByNumber implements QuestionGenerator {
 
     private final int questionNumber;
 

@@ -1,6 +1,6 @@
 package ru.hh.resumebuilderbot;
 
-public class FixedQuestionGenerator implements NextQuestionGenerator{
+public class FixedQuestionGenerator implements QuestionGenerator{
 
     private final String text;
 

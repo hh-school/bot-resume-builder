@@ -1,5 +1,5 @@
 package ru.hh.resumebuilderbot;
 
-public interface NextQuestionGenerator {
+public interface QuestionGenerator {
     public Question generate(ChatId chatId);
 }

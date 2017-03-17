@@ -1,5 +1,5 @@
 package ru.hh.resumebuilderbot;
 
 public interface MessageHandler {
-    public NextQuestionGenerator handle(Answer answer);
+    public QuestionGenerator handle(Answer answer);
 }
