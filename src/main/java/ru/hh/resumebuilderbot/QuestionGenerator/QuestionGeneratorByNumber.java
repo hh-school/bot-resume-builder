@@ -1,4 +1,8 @@
-package ru.hh.resumebuilderbot;
+package ru.hh.resumebuilderbot.QuestionGenerator;
+
+import ru.hh.resumebuilderbot.ChatId;
+import ru.hh.resumebuilderbot.Question;
+import ru.hh.resumebuilderbot.QuestionsStorage;
 
 public class QuestionGeneratorByNumber implements QuestionGenerator {
 

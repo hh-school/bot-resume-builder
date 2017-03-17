@@ -1,8 +1,8 @@
 package ru.hh.resumebuilderbot.MessageHandler;
 
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.QuestionGenerator;
-import ru.hh.resumebuilderbot.ShowAllQuestionGenerator;
+import ru.hh.resumebuilderbot.QuestionGenerator.QuestionGenerator;
+import ru.hh.resumebuilderbot.QuestionGenerator.ShowAllQuestionGenerator;
 
 public class ShowMessageHandler implements MessageHandler {
     @Override

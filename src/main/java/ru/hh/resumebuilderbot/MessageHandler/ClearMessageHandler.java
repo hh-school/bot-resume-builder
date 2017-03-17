@@ -1,8 +1,8 @@
 package ru.hh.resumebuilderbot.MessageHandler;
 
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.QuestionGenerator;
-import ru.hh.resumebuilderbot.QuestionGeneratorByNumber;
+import ru.hh.resumebuilderbot.QuestionGenerator.QuestionGenerator;
+import ru.hh.resumebuilderbot.QuestionGenerator.QuestionGeneratorByNumber;
 import ru.hh.resumebuilderbot.UserDataStorage;
 
 public class ClearMessageHandler implements MessageHandler {
