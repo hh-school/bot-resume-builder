@@ -1,9 +1,9 @@
 package ru.hh.resumebuilderbot.MessageHandler;
 
 import ru.hh.resumebuilderbot.*;
+import ru.hh.resumebuilderbot.QuestionGenerator.FirstQuestionGenerator;
 import ru.hh.resumebuilderbot.QuestionGenerator.FixedQuestionGenerator;
 import ru.hh.resumebuilderbot.QuestionGenerator.QuestionGenerator;
-import ru.hh.resumebuilderbot.QuestionGenerator.QuestionGeneratorByNumber;
 
 public class StartMessageHandler implements MessageHandler {
     @Override
@@ -15,7 +15,7 @@ public class StartMessageHandler implements MessageHandler {
         }
         else
         {
-            return new QuestionGeneratorByNumber(0);
+            return new FirstQuestionGenerator();
         }
     }
 }
