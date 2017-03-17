@@ -1,10 +1,10 @@
 package ru.hh.resumebuilderbot;
 
-class ChatId {
+public class ChatId {
     // todo: make private and override constructor
     final long index;
 
-    ChatId(long index) {
+    public ChatId(long index) {
         this.index = index;
     }
 }

@@ -1,4 +1,6 @@
-package ru.hh.resumebuilderbot;
+package ru.hh.resumebuilderbot.MessageHandler;
+
+import ru.hh.resumebuilderbot.*;
 
 public class AnswerMessageHandler implements MessageHandler {
     @Override

@@ -1,5 +1,7 @@
 package ru.hh.resumebuilderbot;
 
+import ru.hh.resumebuilderbot.MessageHandler.MessageHandler;
+
 import java.util.Map;
 
 public class BotBody implements AbstractBotBody {

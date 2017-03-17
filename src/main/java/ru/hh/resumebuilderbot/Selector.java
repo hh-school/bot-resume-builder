@@ -1,5 +1,7 @@
 package ru.hh.resumebuilderbot;
 
+import ru.hh.resumebuilderbot.MessageHandler.*;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -14,7 +16,7 @@ public class Selector {
         parsers.put(Pattern.compile("/start"), new StartMessageHandler());
         parsers.put(Pattern.compile("/show"), new ShowMessageHandler());
         parsers.put(Pattern.compile("/clear"), new ClearMessageHandler());
-        parsers.put(Pattern.compile(".*"), new AnswerMessageHandler());
+        parsers.put(Pattern.compile(".*"), new MessageHandler.AnswerMessageHandler());
     }
 
     public MessageHandler select()
