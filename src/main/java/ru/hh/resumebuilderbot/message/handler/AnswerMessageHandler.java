@@ -1,8 +1,8 @@
-package ru.hh.resumebuilderbot.message_handler;
+package ru.hh.resumebuilderbot.message.handler;
 
 import ru.hh.resumebuilderbot.*;
-import ru.hh.resumebuilderbot.question_generator.QuestionGenerator;
-import ru.hh.resumebuilderbot.question_generator.QuestionGeneratorByNumber;
+import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
+import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorByNumber;
 
 public class AnswerMessageHandler implements MessageHandler {
     @Override

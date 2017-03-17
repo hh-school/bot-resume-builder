@@ -1,4 +1,4 @@
-package ru.hh.resumebuilderbot.question_generator;
+package ru.hh.resumebuilderbot.question.generator;
 
 import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.Question;

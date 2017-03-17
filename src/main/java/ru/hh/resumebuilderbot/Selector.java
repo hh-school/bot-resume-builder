@@ -1,5 +1,6 @@
 package ru.hh.resumebuilderbot;
 
+import ru.hh.resumebuilderbot.message.handler.*;
 import ru.hh.resumebuilderbot.message_handler.*;
 
 import java.util.HashMap;
