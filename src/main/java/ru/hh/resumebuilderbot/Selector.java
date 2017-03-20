@@ -1,35 +1,44 @@
 package ru.hh.resumebuilderbot;
 
 import ru.hh.resumebuilderbot.message.handler.*;
-import ru.hh.resumebuilderbot.message_handler.*;
 
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 public class Selector {
-    private Answer answer;
-    private final Map<Pattern, MessageHandler> parsers;
+    private static Map<Pattern, Class> parsers = Collections.synchronizedMap(new LinkedHashMap<>());
 
-    public Selector(Answer answer) {
-        this.answer = answer;
-        parsers = new HashMap<>();
-        parsers.put(Pattern.compile("/start"), new StartMessageHandler());
-        parsers.put(Pattern.compile("/show"), new ShowMessageHandler());
-        parsers.put(Pattern.compile("/clear"), new ClearMessageHandler());
-        parsers.put(Pattern.compile(".*"), new MessageHandler.AnswerMessageHandler());
+    static
+    {
+        registerParser("/start", StartMessageHandler.class);
+        registerParser("/show", ShowMessageHandler.class);
+        registerParser("/clear", ClearMessageHandler.class);
+        registerParser("/.*", AnswerMessageHandler.class);
     }
 
-    public MessageHandler select()
+    public static MessageHandler select(Answer answer)
     {
         String answerText = answer.getAnswerBody().toString();
-        for (Map.Entry<Pattern, MessageHandler> entry : parsers.entrySet())
+        for (Map.Entry<Pattern, Class> entry : parsers.entrySet())
         {
             if (entry.getKey().matcher(answerText).matches())
             {
-                return entry.getValue();
+                try {
+                    return (MessageHandler)entry.getValue().newInstance();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return new UnknownMessageHandler();
+    }
+
+    private static void registerParser(String regExp, Class handlerClass)
+    {
+        parsers.put(Pattern.compile(regExp), handlerClass);
     }
 }
