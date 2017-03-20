@@ -49,14 +49,14 @@ public class TelegramAdapter implements MessengerAdapter {
         if (!question.allowedAnswers.isEmpty()) {
             InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
             List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-            List<InlineKeyboardButton> rowInline = new ArrayList<>();
-
+            
             for (int i=0; i < question.allowedAnswers.size(); ++i) {
+                List<InlineKeyboardButton> rowInline = new ArrayList<>();
                 rowInline.add(new InlineKeyboardButton()
                         .setText(question.allowedAnswers.get(i))
                         .setCallbackData(question.allowedAnswers.get(i)));
+                rowsInline.add(rowInline);
             }
-            rowsInline.add(rowInline);
 
             markupInline.setKeyboard(rowsInline);
             msg.setReplyMarkup(markupInline);
