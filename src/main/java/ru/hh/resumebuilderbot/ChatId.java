@@ -7,4 +7,8 @@ class ChatId {
     ChatId(long index) {
         this.index = index;
     }
+
+    public long getId() {
+        return index;
+    }
 }
