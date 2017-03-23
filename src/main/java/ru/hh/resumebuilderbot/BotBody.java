@@ -18,13 +18,13 @@ public class BotBody implements AbstractBotBody {
     public void onAnswer(Answer answer, int timeoutMs) {
         MessageHandler messageHandler = Selector.select(answer);
         QuestionGenerator questionGenerator = messageHandler.handle(answer);
-        messengerAdapter.ask(questionGenerator.generateNext(answer.getChatId()), 1000);
+        messengerAdapter.ask(questionGenerator.generateNext(answer.getChatId()));
     }
 
     @Override
     public void onStartChat(ChatId chatId) {
         // todo: run in thread of BotBody
         Question question = new Question(chatId, "question text");
-        messengerAdapter.ask(question, 0);
+        messengerAdapter.ask(question);
     }
 }
