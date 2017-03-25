@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class QuestionsStorage {
-    public static QuestionsStorage instance = new QuestionsStorage();
+    private static QuestionsStorage instance = new QuestionsStorage();
 
     private QuestionsStorage() {};
 
