@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 public class Selector {
-    private static Map<Pattern, Class> parsers = Collections.synchronizedMap(new LinkedHashMap<>());
+    private static final Map<Pattern, Class> parsers = Collections.synchronizedMap(new LinkedHashMap<>());
 
     static
     {
