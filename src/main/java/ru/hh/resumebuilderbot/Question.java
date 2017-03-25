@@ -1,22 +1,22 @@
 package ru.hh.resumebuilderbot;
 
-class Question {
+public class Question {
     private final ChatId chatId;
     private final String text;
 // todo: add answerType and allowedAnswers fields
 //    private ru.hh.resumebuilderbot.AnswerType answerType;
 //    private List<String> allowedAnswers;
 
-    Question(ChatId chatId, String text) {
+    public Question(ChatId chatId, String text) {
         this.chatId = chatId;
         this.text = text;
     }
 
-    ChatId getChatId() {
+    public ChatId getChatId() {
         return chatId;
     }
 
-    String getText() {
+    public String getText() {
         return text;
     }
 }
