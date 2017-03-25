@@ -17,8 +17,8 @@ public class BotBody implements AbstractBotBody {
     @Override
     public void onAnswer(Answer answer, int timeoutMs) {
         MessageHandler messageHandler = Selector.select(answer);
-        QuestionGenerator nextQuestionGenerator = messageHandler.handle(answer);
-        messengerAdapter.ask(nextQuestionGenerator.generateNext(answer.getChatId()), 1000);
+        QuestionGenerator questionGenerator = messageHandler.handle(answer);
+        messengerAdapter.ask(questionGenerator.generateNext(answer.getChatId()), 1000);
     }
 
     @Override
