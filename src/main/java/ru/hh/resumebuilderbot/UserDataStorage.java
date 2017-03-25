@@ -36,6 +36,12 @@ public class UserDataStorage {
 
     public static CurrentUserState getCurrentState(ChatId chatId)
     {
-        return instance.userDataMap.get(chatId).getCurrentState();
+        UserData userData = instance.userDataMap.get(chatId);
+        CurrentUserState currentUserState;
+        synchronized (userData)
+        {
+            currentUserState = instance.userDataMap.get(chatId).getCurrentState();
+        }
+        return currentUserState;
     }
 }
