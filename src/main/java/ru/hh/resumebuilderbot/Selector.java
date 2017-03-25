@@ -2,16 +2,36 @@ package ru.hh.resumebuilderbot;
 
 import ru.hh.resumebuilderbot.message.handler.*;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Selector {
-    private static final Map<Pattern, Class> parsers = Collections.synchronizedMap(new LinkedHashMap<>());
+    private static class Parser
+    {
+        private Pattern pattern;
+
+        public Class getHandlerClass() {
+            return handlerClass;
+        }
+
+        private Class handlerClass;
+        public Parser(String regExp, Class handlerClass)
+        {
+            pattern = Pattern.compile(regExp);
+            this.handlerClass = handlerClass;
+        }
+
+        public boolean matches(String text)
+        {
+            return pattern.matcher(text).matches();
+        }
+
+    }
+    private static final List<Parser> parsers;
 
     static
     {
+        parsers = Collections.synchronizedList(new ArrayList<>());
         registerParser("/start", StartMessageHandler.class);
         registerParser("/show", ShowMessageHandler.class);
         registerParser("/clear", ClearMessageHandler.class);
@@ -21,12 +41,12 @@ public class Selector {
     public static MessageHandler select(Answer answer)
     {
         String answerText = answer.getAnswerBody().toString();
-        for (Map.Entry<Pattern, Class> entry : parsers.entrySet())
+        for (Parser parser : parsers)
         {
-            if (entry.getKey().matcher(answerText).matches())
+            if (parser.matches(answerText))
             {
                 try {
-                    return (MessageHandler)entry.getValue().newInstance();
+                    return (MessageHandler)parser.getHandlerClass().newInstance();
                 } catch (InstantiationException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
@@ -39,6 +59,6 @@ public class Selector {
 
     private static void registerParser(String regExp, Class handlerClass)
     {
-        parsers.put(Pattern.compile(regExp), handlerClass);
+        parsers.add(new Parser(regExp, handlerClass));
     }
 }
