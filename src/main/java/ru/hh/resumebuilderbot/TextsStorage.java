@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TextsStorage {
     private TextsStorage() {};
 
-    private static TextsStorage instance = new TextsStorage();
+    private static final TextsStorage instance = new TextsStorage();
 
     private Map<String, String> textsMap = new ConcurrentHashMap<>();
 
