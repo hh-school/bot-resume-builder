@@ -20,10 +20,11 @@ public class UserDataStorage {
         instance.userDataMap.put(chatId, new UserData());
     }
 
-    public static void registerAnswer(Answer answer)
+    public static CurrentUserState registerAnswer(Answer answer)
     {
         ChatId chatId = answer.getChatId();
         String answerText = answer.getAnswerBody().toString();
+        CurrentUserState currentUserState;
         UserData userData = instance.userDataMap.get(chatId);
         synchronized (userData)
         {
@@ -31,16 +32,7 @@ public class UserDataStorage {
             String currentQuestionText = QuestionsStorage.getQuestion(currentQuestionNumber);
             userData.registerAnswer(currentQuestionText, answerText);
             userData.incrementCurrentQuestion();
-        }
-    }
-
-    public static CurrentUserState getCurrentState(ChatId chatId)
-    {
-        UserData userData = instance.userDataMap.get(chatId);
-        CurrentUserState currentUserState;
-        synchronized (userData)
-        {
-            currentUserState = instance.userDataMap.get(chatId).getCurrentState();
+            currentUserState = userData.getCurrentState();
         }
         return currentUserState;
     }

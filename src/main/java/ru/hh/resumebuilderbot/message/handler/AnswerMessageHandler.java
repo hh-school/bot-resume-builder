@@ -7,9 +7,7 @@ import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorByNumber;
 public class AnswerMessageHandler implements MessageHandler {
     @Override
     public QuestionGenerator handle(Answer answer) {
-        UserDataStorage.registerAnswer(answer);
-        ChatId chatId = answer.getChatId();
-        CurrentUserState currentUserState = UserDataStorage.getCurrentState(chatId);
+        CurrentUserState currentUserState = UserDataStorage.registerAnswer(answer);
         int currentQuestionNumber = currentUserState.getCurrentQuestion();
         return new QuestionGeneratorByNumber(currentQuestionNumber);
     }
