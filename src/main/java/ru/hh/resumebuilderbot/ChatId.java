@@ -26,4 +26,9 @@ public class ChatId {
     public int hashCode() {
         return (int) (getIndex() ^ (getIndex() >>> 32));
     }
+
+    @Override
+    public int hashCode() {
+        return (int) (getIndex() ^ (getIndex() >>> 32));
+    }
 }

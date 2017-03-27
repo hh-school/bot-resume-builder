@@ -28,4 +28,14 @@ public class QuestionsStorage {
         }
         return instance.questionTexts.get(questionId);
     }
+
+    //hardcode
+    static
+    {
+        instance.questionTexts.add("Это первый вопрос");
+        instance.questionTexts.add("Это второй вопрос");
+        instance.questionTexts.add("Это третий вопрос");
+        instance.questionTexts.add("Вопросы закончились");
+    }
+    //end hardcode
 }

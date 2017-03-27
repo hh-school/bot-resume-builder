@@ -22,6 +22,11 @@ public class UserDataStorage {
         instance.userDataMap.put(chatId, new UserData());
     }
 
+    public static void startNewChat(ChatId chatId)
+    {
+        instance.userDataMap.put(chatId, new UserData());
+    }
+
     public static CurrentUserState registerAnswer(Answer answer) {
         ChatId chatId = answer.getChatId();
         String answerText = answer.getAnswerBody().toString();
