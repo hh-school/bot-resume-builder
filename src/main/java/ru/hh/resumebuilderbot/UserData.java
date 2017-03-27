@@ -1,11 +1,17 @@
 package ru.hh.resumebuilderbot;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class UserData {
 
     private CurrentUserState currentState;
-    private Map<String, String> answers;
+    private Map<String, String> answers = new HashMap<>();
+
+    public UserData() {
+        currentState = new CurrentUserState();
+        currentState.setCurrentQuestion(0);
+    }
 
     public CurrentUserState getCurrentState() {
         return currentState;
