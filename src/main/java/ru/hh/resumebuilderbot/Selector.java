@@ -35,7 +35,7 @@ public class Selector {
         registerParser("/start", StartMessageHandler.class);
         registerParser("/show", ShowMessageHandler.class);
         registerParser("/clear", ClearMessageHandler.class);
-        registerParser("/.*", AnswerMessageHandler.class);
+        registerParser(".*", AnswerMessageHandler.class);
     }
 
     public static MessageHandler select(Answer answer)

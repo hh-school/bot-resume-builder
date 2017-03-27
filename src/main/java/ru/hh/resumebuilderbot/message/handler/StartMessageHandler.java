@@ -15,6 +15,7 @@ public class StartMessageHandler implements MessageHandler {
         }
         else
         {
+            UserDataStorage.startNewChat(chatId);
             return new FirstQuestionGenerator();
         }
     }

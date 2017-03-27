@@ -16,7 +16,7 @@ public class TextsStorage {
     {
         instance.textsMap.put("AlreadyStarted", "Опрос уже запущен. Для удаления сохраненных результатов восполь" +
                                                 "зуйтесь /clear");
-        instance.textsMap.put("Unknown", "Ответ не понятент");
+        instance.textsMap.put("Unknown", "Ответ не понятен");
     }
 
     //end hardcode

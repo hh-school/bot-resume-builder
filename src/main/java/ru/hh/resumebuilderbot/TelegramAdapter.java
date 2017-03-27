@@ -38,26 +38,32 @@ public class TelegramAdapter implements MessengerAdapter {
                 .setChatId(question.getChatId().getIndex())
                 .setText(question.getText());
 
-        if (!question.allowedAnswers.isEmpty()) {
-            InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
-            List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+        List<String> allowedAnswers = question.getAllowedAnswers();
 
-            for (int i=0; i < question.allowedAnswers.size(); ++i) {
-                List<InlineKeyboardButton> rowInline = new ArrayList<>();
-                rowInline.add(new InlineKeyboardButton()
-                        .setText(question.allowedAnswers.get(i))
-                        .setCallbackData(question.allowedAnswers.get(i)));
-                rowsInline.add(rowInline);
-            }
-
-            markupInline.setKeyboard(rowsInline);
-            msg.setReplyMarkup(markupInline);
+        if (!allowedAnswers.isEmpty()) {
+            msg.setReplyMarkup(generateMarkup(allowedAnswers));
         }
         try {
             _bot.sendMsg(msg);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+    }
+
+    private InlineKeyboardMarkup generateMarkup(List<String> allowedAnswers)
+    {
+        InlineKeyboardMarkup result = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+
+        for (int i=0; i < allowedAnswers.size(); ++i) {
+            List<InlineKeyboardButton> rowInline = new ArrayList<>();
+            rowInline.add(new InlineKeyboardButton()
+                    .setText(allowedAnswers.get(i))
+                    .setCallbackData(allowedAnswers.get(i)));
+            rowsInline.add(rowInline);
+        }
+        result.setKeyboard(rowsInline);
+        return result;
     }
 
     private class BotImpl extends TelegramLongPollingBot {
@@ -67,12 +73,11 @@ public class TelegramAdapter implements MessengerAdapter {
 
         @Override
         public void onUpdateReceived(Update update) {
+
             if (update.hasMessage() && update.getMessage().hasText()) {
                 long chat_id = update.getMessage().getChatId();
 
-		System.out.println(update.getMessage().getText());
-
-                _handler.onAnswer(
+                _handler.answer(
                         new Answer(
                                 new ChatId(chat_id),
                                 update.getMessage().getText()
@@ -81,7 +86,7 @@ public class TelegramAdapter implements MessengerAdapter {
                 String call_data = update.getCallbackQuery().getData();
                 long chat_id = update.getCallbackQuery().getMessage().getChatId();
 
-                _handler.onAnswer(
+                _handler.answer(
                         new Answer(
                                 new ChatId(chat_id),
                                 call_data
