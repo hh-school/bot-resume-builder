@@ -9,8 +9,8 @@ public class Main {
 
 	ApiContextInitializer.init();
         MessengerAdapter messengerAdapter = new TelegramAdapter(
-                "",
-                "",
+                "376534743:AAEdY14_bwzpUvIfmp0M8aY9GvUm5dKklgY",
+                "ResumeBuilderBot",
                 1000);
         // connect to telegram server
         BotBody bot = new BotBody();
