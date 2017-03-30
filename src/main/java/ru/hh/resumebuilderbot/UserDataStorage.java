@@ -1,5 +1,6 @@
 package ru.hh.resumebuilderbot;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -40,5 +41,10 @@ public class UserDataStorage {
             currentUserState = userData.getCurrentState();
         }
         return currentUserState;
+    }
+
+    public static List<UserData.Entry> getHistory(ChatId chatId)
+    {
+        return instance.userDataMap.get(chatId).getAnswers();
     }
 }

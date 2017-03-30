@@ -16,7 +16,9 @@ public class StartMessageHandler implements MessageHandler {
             return new FixedQuestionGenerator(TextsStorage.getText("AlreadyStarted"));
         } else {
             UserDataStorage.startNewChat(chatId);
-            return new FirstQuestionGenerator();
+            QuestionGenerator result = new FirstQuestionGenerator();
+            result.setPrefix(TextsStorage.getText("Hello"));
+            return result;
         }
     }
 }

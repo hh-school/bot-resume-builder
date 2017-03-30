@@ -5,4 +5,6 @@ import ru.hh.resumebuilderbot.Question;
 
 public interface QuestionGenerator {
     Question generateNext(ChatId chatId);
+
+    public void setPrefix(String prefix);
 }

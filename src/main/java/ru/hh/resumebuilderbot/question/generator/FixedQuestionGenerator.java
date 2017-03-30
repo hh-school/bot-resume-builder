@@ -6,6 +6,7 @@ import ru.hh.resumebuilderbot.Question;
 public class FixedQuestionGenerator implements QuestionGenerator {
 
     private final String text;
+    private String prefix = "";
 
     public FixedQuestionGenerator(String text) {
         this.text = text;
@@ -13,6 +14,11 @@ public class FixedQuestionGenerator implements QuestionGenerator {
 
     @Override
     public Question generateNext(ChatId chatId) {
-        return new Question(chatId, text);
+        return new Question(chatId, prefix + text);
+    }
+
+    @Override
+    public void setPrefix(String prefix) {
+        this.prefix = prefix + System.lineSeparator();
     }
 }
