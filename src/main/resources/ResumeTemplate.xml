@@ -1,0 +1,11 @@
+<Resume>
+	<ClientInfo>
+		<FirstName>Имя</FirstName>
+		<SecondName>Фамилия</SecondName>
+		<Phone>Телефон</Phone>
+		<Email>Электронная почта</Email>
+	</ClientInfo>
+	<PositionInfo>
+		<Name>Должность</Name>
+	</PositionInfo>
+</Resume>

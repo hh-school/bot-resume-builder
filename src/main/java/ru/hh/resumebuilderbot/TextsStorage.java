@@ -14,8 +14,8 @@ public class TextsStorage {
 
     static
     {
-        instance.textsMap.put("AlreadyStarted", "Опрос уже запущен. Для удаления сохраненных результатов восполь" +
-                                                "зуйтесь /clear");
+        instance.textsMap.put("AlreadyStarted", "Добро пожаловать в Resume Builder Bot. " +
+                "Для очистки своей истории введите /clear. Чтобы просмотреть Ваше резюме, введите /show");
         instance.textsMap.put("Unknown", "Ответ не понятен");
     }
 

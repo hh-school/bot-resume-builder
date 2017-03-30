@@ -20,6 +20,11 @@ public class UserDataStorage {
         instance.userDataMap.put(chatId, new UserData());
     }
 
+    public static String showAll(ChatId chatId)
+    {
+        return instance.userDataMap.get(chatId).buildResume();
+    }
+
     public static void startNewChat(ChatId chatId)
     {
         instance.userDataMap.put(chatId, new UserData());
@@ -34,8 +39,7 @@ public class UserDataStorage {
         synchronized (userData)
         {
             int currentQuestionNumber = userData.getCurrentState().getCurrentQuestion();
-            String currentQuestionText = QuestionsStorage.getQuestion(currentQuestionNumber);
-            userData.registerAnswer(currentQuestionText, answerText);
+            userData.registerAnswer(currentQuestionNumber, answerText);
             userData.incrementCurrentQuestion();
             currentUserState = userData.getCurrentState();
         }

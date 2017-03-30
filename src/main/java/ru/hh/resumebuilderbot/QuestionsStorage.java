@@ -1,11 +1,11 @@
 package ru.hh.resumebuilderbot;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class QuestionsStorage {
     private static final QuestionsStorage instance = new QuestionsStorage();
+
+    public static Map<Integer,String> dictionary = new HashMap<>();
 
     private QuestionsStorage() {};
 
@@ -24,10 +24,18 @@ public class QuestionsStorage {
     //hardcode
     static
     {
-        instance.questionTexts.add("Это первый вопрос");
-        instance.questionTexts.add("Это второй вопрос");
-        instance.questionTexts.add("Это третий вопрос");
-        instance.questionTexts.add("Вопросы закончились");
+        instance.questionTexts.add("Введите ваше имя");
+        dictionary.put(0, "Имя");
+        instance.questionTexts.add("Введите вашу фамилию");
+        dictionary.put(1, "Фамилия");
+        instance.questionTexts.add("Введите ваш телефон");
+        dictionary.put(2, "Телефон");
+        instance.questionTexts.add("Введите вашу электронную почту");
+        dictionary.put(3, "Электронная почта");
+        instance.questionTexts.add("Введите желаемую должность");
+        dictionary.put(4, "Должность");
+        instance.questionTexts.add("Ваше резюме готово! Чтобы посмотреть результат, воспользуйтесь командой /show ." +
+                "Спасибо за то, что пользуетесь нашим ботом.");
     }
     //end hardcode
 }
