@@ -1,13 +1,13 @@
 package ru.hh.resumebuilderbot;
 
 public class CurrentUserState {
-    public void setCurrentQuestion(int currentQuestion) {
-        this.currentQuestion = currentQuestion;
-    }
+    private int currentQuestion;
 
     public int getCurrentQuestion() {
         return currentQuestion;
     }
 
-    private int currentQuestion;
+    public void setCurrentQuestion(int currentQuestion) {
+        this.currentQuestion = currentQuestion;
+    }
 }

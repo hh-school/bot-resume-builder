@@ -2,9 +2,9 @@ package ru.hh.resumebuilderbot.message.handler;
 
 
 import ru.hh.resumebuilderbot.Answer;
+import ru.hh.resumebuilderbot.TextsStorage;
 import ru.hh.resumebuilderbot.question.generator.FixedQuestionGenerator;
 import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
-import ru.hh.resumebuilderbot.TextsStorage;
 
 public class UnknownMessageHandler implements MessageHandler {
     @Override

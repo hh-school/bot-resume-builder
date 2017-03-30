@@ -1,3 +1,4 @@
 package ru.hh.resumebuilderbot;
 
-abstract class CV {}
+abstract class CV {
+}

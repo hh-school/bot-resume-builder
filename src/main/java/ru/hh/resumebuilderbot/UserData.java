@@ -17,13 +17,11 @@ public class UserData {
         return currentState;
     }
 
-    public void registerAnswer(String question, String answer)
-    {
+    public void registerAnswer(String question, String answer) {
         answers.put(question, answer);
     }
 
-    public void incrementCurrentQuestion()
-    {
+    public void incrementCurrentQuestion() {
         currentState.setCurrentQuestion(currentState.getCurrentQuestion() + 1);
     }
 }

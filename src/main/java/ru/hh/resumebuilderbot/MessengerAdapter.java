@@ -1,9 +1,9 @@
 package ru.hh.resumebuilderbot;
 
-interface MessengerAdapter {
+public interface MessengerAdapter {
     void ask(Question question);
 
-    public void setHandler(AbstractBotBody handler);
+    void setHandler(AbstractBotBody handler);
 
     void start();
 }

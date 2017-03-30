@@ -1,4 +1,11 @@
-import java.io.*;
+package ru.hh.resumebuilderbot.TestMessengerAdapter;
+
+import ru.hh.resumebuilderbot.AbstractBotBody;
+import ru.hh.resumebuilderbot.Answer;
+import ru.hh.resumebuilderbot.MessengerAdapter;
+import ru.hh.resumebuilderbot.Question;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,13 +25,13 @@ public class TestMessengerAdapter implements MessengerAdapter {
     }
 
     @Override
-    public void ask(Question question, int timeoutMs) {
+    public void ask(Question question) {
         bot.answer(getAnswer(question), 1000);
     }
 
     @Override
-    public void setListener(AbstractBotBody bot) {
-        this.bot = bot;
+    public void setHandler(AbstractBotBody handler) {
+
     }
 
     @Override
@@ -36,37 +43,30 @@ public class TestMessengerAdapter implements MessengerAdapter {
         }
     }
 
-    private Answer getAnswer(Question question)
-    {
+    private Answer getAnswer(Question question) {
         List<Entry> candidates = new ArrayList<>();
-        for (Entry entry : entries)
-        {
-            if (entry.getPattern().matcher(question.getText()).matches())
-            {
+        for (Entry entry : entries) {
+            if (entry.getPattern().matcher(question.getText()).matches()) {
                 candidates.add(entry);
             }
         }
         return new Answer(question.getChatId(), getWeightedRandomAnswer(candidates));
     }
 
-    private String getWeightedRandomAnswer(List<Entry> candidates)
-    {
+    private String getWeightedRandomAnswer(List<Entry> candidates) {
         if (candidates.isEmpty()) {
             return defaultAnswerText;
         }
         int maxRandomValue = 0;
-        for (Entry entry : candidates)
-        {
+        for (Entry entry : candidates) {
             maxRandomValue += entry.getWeight();
         }
         Random rng = new Random();
         int randomValue = rng.nextInt(maxRandomValue);
         int counter = 0;
-        for (Entry entry : candidates)
-        {
+        for (Entry entry : candidates) {
             counter += entry.getWeight();
-            if (counter > randomValue)
-            {
+            if (counter > randomValue) {
                 return entry.getAnswer();
             }
         }
@@ -75,7 +75,5 @@ public class TestMessengerAdapter implements MessengerAdapter {
 
     private void load(String filename) throws IOException {
         new Loader(entries).load(filename);
-
-
     }
 }
