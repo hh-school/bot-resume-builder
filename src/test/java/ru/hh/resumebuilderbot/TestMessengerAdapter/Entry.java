@@ -1,7 +1,8 @@
+package ru.hh.resumebuilderbot.TestMessengerAdapter;
+
 import java.util.regex.Pattern;
 
-public class Entry
-{
+public class Entry {
     private Pattern pattern;
     private String answer;
     private int weight;
@@ -13,20 +14,20 @@ public class Entry
         return pattern;
     }
 
-    public String getAnswer() {
-        return answer;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
     public void setPattern(Pattern pattern) {
         this.pattern = pattern;
     }
 
+    public String getAnswer() {
+        return answer;
+    }
+
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public int getWeight() {
+        return weight;
     }
 
     public void setWeight(int weight) {

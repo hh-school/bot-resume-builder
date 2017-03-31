@@ -1,6 +1,8 @@
 package ru.hh.resumebuilderbot.message.handler;
 
-import ru.hh.resumebuilderbot.*;
+import ru.hh.resumebuilderbot.Answer;
+import ru.hh.resumebuilderbot.CurrentUserState;
+import ru.hh.resumebuilderbot.UserDataStorage;
 import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
 import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorByNumber;
 

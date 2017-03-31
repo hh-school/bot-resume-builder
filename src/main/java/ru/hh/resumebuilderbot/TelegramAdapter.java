@@ -1,6 +1,5 @@
 package ru.hh.resumebuilderbot;
 
-import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
@@ -50,20 +49,30 @@ public class TelegramAdapter implements MessengerAdapter {
         }
     }
 
-    private InlineKeyboardMarkup generateMarkup(List<String> allowedAnswers)
-    {
+    private InlineKeyboardMarkup generateMarkup(List<String> allowedAnswers) {
         InlineKeyboardMarkup result = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
 
-        for (int i=0; i < allowedAnswers.size(); ++i) {
+        for (String allowedAnswer : allowedAnswers) {
             List<InlineKeyboardButton> rowInline = new ArrayList<>();
             rowInline.add(new InlineKeyboardButton()
-                    .setText(allowedAnswers.get(i))
-                    .setCallbackData(allowedAnswers.get(i)));
+                    .setText(allowedAnswer)
+                    .setCallbackData(allowedAnswer));
             rowsInline.add(rowInline);
         }
         result.setKeyboard(rowsInline);
         return result;
+    }
+
+    @Override
+    public void start() {
+        TelegramBotsApi botsApi = new TelegramBotsApi();
+
+        try {
+            botsApi.registerBot(_bot);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
     private class BotImpl extends TelegramLongPollingBot {
@@ -102,17 +111,6 @@ public class TelegramAdapter implements MessengerAdapter {
         @Override
         public String getBotToken() {
             return _token;
-        }
-    }
-
-    @Override
-    public void start() {
-        TelegramBotsApi botsApi = new TelegramBotsApi();
-
-        try {
-            botsApi.registerBot(_bot);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
         }
     }
 }

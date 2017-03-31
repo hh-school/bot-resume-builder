@@ -1,3 +1,5 @@
+package ru.hh.resumebuilderbot.TestMessengerAdapter;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,27 +22,25 @@ public class Loader {
 
     public void load(String filename) throws IOException {
 
-        Files.lines(Paths.get(filename)).forEach((String line) -> {loadLine(line);});
+        Files.lines(Paths.get(filename)).forEach((String line) -> {
+            loadLine(line);
+        });
     }
 
-        private void loadLine(String line)
-    {
-        if (questionBegins(line))
-        {
+    private void loadLine(String line) {
+        if (questionBegins(line)) {
             currentEntry = new Entry();
             stringBuilder = new StringBuilder(line.substring(questionMark.length()));
             return;
         }
 
-        if (answerBegins(line))
-        {
+        if (answerBegins(line)) {
             currentEntry.setPattern(Pattern.compile(stringBuilder.toString()));
             stringBuilder = new StringBuilder(line.substring(answerMark.length()));
             return;
         }
 
-        if (weightBegins(line))
-        {
+        if (weightBegins(line)) {
             currentEntry.setAnswer(stringBuilder.toString());
             currentEntry.setWeight(Integer.parseInt(line.substring(weightMark.length())));
             entries.add(currentEntry);
@@ -51,16 +51,15 @@ public class Loader {
         stringBuilder.append(line);
     }
 
-    private boolean questionBegins(String line)
-    {
+    private boolean questionBegins(String line) {
         return line.startsWith(questionMark);
     }
-    private boolean weightBegins(String line)
-    {
+
+    private boolean weightBegins(String line) {
         return line.startsWith(weightMark);
     }
-    private boolean answerBegins(String line)
-    {
+
+    private boolean answerBegins(String line) {
         return line.startsWith(answerMark);
     }
 }

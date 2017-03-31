@@ -4,5 +4,5 @@ import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
 
 public interface MessageHandler {
-    public QuestionGenerator handle(Answer answer);
+    QuestionGenerator handle(Answer answer);
 }
