@@ -1,4 +1,4 @@
-package ru.hh.resumebuilderbot;
+package ru.hh.resumebuilderbot.texts.storage;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,9 +34,5 @@ public class TextsStorage {
 
     public static String getText(TextId textId) {
         return instance.textsMap.get(textId);
-    }
-
-    public enum TextId {
-        ALREADY_STARTED, UNKNOWN, OOPS_TRY_RESTART, HELLO, CLEARED, FINISHED, EMPTY;
     }
 }

@@ -11,8 +11,8 @@ public class BotBody implements AbstractBotBody {
     @Override
     public void answer(Answer answer, int timeoutMs) {
         MessageHandler messageHandler = Selector.select(answer);
-        Queue<QuestionGenerator> questionGenerator = messageHandler.handle(answer);
-        questionGenerator.forEach((x) -> messengerAdapter.ask(x.generateNext(answer.getChatId())));
+        Queue<QuestionGenerator> questionGeneratorQueue = messageHandler.handle(answer);
+        questionGeneratorQueue.forEach((x) -> messengerAdapter.ask(x.generateNext(answer.getChatId())));
     }
 
     @Override
