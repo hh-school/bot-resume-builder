@@ -8,7 +8,7 @@ import ru.hh.resumebuilderbot.question.generator.ShowAllQuestionGenerator;
 public class ShowMessageHandler extends MessageHandler {
     @Override
     public QuestionGeneratorsQueue handle(ChatId chatId, Answer answer) {
-        questionGeneratorsQueue.add(new ShowAllQuestionGenerator());
+        questionGeneratorsQueue.add(new ShowAllQuestionGenerator(chatId));
         return questionGeneratorsQueue;
     }
 }

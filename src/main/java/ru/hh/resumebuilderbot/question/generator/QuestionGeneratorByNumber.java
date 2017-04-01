@@ -1,6 +1,5 @@
 package ru.hh.resumebuilderbot.question.generator;
 
-import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.Question;
 import ru.hh.resumebuilderbot.questions.storage.QuestionsStorage;
 
@@ -13,7 +12,7 @@ public class QuestionGeneratorByNumber implements QuestionGenerator {
     }
 
     @Override
-    public Question generateNext(ChatId chatId) {
+    public Question generateNext() {
         Question result = new Question(QuestionsStorage.getQuestion(questionNumber));
         if (QuestionsStorage.allowedAnswersPresent(questionNumber)) {
             result.setAllowedAnswers(QuestionsStorage.getAllowedAnswers(questionNumber));

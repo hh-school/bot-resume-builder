@@ -1,6 +1,5 @@
 package ru.hh.resumebuilderbot.question.generator;
 
-import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.Question;
 
 public class FirstQuestionGenerator implements QuestionGenerator {
@@ -13,7 +12,7 @@ public class FirstQuestionGenerator implements QuestionGenerator {
     }
 
     @Override
-    public Question generateNext(ChatId chatId) {
-        return questionGenerator.generateNext(chatId);
+    public Question generateNext() {
+        return questionGenerator.generateNext();
     }
 }

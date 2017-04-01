@@ -1,6 +1,5 @@
 package ru.hh.resumebuilderbot.question.generator;
 
-import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.Question;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
@@ -15,7 +14,7 @@ public class FixedQuestionGenerator implements QuestionGenerator {
     }
 
     @Override
-    public Question generateNext(ChatId chatId) {
+    public Question generateNext() {
         return new Question(text);
     }
 }
