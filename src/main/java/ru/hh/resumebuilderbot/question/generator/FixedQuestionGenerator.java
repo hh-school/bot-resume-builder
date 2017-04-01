@@ -2,23 +2,19 @@ package ru.hh.resumebuilderbot.question.generator;
 
 import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.Question;
+import ru.hh.resumebuilderbot.TextsStorage;
 
 public class FixedQuestionGenerator implements QuestionGenerator {
 
     private final String text;
-    private String prefix = "";
 
-    public FixedQuestionGenerator(String text) {
-        this.text = text;
+    public FixedQuestionGenerator(TextsStorage.TextId id) {
+
+        this.text = TextsStorage.getText(id);
     }
 
     @Override
     public Question generateNext(ChatId chatId) {
-        return new Question(chatId, prefix + text);
-    }
-
-    @Override
-    public void setPrefix(String prefix) {
-        this.prefix = prefix + System.lineSeparator();
+        return new Question(chatId, text);
     }
 }

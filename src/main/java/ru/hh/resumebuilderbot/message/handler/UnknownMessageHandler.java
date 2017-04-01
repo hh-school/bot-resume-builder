@@ -6,9 +6,12 @@ import ru.hh.resumebuilderbot.TextsStorage;
 import ru.hh.resumebuilderbot.question.generator.FixedQuestionGenerator;
 import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
 
-public class UnknownMessageHandler implements MessageHandler {
+import java.util.Queue;
+
+public class UnknownMessageHandler extends ProtoMessageHandler implements MessageHandler {
     @Override
-    public QuestionGenerator handle(Answer answer) {
-        return new FixedQuestionGenerator(TextsStorage.getText("Unknown"));
+    public Queue<QuestionGenerator> handle(Answer answer) {
+        queue.add(new FixedQuestionGenerator(TextsStorage.TextId.UNKNOWN));
+        return queue;
     }
 }

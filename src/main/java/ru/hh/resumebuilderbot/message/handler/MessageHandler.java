@@ -3,6 +3,8 @@ package ru.hh.resumebuilderbot.message.handler;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
 
+import java.util.Queue;
+
 public interface MessageHandler {
-    QuestionGenerator handle(Answer answer);
+    Queue<QuestionGenerator> handle(Answer answer);
 }

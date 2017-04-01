@@ -4,9 +4,12 @@ import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
 import ru.hh.resumebuilderbot.question.generator.ShowAllQuestionGenerator;
 
-public class ShowMessageHandler implements MessageHandler {
+import java.util.Queue;
+
+public class ShowMessageHandler extends ProtoMessageHandler {
     @Override
-    public QuestionGenerator handle(Answer answer) {
-        return new ShowAllQuestionGenerator();
+    public Queue<QuestionGenerator> handle(Answer answer) {
+        queue.add(new ShowAllQuestionGenerator());
+        return queue;
     }
 }

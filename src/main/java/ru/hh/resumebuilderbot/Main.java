@@ -1,6 +1,7 @@
 package ru.hh.resumebuilderbot;
 
 import org.telegram.telegrambots.ApiContextInitializer;
+import ru.hh.resumebuilderbot.telegram.adapter.TelegramAdapter;
 
 public class Main {
     private static final String TOKEN_ENV_NAME = "TOKEN";
@@ -15,6 +16,7 @@ public class Main {
                 System.getenv(TOKEN_ENV_NAME),
                 System.getenv(BOT_USERNAME_ENV_NAME),
                 TIMEOUT);
+				
         // connect to telegram server
         BotBody bot = new BotBody();
 

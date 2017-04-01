@@ -17,8 +17,7 @@ public class UserData {
         return currentState;
     }
 
-    public void registerAnswer(String question, String answer)
-    {
+    public void registerAnswer(String question, String answer) {
         answers.add(new Entry(question, answer));
     }
 
@@ -26,13 +25,11 @@ public class UserData {
         currentState.setCurrentQuestion(currentState.getCurrentQuestion() + 1);
     }
 
-    public List<Entry> getAnswers()
-    {
+    public List<Entry> getAnswers() {
         return answers;
     }
 
-    public class Entry
-    {
+    public class Entry {
         private String question;
         private String answer;
 

@@ -23,11 +23,6 @@ public class UserDataStorage {
         instance.userDataMap.put(chatId, new UserData());
     }
 
-    public static void startNewChat(ChatId chatId)
-    {
-        instance.userDataMap.put(chatId, new UserData());
-    }
-
     public static CurrentUserState registerAnswer(Answer answer) {
         ChatId chatId = answer.getChatId();
         String answerText = answer.getAnswerBody().toString();
@@ -43,8 +38,7 @@ public class UserDataStorage {
         return currentUserState;
     }
 
-    public static List<UserData.Entry> getHistory(ChatId chatId)
-    {
+    public static List<UserData.Entry> getHistory(ChatId chatId) {
         return instance.userDataMap.get(chatId).getAnswers();
     }
 }

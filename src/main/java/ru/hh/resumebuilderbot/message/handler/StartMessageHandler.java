@@ -8,17 +8,19 @@ import ru.hh.resumebuilderbot.question.generator.FirstQuestionGenerator;
 import ru.hh.resumebuilderbot.question.generator.FixedQuestionGenerator;
 import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
 
-public class StartMessageHandler implements MessageHandler {
+import java.util.Queue;
+
+public class StartMessageHandler extends ProtoMessageHandler {
     @Override
-    public QuestionGenerator handle(Answer answer) {
+    public Queue<QuestionGenerator> handle(Answer answer) {
         ChatId chatId = answer.getChatId();
         if (UserDataStorage.contains(chatId)) {
-            return new FixedQuestionGenerator(TextsStorage.getText("AlreadyStarted"));
+            queue.add(new FixedQuestionGenerator(TextsStorage.TextId.ALREADY_STARTED));
         } else {
             UserDataStorage.startNewChat(chatId);
-            QuestionGenerator result = new FirstQuestionGenerator();
-            result.setPrefix(TextsStorage.getText("Hello"));
-            return result;
+            queue.add(new FixedQuestionGenerator(TextsStorage.TextId.HELLO));
+            queue.add(new FirstQuestionGenerator());
         }
+        return queue;
     }
 }
