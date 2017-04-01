@@ -9,10 +9,9 @@ public class BotBodyImpl implements BotBody {
     private MessengerAdapter messengerAdapter;
 
     @Override
-    public void answer(Answer answer) {
+    public void answer(ChatId chatId, Answer answer) {
         MessageHandler messageHandler = Selector.select(answer);
-        QuestionGeneratorsQueue questionGeneratorQueue = messageHandler.handle(answer);
-        ChatId chatId = answer.getChatId();
+        QuestionGeneratorsQueue questionGeneratorQueue = messageHandler.handle(chatId, answer);
         Queue<Question> questions = questionGeneratorQueue.generateQuestions(chatId);
         questions.forEach((x) -> messengerAdapter.ask(chatId, x));
     }
@@ -21,4 +20,3 @@ public class BotBodyImpl implements BotBody {
     public void setMessenger(MessengerAdapter messenger) {
         this.messengerAdapter = messenger;
     }
-}

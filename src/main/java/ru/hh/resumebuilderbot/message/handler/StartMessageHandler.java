@@ -10,8 +10,8 @@ import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
 public class StartMessageHandler extends MessageHandler {
     @Override
-    public QuestionGeneratorsQueue handle(Answer answer) {
-        ChatId chatId = answer.getChatId();
+    public QuestionGeneratorsQueue handle(ChatId chatId, Answer answer) {
+    public Queue<QuestionGenerator> handle(ChatId chatId, Answer answer) {
         if (UserDataStorage.contains(chatId)) {
             questionGeneratorsQueue.add(new FixedQuestionGenerator(TextId.ALREADY_STARTED));
         } else {

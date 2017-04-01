@@ -30,8 +30,7 @@ public class UserDataStorage {
         instance.userDataMap.put(chatId, new UserData());
     }
 
-    public static CurrentUserState registerAnswer(Answer answer) {
-        ChatId chatId = answer.getChatId();
+    public static CurrentUserState registerAnswer(ChatId chatId, Answer answer) {
         String answerText = answer.getAnswerBody().toString();
         CurrentUserState currentUserState;
         UserData userData = instance.userDataMap.get(chatId);
