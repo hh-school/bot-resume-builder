@@ -37,9 +37,9 @@ public class TelegramAdapter implements MessengerAdapter {
     }
 
     @Override
-    public void ask(Question question) {
+    public void ask(ChatId chatId, Question question) {
         SendMessage msg = new SendMessage()
-                .setChatId(question.getChatId().getIndex())
+                .setChatId(chatId.getIndex())
                 .setText(question.getText());
 
         List<String> allowedAnswers = question.getAllowedAnswers();

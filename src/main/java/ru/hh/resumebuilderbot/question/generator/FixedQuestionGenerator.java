@@ -16,6 +16,6 @@ public class FixedQuestionGenerator implements QuestionGenerator {
 
     @Override
     public Question generateNext(ChatId chatId) {
-        return new Question(chatId, text);
+        return new Question(text);
     }
 }

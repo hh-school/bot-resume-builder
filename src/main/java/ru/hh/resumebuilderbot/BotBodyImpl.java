@@ -9,12 +9,12 @@ public class BotBodyImpl implements BotBody {
     private MessengerAdapter messengerAdapter;
 
     @Override
-    public void answer(Answer answer, int timeoutMs) {
+    public void answer(Answer answer) {
         MessageHandler messageHandler = Selector.select(answer);
         QuestionGeneratorsQueue questionGeneratorQueue = messageHandler.handle(answer);
         ChatId chatId = answer.getChatId();
         Queue<Question> questions = questionGeneratorQueue.generateQuestions(chatId);
-        questions.forEach(messengerAdapter::ask);
+        questions.forEach((x) -> messengerAdapter.ask(chatId, x));
     }
 
     @Override

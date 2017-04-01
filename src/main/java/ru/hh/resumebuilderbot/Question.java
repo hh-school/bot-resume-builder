@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Question {
-    private final ChatId chatId;
     private final String text;
 
     private List<String> allowedAnswers = new ArrayList<>();
 
-    public Question(ChatId chatId, String text) {
-        this.chatId = chatId;
+    public Question(String text) {
         this.text = text;
     }
 
@@ -20,10 +18,6 @@ public class Question {
 
     public void setAllowedAnswers(List<String> allowedAnswers) {
         this.allowedAnswers = allowedAnswers;
-    }
-
-    public ChatId getChatId() {
-        return chatId;
     }
 
     public String getText() {
