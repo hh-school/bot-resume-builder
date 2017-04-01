@@ -85,9 +85,9 @@ public class TelegramAdapter implements MessengerAdapter {
 
         @Override
         public void onUpdateReceived(Update update) {
+            TelegramAnswer telegramAnswer = TelegramAnswerFactory.create(update);
+            if (telegramAnswer != null) {
 
-            if (TelegramAnswerFactory.canHandleUpdate(update)) {
-                TelegramAnswer telegramAnswer = TelegramAnswerFactory.create(update);
 
                 long innerChatId = telegramAnswer.getInnerChatId();
                 ChatId chatId = new ChatId(innerChatId);
