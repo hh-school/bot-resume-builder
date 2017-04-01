@@ -6,28 +6,26 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TextsStorage {
     private static final TextsStorage instance = new TextsStorage();
 
-    ;
-    private static final String instructions = "Для очистки своей истории введите /clear." +
-            " Чтобы просмотреть Ваше резюме, введите /show";
+    private static final String instructions = "Р”Р»СЏ РѕС‡РёСЃС‚РєРё СЃРІРѕРµР№ РёСЃС‚РѕСЂРёРё РІРІРµРґРёС‚Рµ /clear." +
+            " Р§С‚РѕР±С‹ РїСЂРѕСЃРјРѕС‚СЂРµС‚СЊ Р’Р°С€Рµ СЂРµР·СЋРјРµ, РІРІРµРґРёС‚Рµ /show";
 
+    //hardcode
     static {
-        instance.textsMap.put(TextId.ALREADY_STARTED, "Опрос уже запущен. Для удаления сохраненных результатов восполь" +
-                "зуйтесь /clear");
-        instance.textsMap.put(TextId.UNKNOWN, "Ответ не понятен");
-        instance.textsMap.put(TextId.OOPS_TRY_RESTART, "УПС! Что-то пошло не так. Начните заново с команды /start");
+        instance.textsMap.put(TextId.ALREADY_STARTED, "РћРїСЂРѕСЃ СѓР¶Рµ Р·Р°РїСѓС‰РµРЅ. Р”Р»СЏ СѓРґР°Р»РµРЅРёСЏ СЃРѕС…СЂР°РЅРµРЅРЅС‹С… СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ РІРѕСЃРїРѕР»СЊ" +
+                "Р·СѓР№С‚РµСЃСЊ /clear");
+        instance.textsMap.put(TextId.UNKNOWN, "РћС‚РІРµС‚ РЅРµ РїРѕРЅСЏС‚РµРЅ");
+        instance.textsMap.put(TextId.OOPS_TRY_RESTART, "РЈРџРЎ! Р§С‚Рѕ-С‚Рѕ РїРѕС€Р»Рѕ РЅРµ С‚Р°Рє. РќР°С‡РЅРёС‚Рµ Р·Р°РЅРѕРІРѕ СЃ РєРѕРјР°РЅРґС‹ /start");
         instance.textsMap.put(TextId.HELLO,
-                "Добро пожаловать в Resume Builder Bot. " + instructions);
+                "Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ РІ Resume Builder Bot. " + instructions);
         instance.textsMap.put(TextId.CLEARED,
-                "Ваше резюме было очищено. Опрос начнется сначала");
+                "Р’Р°С€Рµ СЂРµР·СЋРјРµ Р±С‹Р»Рѕ РѕС‡РёС‰РµРЅРѕ. РћРїСЂРѕСЃ РЅР°С‡РЅРµС‚СЃСЏ СЃРЅР°С‡Р°Р»Р°");
         instance.textsMap.put(TextId.FINISHED,
-                "Опрос закончен. " + instructions);
+                "РћРїСЂРѕСЃ Р·Р°РєРѕРЅС‡РµРЅ. " + instructions);
         instance.textsMap.put(TextId.EMPTY,
-                "Ваше резюме пока пусто. ");
+                "Р’Р°С€Рµ СЂРµР·СЋРјРµ РїРѕРєР° РїСѓСЃС‚Рѕ. ");
     }
 
     private Map<TextId, String> textsMap = new ConcurrentHashMap<>();
-
-    //hardcode
 
     private TextsStorage() {
     }

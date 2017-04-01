@@ -1,7 +1,6 @@
 package ru.hh.resumebuilderbot.message.handler;
 
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.UserDataStorage;
 import ru.hh.resumebuilderbot.TextsStorage;
 import ru.hh.resumebuilderbot.UserDataStorage;
 import ru.hh.resumebuilderbot.question.generator.FirstQuestionGenerator;
