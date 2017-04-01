@@ -13,10 +13,6 @@ public class QuestionGeneratorByNumber implements QuestionGenerator {
 
     @Override
     public Question generateNext() {
-        Question result = new Question(QuestionsStorage.getQuestion(questionNumber));
-        if (QuestionsStorage.allowedAnswersPresent(questionNumber)) {
-            result.setAllowedAnswers(QuestionsStorage.getAllowedAnswers(questionNumber));
-        }
-        return result;
+        return QuestionsStorage.getQuestion(questionNumber);
     }
 }

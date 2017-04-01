@@ -36,7 +36,7 @@ public class UserDataStorage {
         UserData userData = instance.userDataMap.get(chatId);
         synchronized (userData) {
             int currentQuestionNumber = userData.getCurrentState().getCurrentQuestion();
-            String currentQuestionText = QuestionsStorage.getQuestion(currentQuestionNumber);
+            String currentQuestionText = QuestionsStorage.getQuestion(currentQuestionNumber).getText();
             userData.registerAnswer(currentQuestionText, answerText);
             userData.incrementCurrentQuestion();
             currentUserState = userData.getCurrentState();

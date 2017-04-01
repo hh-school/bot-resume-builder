@@ -6,18 +6,27 @@ import java.util.List;
 public class Question {
     private final String text;
 
-    private List<String> allowedAnswers = new ArrayList<>();
+    private final List<String> allowedAnswers;
+
+
+    public Question(String text, List<String> allowedAnswers) {
+        this.text = text;
+        if (allowedAnswers != null)
+        {
+            this.allowedAnswers = allowedAnswers;
+        }
+        else
+        {
+            this.allowedAnswers = new ArrayList<>();
+        }
+    }
 
     public Question(String text) {
-        this.text = text;
+        this(text, null);
     }
 
     public List<String> getAllowedAnswers() {
         return allowedAnswers;
-    }
-
-    public void setAllowedAnswers(List<String> allowedAnswers) {
-        this.allowedAnswers = allowedAnswers;
     }
 
     public String getText() {

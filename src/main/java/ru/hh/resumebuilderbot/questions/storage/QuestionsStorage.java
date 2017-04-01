@@ -1,15 +1,10 @@
 package ru.hh.resumebuilderbot.questions.storage;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import ru.hh.resumebuilderbot.Question;
+
+import java.util.*;
 
 public class QuestionsStorage {
-
-    private static List<String> questionTexts = Collections.synchronizedList(new ArrayList<String>());
-    private static Map<Integer, List<String>> allowedAnswers = Collections.synchronizedMap(new HashMap<>());
 
     //hardcode
     static {
@@ -25,24 +20,18 @@ public class QuestionsStorage {
     }
 
     //end hardcode
+	
+    private static List<Question> questions = Collections.synchronizedList(new ArrayList<>());
 
     private QuestionsStorage() {
     }
-
-    public static String getQuestion(int questionId) {
-        return questionTexts.get(questionId);
-    }
-
-    public static List<String> getAllowedAnswers(int questionId) {
-        return allowedAnswers.get(questionId);
-    }
-
-    public static boolean allowedAnswersPresent(int questionId) {
-        return allowedAnswers.containsKey(questionId);
+	
+    public static Question getQuestion(int questionId) {
+        return questions.get(questionId);
     }
 
     public static boolean finished(int questionId) {
-        int currentSize = questionTexts.size();
+        int currentSize = questions.size();
         return currentSize <= questionId;
     }
 
@@ -50,6 +39,7 @@ public class QuestionsStorage {
         questionTexts.add(text);
         int currentSize = questionTexts.size();
         QuestionsStorage.allowedAnswers.put(currentSize - 1, allowedAnswers);
+        questions.add(new Question(text, allowedAnswers));
     }
 
     private static void registerQuestion(String text) {
