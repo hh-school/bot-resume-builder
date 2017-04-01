@@ -18,6 +18,8 @@ public class QuestionsStorage {
         registerQuestion("Это последний вопрос");
     }
 
+    //end hardcode
+
     private List<String> questionTexts = Collections.synchronizedList(new ArrayList<String>());
     private Map<Integer, List<String>> allowedAnswers = Collections.synchronizedMap(new HashMap<>());
 
@@ -40,7 +42,6 @@ public class QuestionsStorage {
         int currentSize = instance.questionTexts.size();
         return currentSize <= questionId;
     }
-    //end hardcode
 
     private static void registerQuestion(String text, List<String> allowedAnswers) {
         instance.questionTexts.add(text);

@@ -25,12 +25,12 @@ public class TextsStorage {
                 "Ваше резюме пока пусто. ");
     }
 
+    //end hardcode
+
     private Map<TextId, String> textsMap = new ConcurrentHashMap<>();
 
     private TextsStorage() {
     }
-
-    //end hardcode
 
     public static String getText(TextId textId) {
         return instance.textsMap.get(textId);
