@@ -22,15 +22,13 @@ public class TelegramAdapter implements MessengerAdapter {
     private final String token;
     private final String botUsername;
     private final BotImpl bot;
-    private int timeout;
 
     private BotBody botBody;
 
-    public TelegramAdapter(String token, String botUsername, int timeoutMs) {
+    public TelegramAdapter(String token, String botUsername) {
         this.token = token;
         this.botUsername = botUsername;
         this.bot = new BotImpl();
-        this.timeout = timeoutMs;
     }
 
     @Override
@@ -97,7 +95,7 @@ public class TelegramAdapter implements MessengerAdapter {
                 ChatId chatId = new ChatId(innerChatId);
                 String answerText = telegramAnswer.getAnswerText();
                 Answer answer = new Answer(chatId, answerText);
-                botBody.answer(answer, timeout);
+                botBody.answer(answer);
             }
         }
 
