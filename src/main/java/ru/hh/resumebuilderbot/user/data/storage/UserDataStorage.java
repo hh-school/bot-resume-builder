@@ -5,6 +5,8 @@ import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.CurrentUserState;
 import ru.hh.resumebuilderbot.QuestionsStorage;
 
+import ru.hh.resumebuilderbot.questions.storage.QuestionsStorage;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
