@@ -10,4 +10,8 @@ public class StandardStringAnswer extends ProtoTelegramAnswer {
         answerText = message.getText();
         innerChatId = message.getChatId();
     }
+
+    public static boolean matches(Update update) {
+        return update.hasMessage() && update.getMessage().hasText();
+    }
 }

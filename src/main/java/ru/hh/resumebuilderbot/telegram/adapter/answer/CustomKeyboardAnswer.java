@@ -10,4 +10,8 @@ public class CustomKeyboardAnswer extends ProtoTelegramAnswer {
         innerChatId = querry.getMessage().getChatId();
         answerText = querry.getData();
     }
+
+    public static boolean matches(Update update) {
+        return update.hasCallbackQuery();
+    }
 }
