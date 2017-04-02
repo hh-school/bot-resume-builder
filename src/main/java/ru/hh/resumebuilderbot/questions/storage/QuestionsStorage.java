@@ -23,37 +23,34 @@ public class QuestionsStorage {
     }
 
     //end hardcode
-	
-    private static List<Question> questions = Collections.synchronizedList(new ArrayList<>());
+
+    private static List<Node> nodes = Collections.synchronizedList(new ArrayList<>());
 
     private QuestionsStorage() {
     }
 	
     public static Question getFirstQuestion()
     {
-        return questions.get(FIRST_QUESTION_INDEX);
+        return nodes.get(FIRST_QUESTION_INDEX).getQuestion();
     }
 
     public static Question getNextQuestion(ChatId chatId)
     {
         int questionNumber = UserDataStorage.getCurrentQuestionNumber(chatId);
-        return questions.get(questionNumber);
+        return nodes.get(questionNumber).getQuestion();
     }
 
     public static boolean finished(ChatId chatId) {
-        int currentSize = questions.size();
+        int currentSize = nodes.size();
         return currentSize <= UserDataStorage.getCurrentQuestionNumber(chatId);
     }
 
     private static void registerQuestion(String text, List<String> allowedAnswers) {
-        questionTexts.add(text);
-        int currentSize = questionTexts.size();
-        QuestionsStorage.allowedAnswers.put(currentSize - 1, allowedAnswers);
-        questions.add(new Question(text, allowedAnswers));
+        nodes.add(new Node(new Question(text, allowedAnswers)));
     }
 
     private static void registerQuestion(String text) {
-        questionTexts.add(text);
+        nodes.add(new Node(new Question(text)));
     }
 
 }
