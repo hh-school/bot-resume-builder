@@ -1,13 +1,26 @@
 package ru.hh.resumebuilderbot;
 
-public class CurrentUserState {
-    private int currentQuestion;
+import ru.hh.resumebuilderbot.questions.storage.Node;
+import ru.hh.resumebuilderbot.questions.storage.QuestionsStorage;
 
-    public int getCurrentQuestion() {
-        return currentQuestion;
+public class CurrentUserState {
+    private Node currentQuestionsNode;
+
+    public CurrentUserState() {
+        currentQuestionsNode = QuestionsStorage.getRoot();
     }
 
-    public void setCurrentQuestion(int currentQuestion) {
-        this.currentQuestion = currentQuestion;
+    public Question getCurrentQuestion() {
+        return currentQuestionsNode.getQuestion();
+    }
+
+    public boolean isLastQuestion()
+    {
+        return currentQuestionsNode.isLast();
+    }
+
+    public void incrementCurrentQuestion()
+    {
+        currentQuestionsNode = currentQuestionsNode.getNext();
     }
 }

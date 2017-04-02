@@ -3,17 +3,33 @@ package ru.hh.resumebuilderbot.questions.storage;
 import ru.hh.resumebuilderbot.Question;
 
 public class Node {
+    private NodeType type;
     private Question question;
+    private Node next;
 
-    public Node(Question question) {
+    public boolean isLast()
+    {
+        return (type == NodeType.END);
+    }
+
+    public Node(NodeType type, Question question) {
+        this.type = type;
         this.question = question;
+    }
+
+    public Node(NodeType type) {
+        this.type = type;
     }
 
     public Question getQuestion() {
         return question;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public Node getNext() {
+        return next;
+    }
+
+    public void setNext(Node next) {
+        this.next = next;
     }
 }

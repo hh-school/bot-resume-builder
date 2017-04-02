@@ -7,50 +7,48 @@ import ru.hh.resumebuilderbot.UserDataStorage;
 import java.util.*;
 
 public class QuestionsStorage {
-    private static final int FIRST_QUESTION_INDEX = 0;
 
     //hardcode
     static {
-        registerQuestion("Это первый вопрос");
-        registerQuestion("Это второй вопрос");
+        QuestionsAlgorithmBuilder builder = new QuestionsAlgorithmBuilder();
+        builder.registerQuestion("Это первый вопрос");
+        builder.registerQuestion("Это второй вопрос");
 
         List<String> answers = new ArrayList<>();
         answers.add("Первый вариант");
         answers.add("Второй вариант");
 
-        registerQuestion("Это третий вопрос. На него есть 2 варианта ответа", answers);
-        registerQuestion("Это последний вопрос");
+        builder.registerQuestion("Это третий вопрос. На него есть 2 варианта ответа", answers);
+        builder.registerQuestion("Это последний вопрос");
+
+        instance.questionsAlgorithmRoot = builder.build();
     }
 
     //end hardcode
 
-    private static List<Node> nodes = Collections.synchronizedList(new ArrayList<>());
+
+    private static Node questionsAlgorithmRoot;
 
     private QuestionsStorage() {
     }
 	
     public static Question getFirstQuestion()
     {
-        return nodes.get(FIRST_QUESTION_INDEX).getQuestion();
+        return questionsAlgorithmRoot.getQuestion();
     }
 
+    public static Node getRoot()
+    {
+		return questionsAlgorithmRoot;
+	}
+	
+	public static boolean finished(ChatId chatId) {
+        return UserDataStorage.isLastNode(chatId);
+	}
+	
     public static Question getNextQuestion(ChatId chatId)
     {
-        int questionNumber = UserDataStorage.getCurrentQuestionNumber(chatId);
-        return nodes.get(questionNumber).getQuestion();
-    }
-
-    public static boolean finished(ChatId chatId) {
-        int currentSize = nodes.size();
-        return currentSize <= UserDataStorage.getCurrentQuestionNumber(chatId);
-    }
-
-    private static void registerQuestion(String text, List<String> allowedAnswers) {
-        nodes.add(new Node(new Question(text, allowedAnswers)));
-    }
-
-    private static void registerQuestion(String text) {
-        nodes.add(new Node(new Question(text)));
+        return UserDataStorage.getNextQuestion(chatId);
     }
 
 }

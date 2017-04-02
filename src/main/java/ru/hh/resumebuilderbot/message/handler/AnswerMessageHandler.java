@@ -12,10 +12,6 @@ import ru.hh.resumebuilderbot.questions.storage.QuestionsStorage;
 public class AnswerMessageHandler extends MessageHandler {
     @Override
     public QuestionGeneratorsQueue handle(ChatId chatId, Answer answer) {
-        if (!UserDataStorage.contains(chatId)) {
-            questionGeneratorsQueue.add(new FixedQuestionGenerator(TextId.OOPS_TRY_RESTART));
-            return questionGeneratorsQueue;
-        }
         UserDataStorage.registerAnswer(chatId, answer);
 
         if (QuestionsStorage.finished(chatId)) {

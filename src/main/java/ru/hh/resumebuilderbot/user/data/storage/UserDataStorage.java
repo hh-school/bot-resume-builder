@@ -42,11 +42,6 @@ public class UserDataStorage {
         return instance.userDataMap.get(chatId).getAnswers();
     }
 
-    public static int getCurrentQuestionNumber(ChatId chatId)
-    {
-        return instance.userDataMap.get(chatId).getCurrentState().getCurrentQuestion();
-    }
-
     public static Object getMutex(ChatId chatId)
     {
         if (!contains(chatId))
@@ -54,5 +49,15 @@ public class UserDataStorage {
             instance.userDataMap.put(chatId, new UserData());
         }
         return instance.userDataMap.get(chatId);
+    }
+
+    public static boolean isLastNode(ChatId chatId)
+    {
+        return instance.userDataMap.get(chatId).getCurrentState().isLastQuestion();
+    }
+
+    public static Question getNextQuestion(ChatId chatId)
+    {
+        return instance.userDataMap.get(chatId).getCurrentState().getCurrentQuestion();
     }
 }

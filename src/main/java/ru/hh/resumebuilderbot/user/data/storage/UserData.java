@@ -12,7 +12,6 @@ public class UserData {
 
     public UserData() {
         currentState = new CurrentUserState();
-        currentState.setCurrentQuestion(0);
     }
 
     public CurrentUserState getCurrentState() {
@@ -24,7 +23,7 @@ public class UserData {
     }
 
     public void incrementCurrentQuestion() {
-        currentState.setCurrentQuestion(currentState.getCurrentQuestion() + 1);
+        currentState.incrementCurrentQuestion();
     }
 
     public List<UserAnswer> getAnswers() {
