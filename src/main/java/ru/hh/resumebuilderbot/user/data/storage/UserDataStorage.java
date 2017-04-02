@@ -30,17 +30,12 @@ public class UserDataStorage {
         instance.userDataMap.put(chatId, new UserData());
     }
 
-    public static CurrentUserState registerAnswer(ChatId chatId, Answer answer) {
+    public static void registerAnswer(ChatId chatId, Answer answer) {
         String answerText = answer.getAnswerBody().toString();
-        CurrentUserState currentUserState;
         UserData userData = instance.userDataMap.get(chatId);
-        synchronized (userData) {
-            String currentQuestionText = QuestionsStorage.getNextQuestion(chatId).getText();
-            userData.registerAnswer(currentQuestionText, answerText);
-            userData.incrementCurrentQuestion();
-            currentUserState = userData.getCurrentState();
-        }
-        return currentUserState;
+        String currentQuestionText = QuestionsStorage.getNextQuestion(chatId).getText();
+        userData.registerAnswer(currentQuestionText, answerText);
+        userData.incrementCurrentQuestion();
     }
 
     public static List<UserAnswer> getHistory(ChatId chatId) {
@@ -50,5 +45,14 @@ public class UserDataStorage {
     public static int getCurrentQuestionNumber(ChatId chatId)
     {
         return instance.userDataMap.get(chatId).getCurrentState().getCurrentQuestion();
+    }
+
+    public static Object getMutex(ChatId chatId)
+    {
+        if (!contains(chatId))
+        {
+            instance.userDataMap.put(chatId, new UserData());
+        }
+        return instance.userDataMap.get(chatId);
     }
 }

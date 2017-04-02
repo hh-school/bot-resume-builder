@@ -10,10 +10,13 @@ public class BotBodyImpl implements BotBody {
 
     @Override
     public void answer(ChatId chatId, Answer answer) {
-        MessageHandler messageHandler = Selector.select(answer);
-        QuestionGeneratorsQueue questionGeneratorQueue = messageHandler.handle(chatId, answer);
-        Queue<Question> questions = questionGeneratorQueue.generateQuestions(chatId);
-        questions.forEach((x) -> messengerAdapter.ask(chatId, x));
+		synchronized (UserDataStorage.getMutex(chatId))
+        {
+			MessageHandler messageHandler = Selector.select(answer);
+			QuestionGeneratorsQueue questionGeneratorQueue = messageHandler.handle(chatId, answer);
+			Queue<Question> questions = questionGeneratorQueue.generateQuestions(chatId);
+			questions.forEach((x) -> messengerAdapter.ask(chatId, x));
+		}
     }
 
     @Override
