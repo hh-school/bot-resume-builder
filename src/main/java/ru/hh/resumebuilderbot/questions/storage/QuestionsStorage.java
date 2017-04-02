@@ -1,10 +1,13 @@
 package ru.hh.resumebuilderbot.questions.storage;
 
+import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.Question;
+import ru.hh.resumebuilderbot.UserDataStorage;
 
 import java.util.*;
 
 public class QuestionsStorage {
+    private static final int FIRST_QUESTION_INDEX = 0;
 
     //hardcode
     static {
@@ -26,13 +29,20 @@ public class QuestionsStorage {
     private QuestionsStorage() {
     }
 	
-    public static Question getQuestion(int questionId) {
-        return questions.get(questionId);
+    public static Question getFirstQuestion()
+    {
+        return questions.get(FIRST_QUESTION_INDEX);
     }
 
-    public static boolean finished(int questionId) {
+    public static Question getNextQuestion(ChatId chatId)
+    {
+        int questionNumber = UserDataStorage.getCurrentQuestionNumber(chatId);
+        return questions.get(questionNumber);
+    }
+
+    public static boolean finished(ChatId chatId) {
         int currentSize = questions.size();
-        return currentSize <= questionId;
+        return currentSize <= UserDataStorage.getCurrentQuestionNumber(chatId);
     }
 
     private static void registerQuestion(String text, List<String> allowedAnswers) {

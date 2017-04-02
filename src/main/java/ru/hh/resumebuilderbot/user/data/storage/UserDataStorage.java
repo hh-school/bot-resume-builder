@@ -35,8 +35,7 @@ public class UserDataStorage {
         CurrentUserState currentUserState;
         UserData userData = instance.userDataMap.get(chatId);
         synchronized (userData) {
-            int currentQuestionNumber = userData.getCurrentState().getCurrentQuestion();
-            String currentQuestionText = QuestionsStorage.getQuestion(currentQuestionNumber).getText();
+            String currentQuestionText = QuestionsStorage.getNextQuestion(chatId).getText();
             userData.registerAnswer(currentQuestionText, answerText);
             userData.incrementCurrentQuestion();
             currentUserState = userData.getCurrentState();
@@ -46,5 +45,10 @@ public class UserDataStorage {
 
     public static List<UserAnswer> getHistory(ChatId chatId) {
         return instance.userDataMap.get(chatId).getAnswers();
+    }
+
+    public static int getCurrentQuestionNumber(ChatId chatId)
+    {
+        return instance.userDataMap.get(chatId).getCurrentState().getCurrentQuestion();
     }
 }
