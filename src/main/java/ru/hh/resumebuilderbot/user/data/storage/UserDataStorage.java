@@ -2,8 +2,8 @@ package ru.hh.resumebuilderbot.user.data.storage;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.ChatId;
-import ru.hh.resumebuilderbot.Question;
-import ru.hh.resumebuilderbot.questions.storage.QuestionsStorage;
+import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.QuestionsStorage;
 
 import java.util.List;
 import java.util.Map;

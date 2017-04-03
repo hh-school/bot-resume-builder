@@ -5,6 +5,9 @@ import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorsQueue;
 
 import java.util.Queue;
 
+import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
+
 public class BotBodyImpl implements BotBody {
     private MessengerAdapter messengerAdapter;
 

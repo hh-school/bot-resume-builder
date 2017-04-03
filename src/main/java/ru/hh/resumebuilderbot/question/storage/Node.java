@@ -1,6 +1,6 @@
-package ru.hh.resumebuilderbot.questions.storage;
+package ru.hh.resumebuilderbot.question.storage;
 
-import ru.hh.resumebuilderbot.Question;
+import ru.hh.resumebuilderbot.question.Question;
 
 public class Node {
     private NodeType type;

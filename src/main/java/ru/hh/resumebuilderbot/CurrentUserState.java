@@ -1,7 +1,8 @@
 package ru.hh.resumebuilderbot;
 
-import ru.hh.resumebuilderbot.questions.storage.Node;
-import ru.hh.resumebuilderbot.questions.storage.QuestionsStorage;
+import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.Node;
+import ru.hh.resumebuilderbot.question.storage.QuestionsStorage;
 
 public class CurrentUserState {
     private Node currentQuestionsNode;

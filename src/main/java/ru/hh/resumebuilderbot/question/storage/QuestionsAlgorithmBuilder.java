@@ -1,6 +1,6 @@
-package ru.hh.resumebuilderbot.questions.storage;
+package ru.hh.resumebuilderbot.question.storage;
 
-import ru.hh.resumebuilderbot.Question;
+import ru.hh.resumebuilderbot.question.Question;
 
 import java.util.ArrayList;
 import java.util.List;

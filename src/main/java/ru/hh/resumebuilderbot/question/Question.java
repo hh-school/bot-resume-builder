@@ -1,4 +1,4 @@
-package ru.hh.resumebuilderbot;
+package ru.hh.resumebuilderbot.question;
 
 import java.util.ArrayList;
 import java.util.List;

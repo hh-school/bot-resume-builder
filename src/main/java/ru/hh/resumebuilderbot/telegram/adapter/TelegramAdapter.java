@@ -11,7 +11,7 @@ import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.MessengerAdapter;
-import ru.hh.resumebuilderbot.Question;
+import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.telegram.adapter.answer.TelegramAnswer;
 import ru.hh.resumebuilderbot.telegram.adapter.answer.TelegramAnswerFactory;
 

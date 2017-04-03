@@ -5,7 +5,7 @@ import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.question.generator.FixedQuestionGenerator;
 import ru.hh.resumebuilderbot.question.generator.NextQuestionGenerator;
 import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorsQueue;
-import ru.hh.resumebuilderbot.questions.storage.QuestionsStorage;
+import ru.hh.resumebuilderbot.question.storage.QuestionsStorage;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
