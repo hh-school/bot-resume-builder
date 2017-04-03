@@ -44,14 +44,12 @@ public class QuestionsStorage {
 
     private static void registerQuestion(String text, List<String> allowedAnswers) {
         questionTexts.add(text);
-        if (allowedAnswers != null) {
-            int currentSize = questionTexts.size();
-            QuestionsStorage.allowedAnswers.put(currentSize - 1, allowedAnswers);
-        }
+        int currentSize = questionTexts.size();
+        QuestionsStorage.allowedAnswers.put(currentSize - 1, allowedAnswers);
     }
 
     private static void registerQuestion(String text) {
-        registerQuestion(text, null);
+        questionTexts.add(text);
     }
 
 }
