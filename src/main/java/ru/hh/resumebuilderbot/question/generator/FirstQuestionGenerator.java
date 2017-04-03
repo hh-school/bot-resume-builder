@@ -7,7 +7,7 @@ public class FirstQuestionGenerator implements QuestionGenerator {
 
 
     @Override
-    public Question generateNext() {
+    public Question generate() {
         return QuestionsStorage.getFirstQuestion();
     }
 }

@@ -14,7 +14,7 @@ public class QuestionGeneratorsQueue {
 
     public Queue<Question> generateQuestions() {
         Queue<Question> result = new ArrayDeque<>();
-        generators.forEach((x) -> result.add(x.generateNext()));
+        generators.forEach((x) -> result.add(x.generate()));
         return result;
     }
 }

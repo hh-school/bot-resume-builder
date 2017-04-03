@@ -13,7 +13,7 @@ public class NextQuestionGenerator implements QuestionGenerator {
     }
 
     @Override
-    public Question generateNext() {
+    public Question generate() {
         return QuestionsStorage.getNextQuestion(chatId);
     }
 }

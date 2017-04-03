@@ -14,7 +14,7 @@ public class FixedQuestionGenerator implements QuestionGenerator {
     }
 
     @Override
-    public Question generateNext() {
+    public Question generate() {
         return new Question(text);
     }
 }

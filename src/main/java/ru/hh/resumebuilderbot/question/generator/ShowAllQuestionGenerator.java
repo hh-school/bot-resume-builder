@@ -13,7 +13,7 @@ public class ShowAllQuestionGenerator implements QuestionGenerator {
     }
 
     @Override
-    public Question generateNext() {
+    public Question generate() {
         return new Question(CVFormats.PLAIN_TEXT.getBuilder().build(chatId));
     }
 }
