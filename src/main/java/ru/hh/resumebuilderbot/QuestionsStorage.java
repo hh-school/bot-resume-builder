@@ -3,7 +3,9 @@ package ru.hh.resumebuilderbot;
 import java.util.*;
 
 public class QuestionsStorage {
-    private static final QuestionsStorage instance = new QuestionsStorage();
+
+    private static List<String> questionTexts = Collections.synchronizedList(new ArrayList<String>());
+    private static Map<Integer, List<String>> allowedAnswers = Collections.synchronizedMap(new HashMap<>());
 
     //hardcode
     static {
@@ -20,34 +22,31 @@ public class QuestionsStorage {
 
     //end hardcode
 
-    private List<String> questionTexts = Collections.synchronizedList(new ArrayList<String>());
-    private Map<Integer, List<String>> allowedAnswers = Collections.synchronizedMap(new HashMap<>());
-
     private QuestionsStorage() {
     }
 
     public static String getQuestion(int questionId) {
-        return instance.questionTexts.get(questionId);
+        return questionTexts.get(questionId);
     }
 
     public static List<String> getAllowedAnswers(int questionId) {
-        return instance.allowedAnswers.get(questionId);
+        return allowedAnswers.get(questionId);
     }
 
     public static boolean allowedAnswersPresent(int questionId) {
-        return instance.allowedAnswers.containsKey(questionId);
+        return allowedAnswers.containsKey(questionId);
     }
 
     public static boolean finished(int questionId) {
-        int currentSize = instance.questionTexts.size();
+        int currentSize = questionTexts.size();
         return currentSize <= questionId;
     }
 
     private static void registerQuestion(String text, List<String> allowedAnswers) {
-        instance.questionTexts.add(text);
+        questionTexts.add(text);
         if (allowedAnswers != null) {
-            int currentSize = instance.questionTexts.size();
-            instance.allowedAnswers.put(currentSize - 1, allowedAnswers);
+            int currentSize = questionTexts.size();
+            QuestionsStorage.allowedAnswers.put(currentSize - 1, allowedAnswers);
         }
     }
 

@@ -4,35 +4,33 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TextsStorage {
-    private static final TextsStorage instance = new TextsStorage();
-
     private static final String instructions = "Для очистки своей истории введите /clear." +
             " Чтобы просмотреть Ваше резюме, введите /show";
 
+    private static Map<TextId, String> textsMap = new ConcurrentHashMap<>();
+
     //hardcode
     static {
-        instance.textsMap.put(TextId.ALREADY_STARTED, "Опрос уже запущен. Для удаления сохраненных результатов восполь" +
+        textsMap.put(TextId.ALREADY_STARTED, "Опрос уже запущен. Для удаления сохраненных результатов восполь" +
                 "зуйтесь /clear");
-        instance.textsMap.put(TextId.UNKNOWN, "Ответ не понятен");
-        instance.textsMap.put(TextId.OOPS_TRY_RESTART, "УПС! Что-то пошло не так. Начните заново с команды /start");
-        instance.textsMap.put(TextId.HELLO,
+        textsMap.put(TextId.UNKNOWN, "Ответ не понятен");
+        textsMap.put(TextId.OOPS_TRY_RESTART, "УПС! Что-то пошло не так. Начните заново с команды /start");
+        textsMap.put(TextId.HELLO,
                 "Добро пожаловать в Resume Builder Bot. " + instructions);
-        instance.textsMap.put(TextId.CLEARED,
+        textsMap.put(TextId.CLEARED,
                 "Ваше резюме было очищено. Опрос начнется сначала");
-        instance.textsMap.put(TextId.FINISHED,
+        textsMap.put(TextId.FINISHED,
                 "Опрос закончен. " + instructions);
-        instance.textsMap.put(TextId.EMPTY,
+        textsMap.put(TextId.EMPTY,
                 "Ваше резюме пока пусто. ");
     }
 
     //end hardcode
 
-    private Map<TextId, String> textsMap = new ConcurrentHashMap<>();
-
     private TextsStorage() {
     }
 
     public static String getText(TextId textId) {
-        return instance.textsMap.get(textId);
+        return textsMap.get(textId);
     }
 }
