@@ -4,14 +4,13 @@ import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.CurrentUserState;
 import ru.hh.resumebuilderbot.QuestionsStorage;
 import ru.hh.resumebuilderbot.question.generator.FixedQuestionGenerator;
-import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
 import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorByNumber;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
 public class AnswerMessageHandler extends MessageHandler {
     @Override
-    public QuestionGeneratorsQueue<QuestionGenerator> handle(Answer answer) {
+    public QuestionGeneratorsQueue handle(Answer answer) {
         if (!UserDataStorage.contains(answer.getChatId())) {
             questionsQueue.add(new FixedQuestionGenerator(TextId.OOPS_TRY_RESTART));
             return questionsQueue;
