@@ -2,9 +2,7 @@ package ru.hh.resumebuilderbot.user.data.storage;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.ChatId;
-import ru.hh.resumebuilderbot.CurrentUserState;
-import ru.hh.resumebuilderbot.QuestionsStorage;
-
+import ru.hh.resumebuilderbot.Question;
 import ru.hh.resumebuilderbot.questions.storage.QuestionsStorage;
 
 import java.util.List;
@@ -42,22 +40,18 @@ public class UserDataStorage {
         return instance.userDataMap.get(chatId).getAnswers();
     }
 
-    public static Object getMutex(ChatId chatId)
-    {
-        if (!contains(chatId))
-        {
+    public static Object getMutex(ChatId chatId) {
+        if (!contains(chatId)) {
             instance.userDataMap.put(chatId, new UserData());
         }
         return instance.userDataMap.get(chatId);
     }
 
-    public static boolean isLastNode(ChatId chatId)
-    {
+    public static boolean isLastNode(ChatId chatId) {
         return instance.userDataMap.get(chatId).getCurrentState().isLastQuestion();
     }
 
-    public static Question getNextQuestion(ChatId chatId)
-    {
+    public static Question getNextQuestion(ChatId chatId) {
         return instance.userDataMap.get(chatId).getCurrentState().getCurrentQuestion();
     }
 }

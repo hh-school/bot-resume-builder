@@ -7,11 +7,6 @@ public class Node {
     private Question question;
     private Node next;
 
-    public boolean isLast()
-    {
-        return (type == NodeType.END);
-    }
-
     public Node(NodeType type, Question question) {
         this.type = type;
         this.question = question;
@@ -19,6 +14,10 @@ public class Node {
 
     public Node(NodeType type) {
         this.type = type;
+    }
+
+    public boolean isLast() {
+        return (type == NodeType.END);
     }
 
     public Question getQuestion() {

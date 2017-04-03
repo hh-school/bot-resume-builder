@@ -8,20 +8,16 @@ import java.util.List;
 public class QuestionsAlgorithmBuilder {
     private List<Question> questions = new ArrayList<>();
 
-    public void registerQuestion(String text, List<String> allowedAnswers)
-    {
+    public void registerQuestion(String text, List<String> allowedAnswers) {
         questions.add(new Question(text, allowedAnswers));
     }
 
-    public void registerQuestion(String text)
-    {
+    public void registerQuestion(String text) {
         registerQuestion(text, null);
     }
 
-    public Node build()
-    {
-        if (questions.isEmpty())
-        {
+    public Node build() {
+        if (questions.isEmpty()) {
             return null; // throw exception??
         }
         boolean firstQuestion = true;

@@ -11,12 +11,9 @@ public class Question {
 
     public Question(String text, List<String> allowedAnswers) {
         this.text = text;
-        if (allowedAnswers != null)
-        {
+        if (allowedAnswers != null) {
             this.allowedAnswers = allowedAnswers;
-        }
-        else
-        {
+        } else {
             this.allowedAnswers = new ArrayList<>();
         }
     }

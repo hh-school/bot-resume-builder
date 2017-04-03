@@ -14,13 +14,11 @@ public class CurrentUserState {
         return currentQuestionsNode.getQuestion();
     }
 
-    public boolean isLastQuestion()
-    {
+    public boolean isLastQuestion() {
         return currentQuestionsNode.isLast();
     }
 
-    public void incrementCurrentQuestion()
-    {
+    public void incrementCurrentQuestion() {
         currentQuestionsNode = currentQuestionsNode.getNext();
     }
 }

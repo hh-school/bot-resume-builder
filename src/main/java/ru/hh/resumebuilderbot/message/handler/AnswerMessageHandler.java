@@ -1,13 +1,13 @@
 package ru.hh.resumebuilderbot.message.handler;
 
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.*;
+import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.question.generator.FixedQuestionGenerator;
-import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorByNumber;
+import ru.hh.resumebuilderbot.question.generator.NextQuestionGenerator;
 import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorsQueue;
+import ru.hh.resumebuilderbot.questions.storage.QuestionsStorage;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
-import ru.hh.resumebuilderbot.questions.storage.QuestionsStorage;
 
 public class AnswerMessageHandler extends MessageHandler {
     @Override
@@ -19,7 +19,7 @@ public class AnswerMessageHandler extends MessageHandler {
             return questionGeneratorsQueue;
         }
 
-        questionGeneratorsQueue.add(new QuestionGeneratorByNumber(currentQuestionNumber));
+        questionGeneratorsQueue.add(new NextQuestionGenerator(chatId));
         return questionGeneratorsQueue;
     }
 }

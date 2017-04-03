@@ -2,11 +2,16 @@ package ru.hh.resumebuilderbot.questions.storage;
 
 import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.Question;
-import ru.hh.resumebuilderbot.UserDataStorage;
+import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QuestionsStorage {
+
+    private static Node questionsAlgorithmRoot;
+
+    //end hardcode
 
     //hardcode
     static {
@@ -21,33 +26,25 @@ public class QuestionsStorage {
         builder.registerQuestion("Это третий вопрос. На него есть 2 варианта ответа", answers);
         builder.registerQuestion("Это последний вопрос");
 
-        instance.questionsAlgorithmRoot = builder.build();
+        questionsAlgorithmRoot = builder.build();
     }
-
-    //end hardcode
-
-
-    private static Node questionsAlgorithmRoot;
 
     private QuestionsStorage() {
     }
-	
-    public static Question getFirstQuestion()
-    {
+
+    public static Question getFirstQuestion() {
         return questionsAlgorithmRoot.getQuestion();
     }
 
-    public static Node getRoot()
-    {
-		return questionsAlgorithmRoot;
-	}
-	
-	public static boolean finished(ChatId chatId) {
+    public static Node getRoot() {
+        return questionsAlgorithmRoot;
+    }
+
+    public static boolean finished(ChatId chatId) {
         return UserDataStorage.isLastNode(chatId);
-	}
-	
-    public static Question getNextQuestion(ChatId chatId)
-    {
+    }
+
+    public static Question getNextQuestion(ChatId chatId) {
         return UserDataStorage.getNextQuestion(chatId);
     }
 
