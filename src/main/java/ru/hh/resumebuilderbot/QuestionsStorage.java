@@ -5,7 +5,7 @@ import java.util.*;
 public class QuestionsStorage {
 
     private static List<String> questionTexts = Collections.synchronizedList(new ArrayList<String>());
-    private static Map<Integer, List<String>> allowedAnswers = Collections.unmodifiableMap(new HashMap<>());
+    private static Map<Integer, List<String>> allowedAnswers = Collections.synchronizedMap(new HashMap<>());
 
     //hardcode
     static {
