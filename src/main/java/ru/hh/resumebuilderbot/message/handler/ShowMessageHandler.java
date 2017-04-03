@@ -1,12 +1,13 @@
 package ru.hh.resumebuilderbot.message.handler;
 
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
+import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorsQueue;
 import ru.hh.resumebuilderbot.question.generator.ShowAllQuestionGenerator;
 
-public class ShowMessageHandler implements MessageHandler {
+public class ShowMessageHandler extends MessageHandler {
     @Override
-    public QuestionGenerator handle(Answer answer) {
-        return new ShowAllQuestionGenerator();
+    public QuestionGeneratorsQueue handle(Answer answer) {
+        questionGeneratorsQueue.add(new ShowAllQuestionGenerator());
+        return questionGeneratorsQueue;
     }
 }

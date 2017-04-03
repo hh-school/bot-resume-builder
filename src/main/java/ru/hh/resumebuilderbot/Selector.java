@@ -1,6 +1,11 @@
 package ru.hh.resumebuilderbot;
 
-import ru.hh.resumebuilderbot.message.handler.*;
+import ru.hh.resumebuilderbot.message.handler.AnswerMessageHandler;
+import ru.hh.resumebuilderbot.message.handler.ClearMessageHandler;
+import ru.hh.resumebuilderbot.message.handler.MessageHandler;
+import ru.hh.resumebuilderbot.message.handler.ShowMessageHandler;
+import ru.hh.resumebuilderbot.message.handler.StartMessageHandler;
+import ru.hh.resumebuilderbot.message.handler.UnknownMessageHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -14,6 +14,10 @@ public class QuestionGeneratorByNumber implements QuestionGenerator {
 
     @Override
     public Question generateNext(ChatId chatId) {
-        return new Question(chatId, QuestionsStorage.getQuestion(questionNumber));
+        Question result = new Question(chatId, QuestionsStorage.getQuestion(questionNumber));
+        if (QuestionsStorage.allowedAnswersPresent(questionNumber)) {
+            result.setAllowedAnswers(QuestionsStorage.getAllowedAnswers(questionNumber));
+        }
+        return result;
     }
 }

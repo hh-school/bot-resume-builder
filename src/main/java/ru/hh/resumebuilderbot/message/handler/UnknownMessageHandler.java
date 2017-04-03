@@ -2,13 +2,14 @@ package ru.hh.resumebuilderbot.message.handler;
 
 
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.TextsStorage;
 import ru.hh.resumebuilderbot.question.generator.FixedQuestionGenerator;
-import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
+import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorsQueue;
+import ru.hh.resumebuilderbot.texts.storage.TextId;
 
-public class UnknownMessageHandler implements MessageHandler {
+public class UnknownMessageHandler extends MessageHandler {
     @Override
-    public QuestionGenerator handle(Answer answer) {
-        return new FixedQuestionGenerator(TextsStorage.getText("Unknown"));
+    public QuestionGeneratorsQueue handle(Answer answer) {
+        questionGeneratorsQueue.add(new FixedQuestionGenerator(TextId.UNKNOWN));
+        return questionGeneratorsQueue;
     }
 }

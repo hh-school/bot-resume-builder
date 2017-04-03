@@ -1,12 +1,14 @@
-package ru.hh.resumebuilderbot;
+package ru.hh.resumebuilderbot.user.data.storage;
 
-import java.util.HashMap;
-import java.util.Map;
+import ru.hh.resumebuilderbot.CurrentUserState;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserData {
 
     private CurrentUserState currentState;
-    private Map<String, String> answers = new HashMap<>();
+    private List<UserAnswer> answers = new ArrayList<>();
 
     public UserData() {
         currentState = new CurrentUserState();
@@ -18,10 +20,14 @@ public class UserData {
     }
 
     public void registerAnswer(String question, String answer) {
-        answers.put(question, answer);
+        answers.add(new UserAnswer(question, answer));
     }
 
     public void incrementCurrentQuestion() {
         currentState.setCurrentQuestion(currentState.getCurrentQuestion() + 1);
+    }
+
+    public List<UserAnswer> getAnswers() {
+        return answers;
     }
 }

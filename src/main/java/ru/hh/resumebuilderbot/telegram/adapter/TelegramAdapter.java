@@ -1,4 +1,4 @@
-package ru.hh.resumebuilderbot;
+package ru.hh.resumebuilderbot.telegram.adapter;
 
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -7,6 +7,13 @@ import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
+import ru.hh.resumebuilderbot.AbstractBotBody;
+import ru.hh.resumebuilderbot.Answer;
+import ru.hh.resumebuilderbot.ChatId;
+import ru.hh.resumebuilderbot.MessengerAdapter;
+import ru.hh.resumebuilderbot.Question;
+import ru.hh.resumebuilderbot.telegram.adapter.answer.TelegramAnswer;
+import ru.hh.resumebuilderbot.telegram.adapter.answer.TelegramAnswerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +26,7 @@ public class TelegramAdapter implements MessengerAdapter {
 
     private AbstractBotBody _handler;
 
-    TelegramAdapter(String token, String botUsername, int timeoutMs) {
+    public TelegramAdapter(String token, String botUsername, int timeoutMs) {
         _token = token;
         _bot_username = botUsername;
         _bot = new BotImpl();
@@ -82,24 +89,15 @@ public class TelegramAdapter implements MessengerAdapter {
 
         @Override
         public void onUpdateReceived(Update update) {
+            TelegramAnswer telegramAnswer = TelegramAnswerFactory.create(update);
+            if (telegramAnswer != null) {
 
-            if (update.hasMessage() && update.getMessage().hasText()) {
-                long chat_id = update.getMessage().getChatId();
 
-                _handler.answer(
-                        new Answer(
-                                new ChatId(chat_id),
-                                update.getMessage().getText()
-                        ), _timeout);
-            } else if (update.hasCallbackQuery()) {
-                String call_data = update.getCallbackQuery().getData();
-                long chat_id = update.getCallbackQuery().getMessage().getChatId();
-
-                _handler.answer(
-                        new Answer(
-                                new ChatId(chat_id),
-                                call_data
-                        ), _timeout);
+                long innerChatId = telegramAnswer.getInnerChatId();
+                ChatId chatId = new ChatId(innerChatId);
+                String answerText = telegramAnswer.getAnswerText();
+                Answer answer = new Answer(chatId, answerText);
+                _handler.answer(answer, _timeout);
             }
         }
 

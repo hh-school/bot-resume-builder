@@ -12,7 +12,6 @@ public class FirstQuestionGenerator implements QuestionGenerator {
         this.questionGenerator = new QuestionGeneratorByNumber(0);
     }
 
-
     @Override
     public Question generateNext(ChatId chatId) {
         return questionGenerator.generateNext(chatId);

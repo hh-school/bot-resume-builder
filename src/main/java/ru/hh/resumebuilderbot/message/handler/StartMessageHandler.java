@@ -2,21 +2,23 @@ package ru.hh.resumebuilderbot.message.handler;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.ChatId;
-import ru.hh.resumebuilderbot.TextsStorage;
-import ru.hh.resumebuilderbot.UserDataStorage;
 import ru.hh.resumebuilderbot.question.generator.FirstQuestionGenerator;
 import ru.hh.resumebuilderbot.question.generator.FixedQuestionGenerator;
-import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
+import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorsQueue;
+import ru.hh.resumebuilderbot.texts.storage.TextId;
+import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
-public class StartMessageHandler implements MessageHandler {
+public class StartMessageHandler extends MessageHandler {
     @Override
-    public QuestionGenerator handle(Answer answer) {
+    public QuestionGeneratorsQueue handle(Answer answer) {
         ChatId chatId = answer.getChatId();
         if (UserDataStorage.contains(chatId)) {
-            return new FixedQuestionGenerator(TextsStorage.getText("AlreadyStarted"));
+            questionGeneratorsQueue.add(new FixedQuestionGenerator(TextId.ALREADY_STARTED));
         } else {
             UserDataStorage.startNewChat(chatId);
-            return new FirstQuestionGenerator();
+            questionGeneratorsQueue.add(new FixedQuestionGenerator(TextId.HELLO));
+            questionGeneratorsQueue.add(new FirstQuestionGenerator());
         }
+        return questionGeneratorsQueue;
     }
 }

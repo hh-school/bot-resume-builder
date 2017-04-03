@@ -2,30 +2,58 @@ package ru.hh.resumebuilderbot;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class QuestionsStorage {
-    private static final QuestionsStorage instance = new QuestionsStorage();
+
+    private static List<String> questionTexts = Collections.synchronizedList(new ArrayList<String>());
+    private static Map<Integer, List<String>> allowedAnswers = Collections.synchronizedMap(new HashMap<>());
 
     //hardcode
     static {
-        instance.questionTexts.add("Это первый вопрос");
-        instance.questionTexts.add("Это второй вопрос");
-        instance.questionTexts.add("Это третий вопрос");
-        instance.questionTexts.add("Вопросы закончились");
-    }
-    //end hardcode
+        registerQuestion("Это первый вопрос");
+        registerQuestion("Это второй вопрос");
 
-    private List<String> questionTexts = Collections.synchronizedList(new ArrayList<String>());
+        List<String> answers = new ArrayList<>();
+        answers.add("Первый вариант");
+        answers.add("Второй вариант");
+
+        registerQuestion("Это третий вопрос. На него есть 2 варианта ответа", answers);
+        registerQuestion("Это последний вопрос");
+    }
+
+    //end hardcode
 
     private QuestionsStorage() {
     }
 
     public static String getQuestion(int questionId) {
-        int currentSize = instance.questionTexts.size();
-        if (currentSize <= questionId) {
-            return instance.questionTexts.get(currentSize - 1);
-        }
-        return instance.questionTexts.get(questionId);
+        return questionTexts.get(questionId);
     }
+
+    public static List<String> getAllowedAnswers(int questionId) {
+        return allowedAnswers.get(questionId);
+    }
+
+    public static boolean allowedAnswersPresent(int questionId) {
+        return allowedAnswers.containsKey(questionId);
+    }
+
+    public static boolean finished(int questionId) {
+        int currentSize = questionTexts.size();
+        return currentSize <= questionId;
+    }
+
+    private static void registerQuestion(String text, List<String> allowedAnswers) {
+        questionTexts.add(text);
+        int currentSize = questionTexts.size();
+        QuestionsStorage.allowedAnswers.put(currentSize - 1, allowedAnswers);
+    }
+
+    private static void registerQuestion(String text) {
+        questionTexts.add(text);
+    }
+
 }
