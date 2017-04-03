@@ -2,7 +2,7 @@ package ru.hh.resumebuilderbot.question.storage.node;
 
 import ru.hh.resumebuilderbot.question.Question;
 
-public class NonTerminalNode extends Node{
+public class NonTerminalNode extends Node {
     private Question question;
     private Node next;
 
@@ -10,20 +10,20 @@ public class NonTerminalNode extends Node{
         this.question = question;
     }
 
-    public Question getQuestion() {
+    public synchronized Question getQuestion() {
         return question;
     }
 
-    public Node getNext() {
+    public synchronized Node getNext() {
         return next;
     }
 
-    public void setNext(Node next) {
+    public synchronized void setNext(Node next) {
         this.next = next;
     }
 
     @Override
-    public boolean isTerminal() {
+    public synchronized boolean isTerminal() {
         return false;
     }
 }

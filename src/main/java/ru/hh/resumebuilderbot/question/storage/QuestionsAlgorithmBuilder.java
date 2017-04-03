@@ -2,7 +2,6 @@ package ru.hh.resumebuilderbot.question.storage;
 
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.node.Node;
-import ru.hh.resumebuilderbot.question.storage.node.NodeType;
 import ru.hh.resumebuilderbot.question.storage.node.NonTerminalNode;
 import ru.hh.resumebuilderbot.question.storage.node.TerminalNode;
 

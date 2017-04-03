@@ -1,8 +1,8 @@
 package ru.hh.resumebuilderbot;
 
 import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.storage.node.Node;
 import ru.hh.resumebuilderbot.question.storage.QuestionsStorage;
+import ru.hh.resumebuilderbot.question.storage.node.Node;
 import ru.hh.resumebuilderbot.question.storage.node.NonTerminalNode;
 
 public class CurrentUserState {
@@ -24,8 +24,7 @@ public class CurrentUserState {
         currentQuestionNode = currentNonTerminalNode().getNext();
     }
 
-    private NonTerminalNode currentNonTerminalNode()
-    {
-        return (NonTerminalNode)currentQuestionNode;
+    private NonTerminalNode currentNonTerminalNode() {
+        return (NonTerminalNode) currentQuestionNode;
     }
 }
