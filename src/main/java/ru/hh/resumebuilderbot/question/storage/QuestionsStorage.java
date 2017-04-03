@@ -32,10 +32,6 @@ public class QuestionsStorage {
     private QuestionsStorage() {
     }
 
-    public static Question getFirstQuestion() {
-        return questionsAlgorithmRoot.getQuestion();
-    }
-
     public static Node getRoot() {
         return questionsAlgorithmRoot;
     }
