@@ -3,6 +3,8 @@ package ru.hh.resumebuilderbot;
 import ru.hh.resumebuilderbot.message.handler.MessageHandler;
 import ru.hh.resumebuilderbot.message.handler.QuestionGeneratorsQueue;
 
+import java.util.Queue;
+
 public class BotBody implements AbstractBotBody {
     private MessengerAdapter messengerAdapter;
 
@@ -10,7 +12,9 @@ public class BotBody implements AbstractBotBody {
     public void answer(Answer answer, int timeoutMs) {
         MessageHandler messageHandler = Selector.select(answer);
         QuestionGeneratorsQueue questionGeneratorQueue = messageHandler.handle(answer);
-        questionGeneratorQueue.forEach((x) -> messengerAdapter.ask(x.generateNext(answer.getChatId())));
+        ChatId chatId = answer.getChatId();
+        Queue<Question> questions = questionGeneratorQueue.generateQuestions(chatId);
+        questions.forEach((x) -> messengerAdapter.ask(x));
     }
 
     @Override

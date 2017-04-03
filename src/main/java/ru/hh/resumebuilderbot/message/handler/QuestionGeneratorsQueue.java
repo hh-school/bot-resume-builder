@@ -1,19 +1,22 @@
 package ru.hh.resumebuilderbot.message.handler;
 
+import ru.hh.resumebuilderbot.ChatId;
+import ru.hh.resumebuilderbot.Question;
 import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
-import java.util.function.Consumer;
 
 public class QuestionGeneratorsQueue {
-    private Queue<QuestionGenerator> queue = new ArrayDeque<>();
+    private Queue<QuestionGenerator> generators = new ArrayDeque<>();
 
     public void add(QuestionGenerator element) {
-        queue.add(element);
+        generators.add(element);
     }
 
-    public void forEach(Consumer<QuestionGenerator> action) {
-        queue.forEach(action);
+    public Queue<Question> generateQuestions(ChatId chatId) {
+        Queue<Question> result = new ArrayDeque<>();
+        generators.forEach((x) -> result.add(x.generateNext(chatId)));
+        return result;
     }
 }
