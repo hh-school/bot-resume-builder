@@ -7,7 +7,11 @@ import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
-import ru.hh.resumebuilderbot.*;
+import ru.hh.resumebuilderbot.AbstractBotBody;
+import ru.hh.resumebuilderbot.Answer;
+import ru.hh.resumebuilderbot.ChatId;
+import ru.hh.resumebuilderbot.MessengerAdapter;
+import ru.hh.resumebuilderbot.Question;
 import ru.hh.resumebuilderbot.telegram.adapter.answer.TelegramAnswer;
 import ru.hh.resumebuilderbot.telegram.adapter.answer.TelegramAnswerFactory;
 
