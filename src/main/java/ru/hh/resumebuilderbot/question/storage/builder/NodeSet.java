@@ -1,6 +1,7 @@
 package ru.hh.resumebuilderbot.question.storage.builder;
 
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.node.LinearNode;
 import ru.hh.resumebuilderbot.question.storage.node.Node;
 import ru.hh.resumebuilderbot.question.storage.node.NonTerminalNode;
 import ru.hh.resumebuilderbot.question.storage.node.TerminalNode;
@@ -44,7 +45,7 @@ public class NodeSet {
 
     private Entry makeEntry(XMLParser.Entry xmlEntry) {
         Question question = new Question(xmlEntry.getText(), xmlEntry.getAllowedAnswers());
-        NonTerminalNode nonTerminalNode = new NonTerminalNode(question);
+        NonTerminalNode nonTerminalNode = new LinearNode(question);
         int nextIndex = xmlEntry.hasNextIndex() ? xmlEntry.getNextIndex() : 0;
         return new Entry(nonTerminalNode, nextIndex);
     }
@@ -55,7 +56,10 @@ public class NodeSet {
             int nextIndex = entry.getNextIndex();
             if (!node.isTerminal()) {
                 NonTerminalNode nonTerminalNode = (NonTerminalNode) node;
-                nonTerminalNode.setNext(nodesMap.get(nextIndex).getNode());
+                if (nonTerminalNode.isLinear()) {
+                    LinearNode linearNode = (LinearNode) nonTerminalNode;
+                    linearNode.setNext(nodesMap.get(nextIndex).getNode());
+                }
             }
         }
     }
