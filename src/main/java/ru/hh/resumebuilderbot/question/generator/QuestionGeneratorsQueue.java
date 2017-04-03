@@ -1,8 +1,7 @@
-package ru.hh.resumebuilderbot.message.handler;
+package ru.hh.resumebuilderbot.question.generator;
 
 import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.Question;
-import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
 
 import java.util.ArrayDeque;
 import java.util.Queue;

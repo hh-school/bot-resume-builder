@@ -1,7 +1,7 @@
 package ru.hh.resumebuilderbot;
 
 import ru.hh.resumebuilderbot.message.handler.MessageHandler;
-import ru.hh.resumebuilderbot.message.handler.QuestionGeneratorsQueue;
+import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorsQueue;
 
 import java.util.Queue;
 

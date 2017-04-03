@@ -5,6 +5,7 @@ import ru.hh.resumebuilderbot.CurrentUserState;
 import ru.hh.resumebuilderbot.QuestionsStorage;
 import ru.hh.resumebuilderbot.question.generator.FixedQuestionGenerator;
 import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorByNumber;
+import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorsQueue;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
