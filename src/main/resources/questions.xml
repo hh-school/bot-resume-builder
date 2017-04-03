@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<questions>
+    <question id="1" text="Это первый вопрос" next="2"/>
+    <question id="2" text="Это второй вопрос" next="3"/>
+    <question id="3" text="Это третий вопрос" next="4">
+        <allowedAnswer text="Первый вариант"/>
+        <allowedAnswer text="Второй вариант"/>
+    </question>
+    <question id="4" text="Это последний вопрос"/>
+</questions>

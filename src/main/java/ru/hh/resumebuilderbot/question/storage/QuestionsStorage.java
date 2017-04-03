@@ -1,9 +1,7 @@
 package ru.hh.resumebuilderbot.question.storage;
 
+import ru.hh.resumebuilderbot.question.storage.builder.QuestionsLoader;
 import ru.hh.resumebuilderbot.question.storage.node.Node;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class QuestionsStorage {
 
@@ -13,18 +11,9 @@ public class QuestionsStorage {
 
     //hardcode
     static {
-        QuestionsAlgorithmBuilder builder = new QuestionsAlgorithmBuilder();
-        builder.registerQuestion("Это первый вопрос");
-        builder.registerQuestion("Это второй вопрос");
-
-        List<String> answers = new ArrayList<>();
-        answers.add("Первый вариант");
-        answers.add("Второй вариант");
-
-        builder.registerQuestion("Это третий вопрос. На него есть 2 варианта ответа", answers);
-        builder.registerQuestion("Это последний вопрос");
-
-        questionsAlgorithmRoot = builder.build();
+        // нужны конфиги - из них читать путь к файлу XML
+        QuestionsLoader questionsLoader = new QuestionsLoader();
+        questionsAlgorithmRoot = questionsLoader.load("src/main/resources/questions.xml");
     }
 
     private QuestionsStorage() {

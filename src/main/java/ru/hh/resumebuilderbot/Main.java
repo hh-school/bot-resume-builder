@@ -10,7 +10,6 @@ public class Main {
     public static void main(String[] args) {
         // connect to database
         // ...
-
         ApiContextInitializer.init();
         MessengerAdapter messengerAdapter = new TelegramAdapter(
                 System.getenv(TOKEN_ENV_NAME),
