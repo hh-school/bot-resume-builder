@@ -31,7 +31,7 @@ public class UserDataStorage {
         String answerText = answer.getAnswerBody().toString();
         UserData userData = instance.userDataMap.get(chatId);
         userData.registerAnswer(getCurrentQuestion(chatId), answerText);
-        userData.incrementCurrentQuestion();
+        userData.moveToNextQuestion((String) answer.getAnswerBody());
     }
 
     public static List<UserAnswer> getHistory(ChatId chatId) {

@@ -23,8 +23,8 @@ public class UserData {
         answers.add(new UserAnswer(question, answer));
     }
 
-    public void incrementCurrentQuestion() {
-        currentState.incrementCurrentQuestion();
+    public void moveToNextQuestion(String currentAnswer) {
+        currentState.moveToNextQuestion(currentAnswer);
     }
 
     public List<UserAnswer> getAnswers() {

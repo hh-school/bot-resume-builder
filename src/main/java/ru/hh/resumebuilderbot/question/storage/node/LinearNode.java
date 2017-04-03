@@ -17,9 +17,4 @@ public class LinearNode extends NonTerminalNode {
     public synchronized void setNext(Node next) {
         this.next = next;
     }
-
-    @Override
-    public boolean isLinear() {
-        return true;
-    }
 }

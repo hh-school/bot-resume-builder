@@ -10,11 +10,4 @@ public abstract class NonTerminalNode extends Node {
     }
 
     public abstract Node getNext();
-
-    @Override
-    public synchronized boolean isTerminal() {
-        return false;
-    }
-
-    public abstract boolean isLinear();
 }
