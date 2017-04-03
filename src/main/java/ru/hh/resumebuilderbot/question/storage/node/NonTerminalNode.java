@@ -1,23 +1,13 @@
-package ru.hh.resumebuilderbot.question.storage;
+package ru.hh.resumebuilderbot.question.storage.node;
 
 import ru.hh.resumebuilderbot.question.Question;
 
-public class Node {
-    private NodeType type;
+public class NonTerminalNode extends Node{
     private Question question;
     private Node next;
 
-    public Node(NodeType type, Question question) {
-        this.type = type;
+    public NonTerminalNode(Question question) {
         this.question = question;
-    }
-
-    public Node(NodeType type) {
-        this.type = type;
-    }
-
-    public boolean isLast() {
-        return (type == NodeType.END);
     }
 
     public Question getQuestion() {
@@ -30,5 +20,10 @@ public class Node {
 
     public void setNext(Node next) {
         this.next = next;
+    }
+
+    @Override
+    public boolean isTerminal() {
+        return false;
     }
 }

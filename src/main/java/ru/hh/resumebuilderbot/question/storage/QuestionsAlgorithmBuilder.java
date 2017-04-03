@@ -1,6 +1,10 @@
 package ru.hh.resumebuilderbot.question.storage;
 
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.node.Node;
+import ru.hh.resumebuilderbot.question.storage.node.NodeType;
+import ru.hh.resumebuilderbot.question.storage.node.NonTerminalNode;
+import ru.hh.resumebuilderbot.question.storage.node.TerminalNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,18 +25,18 @@ public class QuestionsAlgorithmBuilder {
             return null; // throw exception??
         }
         boolean firstQuestion = true;
-        Node root = new Node(NodeType.CONTINUE, questions.get(0));
-        Node previousNode = root;
+        NonTerminalNode root = new NonTerminalNode(questions.get(0));
+        NonTerminalNode previousNode = root;
 
         for (Question question : questions) {
             if (!firstQuestion) {
-                Node currentNode = new Node(NodeType.CONTINUE, question);
+                NonTerminalNode currentNode = new NonTerminalNode(question);
                 previousNode.setNext(currentNode);
                 previousNode = currentNode;
             }
             firstQuestion = false;
         }
-        previousNode.setNext(new Node(NodeType.END));
+        previousNode.setNext(new TerminalNode());
         return root;
     }
 }

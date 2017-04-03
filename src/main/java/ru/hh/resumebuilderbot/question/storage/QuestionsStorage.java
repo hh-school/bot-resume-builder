@@ -1,5 +1,7 @@
 package ru.hh.resumebuilderbot.question.storage;
 
+import ru.hh.resumebuilderbot.question.storage.node.Node;
+
 import java.util.ArrayList;
 import java.util.List;
 
