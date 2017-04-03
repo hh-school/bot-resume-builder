@@ -12,6 +12,11 @@ import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 public class AnswerMessageHandler extends MessageHandler {
     @Override
     public QuestionGeneratorsQueue handle(ChatId chatId, Answer answer) {
+        if (QuestionsStorage.finished(chatId)) {
+            questionGeneratorsQueue.add(new FixedQuestionGenerator(TextId.FINISHED));
+            return questionGeneratorsQueue;
+        }
+
         UserDataStorage.registerAnswer(chatId, answer);
 
         if (QuestionsStorage.finished(chatId)) {
