@@ -3,7 +3,7 @@ package ru.hh.resumebuilderbot.message.handler;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.question.generator.FixedQuestionGenerator;
-import ru.hh.resumebuilderbot.question.generator.NextQuestionGenerator;
+import ru.hh.resumebuilderbot.question.generator.CurrentQuestionGenerator;
 import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorsQueue;
 import ru.hh.resumebuilderbot.question.storage.QuestionsStorage;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
@@ -24,7 +24,7 @@ public class AnswerMessageHandler extends MessageHandler {
             return questionGeneratorsQueue;
         }
 
-        questionGeneratorsQueue.add(new NextQuestionGenerator(chatId));
+        questionGeneratorsQueue.add(new CurrentQuestionGenerator(chatId));
         return questionGeneratorsQueue;
     }
 }
