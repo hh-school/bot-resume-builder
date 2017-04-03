@@ -13,7 +13,7 @@ public class QuestionsAlgorithmBuilder {
     }
 
     public void registerQuestion(String text) {
-        registerQuestion(text, null);
+        questions.add(new Question(text));
     }
 
     public Node build() {
