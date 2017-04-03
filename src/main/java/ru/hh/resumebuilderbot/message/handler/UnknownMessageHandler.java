@@ -6,12 +6,10 @@ import ru.hh.resumebuilderbot.question.generator.FixedQuestionGenerator;
 import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 
-import java.util.Queue;
-
 public class UnknownMessageHandler extends MessageHandler {
     @Override
-    public Queue<QuestionGenerator> handle(Answer answer) {
-        queue.add(new FixedQuestionGenerator(TextId.UNKNOWN));
-        return queue;
+    public QuestionGeneratorsQueue<QuestionGenerator> handle(Answer answer) {
+        questionsQueue.add(new FixedQuestionGenerator(TextId.UNKNOWN));
+        return questionsQueue;
     }
 }

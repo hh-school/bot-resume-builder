@@ -7,14 +7,12 @@ import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
-import java.util.Queue;
-
 public class ClearMessageHandler extends MessageHandler {
     @Override
-    public Queue<QuestionGenerator> handle(Answer answer) {
+    public QuestionGeneratorsQueue<QuestionGenerator> handle(Answer answer) {
         UserDataStorage.clear(answer.getChatId());
-        queue.add(new FixedQuestionGenerator(TextId.CLEARED));
-        queue.add(new FirstQuestionGenerator());
-        return queue;
+        questionsQueue.add(new FixedQuestionGenerator(TextId.CLEARED));
+        questionsQueue.add(new FirstQuestionGenerator());
+        return questionsQueue;
     }
 }

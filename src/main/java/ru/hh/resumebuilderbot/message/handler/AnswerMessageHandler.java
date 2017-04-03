@@ -9,24 +9,22 @@ import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorByNumber;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
-import java.util.Queue;
-
 public class AnswerMessageHandler extends MessageHandler {
     @Override
-    public Queue<QuestionGenerator> handle(Answer answer) {
+    public QuestionGeneratorsQueue<QuestionGenerator> handle(Answer answer) {
         if (!UserDataStorage.contains(answer.getChatId())) {
-            queue.add(new FixedQuestionGenerator(TextId.OOPS_TRY_RESTART));
-            return queue;
+            questionsQueue.add(new FixedQuestionGenerator(TextId.OOPS_TRY_RESTART));
+            return questionsQueue;
         }
         CurrentUserState currentUserState = UserDataStorage.registerAnswer(answer);
         int currentQuestionNumber = currentUserState.getCurrentQuestion();
 
         if (QuestionsStorage.finished(currentQuestionNumber)) {
-            queue.add(new FixedQuestionGenerator(TextId.FINISHED));
-            return queue;
+            questionsQueue.add(new FixedQuestionGenerator(TextId.FINISHED));
+            return questionsQueue;
         }
 
-        queue.add(new QuestionGeneratorByNumber(currentQuestionNumber));
-        return queue;
+        questionsQueue.add(new QuestionGeneratorByNumber(currentQuestionNumber));
+        return questionsQueue;
     }
 }
