@@ -10,8 +10,8 @@ public class ClearMessageHandler extends MessageHandler {
     @Override
     public QuestionGeneratorsQueue handle(Answer answer) {
         UserDataStorage.clear(answer.getChatId());
-        questionsQueue.add(new FixedQuestionGenerator(TextId.CLEARED));
-        questionsQueue.add(new FirstQuestionGenerator());
-        return questionsQueue;
+        questionGeneratorsQueue.add(new FixedQuestionGenerator(TextId.CLEARED));
+        questionGeneratorsQueue.add(new FirstQuestionGenerator());
+        return questionGeneratorsQueue;
     }
 }

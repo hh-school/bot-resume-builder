@@ -8,7 +8,7 @@ import ru.hh.resumebuilderbot.texts.storage.TextId;
 public class UnknownMessageHandler extends MessageHandler {
     @Override
     public QuestionGeneratorsQueue handle(Answer answer) {
-        questionsQueue.add(new FixedQuestionGenerator(TextId.UNKNOWN));
-        return questionsQueue;
+        questionGeneratorsQueue.add(new FixedQuestionGenerator(TextId.UNKNOWN));
+        return questionGeneratorsQueue;
     }
 }

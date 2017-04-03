@@ -12,12 +12,12 @@ public class StartMessageHandler extends MessageHandler {
     public QuestionGeneratorsQueue handle(Answer answer) {
         ChatId chatId = answer.getChatId();
         if (UserDataStorage.contains(chatId)) {
-            questionsQueue.add(new FixedQuestionGenerator(TextId.ALREADY_STARTED));
+            questionGeneratorsQueue.add(new FixedQuestionGenerator(TextId.ALREADY_STARTED));
         } else {
             UserDataStorage.startNewChat(chatId);
-            questionsQueue.add(new FixedQuestionGenerator(TextId.HELLO));
-            questionsQueue.add(new FirstQuestionGenerator());
+            questionGeneratorsQueue.add(new FixedQuestionGenerator(TextId.HELLO));
+            questionGeneratorsQueue.add(new FirstQuestionGenerator());
         }
-        return questionsQueue;
+        return questionGeneratorsQueue;
     }
 }

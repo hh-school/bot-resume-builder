@@ -12,18 +12,18 @@ public class AnswerMessageHandler extends MessageHandler {
     @Override
     public QuestionGeneratorsQueue handle(Answer answer) {
         if (!UserDataStorage.contains(answer.getChatId())) {
-            questionsQueue.add(new FixedQuestionGenerator(TextId.OOPS_TRY_RESTART));
-            return questionsQueue;
+            questionGeneratorsQueue.add(new FixedQuestionGenerator(TextId.OOPS_TRY_RESTART));
+            return questionGeneratorsQueue;
         }
         CurrentUserState currentUserState = UserDataStorage.registerAnswer(answer);
         int currentQuestionNumber = currentUserState.getCurrentQuestion();
 
         if (QuestionsStorage.finished(currentQuestionNumber)) {
-            questionsQueue.add(new FixedQuestionGenerator(TextId.FINISHED));
-            return questionsQueue;
+            questionGeneratorsQueue.add(new FixedQuestionGenerator(TextId.FINISHED));
+            return questionGeneratorsQueue;
         }
 
-        questionsQueue.add(new QuestionGeneratorByNumber(currentQuestionNumber));
-        return questionsQueue;
+        questionGeneratorsQueue.add(new QuestionGeneratorByNumber(currentQuestionNumber));
+        return questionGeneratorsQueue;
     }
 }
