@@ -14,7 +14,7 @@ public class BotBody implements AbstractBotBody {
         QuestionGeneratorsQueue questionGeneratorQueue = messageHandler.handle(answer);
         ChatId chatId = answer.getChatId();
         Queue<Question> questions = questionGeneratorQueue.generateQuestions(chatId);
-        questions.forEach((x) -> messengerAdapter.ask(x));
+        questions.forEach(messengerAdapter::ask);
     }
 
     @Override
