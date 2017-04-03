@@ -3,7 +3,6 @@ package ru.hh.resumebuilderbot.user.data.storage;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.storage.QuestionsStorage;
 
 import java.util.List;
 import java.util.Map;
@@ -31,7 +30,7 @@ public class UserDataStorage {
     public static void registerAnswer(ChatId chatId, Answer answer) {
         String answerText = answer.getAnswerBody().toString();
         UserData userData = instance.userDataMap.get(chatId);
-        String currentQuestionText = QuestionsStorage.getNextQuestion(chatId).getText();
+        String currentQuestionText = getCurrentQuestion(chatId).getText();
         userData.registerAnswer(currentQuestionText, answerText);
         userData.incrementCurrentQuestion();
     }
@@ -47,11 +46,11 @@ public class UserDataStorage {
         return instance.userDataMap.get(chatId);
     }
 
-    public static boolean isLastNode(ChatId chatId) {
+    public static boolean finished(ChatId chatId) {
         return instance.userDataMap.get(chatId).getCurrentState().isLastQuestion();
     }
 
-    public static Question getNextQuestion(ChatId chatId) {
+    public static Question getCurrentQuestion(ChatId chatId) {
         return instance.userDataMap.get(chatId).getCurrentState().getCurrentQuestion();
     }
 }

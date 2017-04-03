@@ -1,9 +1,5 @@
 package ru.hh.resumebuilderbot.question.storage;
 
-import ru.hh.resumebuilderbot.ChatId;
-import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,14 +30,6 @@ public class QuestionsStorage {
 
     public static Node getRoot() {
         return questionsAlgorithmRoot;
-    }
-
-    public static boolean finished(ChatId chatId) {
-        return UserDataStorage.isLastNode(chatId);
-    }
-
-    public static Question getNextQuestion(ChatId chatId) {
-        return UserDataStorage.getNextQuestion(chatId);
     }
 
 }
