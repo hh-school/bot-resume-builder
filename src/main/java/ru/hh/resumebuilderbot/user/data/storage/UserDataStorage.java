@@ -1,4 +1,9 @@
-package ru.hh.resumebuilderbot;
+package ru.hh.resumebuilderbot.user.data.storage;
+
+import ru.hh.resumebuilderbot.Answer;
+import ru.hh.resumebuilderbot.ChatId;
+import ru.hh.resumebuilderbot.CurrentUserState;
+import ru.hh.resumebuilderbot.QuestionsStorage;
 
 import java.util.List;
 import java.util.Map;
@@ -38,7 +43,7 @@ public class UserDataStorage {
         return currentUserState;
     }
 
-    public static List<UserData.Entry> getHistory(ChatId chatId) {
+    public static List<UserAnswer> getHistory(ChatId chatId) {
         return instance.userDataMap.get(chatId).getAnswers();
     }
 }

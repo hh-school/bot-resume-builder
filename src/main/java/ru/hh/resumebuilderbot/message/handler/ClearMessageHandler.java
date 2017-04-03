@@ -1,11 +1,11 @@
 package ru.hh.resumebuilderbot.message.handler;
 
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.UserDataStorage;
 import ru.hh.resumebuilderbot.question.generator.FirstQuestionGenerator;
 import ru.hh.resumebuilderbot.question.generator.FixedQuestionGenerator;
 import ru.hh.resumebuilderbot.question.generator.QuestionGenerator;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
+import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
 import java.util.Queue;
 

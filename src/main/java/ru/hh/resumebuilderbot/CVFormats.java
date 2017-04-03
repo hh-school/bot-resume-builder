@@ -1,5 +1,8 @@
 package ru.hh.resumebuilderbot;
 
+import ru.hh.resumebuilderbot.user.data.storage.UserAnswer;
+import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
+
 import java.util.List;
 
 public enum CVFormats {
@@ -8,8 +11,8 @@ public enum CVFormats {
         public String build(ChatId chatId) {
             StringBuilder resultBuilder = new StringBuilder();
             resultBuilder.append("Ваше резюме:");
-            List<UserData.Entry> answers = UserDataStorage.getHistory(chatId);
-            for (UserData.Entry entry : answers) {
+            List<UserAnswer> answers = UserDataStorage.getHistory(chatId);
+            for (UserAnswer entry : answers) {
                 resultBuilder.append("вопрос: ");
                 resultBuilder.append(entry.getQuestion());
                 resultBuilder.append(System.lineSeparator());

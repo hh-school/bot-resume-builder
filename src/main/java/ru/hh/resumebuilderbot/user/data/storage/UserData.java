@@ -1,4 +1,6 @@
-package ru.hh.resumebuilderbot;
+package ru.hh.resumebuilderbot.user.data.storage;
+
+import ru.hh.resumebuilderbot.CurrentUserState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +8,7 @@ import java.util.List;
 public class UserData {
 
     private CurrentUserState currentState;
-    private List<Entry> answers = new ArrayList<>();
+    private List<UserAnswer> answers = new ArrayList<>();
 
     public UserData() {
         currentState = new CurrentUserState();
@@ -18,32 +20,14 @@ public class UserData {
     }
 
     public void registerAnswer(String question, String answer) {
-        answers.add(new Entry(question, answer));
+        answers.add(new UserAnswer(question, answer));
     }
 
     public void incrementCurrentQuestion() {
         currentState.setCurrentQuestion(currentState.getCurrentQuestion() + 1);
     }
 
-    public List<Entry> getAnswers() {
+    public List<UserAnswer> getAnswers() {
         return answers;
-    }
-
-    public class Entry {
-        private String question;
-        private String answer;
-
-        public Entry(String question, String answer) {
-            this.question = question;
-            this.answer = answer;
-        }
-
-        public String getQuestion() {
-            return question;
-        }
-
-        public String getAnswer() {
-            return answer;
-        }
     }
 }
