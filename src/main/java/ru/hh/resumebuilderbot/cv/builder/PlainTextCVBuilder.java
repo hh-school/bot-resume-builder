@@ -12,16 +12,22 @@ public class PlainTextCVBuilder implements CVBuilder {
         StringBuilder resultBuilder = new StringBuilder();
         resultBuilder.append("Ваше резюме:");
         List<UserAnswer> answers = UserDataStorage.getHistory(chatId);
-        for (UserAnswer entry : answers) {
-            resultBuilder.append("вопрос: ");
-            resultBuilder.append(entry.getQuestion());
-            resultBuilder.append(System.lineSeparator());
-            resultBuilder.append("ответ: ");
-            resultBuilder.append(entry.getAnswer());
-            resultBuilder.append(System.lineSeparator());
-            resultBuilder.append("-----------------");
-            resultBuilder.append(System.lineSeparator());
+        for (UserAnswer userAnswer : answers) {
+            appendUserAnswer(resultBuilder, userAnswer);
         }
         return resultBuilder.toString();
+    }
+
+    private void appendUserAnswer(StringBuilder builder, UserAnswer answer) {
+        String questionText = answer.getQuestion();
+        String answerText = answer.getAnswer();
+        builder.append("вопрос: ");
+        builder.append(questionText);
+        builder.append(System.lineSeparator());
+        builder.append("ответ: ");
+        builder.append(answerText);
+        builder.append(System.lineSeparator());
+        builder.append("-----------------");
+        builder.append(System.lineSeparator());
     }
 }
