@@ -30,8 +30,7 @@ public class UserDataStorage {
     public static void registerAnswer(ChatId chatId, Answer answer) {
         String answerText = answer.getAnswerBody().toString();
         UserData userData = instance.userDataMap.get(chatId);
-        String currentQuestionText = getCurrentQuestion(chatId).getText();
-        userData.registerAnswer(currentQuestionText, answerText);
+        userData.registerAnswer(getCurrentQuestion(chatId), answerText);
         userData.incrementCurrentQuestion();
     }
 

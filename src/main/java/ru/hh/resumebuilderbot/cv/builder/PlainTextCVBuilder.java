@@ -19,7 +19,7 @@ public class PlainTextCVBuilder implements CVBuilder {
     }
 
     private void appendUserAnswer(StringBuilder builder, UserAnswer answer) {
-        String questionText = answer.getQuestion();
+        String questionText = answer.getQuestion().getText();
         String answerText = answer.getAnswer();
         builder.append("вопрос: ");
         builder.append(questionText);
