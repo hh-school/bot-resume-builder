@@ -28,13 +28,15 @@ public class XMLParser {
                 if (question.getNodeType() != Node.TEXT_NODE) {
                     NamedNodeMap attributes = question.getAttributes();
                     int id = Integer.parseInt(attributes.getNamedItem("id").getNodeValue());
-                    String text = attributes.getNamedItem("text").getNodeValue();
-                    Node nextIdNode = attributes.getNamedItem("next");
-                    boolean hasNext = (nextIdNode != null);
-                    int nextId = 0;
-                    if (hasNext) {
-                        nextId = Integer.parseInt(nextIdNode.getNodeValue());
+                    String type = attributes.getNamedItem("type").getNodeValue();
+
+                    if (type.equals("terminal"))
+                    {
+                        result.add(new Entry(id));
+                        continue;
                     }
+
+                    String text = attributes.getNamedItem("text").getNodeValue();
 
                     List<String> allowedAnswers = new ArrayList<>();
                     NodeList allowedAnswerNodes = question.getChildNodes();
@@ -45,7 +47,19 @@ public class XMLParser {
                             allowedAnswers.add(allowedAnswerAttributes.getNamedItem("text").getNodeValue());
                         }
                     }
-                    result.add(new Entry(id, hasNext, nextId, text, allowedAnswers));
+
+                    if (type.equals("linear"))
+                    {
+                        int nextId = Integer.parseInt(attributes.getNamedItem("next").getNodeValue());
+                        result.add(new Entry(id, nextId, text, allowedAnswers));
+                        continue;
+                    }
+                    System.out.println();
+                    String pattern = attributes.getNamedItem("pattern").getNodeValue();;
+                    int nextYes = Integer.parseInt(attributes.getNamedItem("nextYes").getNodeValue());;
+                    int nextNo = Integer.parseInt(attributes.getNamedItem("nextNo").getNodeValue());;
+
+                    result.add(new Entry(id, text, allowedAnswers, pattern, nextYes, nextNo));
                 }
             }
             return result;
@@ -62,25 +76,39 @@ public class XMLParser {
 
     public class Entry {
         private int index;
-        private boolean hasNextIndex;
+        private String type;
         private int nextIndex;
         private String text;
         private List<String> allowedAnswers;
+        private String pattern;
+        private int nextYes;
+        private int nextNo;
 
-        public Entry(int index, boolean hasNextIndex, int nextIndex, String text, List<String> allowedAnswers) {
+        public Entry(int index, int nextIndex, String text, List<String> allowedAnswers) {
             this.index = index;
-            this.hasNextIndex = hasNextIndex;
+            this.type = "linear";
             this.nextIndex = nextIndex;
             this.text = text;
             this.allowedAnswers = allowedAnswers;
         }
 
-        public int getIndex() {
-            return index;
+        public Entry(int index, String text, List<String> allowedAnswers, String pattern, int nextYes, int nextNo) {
+            this.index = index;
+            this.type = "forking";
+            this.text = text;
+            this.allowedAnswers = allowedAnswers;
+            this.pattern = pattern;
+            this.nextYes = nextYes;
+            this.nextNo = nextNo;
         }
 
-        public boolean hasNextIndex() {
-            return hasNextIndex;
+        public Entry(int index) {
+            this.type = "terminal";
+            this.index = index;
+        }
+
+        public int getIndex() {
+            return index;
         }
 
         public int getNextIndex() {
@@ -93,6 +121,22 @@ public class XMLParser {
 
         public List<String> getAllowedAnswers() {
             return allowedAnswers;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public String getPattern() {
+            return pattern;
+        }
+
+        public int getNextYes() {
+            return nextYes;
+        }
+
+        public int getNextNo() {
+            return nextNo;
         }
     }
 }

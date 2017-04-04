@@ -16,6 +16,6 @@ public class QuestionsLoader {
         if (nodeSet.isValid()) {
             return nodeSet.getRoot();
         }
-        return null;
+        return null; //throw exception?
     }
 }

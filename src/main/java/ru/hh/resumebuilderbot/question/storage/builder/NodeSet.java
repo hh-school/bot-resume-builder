@@ -1,6 +1,7 @@
 package ru.hh.resumebuilderbot.question.storage.builder;
 
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.node.ForkingNode;
 import ru.hh.resumebuilderbot.question.storage.node.LinearNode;
 import ru.hh.resumebuilderbot.question.storage.node.Node;
 import ru.hh.resumebuilderbot.question.storage.node.NonTerminalNode;
@@ -39,27 +40,45 @@ public class NodeSet {
     private Map<Integer, Entry> makeNodes() {
         Map<Integer, Entry> result = new HashMap<>();
         rawData.forEach((x) -> result.put(x.getIndex(), makeEntry(x)));
-        result.put(0, new Entry(new TerminalNode(), 0));
         return result;
     }
 
     private Entry makeEntry(XMLParser.Entry xmlEntry) {
+        if (xmlEntry.getType().equals("terminal"))
+        {
+            return new Entry(new TerminalNode(), 0);
+        }
         Question question = new Question(xmlEntry.getText(), xmlEntry.getAllowedAnswers());
-        NonTerminalNode nonTerminalNode = new LinearNode(question);
-        int nextIndex = xmlEntry.hasNextIndex() ? xmlEntry.getNextIndex() : 0;
-        return new Entry(nonTerminalNode, nextIndex);
+        if (xmlEntry.getType().equals("linear"))
+        {
+            LinearNode linearNode = new LinearNode(question);
+            int nextIndex = xmlEntry.getNextIndex();
+            return new Entry(linearNode, nextIndex);
+        }
+        String pattern = xmlEntry.getPattern();
+        ForkingNode forkingNode = new ForkingNode(question, pattern);
+        int nextIndexYes = xmlEntry.getNextYes();
+        int nextIndexNo = xmlEntry.getNextNo();
+        return new Entry(forkingNode, nextIndexYes, nextIndexNo);
     }
 
     private void linkNodes(Map<Integer, Entry> nodesMap) {
         for (Entry entry : nodesMap.values()) {
             Node node = entry.getNode();
-            int nextIndex = entry.getNextIndex();
-            if (!node.isTerminal()) {
-                NonTerminalNode nonTerminalNode = (NonTerminalNode) node;
-                if (nonTerminalNode.isLinear()) {
-                    LinearNode linearNode = (LinearNode) nonTerminalNode;
-                    linearNode.setNext(nodesMap.get(nextIndex).getNode());
-                }
+            if (node.isLinear()) {
+                int nextIndex = entry.getNextIndex();
+                LinearNode linearNode = (LinearNode) node;
+                linearNode.setNext(nodesMap.get(nextIndex).getNode());
+                continue;
+            }
+            if (node.isForking())
+            {
+                int nextIndexYes = entry.getNextIndexYes();
+                int nextIndexNo = entry.getNextIndexNo();
+                ForkingNode forkingNode = (ForkingNode) node;
+                forkingNode.setNextYes(nodesMap.get(nextIndexYes).getNode());
+                forkingNode.setNextNo(nodesMap.get(nextIndexNo).getNode());
+
             }
         }
     }
@@ -67,7 +86,19 @@ public class NodeSet {
     private void validate(Map<Integer, Entry> nodesMap) {
         // step 1 - check if number of roots exactly equals 1
         Set<Integer> nonRootEntries = new HashSet();
-        nodesMap.values().forEach((x) -> nonRootEntries.add(x.getNextIndex()));
+
+        for (Entry entry : nodesMap.values())
+        {
+            if (entry.getNode().isLinear())
+            {
+                nonRootEntries.add(entry.getNextIndex());
+            }
+            if (entry.getNode().isForking())
+            {
+                nonRootEntries.add(entry.getNextIndexNo());
+                nonRootEntries.add(entry.getNextIndexYes());
+            }
+        }
         Set<Integer> roots = new HashSet<>();
         roots.addAll(nodesMap.keySet());
         roots.removeAll(nonRootEntries);
@@ -83,26 +114,34 @@ public class NodeSet {
 
         // step 2 - check if cycles present
 
-        Set<Integer> visitedEntries = new HashSet<>();
-        int currentIndex = rootIndex;
-        while (currentIndex != 0 && !visitedEntries.contains(currentIndex)) {
-            visitedEntries.add(currentIndex);
-            currentIndex = nodesMap.get(currentIndex).getNextIndex();
-        }
-        if (currentIndex != 0) {
-            valid = false;
-            return;
-        }
+//        Set<Integer> visitedEntries = new HashSet<>();
+//        int currentIndex = rootIndex;
+//        while (currentIndex != 0 && !visitedEntries.contains(currentIndex)) {
+//            visitedEntries.add(currentIndex);
+//            currentIndex = nodesMap.get(currentIndex).getNextIndex();
+//        }
+//        if (currentIndex != 0) {
+//            valid = false;
+//            return;
+//        }
         valid = true;
     }
 
     private class Entry {
         private Node node;
         private int nextIndex;
+        private int nextIndexYes;
+        private int nextIndexNo;
 
         public Entry(Node node, int nextIndex) {
             this.node = node;
             this.nextIndex = nextIndex;
+        }
+
+        public Entry(Node node, int nextIndexYes, int nextIndexNo) {
+            this.node = node;
+            this.nextIndexYes = nextIndexYes;
+            this.nextIndexNo = nextIndexNo;
         }
 
         public Node getNode() {
@@ -111,6 +150,14 @@ public class NodeSet {
 
         public int getNextIndex() {
             return nextIndex;
+        }
+
+        public int getNextIndexYes() {
+            return nextIndexYes;
+        }
+
+        public int getNextIndexNo() {
+            return nextIndexNo;
         }
     }
 

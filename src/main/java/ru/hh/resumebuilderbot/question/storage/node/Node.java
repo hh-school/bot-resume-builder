@@ -9,4 +9,8 @@ public abstract class Node {
     public synchronized boolean isLinear() {
         return (this instanceof LinearNode);
     }
+
+    public synchronized boolean isForking() {
+        return (this instanceof ForkingNode);
+    }
 }
