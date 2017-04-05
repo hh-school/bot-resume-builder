@@ -1,13 +1,10 @@
 package ru.hh.resumebuilderbot.question.storage.builder;
 
-import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.node.Node;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionsLoader {
-    private List<Question> questions = new ArrayList<>();
 
     public Node load(String filename) {
         List<XMLParser.Entry> rawData = new XMLParser().parse(filename);
