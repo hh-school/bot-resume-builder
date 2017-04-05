@@ -1,19 +1,19 @@
 package ru.hh.resumebuilderbot.question.generator;
 
-import ru.hh.resumebuilderbot.ChatId;
+import ru.hh.resumebuilderbot.User;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
 public class CurrentQuestionGenerator implements QuestionGenerator {
 
-    private final ChatId chatId;
+    private final User user;
 
-    public CurrentQuestionGenerator(ChatId chatId) {
-        this.chatId = chatId;
+    public CurrentQuestionGenerator(User user) {
+        this.user = user;
     }
 
     @Override
     public Question generate() {
-        return UserDataStorage.getCurrentQuestion(chatId);
+        return UserDataStorage.getCurrentQuestion(user);
     }
 }

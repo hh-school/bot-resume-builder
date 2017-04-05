@@ -9,7 +9,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.ChatId;
+import ru.hh.resumebuilderbot.User;
 import ru.hh.resumebuilderbot.MessengerAdapter;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.telegram.adapter.answer.TelegramAnswer;
@@ -37,9 +37,9 @@ public class TelegramAdapter implements MessengerAdapter {
     }
 
     @Override
-    public void ask(ChatId chatId, Question question) {
+    public void ask(User user, Question question) {
         SendMessage msg = new SendMessage()
-                .setChatId(chatId.getIndex())
+                .setChatId(user.getIndex())
                 .setText(question.getText());
 
         List<String> allowedAnswers = question.getAllowedAnswers();
@@ -92,10 +92,10 @@ public class TelegramAdapter implements MessengerAdapter {
 
 
                 long innerChatId = telegramAnswer.getInnerChatId();
-                ChatId chatId = new ChatId(innerChatId);
+                User user = new User(innerChatId);
                 String answerText = telegramAnswer.getAnswerText();
                 Answer answer = new Answer(answerText);
-                botBody.answer(answer);
+                botBody.answer(user, answer);
             }
         }
 
