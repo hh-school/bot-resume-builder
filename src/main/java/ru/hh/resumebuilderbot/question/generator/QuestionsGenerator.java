@@ -5,10 +5,10 @@ import ru.hh.resumebuilderbot.question.Question;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-public class QuestionGeneratorsQueue {
+public class QuestionsGenerator {
     private Queue<QuestionGenerator> generators = new ArrayDeque<>();
 
-    public void add(QuestionGenerator element) {
+    public void addGenerator(QuestionGenerator element) {
         generators.add(element);
     }
 

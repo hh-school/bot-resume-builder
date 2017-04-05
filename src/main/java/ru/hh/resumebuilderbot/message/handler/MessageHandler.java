@@ -2,10 +2,10 @@ package ru.hh.resumebuilderbot.message.handler;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.ChatId;
-import ru.hh.resumebuilderbot.question.generator.QuestionGeneratorsQueue;
+import ru.hh.resumebuilderbot.question.generator.QuestionsGenerator;
 
 public abstract class MessageHandler {
-    protected QuestionGeneratorsQueue questionGeneratorsQueue = new QuestionGeneratorsQueue();
+    protected QuestionsGenerator questionsGenerator = new QuestionsGenerator();
 
-    public abstract QuestionGeneratorsQueue handle(ChatId chatId, Answer answer);
+    public abstract QuestionsGenerator handle(ChatId chatId, Answer answer);
 }
