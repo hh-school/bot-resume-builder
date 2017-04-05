@@ -28,10 +28,8 @@ public class UserDataStorage {
     }
 
     public static void registerAnswer(User user, Answer answer) {
-        String answerText = answer.getAnswerBody().toString();
         UserData userData = instance.userDataMap.get(user);
-        userData.registerAnswer(getCurrentQuestion(user), answerText);
-        userData.moveToNextQuestion((String) answer.getAnswerBody());
+        userData.registerAnswer(answer);
     }
 
     public static List<UserAnswer> getHistory(User user) {
@@ -43,10 +41,6 @@ public class UserDataStorage {
             instance.userDataMap.put(user, new UserData());
         }
         return instance.userDataMap.get(user);
-    }
-
-    public static boolean finished(User user) {
-        return instance.userDataMap.get(user).getCurrentState().isLastQuestion();
     }
 
     public static Question getCurrentQuestion(User user) {

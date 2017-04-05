@@ -1,12 +1,14 @@
 package ru.hh.resumebuilderbot.question.storage.node;
 
+import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
 
 import java.util.regex.Pattern;
 
-public class ForkingNode extends NonTerminalNode {
-    private Node nextYes;
-    private Node nextNo;
+public class ForkingNode implements QuestionGraphNode {
+    private Question question;
+    private QuestionGraphNode nextYes;
+    private QuestionGraphNode nextNo;
     private Pattern answerPattern;
     private boolean matches;
 
@@ -17,19 +19,25 @@ public class ForkingNode extends NonTerminalNode {
     }
 
     @Override
-    public synchronized Node getNext() {
+    public synchronized void registerAnswer(Answer answer) {
+        matches = answerPattern.matcher((String) (answer.getAnswerBody())).matches();
+    }
+
+    @Override
+    public synchronized Question getQuestion() {
+        return question;
+    }
+
+    @Override
+    public synchronized QuestionGraphNode getNext() {
         return matches ? nextYes : nextNo;
     }
 
-    public synchronized void check(String currentAnswer) {
-        matches = answerPattern.matcher(currentAnswer).matches();
-    }
-
-    public void setNextYes(Node nextYes) {
+    public void setNextYes(QuestionGraphNode nextYes) {
         this.nextYes = nextYes;
     }
 
-    public void setNextNo(Node nextNo) {
+    public void setNextNo(QuestionGraphNode nextNo) {
         this.nextNo = nextNo;
     }
 }

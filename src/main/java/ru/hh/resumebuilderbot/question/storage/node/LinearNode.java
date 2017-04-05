@@ -1,20 +1,32 @@
 package ru.hh.resumebuilderbot.question.storage.node;
 
+import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
 
-public class LinearNode extends NonTerminalNode {
-    private Node next;
+public class LinearNode implements QuestionGraphNode {
+    private Question question;
+    private QuestionGraphNode next;
 
     public LinearNode(Question question) {
         this.question = question;
     }
 
     @Override
-    public synchronized Node getNext() {
+    public synchronized void registerAnswer(Answer answer) {
+
+    }
+
+    @Override
+    public synchronized Question getQuestion() {
+        return question;
+    }
+
+    @Override
+    public synchronized QuestionGraphNode getNext() {
         return next;
     }
 
-    public synchronized void setNext(Node next) {
+    public synchronized void setNext(QuestionGraphNode next) {
         this.next = next;
     }
 }

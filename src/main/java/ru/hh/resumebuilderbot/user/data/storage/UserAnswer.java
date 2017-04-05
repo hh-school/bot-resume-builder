@@ -1,12 +1,13 @@
 package ru.hh.resumebuilderbot.user.data.storage;
 
+import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
 
 public class UserAnswer {
     private Question question;
-    private String answer;
+    private Answer answer;
 
-    UserAnswer(Question question, String answer) {
+    UserAnswer(Question question, Answer answer) {
         this.question = question;
         this.answer = answer;
     }
@@ -15,7 +16,7 @@ public class UserAnswer {
         return question;
     }
 
-    public String getAnswer() {
+    public Answer getAnswer() {
         return answer;
     }
 }

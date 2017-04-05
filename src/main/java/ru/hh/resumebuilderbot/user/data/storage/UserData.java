@@ -1,5 +1,6 @@
 package ru.hh.resumebuilderbot.user.data.storage;
 
+import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.CurrentUserState;
 import ru.hh.resumebuilderbot.question.Question;
 
@@ -19,12 +20,11 @@ class UserData {
         return currentState;
     }
 
-    void registerAnswer(Question question, String answer) {
-        answers.add(new UserAnswer(question, answer));
-    }
-
-    void moveToNextQuestion(String currentAnswer) {
-        currentState.moveToNextQuestion(currentAnswer);
+    void registerAnswer(Answer answer) {
+        Question currentQuestion = currentState.getCurrentQuestion();
+        answers.add(new UserAnswer(currentQuestion, answer));
+        currentState.registerAnswer(answer);
+        currentState.moveToNextQuestion();
     }
 
     List<UserAnswer> getAnswers() {

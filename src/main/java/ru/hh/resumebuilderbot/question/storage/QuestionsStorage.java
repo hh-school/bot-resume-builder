@@ -1,13 +1,13 @@
 package ru.hh.resumebuilderbot.question.storage;
 
 import ru.hh.resumebuilderbot.question.storage.builder.QuestionsLoader;
-import ru.hh.resumebuilderbot.question.storage.node.Node;
+import ru.hh.resumebuilderbot.question.storage.node.QuestionGraphNode;
 
 import java.io.IOException;
 
 public class QuestionsStorage {
 
-    private static Node questionsAlgorithmRoot;
+    private static QuestionGraphNode questionsAlgorithmRoot;
 
     //end hardcode
 
@@ -25,7 +25,7 @@ public class QuestionsStorage {
     private QuestionsStorage() {
     }
 
-    public static Node getRoot() {
+    public static QuestionGraphNode getRoot() {
         return questionsAlgorithmRoot;
     }
 

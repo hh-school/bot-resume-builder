@@ -3,7 +3,7 @@ package ru.hh.resumebuilderbot.question.storage.builder;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.node.ForkingNode;
 import ru.hh.resumebuilderbot.question.storage.node.LinearNode;
-import ru.hh.resumebuilderbot.question.storage.node.Node;
+import ru.hh.resumebuilderbot.question.storage.node.QuestionGraphNode;
 import ru.hh.resumebuilderbot.question.storage.node.TerminalNode;
 
 import java.util.HashMap;
@@ -16,7 +16,7 @@ public class NodeSet {
     private List<XMLParser.Entry> rawData;
 
     private boolean valid;
-    private Node root;
+    private QuestionGraphNode root;
 
     public NodeSet(List<XMLParser.Entry> rawData) {
         this.rawData = rawData;
@@ -26,7 +26,7 @@ public class NodeSet {
         return valid;
     }
 
-    public Node getRoot() {
+    public QuestionGraphNode getRoot() {
         return root;
     }
 
@@ -44,7 +44,8 @@ public class NodeSet {
 
     private Entry makeEntry(XMLParser.Entry xmlEntry) {
         if (xmlEntry.getType().equals("terminal")) {
-            return new Entry(new TerminalNode(), 0);
+            int index = xmlEntry.getIndex();
+            return new Entry(new TerminalNode(), index);
         }
         Question question = new Question(xmlEntry.getText(), xmlEntry.getAllowedAnswers());
         if (xmlEntry.getType().equals("linear")) {
@@ -61,14 +62,14 @@ public class NodeSet {
 
     private void linkNodes(Map<Integer, Entry> nodesMap) {
         for (Entry entry : nodesMap.values()) {
-            Node node = entry.getNode();
-            if (node.isLinear()) {
+            QuestionGraphNode node = entry.getNode();
+            if (node instanceof LinearNode) {
                 int nextIndex = entry.getNextIndex();
                 LinearNode linearNode = (LinearNode) node;
                 linearNode.setNext(nodesMap.get(nextIndex).getNode());
                 continue;
             }
-            if (node.isForking()) {
+            if (node instanceof ForkingNode) {
                 int nextIndexYes = entry.getNextIndexYes();
                 int nextIndexNo = entry.getNextIndexNo();
                 ForkingNode forkingNode = (ForkingNode) node;
@@ -84,10 +85,10 @@ public class NodeSet {
         Set<Integer> nonRootEntries = new HashSet();
 
         for (Entry entry : nodesMap.values()) {
-            if (entry.getNode().isLinear()) {
+            if (entry.getNode() instanceof LinearNode) {
                 nonRootEntries.add(entry.getNextIndex());
             }
-            if (entry.getNode().isForking()) {
+            if (entry.getNode() instanceof ForkingNode) {
                 nonRootEntries.add(entry.getNextIndexNo());
                 nonRootEntries.add(entry.getNextIndexYes());
             }
@@ -109,23 +110,23 @@ public class NodeSet {
     }
 
     private class Entry {
-        private Node node;
+        private QuestionGraphNode node;
         private int nextIndex;
         private int nextIndexYes;
         private int nextIndexNo;
 
-        public Entry(Node node, int nextIndex) {
+        public Entry(QuestionGraphNode node, int nextIndex) {
             this.node = node;
             this.nextIndex = nextIndex;
         }
 
-        public Entry(Node node, int nextIndexYes, int nextIndexNo) {
+        public Entry(QuestionGraphNode node, int nextIndexYes, int nextIndexNo) {
             this.node = node;
             this.nextIndexYes = nextIndexYes;
             this.nextIndexNo = nextIndexNo;
         }
 
-        public Node getNode() {
+        public QuestionGraphNode getNode() {
             return node;
         }
 
