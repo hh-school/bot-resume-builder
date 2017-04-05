@@ -105,18 +105,6 @@ public class NodeSet {
         }
         root = nodesMap.get(rootIndex).getNode();
 
-        // step 2 - check if cycles present
-
-//        Set<Integer> visitedEntries = new HashSet<>();
-//        int currentIndex = rootIndex;
-//        while (currentIndex != 0 && !visitedEntries.contains(currentIndex)) {
-//            visitedEntries.add(currentIndex);
-//            currentIndex = nodesMap.get(currentIndex).getNextIndex();
-//        }
-//        if (currentIndex != 0) {
-//            valid = false;
-//            return;
-//        }
         valid = true;
     }
 
