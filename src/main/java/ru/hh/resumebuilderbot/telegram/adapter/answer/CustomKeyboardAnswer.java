@@ -7,7 +7,7 @@ public class CustomKeyboardAnswer extends ProtoTelegramAnswer {
 
     public CustomKeyboardAnswer(Update update) {
         CallbackQuery querry = update.getCallbackQuery();
-        innerChatId = querry.getMessage().getChatId();
+        chatId = querry.getMessage().getChatId();
         answerText = querry.getData();
     }
 

@@ -8,7 +8,7 @@ public class StandardStringAnswer extends ProtoTelegramAnswer {
     public StandardStringAnswer(Update update) {
         Message message = update.getMessage();
         answerText = message.getText();
-        innerChatId = message.getChatId();
+        chatId = message.getChatId();
     }
 
     public static boolean matches(Update update) {

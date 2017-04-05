@@ -91,8 +91,8 @@ public class TelegramAdapter implements MessengerAdapter {
             if (telegramAnswer != null) {
 
 
-                long innerChatId = telegramAnswer.getInnerChatId();
-                User user = new User(innerChatId);
+                long chatId = telegramAnswer.getChatId();
+                User user = new User(chatId);
                 String answerText = telegramAnswer.getAnswerText();
                 Answer answer = new Answer(answerText);
                 botBody.answer(user, answer);

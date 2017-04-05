@@ -4,5 +4,5 @@ public interface TelegramAnswer {
 
     String getAnswerText();
 
-    long getInnerChatId();
+    long getChatId();
 }
