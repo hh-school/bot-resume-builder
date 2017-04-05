@@ -6,28 +6,28 @@ import ru.hh.resumebuilderbot.question.Question;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserData {
+class UserData {
 
     private CurrentUserState currentState;
     private List<UserAnswer> answers = new ArrayList<>();
 
-    public UserData() {
+    UserData() {
         currentState = new CurrentUserState();
     }
 
-    public CurrentUserState getCurrentState() {
+    CurrentUserState getCurrentState() {
         return currentState;
     }
 
-    public void registerAnswer(Question question, String answer) {
+    void registerAnswer(Question question, String answer) {
         answers.add(new UserAnswer(question, answer));
     }
 
-    public void moveToNextQuestion(String currentAnswer) {
+    void moveToNextQuestion(String currentAnswer) {
         currentState.moveToNextQuestion(currentAnswer);
     }
 
-    public List<UserAnswer> getAnswers() {
+    List<UserAnswer> getAnswers() {
         return answers;
     }
 }

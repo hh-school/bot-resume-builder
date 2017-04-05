@@ -9,8 +9,8 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.User;
 import ru.hh.resumebuilderbot.MessengerAdapter;
+import ru.hh.resumebuilderbot.User;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.telegram.adapter.answer.TelegramAnswer;
 import ru.hh.resumebuilderbot.telegram.adapter.answer.TelegramAnswerFactory;
@@ -81,7 +81,7 @@ public class TelegramAdapter implements MessengerAdapter {
     }
 
     private class BotImpl extends TelegramLongPollingBot {
-        public void sendMsg(SendMessage msg) throws TelegramApiException {
+        void sendMsg(SendMessage msg) throws TelegramApiException {
             sendMessage(msg);
         }
 

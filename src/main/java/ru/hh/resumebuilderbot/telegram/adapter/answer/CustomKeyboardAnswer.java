@@ -3,15 +3,15 @@ package ru.hh.resumebuilderbot.telegram.adapter.answer;
 import org.telegram.telegrambots.api.objects.CallbackQuery;
 import org.telegram.telegrambots.api.objects.Update;
 
-public class CustomKeyboardAnswer extends ProtoTelegramAnswer {
+class CustomKeyboardAnswer extends ProtoTelegramAnswer {
 
-    public CustomKeyboardAnswer(Update update) {
+    CustomKeyboardAnswer(Update update) {
         CallbackQuery querry = update.getCallbackQuery();
         chatId = querry.getMessage().getChatId();
         answerText = querry.getData();
     }
 
-    public static boolean matches(Update update) {
+    static boolean matches(Update update) {
         return update.hasCallbackQuery();
     }
 }

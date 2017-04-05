@@ -5,7 +5,7 @@ import ru.hh.resumebuilderbot.User;
 import ru.hh.resumebuilderbot.question.generator.QuestionsGenerator;
 
 public abstract class MessageHandler {
-    protected QuestionsGenerator questionsGenerator = new QuestionsGenerator();
+    QuestionsGenerator questionsGenerator = new QuestionsGenerator();
 
     public abstract QuestionsGenerator handle(User user, Answer answer);
 }

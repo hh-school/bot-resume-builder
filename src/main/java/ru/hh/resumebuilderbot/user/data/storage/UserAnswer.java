@@ -6,7 +6,7 @@ public class UserAnswer {
     private Question question;
     private String answer;
 
-    public UserAnswer(Question question, String answer) {
+    UserAnswer(Question question, String answer) {
         this.question = question;
         this.answer = answer;
     }

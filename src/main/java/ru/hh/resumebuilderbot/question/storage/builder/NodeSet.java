@@ -4,7 +4,6 @@ import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.node.ForkingNode;
 import ru.hh.resumebuilderbot.question.storage.node.LinearNode;
 import ru.hh.resumebuilderbot.question.storage.node.Node;
-import ru.hh.resumebuilderbot.question.storage.node.NonTerminalNode;
 import ru.hh.resumebuilderbot.question.storage.node.TerminalNode;
 
 import java.util.HashMap;
@@ -44,13 +43,11 @@ public class NodeSet {
     }
 
     private Entry makeEntry(XMLParser.Entry xmlEntry) {
-        if (xmlEntry.getType().equals("terminal"))
-        {
+        if (xmlEntry.getType().equals("terminal")) {
             return new Entry(new TerminalNode(), 0);
         }
         Question question = new Question(xmlEntry.getText(), xmlEntry.getAllowedAnswers());
-        if (xmlEntry.getType().equals("linear"))
-        {
+        if (xmlEntry.getType().equals("linear")) {
             LinearNode linearNode = new LinearNode(question);
             int nextIndex = xmlEntry.getNextIndex();
             return new Entry(linearNode, nextIndex);
@@ -71,8 +68,7 @@ public class NodeSet {
                 linearNode.setNext(nodesMap.get(nextIndex).getNode());
                 continue;
             }
-            if (node.isForking())
-            {
+            if (node.isForking()) {
                 int nextIndexYes = entry.getNextIndexYes();
                 int nextIndexNo = entry.getNextIndexNo();
                 ForkingNode forkingNode = (ForkingNode) node;
@@ -87,14 +83,11 @@ public class NodeSet {
         // step 1 - check if number of roots exactly equals 1
         Set<Integer> nonRootEntries = new HashSet();
 
-        for (Entry entry : nodesMap.values())
-        {
-            if (entry.getNode().isLinear())
-            {
+        for (Entry entry : nodesMap.values()) {
+            if (entry.getNode().isLinear()) {
                 nonRootEntries.add(entry.getNextIndex());
             }
-            if (entry.getNode().isForking())
-            {
+            if (entry.getNode().isForking()) {
                 nonRootEntries.add(entry.getNextIndexNo());
                 nonRootEntries.add(entry.getNextIndexYes());
             }

@@ -30,8 +30,7 @@ public class XMLParser {
                     int id = Integer.parseInt(attributes.getNamedItem("id").getNodeValue());
                     String type = attributes.getNamedItem("type").getNodeValue();
 
-                    if (type.equals("terminal"))
-                    {
+                    if (type.equals("terminal")) {
                         result.add(new Entry(id));
                         continue;
                     }
@@ -48,16 +47,18 @@ public class XMLParser {
                         }
                     }
 
-                    if (type.equals("linear"))
-                    {
+                    if (type.equals("linear")) {
                         int nextId = Integer.parseInt(attributes.getNamedItem("next").getNodeValue());
                         result.add(new Entry(id, nextId, text, allowedAnswers));
                         continue;
                     }
                     System.out.println();
-                    String pattern = attributes.getNamedItem("pattern").getNodeValue();;
-                    int nextYes = Integer.parseInt(attributes.getNamedItem("nextYes").getNodeValue());;
-                    int nextNo = Integer.parseInt(attributes.getNamedItem("nextNo").getNodeValue());;
+                    String pattern = attributes.getNamedItem("pattern").getNodeValue();
+                    ;
+                    int nextYes = Integer.parseInt(attributes.getNamedItem("nextYes").getNodeValue());
+                    ;
+                    int nextNo = Integer.parseInt(attributes.getNamedItem("nextNo").getNodeValue());
+                    ;
 
                     result.add(new Entry(id, text, allowedAnswers, pattern, nextYes, nextNo));
                 }
