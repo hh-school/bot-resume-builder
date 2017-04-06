@@ -13,28 +13,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class NodeSet {
+class NodeSet {
     private List<XMLParser.Entry> rawData;
 
     private boolean valid;
     private QuestionGraphNode root;
 
-    public NodeSet(List<XMLParser.Entry> rawData) {
+    NodeSet(List<XMLParser.Entry> rawData) {
         this.rawData = rawData;
     }
 
-    public boolean isValid() {
+    boolean isValid() {
         return valid;
     }
 
-    public QuestionGraphNode getRoot() {
+    QuestionGraphNode getRoot() {
         return root;
     }
 
-    public void build() {
+    void build() {
         Map<Integer, Entry> nodesMap = makeNodes();
-        linkNodes(nodesMap);
         validate(nodesMap);
+        linkNodes(nodesMap);
     }
 
     private Map<Integer, Entry> makeNodes() {
@@ -93,7 +93,7 @@ public class NodeSet {
 
     private void validate(Map<Integer, Entry> nodesMap) {
         // step 1 - check if number of roots exactly equals 1
-        Set<Integer> nonRootEntries = new HashSet();
+        Set<Integer> nonRootEntries = new HashSet<>();
 
         for (Entry entry : nodesMap.values()) {
             if (entry.getNode() instanceof LinearNode) {
@@ -136,12 +136,12 @@ public class NodeSet {
         private int nextIndexYes;
         private int nextIndexNo;
 
-        public Entry(QuestionGraphNode node, int nextIndex) {
+        Entry(QuestionGraphNode node, int nextIndex) {
             this.node = node;
             this.nextIndex = nextIndex;
         }
 
-        public Entry(QuestionGraphNode node, int nextIndexYes, int nextIndexNo) {
+        Entry(QuestionGraphNode node, int nextIndexYes, int nextIndexNo) {
             this.node = node;
             this.nextIndexYes = nextIndexYes;
             this.nextIndexNo = nextIndexNo;
@@ -151,15 +151,15 @@ public class NodeSet {
             return node;
         }
 
-        public int getNextIndex() {
+        int getNextIndex() {
             return nextIndex;
         }
 
-        public int getNextIndexYes() {
+        int getNextIndexYes() {
             return nextIndexYes;
         }
 
-        public int getNextIndexNo() {
+        int getNextIndexNo() {
             return nextIndexNo;
         }
     }
