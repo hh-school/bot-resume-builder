@@ -10,5 +10,6 @@ public interface QuestionGraphNode {
 
     QuestionGraphNode getNext();
 
+    boolean persistData();
 
 }

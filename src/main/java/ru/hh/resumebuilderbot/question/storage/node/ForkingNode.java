@@ -33,6 +33,11 @@ public class ForkingNode implements QuestionGraphNode {
         return matches ? nextYes : nextNo;
     }
 
+    @Override
+    public boolean persistData() {
+        return true;
+    }
+
     public void setNextYes(QuestionGraphNode nextYes) {
         this.nextYes = nextYes;
     }

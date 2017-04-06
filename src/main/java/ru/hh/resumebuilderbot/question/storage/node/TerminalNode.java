@@ -26,4 +26,9 @@ public class TerminalNode implements QuestionGraphNode {
     public QuestionGraphNode getNext() {
         return this;
     }
+
+    @Override
+    public boolean persistData() {
+        return false;
+    }
 }

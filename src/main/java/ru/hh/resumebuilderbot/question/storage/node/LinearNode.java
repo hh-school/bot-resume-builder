@@ -29,4 +29,9 @@ public class LinearNode implements QuestionGraphNode {
     public synchronized void setNext(QuestionGraphNode next) {
         this.next = next;
     }
+
+    @Override
+    public boolean persistData() {
+        return true;
+    }
 }

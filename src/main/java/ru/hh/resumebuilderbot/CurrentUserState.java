@@ -19,7 +19,11 @@ public class CurrentUserState {
         currentQuestionNode.registerAnswer(currentAnswer);
     }
 
-    public void moveToNextQuestion() {
+    public void moveForward() {
         currentQuestionNode = currentQuestionNode.getNext();
+    }
+
+    public boolean persistData() {
+        return currentQuestionNode.persistData();
     }
 }

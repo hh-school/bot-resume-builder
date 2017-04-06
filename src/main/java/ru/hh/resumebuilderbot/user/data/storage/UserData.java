@@ -21,13 +21,19 @@ class UserData {
     }
 
     void registerAnswer(Answer answer) {
-        Question currentQuestion = currentState.getCurrentQuestion();
-        answers.add(new UserAnswer(currentQuestion, answer));
         currentState.registerAnswer(answer);
-        currentState.moveToNextQuestion();
+        if (currentState.persistData()) {
+            persistAnswer(answer);
+        }
+        currentState.moveForward();
     }
 
     List<UserAnswer> getAnswers() {
         return answers;
+    }
+
+    private void persistAnswer(Answer answer) {
+        Question currentQuestion = currentState.getCurrentQuestion();
+        answers.add(new UserAnswer(currentQuestion, answer));
     }
 }
