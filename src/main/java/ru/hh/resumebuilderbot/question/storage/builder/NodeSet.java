@@ -1,6 +1,7 @@
 package ru.hh.resumebuilderbot.question.storage.builder;
 
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.node.CycleNode;
 import ru.hh.resumebuilderbot.question.storage.node.ForkingNode;
 import ru.hh.resumebuilderbot.question.storage.node.LinearNode;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionGraphNode;
@@ -54,10 +55,14 @@ public class NodeSet {
             return new Entry(linearNode, nextIndex);
         }
         String pattern = xmlEntry.getPattern();
-        ForkingNode forkingNode = new ForkingNode(question, pattern);
         int nextIndexYes = xmlEntry.getNextYes();
         int nextIndexNo = xmlEntry.getNextNo();
-        return new Entry(forkingNode, nextIndexYes, nextIndexNo);
+        if (xmlEntry.getType().equals("forking")) {
+            ForkingNode forkingNode = new ForkingNode(question, pattern);
+            return new Entry(forkingNode, nextIndexYes, nextIndexNo);
+        }
+        CycleNode cycleNode = new CycleNode(question, pattern);
+        return new Entry(cycleNode, nextIndexYes, nextIndexNo);
     }
 
     private void linkNodes(Map<Integer, Entry> nodesMap) {
@@ -69,12 +74,18 @@ public class NodeSet {
                 linearNode.setNext(nodesMap.get(nextIndex).getNode());
                 continue;
             }
+            int nextIndexYes = entry.getNextIndexYes();
+            int nextIndexNo = entry.getNextIndexNo();
             if (node instanceof ForkingNode) {
-                int nextIndexYes = entry.getNextIndexYes();
-                int nextIndexNo = entry.getNextIndexNo();
                 ForkingNode forkingNode = (ForkingNode) node;
                 forkingNode.setNextYes(nodesMap.get(nextIndexYes).getNode());
                 forkingNode.setNextNo(nodesMap.get(nextIndexNo).getNode());
+
+            }
+            if (node instanceof CycleNode) {
+                CycleNode cycleNode = (CycleNode) node;
+                cycleNode.setNextIn(nodesMap.get(nextIndexYes).getNode());
+                cycleNode.setNextOut(nodesMap.get(nextIndexNo).getNode());
 
             }
         }
@@ -88,7 +99,7 @@ public class NodeSet {
             if (entry.getNode() instanceof LinearNode) {
                 nonRootEntries.add(entry.getNextIndex());
             }
-            if (entry.getNode() instanceof ForkingNode) {
+            if (entry.getNode() instanceof ForkingNode || entry.getNode() instanceof CycleNode) {
                 nonRootEntries.add(entry.getNextIndexNo());
                 nonRootEntries.add(entry.getNextIndexYes());
             }

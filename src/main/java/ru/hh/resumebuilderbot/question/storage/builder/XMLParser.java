@@ -52,15 +52,18 @@ public class XMLParser {
                         result.add(new Entry(id, nextId, text, allowedAnswers));
                         continue;
                     }
-                    System.out.println();
                     String pattern = attributes.getNamedItem("pattern").getNodeValue();
-                    ;
-                    int nextYes = Integer.parseInt(attributes.getNamedItem("nextYes").getNodeValue());
-                    ;
-                    int nextNo = Integer.parseInt(attributes.getNamedItem("nextNo").getNodeValue());
-                    ;
+                    int nextYes = 0;
+                    int nextNo = 0;
+                    if (type.equals("forking")) {
+                        nextYes = Integer.parseInt(attributes.getNamedItem("nextYes").getNodeValue());
+                        nextNo = Integer.parseInt(attributes.getNamedItem("nextNo").getNodeValue());
+                    } else {
+                        nextYes = Integer.parseInt(attributes.getNamedItem("nextIn").getNodeValue());
+                        nextNo = Integer.parseInt(attributes.getNamedItem("nextOut").getNodeValue());
+                    }
 
-                    result.add(new Entry(id, text, allowedAnswers, pattern, nextYes, nextNo));
+                    result.add(new Entry(type, id, text, allowedAnswers, pattern, nextYes, nextNo));
                 }
             }
             return result;
@@ -93,9 +96,9 @@ public class XMLParser {
             this.allowedAnswers = allowedAnswers;
         }
 
-        public Entry(int index, String text, List<String> allowedAnswers, String pattern, int nextYes, int nextNo) {
+        public Entry(String type, int index, String text, List<String> allowedAnswers, String pattern, int nextYes, int nextNo) {
             this.index = index;
-            this.type = "forking";
+            this.type = type;
             this.text = text;
             this.allowedAnswers = allowedAnswers;
             this.pattern = pattern;

@@ -11,8 +11,8 @@
     <question id="6" text="Это продолжение ветки первого варианта ответа" next="7" type="linear"/>
     <question id="7" text="Здесь ветки вопросов сливаются" type="linear" next="8"/>
     <question id="8" text="Далее будет пример цикла" type="linear" next="9"/>
-    <question id="9" text="Вы хотите зайти внутрь цикла или закончить опрос?" type="forking" pattern="Закончить опрос"
-              nextYes="10" nextNo="11">
+    <question id="9" text="Вы хотите зайти внутрь цикла или закончить опрос?" type="cycle" pattern="Закончить опрос"
+              nextIn="10" nextOut="11">
         <allowedAnswer text="Закончить опрос"/>
         <allowedAnswer text="Зайти внутрь цикла"/>
     </question>
