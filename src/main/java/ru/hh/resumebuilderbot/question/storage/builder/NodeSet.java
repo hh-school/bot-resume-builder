@@ -117,6 +117,16 @@ public class NodeSet {
         }
         root = nodesMap.get(rootIndex).getNode();
 
+        // step 2 - check ids' uniqueness
+        Set<Integer> usedIndices = new HashSet<>();
+        for (int index : nodesMap.keySet()) {
+            if (usedIndices.contains(index)) {
+                valid = false;
+                return;
+            }
+            usedIndices.add(index);
+        }
+
         valid = true;
     }
 
