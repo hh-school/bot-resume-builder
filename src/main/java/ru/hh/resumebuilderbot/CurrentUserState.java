@@ -2,10 +2,10 @@ package ru.hh.resumebuilderbot;
 
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.QuestionsStorage;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionGraphNode;
+import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 
 public class CurrentUserState {
-    private QuestionGraphNode currentQuestionNode;
+    private QuestionNode currentQuestionNode;
 
     public CurrentUserState() {
         currentQuestionNode = QuestionsStorage.getRoot();
@@ -16,7 +16,7 @@ public class CurrentUserState {
     }
 
     public void registerAnswer(Answer currentAnswer) {
-        currentQuestionNode.registerAnswer(currentAnswer);
+        currentQuestionNode.checkAnswer(currentAnswer);
     }
 
     public void moveForward() {
@@ -24,6 +24,6 @@ public class CurrentUserState {
     }
 
     public boolean persistData() {
-        return currentQuestionNode.persistData();
+        return currentQuestionNode.needToSaveAnswer();
     }
 }

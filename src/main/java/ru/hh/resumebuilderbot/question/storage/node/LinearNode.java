@@ -3,16 +3,16 @@ package ru.hh.resumebuilderbot.question.storage.node;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
 
-public class LinearNode implements QuestionGraphNode {
+public class LinearNode implements QuestionNode {
     private Question question;
-    private QuestionGraphNode next;
+    private QuestionNode next;
 
     public LinearNode(Question question) {
         this.question = question;
     }
 
     @Override
-    public synchronized void registerAnswer(Answer answer) {
+    public synchronized void checkAnswer(Answer answer) {
 
     }
 
@@ -22,16 +22,16 @@ public class LinearNode implements QuestionGraphNode {
     }
 
     @Override
-    public synchronized QuestionGraphNode getNext() {
+    public synchronized QuestionNode getNext() {
         return next;
     }
 
-    public synchronized void setNext(QuestionGraphNode next) {
+    public synchronized void setNext(QuestionNode next) {
         this.next = next;
     }
 
     @Override
-    public boolean persistData() {
+    public boolean needToSaveAnswer() {
         return true;
     }
 }

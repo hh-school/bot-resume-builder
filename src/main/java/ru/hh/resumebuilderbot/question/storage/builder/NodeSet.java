@@ -4,7 +4,7 @@ import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.node.CycleNode;
 import ru.hh.resumebuilderbot.question.storage.node.ForkingNode;
 import ru.hh.resumebuilderbot.question.storage.node.LinearNode;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionGraphNode;
+import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 import ru.hh.resumebuilderbot.question.storage.node.TerminalNode;
 
 import java.util.HashMap;
@@ -17,7 +17,7 @@ class NodeSet {
     private List<XMLParser.Entry> rawData;
 
     private boolean valid;
-    private QuestionGraphNode root;
+    private QuestionNode root;
 
     NodeSet(List<XMLParser.Entry> rawData) {
         this.rawData = rawData;
@@ -27,7 +27,7 @@ class NodeSet {
         return valid;
     }
 
-    QuestionGraphNode getRoot() {
+    QuestionNode getRoot() {
         return root;
     }
 
@@ -67,7 +67,7 @@ class NodeSet {
 
     private void linkNodes(Map<Integer, Entry> nodesMap) {
         for (Entry entry : nodesMap.values()) {
-            QuestionGraphNode node = entry.getNode();
+            QuestionNode node = entry.getNode();
             if (node instanceof LinearNode) {
                 int nextIndex = entry.getNextIndex();
                 LinearNode linearNode = (LinearNode) node;
@@ -131,23 +131,23 @@ class NodeSet {
     }
 
     private class Entry {
-        private QuestionGraphNode node;
+        private QuestionNode node;
         private int nextIndex;
         private int nextIndexYes;
         private int nextIndexNo;
 
-        Entry(QuestionGraphNode node, int nextIndex) {
+        Entry(QuestionNode node, int nextIndex) {
             this.node = node;
             this.nextIndex = nextIndex;
         }
 
-        Entry(QuestionGraphNode node, int nextIndexYes, int nextIndexNo) {
+        Entry(QuestionNode node, int nextIndexYes, int nextIndexNo) {
             this.node = node;
             this.nextIndexYes = nextIndexYes;
             this.nextIndexNo = nextIndexNo;
         }
 
-        public QuestionGraphNode getNode() {
+        public QuestionNode getNode() {
             return node;
         }
 

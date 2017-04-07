@@ -5,10 +5,10 @@ import ru.hh.resumebuilderbot.question.Question;
 
 import java.util.regex.Pattern;
 
-public class ForkingNode implements QuestionGraphNode {
+public class ForkingNode implements QuestionNode {
     private Question question;
-    private QuestionGraphNode nextYes;
-    private QuestionGraphNode nextNo;
+    private QuestionNode nextYes;
+    private QuestionNode nextNo;
     private Pattern answerPattern;
     private boolean matches;
 
@@ -19,7 +19,7 @@ public class ForkingNode implements QuestionGraphNode {
     }
 
     @Override
-    public synchronized void registerAnswer(Answer answer) {
+    public synchronized void checkAnswer(Answer answer) {
         matches = answerPattern.matcher((String) (answer.getAnswerBody())).matches();
     }
 
@@ -29,20 +29,20 @@ public class ForkingNode implements QuestionGraphNode {
     }
 
     @Override
-    public synchronized QuestionGraphNode getNext() {
+    public synchronized QuestionNode getNext() {
         return matches ? nextYes : nextNo;
     }
 
     @Override
-    public boolean persistData() {
+    public boolean needToSaveAnswer() {
         return true;
     }
 
-    public void setNextYes(QuestionGraphNode nextYes) {
+    public void setNextYes(QuestionNode nextYes) {
         this.nextYes = nextYes;
     }
 
-    public void setNextNo(QuestionGraphNode nextNo) {
+    public void setNextNo(QuestionNode nextNo) {
         this.nextNo = nextNo;
     }
 }

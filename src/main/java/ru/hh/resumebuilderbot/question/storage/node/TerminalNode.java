@@ -5,7 +5,7 @@ import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
 
-public class TerminalNode implements QuestionGraphNode {
+public class TerminalNode implements QuestionNode {
     private Question question;
 
     public TerminalNode() {
@@ -13,7 +13,7 @@ public class TerminalNode implements QuestionGraphNode {
     }
 
     @Override
-    public void registerAnswer(Answer answer) {
+    public void checkAnswer(Answer answer) {
 
     }
 
@@ -23,12 +23,12 @@ public class TerminalNode implements QuestionGraphNode {
     }
 
     @Override
-    public QuestionGraphNode getNext() {
+    public QuestionNode getNext() {
         return this;
     }
 
     @Override
-    public boolean persistData() {
+    public boolean needToSaveAnswer() {
         return false;
     }
 }

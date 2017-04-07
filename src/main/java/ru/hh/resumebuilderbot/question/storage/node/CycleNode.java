@@ -5,10 +5,10 @@ import ru.hh.resumebuilderbot.question.Question;
 
 import java.util.regex.Pattern;
 
-public class CycleNode implements QuestionGraphNode {
+public class CycleNode implements QuestionNode {
     private Question question;
-    private QuestionGraphNode nextIn;
-    private QuestionGraphNode nextOut;
+    private QuestionNode nextIn;
+    private QuestionNode nextOut;
     private Pattern answerPattern;
     private boolean matches;
 
@@ -18,7 +18,7 @@ public class CycleNode implements QuestionGraphNode {
     }
 
     @Override
-    public synchronized void registerAnswer(Answer answer) {
+    public synchronized void checkAnswer(Answer answer) {
         matches = answerPattern.matcher((String) (answer.getAnswerBody())).matches();
     }
 
@@ -28,20 +28,20 @@ public class CycleNode implements QuestionGraphNode {
     }
 
     @Override
-    public synchronized QuestionGraphNode getNext() {
+    public synchronized QuestionNode getNext() {
         return matches ? nextIn : nextOut;
     }
 
     @Override
-    public boolean persistData() {
+    public boolean needToSaveAnswer() {
         return false;
     }
 
-    public void setNextIn(QuestionGraphNode nextIn) {
+    public void setNextIn(QuestionNode nextIn) {
         this.nextIn = nextIn;
     }
 
-    public void setNextOut(QuestionGraphNode nextOut) {
+    public void setNextOut(QuestionNode nextOut) {
         this.nextOut = nextOut;
     }
 }
