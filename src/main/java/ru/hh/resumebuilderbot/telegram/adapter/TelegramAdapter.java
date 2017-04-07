@@ -19,23 +19,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TelegramAdapter implements MessengerAdapter {
-    private final String _token;
-    private final String _bot_username;
-    private final BotImpl _bot;
-    private int _timeout;
+    private final String token;
+    private final String botUsername;
+    private final BotImpl bot;
+    private int timeout;
 
-    private AbstractBotBody _handler;
+    private AbstractBotBody handler;
 
     public TelegramAdapter(String token, String botUsername, int timeoutMs) {
-        _token = token;
-        _bot_username = botUsername;
-        _bot = new BotImpl();
-        _timeout = timeoutMs;
+        this.token = token;
+        this.botUsername = botUsername;
+        this.bot = new BotImpl();
+        this.timeout = timeoutMs;
     }
 
     @Override
     public void setHandler(AbstractBotBody handler) {
-        _handler = handler;
+        this.handler = handler;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class TelegramAdapter implements MessengerAdapter {
             msg.setReplyMarkup(generateMarkup(allowedAnswers));
         }
         try {
-            _bot.sendMsg(msg);
+            bot.sendMsg(msg);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -76,7 +76,7 @@ public class TelegramAdapter implements MessengerAdapter {
         TelegramBotsApi botsApi = new TelegramBotsApi();
 
         try {
-            botsApi.registerBot(_bot);
+            botsApi.registerBot(bot);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -97,18 +97,18 @@ public class TelegramAdapter implements MessengerAdapter {
                 ChatId chatId = new ChatId(innerChatId);
                 String answerText = telegramAnswer.getAnswerText();
                 Answer answer = new Answer(chatId, answerText);
-                _handler.answer(answer, _timeout);
+                handler.answer(answer, timeout);
             }
         }
 
         @Override
         public String getBotUsername() {
-            return _bot_username;
+            return botUsername;
         }
 
         @Override
         public String getBotToken() {
-            return _token;
+            return token;
         }
     }
 }

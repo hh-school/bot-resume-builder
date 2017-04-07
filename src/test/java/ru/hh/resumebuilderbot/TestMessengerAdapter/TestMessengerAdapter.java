@@ -1,4 +1,4 @@
-package ru.hh.resumebuilderbot.TestMessengerAdapter;
+package ru.hh.resumebuilderbot.testmessengeradapter;
 
 import ru.hh.resumebuilderbot.AbstractBotBody;
 import ru.hh.resumebuilderbot.Answer;
