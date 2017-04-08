@@ -8,10 +8,7 @@ import java.io.IOException;
 public class QuestionsStorage {
 
     private static QuestionNode questionsAlgorithmRoot;
-
-    //end hardcode
-
-    //hardcode
+    
     static {
         // нужны конфиги - из них читать путь к файлу XML
         QuestionsLoader questionsLoader = new QuestionsLoader();

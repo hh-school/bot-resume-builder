@@ -22,7 +22,7 @@ class UserData {
 
     void registerAnswer(Answer answer) {
         currentState.registerAnswer(answer);
-        if (currentState.persistData()) {
+        if (currentState.needToSaveAnswer()) {
             persistAnswer(answer);
         }
         currentState.moveForward();

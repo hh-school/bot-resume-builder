@@ -11,5 +11,4 @@ public interface QuestionNode {
     QuestionNode getNext();
 
     boolean needToSaveAnswer();
-
 }

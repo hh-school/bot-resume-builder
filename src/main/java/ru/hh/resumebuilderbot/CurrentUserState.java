@@ -23,7 +23,7 @@ public class CurrentUserState {
         currentQuestionNode = currentQuestionNode.getNext();
     }
 
-    public boolean persistData() {
+    public boolean needToSaveAnswer() {
         return currentQuestionNode.needToSaveAnswer();
     }
 }
