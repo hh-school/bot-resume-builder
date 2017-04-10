@@ -14,7 +14,7 @@
         <module name="OneStatementPerLine"/>
         <module name="AvoidStarImport"/>
         <module name="IllegalImport">
-            <property name="illegalPkgs" value="sun, ru.hh.hhid.abi_shaded, ru.hh.guice.hibernate, junit.framework, org.apache.log4j"/>
+            <property name="illegalPkgs" value="sun, junit.framework, org.apache.log4j"/>
         </module>
         <module name="RedundantImport"/>
         <module name="UnusedImports"/>
