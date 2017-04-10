@@ -34,4 +34,9 @@ public class LinearNode implements QuestionNode {
     public boolean needToSaveAnswer() {
         return true;
     }
+
+    @Override
+    public QuestionNode cloneContent() {
+        return new LinearNode(question);
+    }
 }

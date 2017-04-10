@@ -13,31 +13,37 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-class NodeSet {
-    private List<XMLParser.Entry> rawData;
+public class NodeSet {
+    private Map<Integer, Entry> nodesMap;
 
     private boolean valid;
     private QuestionNode root;
 
     NodeSet(List<XMLParser.Entry> rawData) {
-        this.rawData = rawData;
+        nodesMap = makeNodes(rawData);
     }
 
-    boolean isValid() {
+    private NodeSet(Map<Integer, Entry> nodesMapArg) {
+        nodesMap = new HashMap<>();
+        for (Map.Entry<Integer, Entry> entry : nodesMapArg.entrySet()) {
+            nodesMap.put(entry.getKey(), entry.getValue().cloneContent());
+        }
+    }
+
+    public boolean isValid() {
         return valid;
     }
 
-    QuestionNode getRoot() {
+    public QuestionNode getRoot() {
         return root;
     }
 
-    void build() {
-        Map<Integer, Entry> nodesMap = makeNodes();
+    public void build() {
         validate(nodesMap);
         linkNodes(nodesMap);
     }
 
-    private Map<Integer, Entry> makeNodes() {
+    private Map<Integer, Entry> makeNodes(List<XMLParser.Entry> rawData) {
         Map<Integer, Entry> result = new HashMap<>();
         rawData.forEach((x) -> result.put(x.getIndex(), makeEntry(x)));
         return result;
@@ -130,6 +136,10 @@ class NodeSet {
         valid = true;
     }
 
+    public NodeSet cloneContent() {
+        return new NodeSet(nodesMap);
+    }
+
     private class Entry {
         private QuestionNode node;
         private int nextIndex;
@@ -147,6 +157,17 @@ class NodeSet {
             this.nextIndexNo = nextIndexNo;
         }
 
+        private Entry(QuestionNode node, int nextIndex, int nextIndexYes, int nextIndexNo) {
+            this.node = node;
+            this.nextIndex = nextIndex;
+            this.nextIndexYes = nextIndexYes;
+            this.nextIndexNo = nextIndexNo;
+        }
+
+        public Entry cloneContent() {
+            return new Entry(node.cloneContent(), nextIndex, nextIndexYes, nextIndexNo);
+        }
+
         public QuestionNode getNode() {
             return node;
         }
@@ -162,6 +183,8 @@ class NodeSet {
         int getNextIndexNo() {
             return nextIndexNo;
         }
+
+
     }
 
 }

@@ -4,11 +4,17 @@ import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.QuestionsStorage;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 
+import java.io.IOException;
+
 public class CurrentUserState {
     private QuestionNode currentQuestionNode;
 
     public CurrentUserState() {
-        currentQuestionNode = QuestionsStorage.getRoot();
+        try {
+            currentQuestionNode = QuestionsStorage.getRoot();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Question getCurrentQuestion() {

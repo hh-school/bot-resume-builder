@@ -18,6 +18,11 @@ public class ForkingNode implements QuestionNode {
         this.answerPattern = Pattern.compile(answerPattern);
     }
 
+    private ForkingNode(Question question, Pattern pattern) {
+        this.question = question;
+        this.answerPattern = pattern;
+    }
+
     @Override
     public synchronized void checkAnswer(Answer answer) {
         matches = answerPattern.matcher((String) (answer.getAnswerBody())).matches();
@@ -36,6 +41,11 @@ public class ForkingNode implements QuestionNode {
     @Override
     public boolean needToSaveAnswer() {
         return true;
+    }
+
+    @Override
+    public QuestionNode cloneContent() {
+        return new ForkingNode(question, answerPattern);
     }
 
     public void setNextYes(QuestionNode nextYes) {

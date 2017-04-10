@@ -31,4 +31,9 @@ public class TerminalNode implements QuestionNode {
     public boolean needToSaveAnswer() {
         return false;
     }
+
+    @Override
+    public QuestionNode cloneContent() {
+        return new TerminalNode();
+    }
 }

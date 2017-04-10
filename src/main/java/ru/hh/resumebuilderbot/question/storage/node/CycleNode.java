@@ -17,6 +17,11 @@ public class CycleNode implements QuestionNode {
         this.answerPattern = Pattern.compile(answerPattern);
     }
 
+    private CycleNode(Question question, Pattern pattern) {
+        this.question = question;
+        this.answerPattern = pattern;
+    }
+
     @Override
     public synchronized void checkAnswer(Answer answer) {
         matches = answerPattern.matcher((String) (answer.getAnswerBody())).matches();
@@ -35,6 +40,11 @@ public class CycleNode implements QuestionNode {
     @Override
     public boolean needToSaveAnswer() {
         return false;
+    }
+
+    @Override
+    public QuestionNode cloneContent() {
+        return new CycleNode(question, answerPattern);
     }
 
     public void setNextIn(QuestionNode nextIn) {
