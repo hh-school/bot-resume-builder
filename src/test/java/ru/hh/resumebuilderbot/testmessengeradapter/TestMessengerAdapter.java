@@ -1,9 +1,10 @@
 package ru.hh.resumebuilderbot.testmessengeradapter;
 
-import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.Answer;
+import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.MessengerAdapter;
-import ru.hh.resumebuilderbot.Question;
+import ru.hh.resumebuilderbot.User;
+import ru.hh.resumebuilderbot.question.Question;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.Random;
 public class TestMessengerAdapter implements MessengerAdapter {
 
     private final String defaultAnswerText = "cant understand your question";
+
 
     private BotBody bot;
 
@@ -25,8 +27,8 @@ public class TestMessengerAdapter implements MessengerAdapter {
     }
 
     @Override
-    public void ask(Question question) {
-        bot.answer(getAnswer(question), 1000);
+    public void ask(User user, Question question) {
+        bot.answer(user, getAnswer(question));
     }
 
     @Override
@@ -50,7 +52,7 @@ public class TestMessengerAdapter implements MessengerAdapter {
                 candidates.add(entry);
             }
         }
-        return new Answer(question.getChatId(), getWeightedRandomAnswer(candidates));
+        return new Answer(getWeightedRandomAnswer(candidates));
     }
 
     private String getWeightedRandomAnswer(List<Entry> candidates) {
