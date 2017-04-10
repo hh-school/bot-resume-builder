@@ -1,11 +1,11 @@
 package ru.hh.resumebuilderbot.question.storage.builder;
 
 import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.storage.node.CycleNode;
-import ru.hh.resumebuilderbot.question.storage.node.ForkingNode;
-import ru.hh.resumebuilderbot.question.storage.node.LinearNode;
+import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeCycle;
+import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeForking;
+import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeLinear;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
-import ru.hh.resumebuilderbot.question.storage.node.TerminalNode;
+import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeTerminal;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -52,11 +52,11 @@ public class NodeSet {
     private Entry makeEntry(XMLParser.Entry xmlEntry) {
         if (xmlEntry.getType().equals("terminal")) {
             int index = xmlEntry.getIndex();
-            return new Entry(new TerminalNode(), index);
+            return new Entry(new QuestionNodeTerminal(), index);
         }
         Question question = new Question(xmlEntry.getText(), xmlEntry.getAllowedAnswers());
         if (xmlEntry.getType().equals("linear")) {
-            LinearNode linearNode = new LinearNode(question);
+            QuestionNodeLinear linearNode = new QuestionNodeLinear(question);
             int nextIndex = xmlEntry.getNextIndex();
             return new Entry(linearNode, nextIndex);
         }
@@ -64,32 +64,32 @@ public class NodeSet {
         int nextIndexYes = xmlEntry.getNextYes();
         int nextIndexNo = xmlEntry.getNextNo();
         if (xmlEntry.getType().equals("forking")) {
-            ForkingNode forkingNode = new ForkingNode(question, pattern);
+            QuestionNodeForking forkingNode = new QuestionNodeForking(question, pattern);
             return new Entry(forkingNode, nextIndexYes, nextIndexNo);
         }
-        CycleNode cycleNode = new CycleNode(question, pattern);
+        QuestionNodeCycle cycleNode = new QuestionNodeCycle(question, pattern);
         return new Entry(cycleNode, nextIndexYes, nextIndexNo);
     }
 
     private void linkNodes(Map<Integer, Entry> nodesMap) {
         for (Entry entry : nodesMap.values()) {
             QuestionNode node = entry.getNode();
-            if (node instanceof LinearNode) {
+            if (node instanceof QuestionNodeLinear) {
                 int nextIndex = entry.getNextIndex();
-                LinearNode linearNode = (LinearNode) node;
+                QuestionNodeLinear linearNode = (QuestionNodeLinear) node;
                 linearNode.setNext(nodesMap.get(nextIndex).getNode());
                 continue;
             }
             int nextIndexYes = entry.getNextIndexYes();
             int nextIndexNo = entry.getNextIndexNo();
-            if (node instanceof ForkingNode) {
-                ForkingNode forkingNode = (ForkingNode) node;
+            if (node instanceof QuestionNodeForking) {
+                QuestionNodeForking forkingNode = (QuestionNodeForking) node;
                 forkingNode.setNextYes(nodesMap.get(nextIndexYes).getNode());
                 forkingNode.setNextNo(nodesMap.get(nextIndexNo).getNode());
 
             }
-            if (node instanceof CycleNode) {
-                CycleNode cycleNode = (CycleNode) node;
+            if (node instanceof QuestionNodeCycle) {
+                QuestionNodeCycle cycleNode = (QuestionNodeCycle) node;
                 cycleNode.setNextIn(nodesMap.get(nextIndexYes).getNode());
                 cycleNode.setNextOut(nodesMap.get(nextIndexNo).getNode());
 
@@ -102,10 +102,10 @@ public class NodeSet {
         Set<Integer> nonRootEntries = new HashSet<>();
 
         for (Entry entry : nodesMap.values()) {
-            if (entry.getNode() instanceof LinearNode) {
+            if (entry.getNode() instanceof QuestionNodeLinear) {
                 nonRootEntries.add(entry.getNextIndex());
             }
-            if (entry.getNode() instanceof ForkingNode || entry.getNode() instanceof CycleNode) {
+            if (entry.getNode() instanceof QuestionNodeForking || entry.getNode() instanceof QuestionNodeCycle) {
                 nonRootEntries.add(entry.getNextIndexNo());
                 nonRootEntries.add(entry.getNextIndexYes());
             }

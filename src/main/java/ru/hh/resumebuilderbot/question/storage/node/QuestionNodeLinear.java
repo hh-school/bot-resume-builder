@@ -3,11 +3,11 @@ package ru.hh.resumebuilderbot.question.storage.node;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
 
-public class LinearNode implements QuestionNode {
+public class QuestionNodeLinear implements QuestionNode {
     private Question question;
     private QuestionNode next;
 
-    public LinearNode(Question question) {
+    public QuestionNodeLinear(Question question) {
         this.question = question;
     }
 
@@ -37,6 +37,6 @@ public class LinearNode implements QuestionNode {
 
     @Override
     public QuestionNode cloneContent() {
-        return new LinearNode(question);
+        return new QuestionNodeLinear(question);
     }
 }

@@ -5,10 +5,10 @@ import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
 
-public class TerminalNode implements QuestionNode {
+public class QuestionNodeTerminal implements QuestionNode {
     private Question question;
 
-    public TerminalNode() {
+    public QuestionNodeTerminal() {
         question = new Question(TextsStorage.getText(TextId.FINISHED));
     }
 
@@ -34,6 +34,6 @@ public class TerminalNode implements QuestionNode {
 
     @Override
     public QuestionNode cloneContent() {
-        return new TerminalNode();
+        return new QuestionNodeTerminal();
     }
 }

@@ -5,20 +5,19 @@ import ru.hh.resumebuilderbot.question.Question;
 
 import java.util.regex.Pattern;
 
-public class ForkingNode implements QuestionNode {
+public class QuestionNodeCycle implements QuestionNode {
     private Question question;
-    private QuestionNode nextYes;
-    private QuestionNode nextNo;
+    private QuestionNode nextIn;
+    private QuestionNode nextOut;
     private Pattern answerPattern;
     private boolean matches;
 
-
-    public ForkingNode(Question question, String answerPattern) {
+    public QuestionNodeCycle(Question question, String answerPattern) {
         this.question = question;
         this.answerPattern = Pattern.compile(answerPattern);
     }
 
-    private ForkingNode(Question question, Pattern pattern) {
+    private QuestionNodeCycle(Question question, Pattern pattern) {
         this.question = question;
         this.answerPattern = pattern;
     }
@@ -35,24 +34,25 @@ public class ForkingNode implements QuestionNode {
 
     @Override
     public synchronized QuestionNode getNext() {
-        return matches ? nextYes : nextNo;
+        return matches ? nextIn : nextOut;
     }
 
     @Override
     public boolean needToSaveAnswer() {
-        return true;
+        return false;
     }
 
     @Override
     public QuestionNode cloneContent() {
-        return new ForkingNode(question, answerPattern);
+        return new QuestionNodeCycle(question, answerPattern);
     }
 
-    public void setNextYes(QuestionNode nextYes) {
-        this.nextYes = nextYes;
+    public void setNextIn(QuestionNode nextIn) {
+        this.nextIn = nextIn;
     }
 
-    public void setNextNo(QuestionNode nextNo) {
-        this.nextNo = nextNo;
+    public void setNextOut(QuestionNode nextOut) {
+        this.nextOut = nextOut;
     }
 }
+
