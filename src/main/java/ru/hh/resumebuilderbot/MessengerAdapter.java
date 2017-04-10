@@ -3,7 +3,7 @@ package ru.hh.resumebuilderbot;
 public interface MessengerAdapter {
     void ask(Question question);
 
-    void setHandler(AbstractBotBody handler);
+    void setBotBody(BotBody botBody);
 
     void start();
 }

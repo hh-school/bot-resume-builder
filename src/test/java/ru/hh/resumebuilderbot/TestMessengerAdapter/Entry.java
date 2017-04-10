@@ -1,4 +1,4 @@
-package ru.hh.resumebuilderbot.TestMessengerAdapter;
+package ru.hh.resumebuilderbot.testmessengeradapter;
 
 import java.util.regex.Pattern;
 
