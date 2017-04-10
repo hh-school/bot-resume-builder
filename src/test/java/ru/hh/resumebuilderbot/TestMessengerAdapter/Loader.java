@@ -1,4 +1,4 @@
-package ru.hh.resumebuilderbot.TestMessengerAdapter;
+package ru.hh.resumebuilderbot.testmessengeradapter;
 
 import java.io.IOException;
 import java.nio.file.Files;

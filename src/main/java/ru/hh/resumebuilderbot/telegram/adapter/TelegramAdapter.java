@@ -7,7 +7,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
-import ru.hh.resumebuilderbot.AbstractBotBody;
+import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.ChatId;
 import ru.hh.resumebuilderbot.MessengerAdapter;
@@ -24,7 +24,7 @@ public class TelegramAdapter implements MessengerAdapter {
     private final BotImpl bot;
     private int timeout;
 
-    private AbstractBotBody handler;
+    private BotBody botBody;
 
     public TelegramAdapter(String token, String botUsername, int timeoutMs) {
         this.token = token;
@@ -34,8 +34,8 @@ public class TelegramAdapter implements MessengerAdapter {
     }
 
     @Override
-    public void setHandler(AbstractBotBody handler) {
-        this.handler = handler;
+    public void setBotBody(BotBody botBody) {
+        this.botBody = botBody;
     }
 
     @Override
@@ -97,7 +97,7 @@ public class TelegramAdapter implements MessengerAdapter {
                 ChatId chatId = new ChatId(innerChatId);
                 String answerText = telegramAnswer.getAnswerText();
                 Answer answer = new Answer(chatId, answerText);
-                handler.answer(answer, timeout);
+                botBody.answer(answer, timeout);
             }
         }
 

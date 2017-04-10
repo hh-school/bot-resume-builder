@@ -1,6 +1,6 @@
 package ru.hh.resumebuilderbot.testmessengeradapter;
 
-import ru.hh.resumebuilderbot.AbstractBotBody;
+import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.MessengerAdapter;
 import ru.hh.resumebuilderbot.Question;
@@ -14,7 +14,7 @@ public class TestMessengerAdapter implements MessengerAdapter {
 
     private final String defaultAnswerText = "cant understand your question";
 
-    private AbstractBotBody bot;
+    private BotBody bot;
 
     private List<Entry> entries = new ArrayList<>();
 
@@ -30,7 +30,7 @@ public class TestMessengerAdapter implements MessengerAdapter {
     }
 
     @Override
-    public void setHandler(AbstractBotBody handler) {
+    public void setBotBody(BotBody handler) {
 
     }
 

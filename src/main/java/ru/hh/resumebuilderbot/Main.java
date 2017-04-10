@@ -19,9 +19,9 @@ public class Main {
                 TIMEOUT);
 
         // connect to telegram server
-        BotBody bot = new BotBody();
+        BotBody bot = new BotBodyImpl();
 
-        messengerAdapter.setHandler(bot);
+        messengerAdapter.setBotBody(bot);
         bot.setMessenger(messengerAdapter);
 
         // configure connection to job site
