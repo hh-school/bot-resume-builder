@@ -96,7 +96,8 @@ public class XMLParser {
             this.allowedAnswers = allowedAnswers;
         }
 
-        public Entry(String type, int index, String text, List<String> allowedAnswers, String pattern, int nextYes, int nextNo) {
+        public Entry(String type, int index, String text, List<String> allowedAnswers, String pattern, int nextYes,
+                     int nextNo) {
             this.index = index;
             this.type = type;
             this.text = text;

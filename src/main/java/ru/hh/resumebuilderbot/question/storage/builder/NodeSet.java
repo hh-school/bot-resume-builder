@@ -1,10 +1,10 @@
 package ru.hh.resumebuilderbot.question.storage.builder;
 
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeCycle;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeForking;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeLinear;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeTerminal;
 
 import java.util.HashMap;
