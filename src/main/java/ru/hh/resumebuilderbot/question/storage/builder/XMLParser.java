@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class XMLParser {
-    public List<Entry> parse(String filename) {
+class XMLParser {
+    List<Entry> parse(String filename) {
         try {
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document document = documentBuilder.parse(filename);
@@ -88,7 +88,7 @@ public class XMLParser {
         private int nextYes;
         private int nextNo;
 
-        public Entry(int index, int nextIndex, String text, List<String> allowedAnswers) {
+        Entry(int index, int nextIndex, String text, List<String> allowedAnswers) {
             this.index = index;
             this.type = "linear";
             this.nextIndex = nextIndex;
@@ -96,7 +96,7 @@ public class XMLParser {
             this.allowedAnswers = allowedAnswers;
         }
 
-        public Entry(String type, int index, String text, List<String> allowedAnswers, String pattern, int nextYes,
+        Entry(String type, int index, String text, List<String> allowedAnswers, String pattern, int nextYes,
                      int nextNo) {
             this.index = index;
             this.type = type;
@@ -107,16 +107,16 @@ public class XMLParser {
             this.nextNo = nextNo;
         }
 
-        public Entry(int index) {
+        Entry(int index) {
             this.type = "terminal";
             this.index = index;
         }
 
-        public int getIndex() {
+        int getIndex() {
             return index;
         }
 
-        public int getNextIndex() {
+        int getNextIndex() {
             return nextIndex;
         }
 
@@ -124,23 +124,23 @@ public class XMLParser {
             return text;
         }
 
-        public List<String> getAllowedAnswers() {
+        List<String> getAllowedAnswers() {
             return allowedAnswers;
         }
 
-        public String getType() {
+        String getType() {
             return type;
         }
 
-        public String getPattern() {
+        String getPattern() {
             return pattern;
         }
 
-        public int getNextYes() {
+        int getNextYes() {
             return nextYes;
         }
 
-        public int getNextNo() {
+        int getNextNo() {
             return nextNo;
         }
     }

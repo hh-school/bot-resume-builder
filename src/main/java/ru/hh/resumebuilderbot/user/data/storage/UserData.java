@@ -23,11 +23,11 @@ class UserData {
     void registerAnswer(Answer answer) {
         currentState.registerAnswer(answer);
         if (currentState.needToSaveAnswer()) {
-            persistAnswer(answer);
+            saveAnswer(answer);
         }
     }
 
-    public void moveForward() {
+    void moveForward() {
         currentState.moveForward();
     }
 
@@ -35,7 +35,7 @@ class UserData {
         return answers;
     }
 
-    private void persistAnswer(Answer answer) {
+    private void saveAnswer(Answer answer) {
         Question currentQuestion = currentState.getCurrentQuestion();
         answers.add(new UserAnswer(currentQuestion, answer));
     }
