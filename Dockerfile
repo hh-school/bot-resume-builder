@@ -1,7 +1,7 @@
 FROM maven:alpine
 
 WORKDIR /ResumeBuilderBot
-COPY pom.xml .
+COPY pom.xml checkstyle.xml ./
 COPY src src
 RUN mvn compile assembly:single
 
