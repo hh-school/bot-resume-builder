@@ -25,6 +25,9 @@ class UserData {
         if (currentState.needToSaveAnswer()) {
             persistAnswer(answer);
         }
+    }
+
+    public void moveForward() {
         currentState.moveForward();
     }
 

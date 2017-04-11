@@ -12,6 +12,8 @@ public class AnswerMessageHandler extends MessageHandler {
 
         UserDataStorage.registerAnswer(user, answer);
 
+        UserDataStorage.moveForward(user);
+
         questionsGenerator.addGenerator(new CurrentQuestionGenerator(user));
         return questionsGenerator;
     }

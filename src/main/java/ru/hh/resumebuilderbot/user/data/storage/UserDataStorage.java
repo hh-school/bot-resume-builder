@@ -46,4 +46,9 @@ public class UserDataStorage {
     public static Question getCurrentQuestion(User user) {
         return instance.userDataMap.get(user).getCurrentState().getCurrentQuestion();
     }
+
+    public static void moveForward(User user) {
+        UserData userData = instance.userDataMap.get(user);
+        userData.moveForward();
+    }
 }
