@@ -16,10 +16,6 @@ class UserData {
         currentState = new CurrentUserState();
     }
 
-    CurrentUserState getCurrentState() {
-        return currentState;
-    }
-
     void registerAnswer(Answer answer) {
         currentState.registerAnswer(answer);
         if (currentState.needToSaveAnswer()) {
@@ -29,6 +25,11 @@ class UserData {
 
     void moveForward() {
         currentState.moveForward();
+    }
+
+    Question getCurrentQuestion()
+    {
+        return currentState.getCurrentQuestion();
     }
 
     List<UserAnswer> getAnswers() {
