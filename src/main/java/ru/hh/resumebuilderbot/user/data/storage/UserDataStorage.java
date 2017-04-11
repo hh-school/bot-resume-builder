@@ -1,9 +1,8 @@
 package ru.hh.resumebuilderbot.user.data.storage;
 
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.ChatId;
-import ru.hh.resumebuilderbot.CurrentUserState;
-import ru.hh.resumebuilderbot.QuestionsStorage;
+import ru.hh.resumebuilderbot.User;
+import ru.hh.resumebuilderbot.question.Question;
 
 import java.util.List;
 import java.util.Map;
@@ -11,39 +10,40 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class UserDataStorage {
     private static final UserDataStorage instance = new UserDataStorage();
-    private Map<ChatId, UserData> userDataMap = new ConcurrentHashMap<>();
+    private Map<User, UserData> userDataMap = new ConcurrentHashMap<>();
 
     private UserDataStorage() {
     }
 
-    public static boolean contains(ChatId chatId) {
-        return instance.userDataMap.containsKey(chatId);
+    public static boolean contains(User user) {
+        return instance.userDataMap.containsKey(user);
     }
 
-    public static void clear(ChatId chatId) {
-        instance.userDataMap.put(chatId, new UserData());
+    public static void clear(User user) {
+        instance.userDataMap.put(user, new UserData());
     }
 
-    public static void startNewChat(ChatId chatId) {
-        instance.userDataMap.put(chatId, new UserData());
+    public static void startNewChat(User user) {
+        instance.userDataMap.put(user, new UserData());
     }
 
-    public static CurrentUserState registerAnswer(Answer answer) {
-        ChatId chatId = answer.getChatId();
-        String answerText = answer.getAnswerBody().toString();
-        CurrentUserState currentUserState;
-        UserData userData = instance.userDataMap.get(chatId);
-        synchronized (userData) {
-            int currentQuestionNumber = userData.getCurrentState().getCurrentQuestion();
-            String currentQuestionText = QuestionsStorage.getQuestion(currentQuestionNumber);
-            userData.registerAnswer(currentQuestionText, answerText);
-            userData.incrementCurrentQuestion();
-            currentUserState = userData.getCurrentState();
+    public static void registerAnswer(User user, Answer answer) {
+        UserData userData = instance.userDataMap.get(user);
+        userData.registerAnswer(answer);
+    }
+
+    public static List<UserAnswer> getHistory(User user) {
+        return instance.userDataMap.get(user).getAnswers();
+    }
+
+    public static Object getMutex(User user) {
+        if (!contains(user)) {
+            instance.userDataMap.put(user, new UserData());
         }
-        return currentUserState;
+        return instance.userDataMap.get(user);
     }
 
-    public static List<UserAnswer> getHistory(ChatId chatId) {
-        return instance.userDataMap.get(chatId).getAnswers();
+    public static Question getCurrentQuestion(User user) {
+        return instance.userDataMap.get(user).getCurrentState().getCurrentQuestion();
     }
 }

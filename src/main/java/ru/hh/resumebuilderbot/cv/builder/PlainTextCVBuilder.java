@@ -1,6 +1,6 @@
 package ru.hh.resumebuilderbot.cv.builder;
 
-import ru.hh.resumebuilderbot.ChatId;
+import ru.hh.resumebuilderbot.User;
 import ru.hh.resumebuilderbot.user.data.storage.UserAnswer;
 import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
@@ -8,10 +8,10 @@ import java.util.List;
 
 public class PlainTextCVBuilder implements CVBuilder {
     @Override
-    public String build(ChatId chatId) {
+    public String build(User user) {
         StringBuilder resultBuilder = new StringBuilder();
         resultBuilder.append("Ваше резюме:");
-        List<UserAnswer> answers = UserDataStorage.getHistory(chatId);
+        List<UserAnswer> answers = UserDataStorage.getHistory(user);
         for (UserAnswer userAnswer : answers) {
             appendUserAnswer(resultBuilder, userAnswer);
         }
@@ -19,8 +19,8 @@ public class PlainTextCVBuilder implements CVBuilder {
     }
 
     private void appendUserAnswer(StringBuilder builder, UserAnswer answer) {
-        String questionText = answer.getQuestion();
-        String answerText = answer.getAnswer();
+        String questionText = answer.getQuestion().getText();
+        String answerText = (String) (answer.getAnswer().getAnswerBody());
         builder.append("вопрос: ");
         builder.append(questionText);
         builder.append(System.lineSeparator());

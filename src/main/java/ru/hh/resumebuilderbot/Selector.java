@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Selector {
+class Selector {
     private static final List<Parser> parsers;
 
     static {
@@ -23,7 +23,7 @@ public class Selector {
         registerParser(".*", AnswerMessageHandler.class);
     }
 
-    public static MessageHandler select(Answer answer) {
+    static MessageHandler select(Answer answer) {
         String answerText = answer.getAnswerBody().toString();
         for (Parser parser : parsers) {
             if (parser.matches(answerText)) {
@@ -45,16 +45,16 @@ public class Selector {
         private Pattern pattern;
         private Class handlerClass;
 
-        public Parser(String regExp, Class handlerClass) {
+        Parser(String regExp, Class handlerClass) {
             pattern = Pattern.compile(regExp);
             this.handlerClass = handlerClass;
         }
 
-        public Class getHandlerClass() {
+        Class getHandlerClass() {
             return handlerClass;
         }
 
-        public boolean matches(String text) {
+        boolean matches(String text) {
             return pattern.matcher(text).matches();
         }
 

@@ -7,11 +7,11 @@ import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
-import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.ChatId;
+import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.MessengerAdapter;
-import ru.hh.resumebuilderbot.Question;
+import ru.hh.resumebuilderbot.User;
+import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.telegram.adapter.answer.TelegramAnswer;
 import ru.hh.resumebuilderbot.telegram.adapter.answer.TelegramAnswerFactory;
 
@@ -22,15 +22,13 @@ public class TelegramAdapter implements MessengerAdapter {
     private final String token;
     private final String botUsername;
     private final BotImpl bot;
-    private int timeout;
 
     private BotBody botBody;
 
-    public TelegramAdapter(String token, String botUsername, int timeoutMs) {
+    public TelegramAdapter(String token, String botUsername) {
         this.token = token;
         this.botUsername = botUsername;
         this.bot = new BotImpl();
-        this.timeout = timeoutMs;
     }
 
     @Override
@@ -39,9 +37,9 @@ public class TelegramAdapter implements MessengerAdapter {
     }
 
     @Override
-    public void ask(Question question) {
+    public void ask(User user, Question question) {
         SendMessage msg = new SendMessage()
-                .setChatId(question.getChatId().getIndex())
+                .setChatId(user.getIndex())
                 .setText(question.getText());
 
         List<String> allowedAnswers = question.getAllowedAnswers();
@@ -83,7 +81,7 @@ public class TelegramAdapter implements MessengerAdapter {
     }
 
     private class BotImpl extends TelegramLongPollingBot {
-        public void sendMsg(SendMessage msg) throws TelegramApiException {
+        void sendMsg(SendMessage msg) throws TelegramApiException {
             sendMessage(msg);
         }
 
@@ -93,11 +91,11 @@ public class TelegramAdapter implements MessengerAdapter {
             if (telegramAnswer != null) {
 
 
-                long innerChatId = telegramAnswer.getInnerChatId();
-                ChatId chatId = new ChatId(innerChatId);
+                long chatId = telegramAnswer.getChatId();
+                User user = new User(chatId);
                 String answerText = telegramAnswer.getAnswerText();
-                Answer answer = new Answer(chatId, answerText);
-                botBody.answer(answer, timeout);
+                Answer answer = new Answer(answerText);
+                botBody.answer(user, answer);
             }
         }
 

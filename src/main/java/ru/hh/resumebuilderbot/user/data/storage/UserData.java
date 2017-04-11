@@ -1,33 +1,39 @@
 package ru.hh.resumebuilderbot.user.data.storage;
 
+import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.CurrentUserState;
+import ru.hh.resumebuilderbot.question.Question;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserData {
+class UserData {
 
     private CurrentUserState currentState;
     private List<UserAnswer> answers = new ArrayList<>();
 
-    public UserData() {
+    UserData() {
         currentState = new CurrentUserState();
-        currentState.setCurrentQuestion(0);
     }
 
-    public CurrentUserState getCurrentState() {
+    CurrentUserState getCurrentState() {
         return currentState;
     }
 
-    public void registerAnswer(String question, String answer) {
-        answers.add(new UserAnswer(question, answer));
+    void registerAnswer(Answer answer) {
+        currentState.registerAnswer(answer);
+        if (currentState.needToSaveAnswer()) {
+            persistAnswer(answer);
+        }
+        currentState.moveForward();
     }
 
-    public void incrementCurrentQuestion() {
-        currentState.setCurrentQuestion(currentState.getCurrentQuestion() + 1);
-    }
-
-    public List<UserAnswer> getAnswers() {
+    List<UserAnswer> getAnswers() {
         return answers;
+    }
+
+    private void persistAnswer(Answer answer) {
+        Question currentQuestion = currentState.getCurrentQuestion();
+        answers.add(new UserAnswer(currentQuestion, answer));
     }
 }

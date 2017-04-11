@@ -2,8 +2,8 @@ package ru.hh.resumebuilderbot.telegram.adapter.answer;
 
 public abstract class ProtoTelegramAnswer implements TelegramAnswer {
 
-    protected String answerText;
-    protected long innerChatId;
+    String answerText;
+    long chatId;
 
     @Override
     public String getAnswerText() {
@@ -11,7 +11,7 @@ public abstract class ProtoTelegramAnswer implements TelegramAnswer {
     }
 
     @Override
-    public long getInnerChatId() {
-        return innerChatId;
+    public long getChatId() {
+        return chatId;
     }
 }

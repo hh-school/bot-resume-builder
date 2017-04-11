@@ -1,7 +1,7 @@
 package ru.hh.resumebuilderbot;
 
 public interface BotBody {
-    void answer(Answer answer, int timeoutMs);
+    void answer(User user, Answer answer);
 
     void setMessenger(MessengerAdapter messenger);
 }

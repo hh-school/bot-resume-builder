@@ -1,14 +1,19 @@
 package ru.hh.resumebuilderbot.question.generator;
 
-import ru.hh.resumebuilderbot.ChatId;
-import ru.hh.resumebuilderbot.Question;
+import ru.hh.resumebuilderbot.User;
 import ru.hh.resumebuilderbot.cv.builder.CVFormats;
+import ru.hh.resumebuilderbot.question.Question;
 
 public class ShowAllQuestionGenerator implements QuestionGenerator {
 
+    private User user;
+
+    public ShowAllQuestionGenerator(User user) {
+        this.user = user;
+    }
 
     @Override
-    public Question generateNext(ChatId chatId) {
-        return new Question(chatId, CVFormats.PLAIN_TEXT.getBuilder().build(chatId));
+    public Question generate() {
+        return new Question(CVFormats.PLAIN_TEXT.getBuilder().build(user));
     }
 }
