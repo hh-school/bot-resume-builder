@@ -24,7 +24,12 @@ public class QuestionNodeForking implements QuestionNode {
     }
 
     @Override
-    public void checkAnswer(Answer answer) {
+    public boolean answerIsValid(Answer answer) {
+        return true;
+    }
+
+    @Override
+    public void registerAnswer(Answer answer) {
         matches = answerPattern.matcher((String) (answer.getAnswerBody())).matches();
     }
 

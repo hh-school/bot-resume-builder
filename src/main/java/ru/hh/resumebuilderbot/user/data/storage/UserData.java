@@ -27,13 +27,16 @@ class UserData {
         currentState.moveForward();
     }
 
-    Question getCurrentQuestion()
-    {
+    Question getCurrentQuestion() {
         return currentState.getCurrentQuestion();
     }
 
     List<UserAnswer> getAnswers() {
         return answers;
+    }
+
+    boolean answerIsValid(Answer answer) {
+        return currentState.answerIsValid(answer);
     }
 
     private void saveAnswer(Answer answer) {

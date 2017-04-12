@@ -22,7 +22,7 @@ public class CurrentUserState {
     }
 
     public void registerAnswer(Answer currentAnswer) {
-        currentQuestionNode.checkAnswer(currentAnswer);
+        currentQuestionNode.registerAnswer(currentAnswer);
     }
 
     public void moveForward() {
@@ -31,5 +31,9 @@ public class CurrentUserState {
 
     public boolean needToSaveAnswer() {
         return currentQuestionNode.needToSaveAnswer();
+    }
+
+    public boolean answerIsValid(Answer answer) {
+        return currentQuestionNode.answerIsValid(answer);
     }
 }
