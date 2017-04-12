@@ -16,11 +16,10 @@ public class AnswerMessageHandler extends MessageHandler {
             UserDataStorage.registerAnswer(user, answer);
 
             UserDataStorage.moveForward(user);
-
-            questionsGenerator.addGenerator(new CurrentQuestionGenerator(user));
         } else {
             questionsGenerator.addGenerator(new FixedQuestionGenerator(TextId.INVALID_ANSWER));
         }
+        questionsGenerator.addGenerator(new CurrentQuestionGenerator(user));
         return questionsGenerator;
     }
 }
