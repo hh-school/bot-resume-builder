@@ -23,6 +23,8 @@ public class TextsStorage {
                 "Опрос закончен. " + instructions);
         textsMap.put(TextId.EMPTY,
                 "Ваше резюме пока пусто. ");
+        textsMap.put(TextId.INVALID_ANSWER,
+                "Ответ не понятен");
     }
 
     //end hardcode

@@ -32,4 +32,8 @@ public class CurrentUserState {
     public boolean needToSaveAnswer() {
         return currentQuestionNode.needToSaveAnswer();
     }
+
+    public boolean answerIsValid(Answer answer) {
+        return currentQuestionNode.answerIsValid(answer);
+    }
 }

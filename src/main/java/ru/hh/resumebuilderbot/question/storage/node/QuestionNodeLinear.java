@@ -12,6 +12,11 @@ public class QuestionNodeLinear implements QuestionNode {
     }
 
     @Override
+    public boolean answerIsValid(Answer answer) {
+        return true;
+    }
+
+    @Override
     public void registerAnswer(Answer answer) {
 
     }

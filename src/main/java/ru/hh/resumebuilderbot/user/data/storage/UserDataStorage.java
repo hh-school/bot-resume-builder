@@ -52,8 +52,11 @@ public class UserDataStorage {
         userData.moveForward();
     }
 
-    private static UserData getUserData(User user)
-    {
+    public static boolean answerIsValid(User user, Answer answer) {
+        return getUserData(user).answerIsValid(answer);
+    }
+
+    private static UserData getUserData(User user) {
         return instance.userDataMap.get(user);
     }
 }
