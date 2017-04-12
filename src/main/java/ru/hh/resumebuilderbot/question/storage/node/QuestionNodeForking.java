@@ -24,17 +24,17 @@ public class QuestionNodeForking implements QuestionNode {
     }
 
     @Override
-    public synchronized void checkAnswer(Answer answer) {
+    public void checkAnswer(Answer answer) {
         matches = answerPattern.matcher((String) (answer.getAnswerBody())).matches();
     }
 
     @Override
-    public synchronized Question getQuestion() {
+    public Question getQuestion() {
         return question;
     }
 
     @Override
-    public synchronized QuestionNode getNext() {
+    public QuestionNode getNext() {
         return matches ? nextYes : nextNo;
     }
 

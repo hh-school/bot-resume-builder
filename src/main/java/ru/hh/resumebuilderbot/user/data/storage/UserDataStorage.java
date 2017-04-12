@@ -28,22 +28,32 @@ public class UserDataStorage {
     }
 
     public static void registerAnswer(User user, Answer answer) {
-        UserData userData = instance.userDataMap.get(user);
+        UserData userData = getUserData(user);
         userData.registerAnswer(answer);
     }
 
     public static List<UserAnswer> getHistory(User user) {
-        return instance.userDataMap.get(user).getAnswers();
+        return getUserData(user).getAnswers();
     }
 
     public static Object getMutex(User user) {
         if (!contains(user)) {
             instance.userDataMap.put(user, new UserData());
         }
-        return instance.userDataMap.get(user);
+        return getUserData(user);
     }
 
     public static Question getCurrentQuestion(User user) {
-        return instance.userDataMap.get(user).getCurrentState().getCurrentQuestion();
+        return getUserData(user).getCurrentQuestion();
+    }
+
+    public static void moveForward(User user) {
+        UserData userData = getUserData(user);
+        userData.moveForward();
+    }
+
+    private static UserData getUserData(User user)
+    {
+        return instance.userDataMap.get(user);
     }
 }

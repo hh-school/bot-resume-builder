@@ -12,21 +12,21 @@ public class QuestionNodeLinear implements QuestionNode {
     }
 
     @Override
-    public synchronized void checkAnswer(Answer answer) {
+    public void checkAnswer(Answer answer) {
 
     }
 
     @Override
-    public synchronized Question getQuestion() {
+    public Question getQuestion() {
         return question;
     }
 
     @Override
-    public synchronized QuestionNode getNext() {
+    public QuestionNode getNext() {
         return next;
     }
 
-    public synchronized void setNext(QuestionNode next) {
+    public void setNext(QuestionNode next) {
         this.next = next;
     }
 

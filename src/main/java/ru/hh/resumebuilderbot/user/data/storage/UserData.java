@@ -16,23 +16,27 @@ class UserData {
         currentState = new CurrentUserState();
     }
 
-    CurrentUserState getCurrentState() {
-        return currentState;
-    }
-
     void registerAnswer(Answer answer) {
         currentState.registerAnswer(answer);
         if (currentState.needToSaveAnswer()) {
-            persistAnswer(answer);
+            saveAnswer(answer);
         }
+    }
+
+    void moveForward() {
         currentState.moveForward();
+    }
+
+    Question getCurrentQuestion()
+    {
+        return currentState.getCurrentQuestion();
     }
 
     List<UserAnswer> getAnswers() {
         return answers;
     }
 
-    private void persistAnswer(Answer answer) {
+    private void saveAnswer(Answer answer) {
         Question currentQuestion = currentState.getCurrentQuestion();
         answers.add(new UserAnswer(currentQuestion, answer));
     }
