@@ -12,6 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 class XMLParser {
     List<Entry> parse(String filename) {
@@ -28,10 +29,15 @@ class XMLParser {
                 if (question.getNodeType() != Node.TEXT_NODE) {
                     NamedNodeMap attributes = question.getAttributes();
                     int id = Integer.parseInt(attributes.getNamedItem("id").getNodeValue());
+                    Optional<Node> attributeRoot = Optional.ofNullable(attributes.getNamedItem("root"));
+                    boolean isRoot = attributeRoot.isPresent() ?
+                            Boolean.parseBoolean(attributeRoot.get().getNodeValue()) : false;
                     String type = attributes.getNamedItem("type").getNodeValue();
 
                     if (type.equals("terminal")) {
-                        result.add(new Entry(id));
+                        Entry entry = new Entry(id);
+                        entry.setRoot(isRoot);
+                        result.add(entry);
                         continue;
                     }
 
@@ -49,7 +55,9 @@ class XMLParser {
 
                     if (type.equals("linear")) {
                         int nextId = Integer.parseInt(attributes.getNamedItem("next").getNodeValue());
-                        result.add(new Entry(id, nextId, text, allowedAnswers));
+                        Entry entry = new Entry(id, nextId, text, allowedAnswers);
+                        entry.setRoot(isRoot);
+                        result.add(entry);
                         continue;
                     }
                     String pattern = attributes.getNamedItem("pattern").getNodeValue();
@@ -62,8 +70,9 @@ class XMLParser {
                         nextYes = Integer.parseInt(attributes.getNamedItem("nextIn").getNodeValue());
                         nextNo = Integer.parseInt(attributes.getNamedItem("nextOut").getNodeValue());
                     }
-
-                    result.add(new Entry(type, id, text, allowedAnswers, pattern, nextYes, nextNo));
+                    Entry entry = new Entry(type, id, text, allowedAnswers, pattern, nextYes, nextNo);
+                    entry.setRoot(isRoot);
+                    result.add(entry);
                 }
             }
             return result;
@@ -87,6 +96,7 @@ class XMLParser {
         private String pattern;
         private int nextYes;
         private int nextNo;
+        private boolean isRoot;
 
         Entry(int index, int nextIndex, String text, List<String> allowedAnswers) {
             this.index = index;
@@ -110,6 +120,14 @@ class XMLParser {
         Entry(int index) {
             this.type = "terminal";
             this.index = index;
+        }
+
+        public boolean isRoot() {
+            return isRoot;
+        }
+
+        public void setRoot(boolean root) {
+            isRoot = root;
         }
 
         int getIndex() {

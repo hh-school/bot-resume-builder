@@ -7,6 +7,7 @@ import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeForking;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeLinear;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeTerminal;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -16,22 +17,24 @@ import java.util.Set;
 public class NodeSet {
     private Map<Integer, Entry> nodesMap;
 
-    private boolean valid;
     private QuestionNode root;
 
-    NodeSet(List<XMLParser.Entry> rawData) {
+    NodeSet(List<XMLParser.Entry> rawData) throws IOException {
+        if (!isValid(rawData)) {
+            throw new IOException("Error parsing XML");
+        }
         nodesMap = makeNodes(rawData);
     }
 
-    private NodeSet(Map<Integer, Entry> nodesMapArg) {
-        nodesMap = new HashMap<>();
-        for (Map.Entry<Integer, Entry> entry : nodesMapArg.entrySet()) {
-            nodesMap.put(entry.getKey(), entry.getValue().cloneContent());
+    private NodeSet(QuestionNode root, Map<Integer, Entry> nodesMap) {
+        this.nodesMap = new HashMap<>();
+        for (Map.Entry<Integer, Entry> entry : nodesMap.entrySet()) {
+            Entry newEntry = entry.getValue().cloneContent();
+            if (entry.getValue().getNode() == root) {
+                this.root = newEntry.getNode();
+            }
+            this.nodesMap.put(entry.getKey(), newEntry);
         }
-    }
-
-    public boolean isValid() {
-        return valid;
     }
 
     public QuestionNode getRoot() {
@@ -39,7 +42,6 @@ public class NodeSet {
     }
 
     public void build() {
-        validate(nodesMap);
         linkNodes(nodesMap);
     }
 
@@ -52,12 +54,19 @@ public class NodeSet {
     private Entry makeEntry(XMLParser.Entry xmlEntry) {
         if (xmlEntry.getType().equals("terminal")) {
             int index = xmlEntry.getIndex();
-            return new Entry(new QuestionNodeTerminal(), index);
+            QuestionNode terminalNode = new QuestionNodeTerminal();
+            if (xmlEntry.isRoot()) {
+                root = terminalNode;
+            }
+            return new Entry(terminalNode, index);
         }
         Question question = new Question(xmlEntry.getText(), xmlEntry.getAllowedAnswers());
         if (xmlEntry.getType().equals("linear")) {
             QuestionNodeLinear linearNode = new QuestionNodeLinear(question);
             int nextIndex = xmlEntry.getNextIndex();
+            if (xmlEntry.isRoot()) {
+                root = linearNode;
+            }
             return new Entry(linearNode, nextIndex);
         }
         String pattern = xmlEntry.getPattern();
@@ -65,9 +74,15 @@ public class NodeSet {
         int nextIndexNo = xmlEntry.getNextNo();
         if (xmlEntry.getType().equals("forking")) {
             QuestionNodeForking forkingNode = new QuestionNodeForking(question, pattern);
+            if (xmlEntry.isRoot()) {
+                root = forkingNode;
+            }
             return new Entry(forkingNode, nextIndexYes, nextIndexNo);
         }
         QuestionNodeCycle cycleNode = new QuestionNodeCycle(question, pattern);
+        if (xmlEntry.isRoot()) {
+            root = cycleNode;
+        }
         return new Entry(cycleNode, nextIndexYes, nextIndexNo);
     }
 
@@ -97,47 +112,30 @@ public class NodeSet {
         }
     }
 
-    private void validate(Map<Integer, Entry> nodesMap) {
-        // step 1 - check if number of roots exactly equals 1
-        Set<Integer> nonRootEntries = new HashSet<>();
-
-        for (Entry entry : nodesMap.values()) {
-            if (entry.getNode() instanceof QuestionNodeLinear) {
-                nonRootEntries.add(entry.getNextIndex());
-            }
-            if (entry.getNode() instanceof QuestionNodeForking || entry.getNode() instanceof QuestionNodeCycle) {
-                nonRootEntries.add(entry.getNextIndexNo());
-                nonRootEntries.add(entry.getNextIndexYes());
-            }
+    private boolean isValid(List<XMLParser.Entry> rawData) {
+        // step 1 - check if number of roots exactly equals 17
+        long numberOfRoots = rawData.stream()
+                .filter((x) -> x.isRoot())
+                .count();
+        if (numberOfRoots != 1) {
+            return false;
         }
-        Set<Integer> roots = new HashSet<>();
-        roots.addAll(nodesMap.keySet());
-        roots.removeAll(nonRootEntries);
-        if (roots.size() != 1) {
-            valid = false;
-            return;
-        }
-        int rootIndex = 0;
-        for (int x : roots) {
-            rootIndex = x;
-        }
-        root = nodesMap.get(rootIndex).getNode();
 
         // step 2 - check ids' uniqueness
         Set<Integer> usedIndices = new HashSet<>();
-        for (int index : nodesMap.keySet()) {
+        for (XMLParser.Entry entry : rawData) {
+            int index = entry.getIndex();
             if (usedIndices.contains(index)) {
-                valid = false;
-                return;
+                return false;
             }
             usedIndices.add(index);
         }
 
-        valid = true;
+        return true;
     }
 
     public NodeSet cloneContent() {
-        return new NodeSet(nodesMap);
+        return new NodeSet(root, nodesMap);
     }
 
     private class Entry {
