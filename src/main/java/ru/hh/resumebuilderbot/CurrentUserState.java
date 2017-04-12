@@ -22,7 +22,7 @@ public class CurrentUserState {
     }
 
     public void registerAnswer(Answer currentAnswer) {
-        currentQuestionNode.checkAnswer(currentAnswer);
+        currentQuestionNode.registerAnswer(currentAnswer);
     }
 
     public void moveForward() {

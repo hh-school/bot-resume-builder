@@ -13,7 +13,7 @@ public class QuestionNodeTerminal implements QuestionNode {
     }
 
     @Override
-    public void checkAnswer(Answer answer) {
+    public void registerAnswer(Answer answer) {
 
     }
 

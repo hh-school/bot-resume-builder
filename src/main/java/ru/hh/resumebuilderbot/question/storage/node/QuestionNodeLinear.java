@@ -12,7 +12,7 @@ public class QuestionNodeLinear implements QuestionNode {
     }
 
     @Override
-    public void checkAnswer(Answer answer) {
+    public void registerAnswer(Answer answer) {
 
     }
 
