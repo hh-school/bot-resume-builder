@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <graphNodes>
-    <graphNode id="1">
-        <question text="Это первый вопрос" next="2" type="linear" root="true"/>
+    <graphNode id="1" root="true">
+        <question text="Это первый вопрос" next="2" type="linear"/>
     </graphNode>
     <graphNode id="2">
         <question text="Это второй вопрос" next="3" type="linear"/>

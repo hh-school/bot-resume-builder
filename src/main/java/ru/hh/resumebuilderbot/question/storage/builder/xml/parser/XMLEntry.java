@@ -22,14 +22,17 @@ public class XMLEntry {
 
     static XMLEntry fromGraphNode(Node graphNode) throws IOException {
         Optional<Node> question = XMLNodeListStream.fromParentNode(graphNode).findFirst();
-        int id = Integer.parseInt(graphNode.getAttributes().getNamedItem("id").getNodeValue());
+        NamedNodeMap graphNodeAttributes = graphNode.getAttributes();
+        int id = Integer.parseInt(graphNodeAttributes.getNamedItem("id").getNodeValue());
+
+        Optional<Node> attributeRoot = Optional.ofNullable(graphNodeAttributes.getNamedItem("root"));
+        boolean isRoot = attributeRoot.isPresent() && Boolean.parseBoolean(attributeRoot.get().getNodeValue());
+
         if (!question.isPresent())
         {
             throw new IOException("<question> not found inside <node");
         }
         NamedNodeMap attributes = question.get().getAttributes();
-        Optional<Node> attributeRoot = Optional.ofNullable(attributes.getNamedItem("root"));
-        boolean isRoot = attributeRoot.isPresent() && Boolean.parseBoolean(attributeRoot.get().getNodeValue());
         String type = attributes.getNamedItem("type").getNodeValue();
 
         if (type.equals("terminal")) {
