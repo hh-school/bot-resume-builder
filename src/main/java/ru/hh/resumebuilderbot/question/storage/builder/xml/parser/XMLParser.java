@@ -2,7 +2,6 @@ package ru.hh.resumebuilderbot.question.storage.builder.xml.parser;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -17,11 +16,16 @@ public class XMLParser {
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = documentBuilder.parse(filename);
         Node root = document.getDocumentElement();
-        NodeList graphNodes = root.getChildNodes();
 
         List<XMLEntry> result = new ArrayList<>();
 
-        XMLNodeListStream.fromNodeList(graphNodes).forEach((x) -> result.add(XMLEntry.fromGraphNode(x)));
+        XMLNodeListStream.fromParentNode(root).forEach((x) -> {
+            try {
+                result.add(XMLEntry.fromGraphNode(x));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         return result;
     }

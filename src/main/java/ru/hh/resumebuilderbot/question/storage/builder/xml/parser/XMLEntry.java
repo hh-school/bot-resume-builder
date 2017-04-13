@@ -4,6 +4,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,10 +20,14 @@ public class XMLEntry {
     private int nextNo;
     private boolean isRoot;
 
-    static XMLEntry fromGraphNode(Node graphNode) {
-        Node question = graphNode.getFirstChild();
-        NamedNodeMap attributes = question.getAttributes();
-        int id = Integer.parseInt(attributes.getNamedItem("id").getNodeValue());
+    static XMLEntry fromGraphNode(Node graphNode) throws IOException {
+        Optional<Node> question = XMLNodeListStream.fromParentNode(graphNode).findFirst();
+        int id = Integer.parseInt(graphNode.getAttributes().getNamedItem("id").getNodeValue());
+        if (!question.isPresent())
+        {
+            throw new IOException("<question> not found inside <node");
+        }
+        NamedNodeMap attributes = question.get().getAttributes();
         Optional<Node> attributeRoot = Optional.ofNullable(attributes.getNamedItem("root"));
         boolean isRoot = attributeRoot.isPresent() && Boolean.parseBoolean(attributeRoot.get().getNodeValue());
         String type = attributes.getNamedItem("type").getNodeValue();
@@ -36,9 +41,8 @@ public class XMLEntry {
         String text = attributes.getNamedItem("text").getNodeValue();
 
         List<String> allowedAnswers = new ArrayList<>();
-        NodeList allowedAnswerNodes = question.getChildNodes();
 
-        XMLNodeListStream.fromNodeList(allowedAnswerNodes).forEach((x) ->
+        XMLNodeListStream.fromParentNode(question.get()).forEach((x) ->
                 allowedAnswers.add(x.getAttributes().getNamedItem("text").getNodeValue()));
 
         if (type.equals("linear")) {

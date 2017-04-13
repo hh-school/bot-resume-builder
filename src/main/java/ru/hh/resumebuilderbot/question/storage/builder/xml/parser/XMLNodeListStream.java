@@ -8,9 +8,14 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 class XMLNodeListStream {
-    static Stream<Node> fromNodeList(NodeList nodeList) {
+    private static Stream<Node> fromNodeList(NodeList nodeList) {
         return IntStream.range(0, nodeList.getLength())
                 .mapToObj(nodeList::item)
                 .filter((x) -> (x.getNodeType() != Node.TEXT_NODE));
+    }
+
+    static Stream<Node> fromParentNode(Node node)
+    {
+        return fromNodeList(node.getChildNodes());
     }
 }
