@@ -19,16 +19,17 @@ public class XMLParser {
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = documentBuilder.parse(filename);
         Node root = document.getDocumentElement();
-        NodeList questions = root.getChildNodes();
+        NodeList graphNodes = root.getChildNodes();
 
         List<XMLEntry> result = new ArrayList<>();
 
-        XMLNodeListStream.fromNodeList(questions).forEach((x) -> result.add(makeEntry(x)));
+        XMLNodeListStream.fromNodeList(graphNodes).forEach((x) -> result.add(makeEntry(x)));
 
         return result;
     }
 
-    private XMLEntry makeEntry(Node question) {
+    private XMLEntry makeEntry(Node graphNode) {
+        Node question = graphNode.getFirstChild();
         NamedNodeMap attributes = question.getAttributes();
         int id = Integer.parseInt(attributes.getNamedItem("id").getNodeValue());
         Optional<Node> attributeRoot = Optional.ofNullable(attributes.getNamedItem("root"));
