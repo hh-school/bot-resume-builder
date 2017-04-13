@@ -9,25 +9,23 @@ import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeTerminal;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class NodeSet {
-    private Map<Integer, Entry> nodesMap;
+    private Map<Integer, NodeSetEntry> nodesMap;
 
     private QuestionNode root;
 
     NodeSet(List<XMLParser.Entry> rawData) throws IOException {
-        checkValid(rawData);
+        XMLValidator.validate(rawData);
         nodesMap = makeNodes(rawData);
     }
 
-    private NodeSet(QuestionNode root, Map<Integer, Entry> nodesMap) {
+    private NodeSet(QuestionNode root, Map<Integer, NodeSetEntry> nodesMap) {
         this.nodesMap = new HashMap<>();
-        for (Map.Entry<Integer, Entry> entry : nodesMap.entrySet()) {
-            Entry newEntry = entry.getValue().cloneContent();
+        for (Map.Entry<Integer, NodeSetEntry> entry : nodesMap.entrySet()) {
+            NodeSetEntry newEntry = entry.getValue().cloneContent();
             if (entry.getValue().getNode() == root) {
                 this.root = newEntry.getNode();
             }
@@ -43,20 +41,20 @@ public class NodeSet {
         linkNodes(nodesMap);
     }
 
-    private Map<Integer, Entry> makeNodes(List<XMLParser.Entry> rawData) {
-        Map<Integer, Entry> result = new HashMap<>();
+    private Map<Integer, NodeSetEntry> makeNodes(List<XMLParser.Entry> rawData) {
+        Map<Integer, NodeSetEntry> result = new HashMap<>();
         rawData.forEach((x) -> result.put(x.getIndex(), makeEntry(x)));
         return result;
     }
 
-    private Entry makeEntry(XMLParser.Entry xmlEntry) {
+    private NodeSetEntry makeEntry(XMLParser.Entry xmlEntry) {
         if (xmlEntry.getType().equals("terminal")) {
             int index = xmlEntry.getIndex();
             QuestionNode terminalNode = new QuestionNodeTerminal();
             if (xmlEntry.isRoot()) {
                 root = terminalNode;
             }
-            return new Entry(terminalNode, index);
+            return new NodeSetEntry(terminalNode, index);
         }
         Question question = new Question(xmlEntry.getText(), xmlEntry.getAllowedAnswers());
         if (xmlEntry.getType().equals("linear")) {
@@ -65,7 +63,7 @@ public class NodeSet {
             if (xmlEntry.isRoot()) {
                 root = linearNode;
             }
-            return new Entry(linearNode, nextIndex);
+            return new NodeSetEntry(linearNode, nextIndex);
         }
         String pattern = xmlEntry.getPattern();
         int nextIndexYes = xmlEntry.getNextYes();
@@ -75,17 +73,17 @@ public class NodeSet {
             if (xmlEntry.isRoot()) {
                 root = forkingNode;
             }
-            return new Entry(forkingNode, nextIndexYes, nextIndexNo);
+            return new NodeSetEntry(forkingNode, nextIndexYes, nextIndexNo);
         }
         QuestionNodeCycle cycleNode = new QuestionNodeCycle(question, pattern);
         if (xmlEntry.isRoot()) {
             root = cycleNode;
         }
-        return new Entry(cycleNode, nextIndexYes, nextIndexNo);
+        return new NodeSetEntry(cycleNode, nextIndexYes, nextIndexNo);
     }
 
-    private void linkNodes(Map<Integer, Entry> nodesMap) {
-        for (Entry entry : nodesMap.values()) {
+    private void linkNodes(Map<Integer, NodeSetEntry> nodesMap) {
+        for (NodeSetEntry entry : nodesMap.values()) {
             QuestionNode node = entry.getNode();
             if (node instanceof QuestionNodeLinear) {
                 int nextIndex = entry.getNextIndex();
@@ -110,75 +108,8 @@ public class NodeSet {
         }
     }
 
-    private void checkValid(List<XMLParser.Entry> rawData) throws IOException {
-        // step 1 - check if number of roots exactly equals 17
-        long numberOfRoots = rawData.stream()
-                .filter((x) -> x.isRoot())
-                .count();
-        if (numberOfRoots != 1) {
-            throw new IOException("Error parsing XML: Number of nodes with 'root=true' isn't equals to 1");
-        }
-
-        // step 2 - check ids' uniqueness
-        Set<Integer> usedIndices = new HashSet<>();
-        for (XMLParser.Entry entry : rawData) {
-            int index = entry.getIndex();
-            if (usedIndices.contains(index)) {
-                throw new IOException("Error parsing XML: Indices of nodes is not unique");
-            }
-            usedIndices.add(index);
-        }
-    }
-
     public NodeSet cloneContent() {
         return new NodeSet(root, nodesMap);
-    }
-
-    private class Entry {
-        private QuestionNode node;
-        private int nextIndex;
-        private int nextIndexYes;
-        private int nextIndexNo;
-
-        Entry(QuestionNode node, int nextIndex) {
-            this.node = node;
-            this.nextIndex = nextIndex;
-        }
-
-        Entry(QuestionNode node, int nextIndexYes, int nextIndexNo) {
-            this.node = node;
-            this.nextIndexYes = nextIndexYes;
-            this.nextIndexNo = nextIndexNo;
-        }
-
-        private Entry(QuestionNode node, int nextIndex, int nextIndexYes, int nextIndexNo) {
-            this.node = node;
-            this.nextIndex = nextIndex;
-            this.nextIndexYes = nextIndexYes;
-            this.nextIndexNo = nextIndexNo;
-        }
-
-        public Entry cloneContent() {
-            return new Entry(node.cloneContent(), nextIndex, nextIndexYes, nextIndexNo);
-        }
-
-        public QuestionNode getNode() {
-            return node;
-        }
-
-        int getNextIndex() {
-            return nextIndex;
-        }
-
-        int getNextIndexYes() {
-            return nextIndexYes;
-        }
-
-        int getNextIndexNo() {
-            return nextIndexNo;
-        }
-
-
     }
 
 }
