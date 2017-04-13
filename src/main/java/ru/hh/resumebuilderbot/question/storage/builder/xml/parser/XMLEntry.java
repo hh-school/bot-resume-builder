@@ -1,6 +1,12 @@
 package ru.hh.resumebuilderbot.question.storage.builder.xml.parser;
 
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class XMLEntry {
     private int index;
@@ -13,7 +19,50 @@ public class XMLEntry {
     private int nextNo;
     private boolean isRoot;
 
-    XMLEntry(int index, int nextIndex, String text, List<String> allowedAnswers) {
+    static XMLEntry fromGraphNode(Node graphNode) {
+        Node question = graphNode.getFirstChild();
+        NamedNodeMap attributes = question.getAttributes();
+        int id = Integer.parseInt(attributes.getNamedItem("id").getNodeValue());
+        Optional<Node> attributeRoot = Optional.ofNullable(attributes.getNamedItem("root"));
+        boolean isRoot = attributeRoot.isPresent() && Boolean.parseBoolean(attributeRoot.get().getNodeValue());
+        String type = attributes.getNamedItem("type").getNodeValue();
+
+        if (type.equals("terminal")) {
+            XMLEntry entry = new XMLEntry(id);
+            entry.setRoot(isRoot);
+            return entry;
+        }
+
+        String text = attributes.getNamedItem("text").getNodeValue();
+
+        List<String> allowedAnswers = new ArrayList<>();
+        NodeList allowedAnswerNodes = question.getChildNodes();
+
+        XMLNodeListStream.fromNodeList(allowedAnswerNodes).forEach((x) ->
+                allowedAnswers.add(x.getAttributes().getNamedItem("text").getNodeValue()));
+
+        if (type.equals("linear")) {
+            int nextId = Integer.parseInt(attributes.getNamedItem("next").getNodeValue());
+            XMLEntry entry = new XMLEntry(id, nextId, text, allowedAnswers);
+            entry.setRoot(isRoot);
+            return entry;
+        }
+        String pattern = attributes.getNamedItem("pattern").getNodeValue();
+        int nextYes = 0;
+        int nextNo = 0;
+        if (type.equals("forking")) {
+            nextYes = Integer.parseInt(attributes.getNamedItem("nextYes").getNodeValue());
+            nextNo = Integer.parseInt(attributes.getNamedItem("nextNo").getNodeValue());
+        } else {
+            nextYes = Integer.parseInt(attributes.getNamedItem("nextIn").getNodeValue());
+            nextNo = Integer.parseInt(attributes.getNamedItem("nextOut").getNodeValue());
+        }
+        XMLEntry entry = new XMLEntry(type, id, text, allowedAnswers, pattern, nextYes, nextNo);
+        entry.setRoot(isRoot);
+        return entry;
+    }
+
+    private XMLEntry(int index, int nextIndex, String text, List<String> allowedAnswers) {
         this.index = index;
         this.type = "linear";
         this.nextIndex = nextIndex;
@@ -21,7 +70,7 @@ public class XMLEntry {
         this.allowedAnswers = allowedAnswers;
     }
 
-    XMLEntry(String type, int index, String text, List<String> allowedAnswers, String pattern, int nextYes,
+    private XMLEntry(String type, int index, String text, List<String> allowedAnswers, String pattern, int nextYes,
              int nextNo) {
         this.index = index;
         this.type = type;
@@ -32,7 +81,7 @@ public class XMLEntry {
         this.nextNo = nextNo;
     }
 
-    XMLEntry(int index) {
+    private XMLEntry(int index) {
         this.type = "terminal";
         this.index = index;
     }
@@ -41,7 +90,7 @@ public class XMLEntry {
         return isRoot;
     }
 
-    public void setRoot(boolean root) {
+    private void setRoot(boolean root) {
         isRoot = root;
     }
 
