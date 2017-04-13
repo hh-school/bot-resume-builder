@@ -1,6 +1,8 @@
 package ru.hh.resumebuilderbot.question.storage.builder;
 
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLEntry;
+import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLValidator;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeCycle;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeForking;
@@ -17,7 +19,7 @@ public class NodeSet {
 
     private QuestionNode root;
 
-    NodeSet(List<XMLParser.Entry> rawData) throws IOException {
+    NodeSet(List<XMLEntry> rawData) throws IOException {
         XMLValidator.validate(rawData);
         nodesMap = makeNodes(rawData);
     }
@@ -41,13 +43,13 @@ public class NodeSet {
         linkNodes(nodesMap);
     }
 
-    private Map<Integer, NodeSetEntry> makeNodes(List<XMLParser.Entry> rawData) {
+    private Map<Integer, NodeSetEntry> makeNodes(List<XMLEntry> rawData) {
         Map<Integer, NodeSetEntry> result = new HashMap<>();
         rawData.forEach((x) -> result.put(x.getIndex(), makeEntry(x)));
         return result;
     }
 
-    private NodeSetEntry makeEntry(XMLParser.Entry xmlEntry) {
+    private NodeSetEntry makeEntry(XMLEntry xmlEntry) {
         if (xmlEntry.getType().equals("terminal")) {
             int index = xmlEntry.getIndex();
             QuestionNode terminalNode = new QuestionNodeTerminal();

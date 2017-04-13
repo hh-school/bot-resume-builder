@@ -1,6 +1,8 @@
 package ru.hh.resumebuilderbot.question.storage.builder;
 
 import org.xml.sax.SAXException;
+import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLEntry;
+import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLParser;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
@@ -10,7 +12,7 @@ public class QuestionsLoader {
 
     public NodeSet load(String filename) throws IOException {
         try {
-            List<XMLParser.Entry> rawData = new XMLParser().parse(filename);
+            List<XMLEntry> rawData = new XMLParser().parse(filename);
             NodeSet result = new NodeSet(rawData);
             return result;
         } catch (ParserConfigurationException | SAXException e) {

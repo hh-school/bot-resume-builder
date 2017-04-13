@@ -1,12 +1,12 @@
-package ru.hh.resumebuilderbot.question.storage.builder;
+package ru.hh.resumebuilderbot.question.storage.builder.xml.parser;
 
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-class XMLValidator {
-    static void validate(List<XMLParser.Entry> rawData) throws IOException {
+public class XMLValidator {
+    public static void validate(List<XMLEntry> rawData) throws IOException {
         // step 1 - check if number of roots exactly equals 17
         long numberOfRoots = rawData.stream()
                 .filter((x) -> x.isRoot())
@@ -17,7 +17,7 @@ class XMLValidator {
 
         // step 2 - check ids' uniqueness
         Set<Integer> usedIndices = new HashSet<>();
-        for (XMLParser.Entry entry : rawData) {
+        for (XMLEntry entry : rawData) {
             int index = entry.getIndex();
             if (usedIndices.contains(index)) {
                 throw new IOException("Error parsing XML: Indices of nodes is not unique");
