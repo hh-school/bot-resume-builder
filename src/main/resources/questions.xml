@@ -34,9 +34,7 @@
             <allowedAnswer text="Зайти внутрь цикла"/>
         </question>
     </graphNode>
-    <graphNode id="10" type="terminal">
-        <question/>
-    </graphNode>
+    <graphNode id="10" type="terminal"/>
     <graphNode id="11" type="linear">
         <question text="Вы зашли внутрь цикла" next="12"/>
     </graphNode>

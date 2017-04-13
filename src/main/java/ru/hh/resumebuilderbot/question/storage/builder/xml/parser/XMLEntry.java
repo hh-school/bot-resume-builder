@@ -2,7 +2,6 @@ package ru.hh.resumebuilderbot.question.storage.builder.xml.parser;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +19,30 @@ public class XMLEntry {
     private int nextNo;
     private boolean isRoot;
 
+    private XMLEntry(int index, int nextIndex, String text, List<String> allowedAnswers) {
+        this.index = index;
+        this.type = "linear";
+        this.nextIndex = nextIndex;
+        this.text = text;
+        this.allowedAnswers = allowedAnswers;
+    }
+
+    private XMLEntry(String type, int index, String text, List<String> allowedAnswers, String pattern, int nextYes,
+                     int nextNo) {
+        this.index = index;
+        this.type = type;
+        this.text = text;
+        this.allowedAnswers = allowedAnswers;
+        this.pattern = pattern;
+        this.nextYes = nextYes;
+        this.nextNo = nextNo;
+    }
+
+    private XMLEntry(int index) {
+        this.type = "terminal";
+        this.index = index;
+    }
+
     static XMLEntry fromGraphNode(Node graphNode) throws IOException {
         Optional<Node> question = XMLNodeListStream.fromParentNode(graphNode).findFirst();
         NamedNodeMap graphNodeAttributes = graphNode.getAttributes();
@@ -36,8 +59,7 @@ public class XMLEntry {
             return entry;
         }
 
-        if (!question.isPresent())
-        {
+        if (!question.isPresent()) {
             throw new IOException("<question> not found inside non-terminal <node>");
         }
         NamedNodeMap attributes = question.get().getAttributes();
@@ -68,30 +90,6 @@ public class XMLEntry {
         XMLEntry entry = new XMLEntry(type, id, text, allowedAnswers, pattern, nextYes, nextNo);
         entry.setRoot(isRoot);
         return entry;
-    }
-
-    private XMLEntry(int index, int nextIndex, String text, List<String> allowedAnswers) {
-        this.index = index;
-        this.type = "linear";
-        this.nextIndex = nextIndex;
-        this.text = text;
-        this.allowedAnswers = allowedAnswers;
-    }
-
-    private XMLEntry(String type, int index, String text, List<String> allowedAnswers, String pattern, int nextYes,
-             int nextNo) {
-        this.index = index;
-        this.type = type;
-        this.text = text;
-        this.allowedAnswers = allowedAnswers;
-        this.pattern = pattern;
-        this.nextYes = nextYes;
-        this.nextNo = nextNo;
-    }
-
-    private XMLEntry(int index) {
-        this.type = "terminal";
-        this.index = index;
     }
 
     public boolean isRoot() {

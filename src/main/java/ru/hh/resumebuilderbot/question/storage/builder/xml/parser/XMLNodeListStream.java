@@ -14,8 +14,7 @@ class XMLNodeListStream {
                 .filter((x) -> (x.getNodeType() != Node.TEXT_NODE));
     }
 
-    static Stream<Node> fromParentNode(Node node)
-    {
+    static Stream<Node> fromParentNode(Node node) {
         return fromNodeList(node.getChildNodes());
     }
 }
