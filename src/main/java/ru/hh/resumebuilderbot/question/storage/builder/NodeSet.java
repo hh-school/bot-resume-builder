@@ -20,9 +20,7 @@ public class NodeSet {
     private QuestionNode root;
 
     NodeSet(List<XMLParser.Entry> rawData) throws IOException {
-        if (!isValid(rawData)) {
-            throw new IOException("Error parsing XML");
-        }
+        checkValid(rawData);
         nodesMap = makeNodes(rawData);
     }
 
@@ -112,13 +110,13 @@ public class NodeSet {
         }
     }
 
-    private boolean isValid(List<XMLParser.Entry> rawData) {
+    private void checkValid(List<XMLParser.Entry> rawData) throws IOException {
         // step 1 - check if number of roots exactly equals 17
         long numberOfRoots = rawData.stream()
                 .filter((x) -> x.isRoot())
                 .count();
         if (numberOfRoots != 1) {
-            return false;
+            throw new IOException("Error parsing XML: Number of nodes with 'root=true' isn't equals to 1");
         }
 
         // step 2 - check ids' uniqueness
@@ -126,12 +124,10 @@ public class NodeSet {
         for (XMLParser.Entry entry : rawData) {
             int index = entry.getIndex();
             if (usedIndices.contains(index)) {
-                return false;
+                throw new IOException("Error parsing XML: Indices of nodes is not unique");
             }
             usedIndices.add(index);
         }
-
-        return true;
     }
 
     public NodeSet cloneContent() {

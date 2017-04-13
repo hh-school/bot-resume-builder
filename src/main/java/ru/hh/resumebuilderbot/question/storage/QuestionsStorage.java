@@ -16,9 +16,6 @@ public class QuestionsStorage {
         try {
             nodeSetSample = questionsLoader.load("src/main/resources/questions.xml");
             nodeSetSample.build();
-            if (!nodeSetSample.isValid()) {
-                throw new IOException("Error building questions graph");
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
