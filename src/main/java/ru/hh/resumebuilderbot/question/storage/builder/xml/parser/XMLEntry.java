@@ -28,18 +28,19 @@ public class XMLEntry {
         Optional<Node> attributeRoot = Optional.ofNullable(graphNodeAttributes.getNamedItem("root"));
         boolean isRoot = attributeRoot.isPresent() && Boolean.parseBoolean(attributeRoot.get().getNodeValue());
 
-        if (!question.isPresent())
-        {
-            throw new IOException("<question> not found inside <node");
-        }
-        NamedNodeMap attributes = question.get().getAttributes();
-        String type = attributes.getNamedItem("type").getNodeValue();
+        String type = graphNodeAttributes.getNamedItem("type").getNodeValue();
 
         if (type.equals("terminal")) {
             XMLEntry entry = new XMLEntry(id);
             entry.setRoot(isRoot);
             return entry;
         }
+
+        if (!question.isPresent())
+        {
+            throw new IOException("<question> not found inside non-terminal <node>");
+        }
+        NamedNodeMap attributes = question.get().getAttributes();
 
         String text = attributes.getNamedItem("text").getNodeValue();
 

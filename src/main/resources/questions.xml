@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <graphNodes>
-    <graphNode id="1" root="true">
-        <question text="Это первый вопрос" next="2" type="linear"/>
+    <graphNode id="1" root="true" type="linear">
+        <question text="Это первый вопрос" next="2"/>
     </graphNode>
-    <graphNode id="2">
-        <question text="Это второй вопрос" next="3" type="linear"/>
+    <graphNode id="2" type="linear">
+        <question text="Это второй вопрос" next="3"/>
     </graphNode>
-    <graphNode id="3">
-        <question text="Это третий вопрос" pattern="Первый вариант" nextYes="4" nextNo="5" type="forking">
+    <graphNode id="3" type="forking">
+        <question text="Это третий вопрос" pattern="Первый вариант" nextYes="4" nextNo="5">
             <allowedAnswer text="Первый вариант"/>
             <allowedAnswer text="Второй вариант"/>
         </question>
     </graphNode>
-    <graphNode id="4">
-        <question text="Этот вопрос Вы видите, если выбрали первый вариант ответа" next="6" type="linear"/>
+    <graphNode id="4" type="linear">
+        <question text="Этот вопрос Вы видите, если выбрали первый вариант ответа" next="6"/>
     </graphNode>
-    <graphNode id="5">
-        <question text="Этот вопрос Вы видите, если выбрали второй вариант ответа" next="7" type="linear"/>
+    <graphNode id="5" type="linear">
+        <question text="Этот вопрос Вы видите, если выбрали второй вариант ответа" next="7"/>
     </graphNode>
-    <graphNode id="6">
-        <question text="Это продолжение ветки первого варианта ответа" next="7" type="linear"/>
+    <graphNode id="6" type="linear">
+        <question text="Это продолжение ветки первого варианта ответа" next="7"/>
     </graphNode>
-    <graphNode id="7">
-        <question text="Здесь ветки вопросов сливаются" type="linear" next="8"/>
+    <graphNode id="7" type="linear">
+        <question text="Здесь ветки вопросов сливаются" next="8"/>
     </graphNode>
-    <graphNode id="8">
-        <question text="Далее будет пример цикла" type="linear" next="9"/>
+    <graphNode id="8" type="linear">
+        <question text="Далее будет пример цикла" next="9"/>
     </graphNode>
-    <graphNode id="9">
-        <question text="Вы хотите зайти внутрь цикла или закончить опрос?" type="cycle" pattern="Закончить опрос"
+    <graphNode id="9" type="cycle">
+        <question text="Вы хотите зайти внутрь цикла или закончить опрос?" pattern="Закончить опрос"
                   nextIn="10" nextOut="11">
             <allowedAnswer text="Закончить опрос"/>
             <allowedAnswer text="Зайти внутрь цикла"/>
         </question>
     </graphNode>
-    <graphNode id="10">
-        <question type="terminal"/>
+    <graphNode id="10" type="terminal">
+        <question/>
     </graphNode>
-    <graphNode id="11">
-        <question text="Вы зашли внутрь цикла" type="linear" next="12"/>
+    <graphNode id="11" type="linear">
+        <question text="Вы зашли внутрь цикла" next="12"/>
     </graphNode>
-    <graphNode id="12">
-        <question text="Вы все еще внутри цикла" type="linear" next="13"/>
+    <graphNode id="12" type="linear">
+        <question text="Вы все еще внутри цикла" next="13"/>
     </graphNode>
-    <graphNode id="13">
-        <question text="Это последний вопрос в теле цикла" type="linear" next="9"/>
+    <graphNode id="13" type="linear">
+        <question text="Это последний вопрос в теле цикла" next="9"/>
     </graphNode>
 </graphNodes>
