@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<questions>
+<nodes>
     <question id="1" text="Это первый вопрос" next="2" type="linear" root="true"/>
     <question id="2" text="Это второй вопрос" next="3" type="linear"/>
     <question id="3" text="Это третий вопрос" pattern="Первый вариант" nextYes="4" nextNo="5" type="forking">
@@ -20,4 +20,4 @@
     <question id="11" text="Вы зашли внутрь цикла" type="linear" next="12"/>
     <question id="12" text="Вы все еще внутри цикла" type="linear" next="13"/>
     <question id="13" text="Это последний вопрос в теле цикла" type="linear" next="9"/>
-</questions>
+</nodes>
