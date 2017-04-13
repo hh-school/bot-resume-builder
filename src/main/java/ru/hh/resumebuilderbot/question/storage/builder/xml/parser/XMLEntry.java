@@ -72,7 +72,7 @@ public class XMLEntry {
                 allowedAnswers.add(x.getAttributes().getNamedItem("text").getNodeValue()));
 
         if (type.equals("linear")) {
-            int nextId = Integer.parseInt(attributes.getNamedItem("next").getNodeValue());
+            int nextId = Integer.parseInt(graphNodeAttributes.getNamedItem("next").getNodeValue());
             XMLEntry entry = new XMLEntry(id, nextId, text, allowedAnswers);
             entry.setRoot(isRoot);
             return entry;
