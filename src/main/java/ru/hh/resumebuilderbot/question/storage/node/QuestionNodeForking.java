@@ -25,7 +25,7 @@ public class QuestionNodeForking implements QuestionNode {
 
     @Override
     public boolean answerIsValid(Answer answer) {
-        return true;
+        return question.answerIsAllowed(answer);
     }
 
     @Override

@@ -88,14 +88,18 @@ public class XMLEntry {
 
         String text = attributes.getNamedItem("text").getNodeValue();
 
-        List<String> allowedAnswers = new ArrayList<>();
-
-        Optional<Node> allowedAnswersNode = XMLNodeListStream.fromParentNode(questionNode).findFirst();
-        if (allowedAnswersNode.isPresent()) {
-            XMLNodeListStream.fromParentNode(allowedAnswersNode.get()).forEach((x) ->
-                    allowedAnswers.add(x.getAttributes().getNamedItem("text").getNodeValue()));
+        Optional<Node> variantsOfAnswerNode = XMLNodeListStream.fromParentNode(questionNode).findFirst();
+        if (variantsOfAnswerNode.isPresent()) {
+            boolean otherVariantsAllowed = Boolean.parseBoolean(variantsOfAnswerNode.get()
+                    .getAttributes()
+                    .getNamedItem("othersAllowed")
+                    .getNodeValue());
+            List<String> variantsOfAnswer = new ArrayList<>();
+            XMLNodeListStream.fromParentNode(variantsOfAnswerNode.get()).forEach((x) ->
+                    variantsOfAnswer.add(x.getAttributes().getNamedItem("text").getNodeValue()));
+            return new Question(text, variantsOfAnswer, otherVariantsAllowed);
         }
-        return new Question(text, allowedAnswers);
+        return new Question(text);
     }
 
     public boolean isRoot() {
