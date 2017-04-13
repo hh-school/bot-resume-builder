@@ -16,9 +16,6 @@ public class QuestionsStorage {
         try {
             nodeSetSample = questionsLoader.load("src/main/resources/questions.xml");
             nodeSetSample.build();
-            if (!nodeSetSample.isValid()) {
-                throw new IOException("Error building questions graph");
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -30,10 +27,7 @@ public class QuestionsStorage {
     public static QuestionNode getRoot() throws IOException {
         NodeSet nodeSetNew = nodeSetSample.cloneContent();
         nodeSetNew.build();
-        if (nodeSetNew.isValid()) {
-            return nodeSetSample.getRoot();
-        }
-        throw new IOException("Error building questions graph");
+        return nodeSetNew.getRoot();
     }
 
 }

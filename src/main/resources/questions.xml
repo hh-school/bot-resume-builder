@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <questions>
-    <question id="1" text="Это первый вопрос" next="2" type="linear"/>
+    <question id="1" text="Это первый вопрос" next="2" type="linear" root="true"/>
     <question id="2" text="Это второй вопрос" next="3" type="linear"/>
     <question id="3" text="Это третий вопрос" pattern="Первый вариант" nextYes="4" nextNo="5" type="forking">
         <allowedAnswer text="Первый вариант"/>
