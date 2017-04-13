@@ -15,75 +15,66 @@ import java.util.List;
 import java.util.Optional;
 
 class XMLParser {
-    List<Entry> parse(String filename) {
-        try {
-            DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document document = documentBuilder.parse(filename);
-            Node root = document.getDocumentElement();
-            NodeList questions = root.getChildNodes();
+    List<Entry> parse(String filename) throws ParserConfigurationException, IOException, SAXException {
+        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document document = documentBuilder.parse(filename);
+        Node root = document.getDocumentElement();
+        NodeList questions = root.getChildNodes();
 
-            List<Entry> result = new ArrayList<>();
+        List<Entry> result = new ArrayList<>();
 
-            for (int i = 0; i < questions.getLength(); i++) {
-                Node question = questions.item(i);
-                if (question.getNodeType() != Node.TEXT_NODE) {
-                    NamedNodeMap attributes = question.getAttributes();
-                    int id = Integer.parseInt(attributes.getNamedItem("id").getNodeValue());
-                    Optional<Node> attributeRoot = Optional.ofNullable(attributes.getNamedItem("root"));
-                    boolean isRoot = attributeRoot.isPresent() ?
-                            Boolean.parseBoolean(attributeRoot.get().getNodeValue()) : false;
-                    String type = attributes.getNamedItem("type").getNodeValue();
+        for (int i = 0; i < questions.getLength(); i++) {
+            Node question = questions.item(i);
+            if (question.getNodeType() != Node.TEXT_NODE) {
+                NamedNodeMap attributes = question.getAttributes();
+                int id = Integer.parseInt(attributes.getNamedItem("id").getNodeValue());
+                Optional<Node> attributeRoot = Optional.ofNullable(attributes.getNamedItem("root"));
+                boolean isRoot = attributeRoot.isPresent() ?
+                        Boolean.parseBoolean(attributeRoot.get().getNodeValue()) : false;
+                String type = attributes.getNamedItem("type").getNodeValue();
 
-                    if (type.equals("terminal")) {
-                        Entry entry = new Entry(id);
-                        entry.setRoot(isRoot);
-                        result.add(entry);
-                        continue;
-                    }
-
-                    String text = attributes.getNamedItem("text").getNodeValue();
-
-                    List<String> allowedAnswers = new ArrayList<>();
-                    NodeList allowedAnswerNodes = question.getChildNodes();
-                    for (int j = 0; j < allowedAnswerNodes.getLength(); j++) {
-                        Node allowedAnswer = allowedAnswerNodes.item(j);
-                        if (allowedAnswer.getNodeType() != Node.TEXT_NODE) {
-                            NamedNodeMap allowedAnswerAttributes = allowedAnswer.getAttributes();
-                            allowedAnswers.add(allowedAnswerAttributes.getNamedItem("text").getNodeValue());
-                        }
-                    }
-
-                    if (type.equals("linear")) {
-                        int nextId = Integer.parseInt(attributes.getNamedItem("next").getNodeValue());
-                        Entry entry = new Entry(id, nextId, text, allowedAnswers);
-                        entry.setRoot(isRoot);
-                        result.add(entry);
-                        continue;
-                    }
-                    String pattern = attributes.getNamedItem("pattern").getNodeValue();
-                    int nextYes = 0;
-                    int nextNo = 0;
-                    if (type.equals("forking")) {
-                        nextYes = Integer.parseInt(attributes.getNamedItem("nextYes").getNodeValue());
-                        nextNo = Integer.parseInt(attributes.getNamedItem("nextNo").getNodeValue());
-                    } else {
-                        nextYes = Integer.parseInt(attributes.getNamedItem("nextIn").getNodeValue());
-                        nextNo = Integer.parseInt(attributes.getNamedItem("nextOut").getNodeValue());
-                    }
-                    Entry entry = new Entry(type, id, text, allowedAnswers, pattern, nextYes, nextNo);
+                if (type.equals("terminal")) {
+                    Entry entry = new Entry(id);
                     entry.setRoot(isRoot);
                     result.add(entry);
+                    continue;
                 }
+
+                String text = attributes.getNamedItem("text").getNodeValue();
+
+                List<String> allowedAnswers = new ArrayList<>();
+                NodeList allowedAnswerNodes = question.getChildNodes();
+                for (int j = 0; j < allowedAnswerNodes.getLength(); j++) {
+                    Node allowedAnswer = allowedAnswerNodes.item(j);
+                    if (allowedAnswer.getNodeType() != Node.TEXT_NODE) {
+                        NamedNodeMap allowedAnswerAttributes = allowedAnswer.getAttributes();
+                        allowedAnswers.add(allowedAnswerAttributes.getNamedItem("text").getNodeValue());
+                    }
+                }
+
+                if (type.equals("linear")) {
+                    int nextId = Integer.parseInt(attributes.getNamedItem("next").getNodeValue());
+                    Entry entry = new Entry(id, nextId, text, allowedAnswers);
+                    entry.setRoot(isRoot);
+                    result.add(entry);
+                    continue;
+                }
+                String pattern = attributes.getNamedItem("pattern").getNodeValue();
+                int nextYes = 0;
+                int nextNo = 0;
+                if (type.equals("forking")) {
+                    nextYes = Integer.parseInt(attributes.getNamedItem("nextYes").getNodeValue());
+                    nextNo = Integer.parseInt(attributes.getNamedItem("nextNo").getNodeValue());
+                } else {
+                    nextYes = Integer.parseInt(attributes.getNamedItem("nextIn").getNodeValue());
+                    nextNo = Integer.parseInt(attributes.getNamedItem("nextOut").getNodeValue());
+                }
+                Entry entry = new Entry(type, id, text, allowedAnswers, pattern, nextYes, nextNo);
+                entry.setRoot(isRoot);
+                result.add(entry);
             }
-            return result;
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return null;
+        return result;
     }
 
 
