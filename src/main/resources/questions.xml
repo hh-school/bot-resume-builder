@@ -6,8 +6,8 @@
     <graphNode id="2" type="linear" next="3">
         <question text="Это второй вопрос"/>
     </graphNode>
-    <graphNode id="3" type="forking">
-        <question text="Это третий вопрос" pattern="Первый вариант" nextYes="4" nextNo="5">
+    <graphNode id="3" type="forking" pattern="Первый вариант" nextYes="4" nextNo="5">
+        <question text="Это третий вопрос">
             <allowedAnswer text="Первый вариант"/>
             <allowedAnswer text="Второй вариант"/>
         </question>
@@ -27,9 +27,8 @@
     <graphNode id="8" type="linear" next="9">
         <question text="Далее будет пример цикла"/>
     </graphNode>
-    <graphNode id="9" type="cycle">
-        <question text="Вы хотите зайти внутрь цикла или закончить опрос?" pattern="Закончить опрос"
-                  nextIn="10" nextOut="11">
+    <graphNode id="9" type="cycle" pattern="Закончить опрос" nextIn="10" nextOut="11">
+        <question text="Вы хотите зайти внутрь цикла или закончить опрос?">
             <allowedAnswer text="Закончить опрос"/>
             <allowedAnswer text="Зайти внутрь цикла"/>
         </question>

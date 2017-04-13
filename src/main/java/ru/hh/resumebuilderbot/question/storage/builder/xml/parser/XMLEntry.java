@@ -77,15 +77,15 @@ public class XMLEntry {
             entry.setRoot(isRoot);
             return entry;
         }
-        String pattern = attributes.getNamedItem("pattern").getNodeValue();
+        String pattern = graphNodeAttributes.getNamedItem("pattern").getNodeValue();
         int nextYes = 0;
         int nextNo = 0;
         if (type.equals("forking")) {
-            nextYes = Integer.parseInt(attributes.getNamedItem("nextYes").getNodeValue());
-            nextNo = Integer.parseInt(attributes.getNamedItem("nextNo").getNodeValue());
+            nextYes = Integer.parseInt(graphNodeAttributes.getNamedItem("nextYes").getNodeValue());
+            nextNo = Integer.parseInt(graphNodeAttributes.getNamedItem("nextNo").getNodeValue());
         } else {
-            nextYes = Integer.parseInt(attributes.getNamedItem("nextIn").getNodeValue());
-            nextNo = Integer.parseInt(attributes.getNamedItem("nextOut").getNodeValue());
+            nextYes = Integer.parseInt(graphNodeAttributes.getNamedItem("nextIn").getNodeValue());
+            nextNo = Integer.parseInt(graphNodeAttributes.getNamedItem("nextOut").getNodeValue());
         }
         XMLEntry entry = new XMLEntry(type, id, text, allowedAnswers, pattern, nextYes, nextNo);
         entry.setRoot(isRoot);
