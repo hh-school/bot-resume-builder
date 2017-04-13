@@ -5,10 +5,12 @@ import ru.hh.resumebuilderbot.question.Question;
 
 public class QuestionNodeLinear implements QuestionNode {
     private Question question;
+    private boolean isSkippable;
     private QuestionNode next;
 
-    public QuestionNodeLinear(Question question) {
+    public QuestionNodeLinear(Question question, boolean isSkippable) {
         this.question = question;
+        this.isSkippable = isSkippable;
     }
 
     @Override
@@ -41,7 +43,12 @@ public class QuestionNodeLinear implements QuestionNode {
     }
 
     @Override
+    public boolean isSkippable() {
+        return isSkippable;
+    }
+
+    @Override
     public QuestionNode cloneContent() {
-        return new QuestionNodeLinear(question);
+        return new QuestionNodeLinear(question, isSkippable);
     }
 }

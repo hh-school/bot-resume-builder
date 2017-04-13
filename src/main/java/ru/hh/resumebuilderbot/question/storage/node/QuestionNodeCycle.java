@@ -10,16 +10,19 @@ public class QuestionNodeCycle implements QuestionNode {
     private QuestionNode nextIn;
     private QuestionNode nextOut;
     private Pattern answerPattern;
+    private boolean isSkippable;
     private boolean matches;
 
-    public QuestionNodeCycle(Question question, String answerPattern) {
+    public QuestionNodeCycle(Question question, String answerPattern, boolean isSkippable) {
         this.question = question;
         this.answerPattern = Pattern.compile(answerPattern);
+        this.isSkippable = isSkippable;
     }
 
-    private QuestionNodeCycle(Question question, Pattern pattern) {
+    private QuestionNodeCycle(Question question, Pattern pattern, boolean isSkippable) {
         this.question = question;
         this.answerPattern = pattern;
+        this.isSkippable = isSkippable;
     }
 
     @Override
@@ -48,8 +51,13 @@ public class QuestionNodeCycle implements QuestionNode {
     }
 
     @Override
+    public boolean isSkippable() {
+        return isSkippable;
+    }
+
+    @Override
     public QuestionNode cloneContent() {
-        return new QuestionNodeCycle(question, answerPattern);
+        return new QuestionNodeCycle(question, answerPattern, isSkippable);
     }
 
     public void setNextIn(QuestionNode nextIn) {

@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 public class XMLEntry {
+
+    private static final boolean isRootByDefault = false;
+    private static final boolean isSkippableByDefault = true;
+
     private int index;
     private String type;
     private int nextIndex;
@@ -18,21 +22,25 @@ public class XMLEntry {
     private int nextYes;
     private int nextNo;
     private boolean isRoot;
+    private boolean isSkippable;
 
-    private XMLEntry(int index, int nextIndex, Question question) {
+    private XMLEntry(int index, int nextIndex, Question question, boolean isSkippable) {
         this.index = index;
         this.type = "linear";
         this.nextIndex = nextIndex;
         this.question = question;
+        this.isSkippable = isSkippable;
     }
 
-    private XMLEntry(String type, int index, Question question, String pattern, int nextYes, int nextNo) {
+    private XMLEntry(String type, int index, Question question, String pattern, int nextYes, int nextNo,
+                     boolean isSkippable) {
         this.index = index;
         this.type = type;
         this.question = question;
         this.pattern = pattern;
         this.nextYes = nextYes;
         this.nextNo = nextNo;
+        this.isSkippable = isSkippable;
     }
 
     private XMLEntry(int index) {
@@ -45,7 +53,15 @@ public class XMLEntry {
         int id = Integer.parseInt(graphNodeAttributes.getNamedItem("id").getNodeValue());
 
         Optional<Node> attributeRoot = Optional.ofNullable(graphNodeAttributes.getNamedItem("root"));
-        boolean isRoot = attributeRoot.isPresent() && Boolean.parseBoolean(attributeRoot.get().getNodeValue());
+        boolean isRoot = attributeRoot
+                .map((x) -> Boolean.parseBoolean(x.getNodeValue()))
+                .orElse(isRootByDefault);
+
+        Optional<Node> attributeSkippable = Optional.ofNullable(graphNodeAttributes.getNamedItem("skippable"));
+        boolean isSkippable = attributeSkippable
+                .map((x) -> Boolean.parseBoolean(x.getNodeValue()))
+                .orElse(isSkippableByDefault);
+
 
         String type = graphNodeAttributes.getNamedItem("type").getNodeValue();
 
@@ -61,10 +77,9 @@ public class XMLEntry {
         }
         Question question = makeQuestion(questionNode.get());
 
-
         if (type.equals("linear")) {
             int nextId = Integer.parseInt(graphNodeAttributes.getNamedItem("next").getNodeValue());
-            XMLEntry entry = new XMLEntry(id, nextId, question);
+            XMLEntry entry = new XMLEntry(id, nextId, question, isSkippable);
             entry.setRoot(isRoot);
             return entry;
         }
@@ -78,7 +93,7 @@ public class XMLEntry {
             nextYes = Integer.parseInt(graphNodeAttributes.getNamedItem("nextIn").getNodeValue());
             nextNo = Integer.parseInt(graphNodeAttributes.getNamedItem("nextOut").getNodeValue());
         }
-        XMLEntry entry = new XMLEntry(type, id, question, pattern, nextYes, nextNo);
+        XMLEntry entry = new XMLEntry(type, id, question, pattern, nextYes, nextNo, isSkippable);
         entry.setRoot(isRoot);
         return entry;
     }
@@ -136,5 +151,9 @@ public class XMLEntry {
 
     public Question getQuestion() {
         return question;
+    }
+
+    public boolean isSkippable() {
+        return isSkippable;
     }
 }

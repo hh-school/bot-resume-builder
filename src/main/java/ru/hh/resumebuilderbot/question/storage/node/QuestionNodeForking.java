@@ -10,17 +10,20 @@ public class QuestionNodeForking implements QuestionNode {
     private QuestionNode nextYes;
     private QuestionNode nextNo;
     private Pattern answerPattern;
+    private boolean isSkippable;
     private boolean matches;
 
 
-    public QuestionNodeForking(Question question, String answerPattern) {
+    public QuestionNodeForking(Question question, String answerPattern, boolean isSkippable) {
         this.question = question;
         this.answerPattern = Pattern.compile(answerPattern);
+        this.isSkippable = isSkippable;
     }
 
-    private QuestionNodeForking(Question question, Pattern pattern) {
+    private QuestionNodeForking(Question question, Pattern pattern, boolean isSkippable) {
         this.question = question;
         this.answerPattern = pattern;
+        this.isSkippable = isSkippable;
     }
 
     @Override
@@ -49,8 +52,13 @@ public class QuestionNodeForking implements QuestionNode {
     }
 
     @Override
+    public boolean isSkippable() {
+        return isSkippable;
+    }
+
+    @Override
     public QuestionNode cloneContent() {
-        return new QuestionNodeForking(question, answerPattern);
+        return new QuestionNodeForking(question, answerPattern, isSkippable);
     }
 
     public void setNextYes(QuestionNode nextYes) {

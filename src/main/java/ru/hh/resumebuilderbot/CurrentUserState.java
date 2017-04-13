@@ -36,4 +36,8 @@ public class CurrentUserState {
     public boolean answerIsValid(Answer answer) {
         return currentQuestionNode.answerIsValid(answer);
     }
+
+    public boolean currentNodeIsSkippable() {
+        return currentQuestionNode.isSkippable();
+    }
 }

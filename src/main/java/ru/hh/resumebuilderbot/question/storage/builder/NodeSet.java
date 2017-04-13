@@ -50,6 +50,7 @@ public class NodeSet {
     }
 
     private NodeSetEntry makeEntry(XMLEntry xmlEntry) {
+        boolean isSkippable = xmlEntry.isSkippable();
         if (xmlEntry.getType().equals("terminal")) {
             int index = xmlEntry.getIndex();
             QuestionNode terminalNode = new QuestionNodeTerminal();
@@ -60,7 +61,7 @@ public class NodeSet {
         }
         Question question = xmlEntry.getQuestion();
         if (xmlEntry.getType().equals("linear")) {
-            QuestionNodeLinear linearNode = new QuestionNodeLinear(question);
+            QuestionNodeLinear linearNode = new QuestionNodeLinear(question, isSkippable);
             int nextIndex = xmlEntry.getNextIndex();
             if (xmlEntry.isRoot()) {
                 root = linearNode;
@@ -71,13 +72,13 @@ public class NodeSet {
         int nextIndexYes = xmlEntry.getNextYes();
         int nextIndexNo = xmlEntry.getNextNo();
         if (xmlEntry.getType().equals("forking")) {
-            QuestionNodeForking forkingNode = new QuestionNodeForking(question, pattern);
+            QuestionNodeForking forkingNode = new QuestionNodeForking(question, pattern, isSkippable);
             if (xmlEntry.isRoot()) {
                 root = forkingNode;
             }
             return new NodeSetEntry(forkingNode, nextIndexYes, nextIndexNo);
         }
-        QuestionNodeCycle cycleNode = new QuestionNodeCycle(question, pattern);
+        QuestionNodeCycle cycleNode = new QuestionNodeCycle(question, pattern, isSkippable);
         if (xmlEntry.isRoot()) {
             root = cycleNode;
         }

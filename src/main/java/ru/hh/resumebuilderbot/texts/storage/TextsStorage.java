@@ -25,6 +25,8 @@ public class TextsStorage {
                 "Ваше резюме пока пусто. ");
         textsMap.put(TextId.INVALID_ANSWER,
                 "Ответ не понятен");
+        textsMap.put(TextId.CANT_SKIP,
+                "Этот вопрос пропустить нельзя");
     }
 
     //end hardcode
