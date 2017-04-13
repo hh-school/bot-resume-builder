@@ -2,6 +2,7 @@ package ru.hh.resumebuilderbot.question.storage.builder.xml.parser;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import ru.hh.resumebuilderbot.question.Question;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,27 +13,23 @@ public class XMLEntry {
     private int index;
     private String type;
     private int nextIndex;
-    private String text;
-    private List<String> allowedAnswers;
+    private Question question;
     private String pattern;
     private int nextYes;
     private int nextNo;
     private boolean isRoot;
 
-    private XMLEntry(int index, int nextIndex, String text, List<String> allowedAnswers) {
+    private XMLEntry(int index, int nextIndex, Question question) {
         this.index = index;
         this.type = "linear";
         this.nextIndex = nextIndex;
-        this.text = text;
-        this.allowedAnswers = allowedAnswers;
+        this.question = question;
     }
 
-    private XMLEntry(String type, int index, String text, List<String> allowedAnswers, String pattern, int nextYes,
-                     int nextNo) {
+    private XMLEntry(String type, int index, Question question, String pattern, int nextYes, int nextNo) {
         this.index = index;
         this.type = type;
-        this.text = text;
-        this.allowedAnswers = allowedAnswers;
+        this.question = question;
         this.pattern = pattern;
         this.nextYes = nextYes;
         this.nextNo = nextNo;
@@ -44,7 +41,6 @@ public class XMLEntry {
     }
 
     static XMLEntry fromGraphNode(Node graphNode) throws IOException {
-        Optional<Node> question = XMLNodeListStream.fromParentNode(graphNode).findFirst();
         NamedNodeMap graphNodeAttributes = graphNode.getAttributes();
         int id = Integer.parseInt(graphNodeAttributes.getNamedItem("id").getNodeValue());
 
@@ -59,21 +55,16 @@ public class XMLEntry {
             return entry;
         }
 
-        if (!question.isPresent()) {
+        Optional<Node> questionNode = XMLNodeListStream.fromParentNode(graphNode).findFirst();
+        if (!questionNode.isPresent()) {
             throw new IOException("<question> not found inside non-terminal <node>");
         }
-        NamedNodeMap attributes = question.get().getAttributes();
+        Question question = makeQuestion(questionNode.get());
 
-        String text = attributes.getNamedItem("text").getNodeValue();
-
-        List<String> allowedAnswers = new ArrayList<>();
-
-        XMLNodeListStream.fromParentNode(question.get()).forEach((x) ->
-                allowedAnswers.add(x.getAttributes().getNamedItem("text").getNodeValue()));
 
         if (type.equals("linear")) {
             int nextId = Integer.parseInt(graphNodeAttributes.getNamedItem("next").getNodeValue());
-            XMLEntry entry = new XMLEntry(id, nextId, text, allowedAnswers);
+            XMLEntry entry = new XMLEntry(id, nextId, question);
             entry.setRoot(isRoot);
             return entry;
         }
@@ -87,9 +78,21 @@ public class XMLEntry {
             nextYes = Integer.parseInt(graphNodeAttributes.getNamedItem("nextIn").getNodeValue());
             nextNo = Integer.parseInt(graphNodeAttributes.getNamedItem("nextOut").getNodeValue());
         }
-        XMLEntry entry = new XMLEntry(type, id, text, allowedAnswers, pattern, nextYes, nextNo);
+        XMLEntry entry = new XMLEntry(type, id, question, pattern, nextYes, nextNo);
         entry.setRoot(isRoot);
         return entry;
+    }
+
+    private static Question makeQuestion(Node questionNode) {
+        NamedNodeMap attributes = questionNode.getAttributes();
+
+        String text = attributes.getNamedItem("text").getNodeValue();
+
+        List<String> allowedAnswers = new ArrayList<>();
+
+        XMLNodeListStream.fromParentNode(questionNode).forEach((x) ->
+                allowedAnswers.add(x.getAttributes().getNamedItem("text").getNodeValue()));
+        return new Question(text, allowedAnswers);
     }
 
     public boolean isRoot() {
@@ -108,14 +111,6 @@ public class XMLEntry {
         return nextIndex;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public List<String> getAllowedAnswers() {
-        return allowedAnswers;
-    }
-
     public String getType() {
         return type;
     }
@@ -130,5 +125,9 @@ public class XMLEntry {
 
     public int getNextNo() {
         return nextNo;
+    }
+
+    public Question getQuestion() {
+        return question;
     }
 }
