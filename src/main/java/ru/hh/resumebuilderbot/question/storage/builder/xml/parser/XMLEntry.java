@@ -90,8 +90,11 @@ public class XMLEntry {
 
         List<String> allowedAnswers = new ArrayList<>();
 
-        XMLNodeListStream.fromParentNode(questionNode).forEach((x) ->
-                allowedAnswers.add(x.getAttributes().getNamedItem("text").getNodeValue()));
+        Optional<Node> allowedAnswersNode = XMLNodeListStream.fromParentNode(questionNode).findFirst();
+        if (allowedAnswersNode.isPresent()) {
+            XMLNodeListStream.fromParentNode(allowedAnswersNode.get()).forEach((x) ->
+                    allowedAnswers.add(x.getAttributes().getNamedItem("text").getNodeValue()));
+        }
         return new Question(text, allowedAnswers);
     }
 
