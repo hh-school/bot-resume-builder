@@ -6,22 +6,22 @@ import java.util.List;
 public class Question {
     private final String text;
 
-    private final List<String> allowedAnswers;
+    private final List<String> variantsOfAnswer;
 
 
-    public Question(String text, List<String> allowedAnswers) {
+    public Question(String text, List<String> variantsOfAnswer) {
         this.text = text;
-        this.allowedAnswers = allowedAnswers;
+        this.variantsOfAnswer = variantsOfAnswer;
     }
 
     public Question(String text) {
 
         this.text = text;
-        this.allowedAnswers = new ArrayList<>();
+        this.variantsOfAnswer = new ArrayList<>();
     }
 
-    public List<String> getAllowedAnswers() {
-        return allowedAnswers;
+    public List<String> getVariantsOfAnswer() {
+        return variantsOfAnswer;
     }
 
     public String getText() {

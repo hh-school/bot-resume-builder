@@ -42,10 +42,10 @@ public class TelegramAdapter implements MessengerAdapter {
                 .setChatId(user.getIndex())
                 .setText(question.getText());
 
-        List<String> allowedAnswers = question.getAllowedAnswers();
+        List<String> variantsOfAnswer = question.getVariantsOfAnswer();
 
-        if (!allowedAnswers.isEmpty()) {
-            msg.setReplyMarkup(generateMarkup(allowedAnswers));
+        if (!variantsOfAnswer.isEmpty()) {
+            msg.setReplyMarkup(generateMarkup(variantsOfAnswer));
         }
         try {
             bot.sendMsg(msg);
@@ -54,15 +54,15 @@ public class TelegramAdapter implements MessengerAdapter {
         }
     }
 
-    private InlineKeyboardMarkup generateMarkup(List<String> allowedAnswers) {
+    private InlineKeyboardMarkup generateMarkup(List<String> variantsOfAnswer) {
         InlineKeyboardMarkup result = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
 
-        for (String allowedAnswer : allowedAnswers) {
+        for (String variant : variantsOfAnswer) {
             List<InlineKeyboardButton> rowInline = new ArrayList<>();
             rowInline.add(new InlineKeyboardButton()
-                    .setText(allowedAnswer)
-                    .setCallbackData(allowedAnswer));
+                    .setText(variant)
+                    .setCallbackData(variant));
             rowsInline.add(rowInline);
         }
         result.setKeyboard(rowsInline);

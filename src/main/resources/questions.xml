@@ -8,10 +8,10 @@
     </graphNode>
     <graphNode id="3" type="forking" pattern="Первый вариант" nextYes="4" nextNo="5">
         <question text="Это третий вопрос">
-            <allowedAnswers>
-                <allowedAnswer text="Первый вариант"/>
-                <allowedAnswer text="Второй вариант"/>
-            </allowedAnswers>
+            <variantsOfAnswer>
+                <variant text="Первый вариант"/>
+                <variant text="Второй вариант"/>
+            </variantsOfAnswer>
         </question>
     </graphNode>
     <graphNode id="4" type="linear" next="6">
@@ -31,10 +31,10 @@
     </graphNode>
     <graphNode id="9" type="cycle" pattern="Закончить опрос" nextIn="10" nextOut="11">
         <question text="Вы хотите зайти внутрь цикла или закончить опрос?">
-            <allowedAnswers>
-                <allowedAnswer text="Закончить опрос"/>
-                <allowedAnswer text="Зайти внутрь цикла"/>
-            </allowedAnswers>
+            <variantsOfAnswer>
+                <variant text="Закончить опрос"/>
+                <variant text="Зайти внутрь цикла"/>
+            </variantsOfAnswer>
         </question>
     </graphNode>
     <graphNode id="10" type="terminal"/>
