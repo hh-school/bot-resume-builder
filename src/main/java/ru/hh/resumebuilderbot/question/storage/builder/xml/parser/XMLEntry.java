@@ -20,29 +20,29 @@ public class XMLEntry {
     private String type;
     private int nextIndex;
     private Question question;
-    private String pattern;
     private int nextYes;
     private int nextNo;
     private boolean isRoot;
-    private boolean isSkippable;
+    private Map<String, String> classData;
 
-    private XMLEntry(int index, int nextIndex, Question question, boolean isSkippable) {
+    private XMLEntry(int index, int nextIndex, Question question, Map<String, String> classData) {
         this.index = index;
         this.type = "linear";
         this.nextIndex = nextIndex;
         this.question = question;
-        this.isSkippable = isSkippable;
+        this.classData = classData;
+        setDefaultValues();
     }
 
-    private XMLEntry(String type, int index, Question question, String pattern, int nextYes, int nextNo,
-                     boolean isSkippable) {
+    private XMLEntry(String type, int index, Question question, int nextYes, int nextNo,
+                     Map<String, String> classData) {
         this.index = index;
         this.type = type;
         this.question = question;
-        this.pattern = pattern;
         this.nextYes = nextYes;
         this.nextNo = nextNo;
-        this.isSkippable = isSkippable;
+        this.classData = classData;
+        setDefaultValues();
     }
 
     private XMLEntry(int index) {
@@ -63,9 +63,6 @@ public class XMLEntry {
                 .map((x) -> Boolean.parseBoolean(x.getNodeValue()))
                 .orElse(isRootByDefault);
 
-        boolean isSkippable = Boolean.parseBoolean(classData.getOrDefault("skippable", isSkippableByDefault));
-
-
         String type = graphNodeAttributes.getNamedItem("type").getNodeValue();
 
         if (type.equals("terminal")) {
@@ -81,20 +78,18 @@ public class XMLEntry {
 
         if (type.equals("linear")) {
             int nextId = Integer.parseInt(graphNodeAttributes.getNamedItem("next").getNodeValue());
-            XMLEntry entry = new XMLEntry(id, nextId, question, isSkippable);
+            XMLEntry entry = new XMLEntry(id, nextId, question, classData);
             entry.setRoot(isRoot);
             return entry;
         }
-        String pattern = classData.get("pattern");
         int nextYes = Integer.parseInt(graphNodeAttributes.getNamedItem("nextYes").getNodeValue());
         int nextNo = Integer.parseInt(graphNodeAttributes.getNamedItem("nextNo").getNodeValue());
-        XMLEntry entry = new XMLEntry(type, id, question, pattern, nextYes, nextNo, isSkippable);
+        XMLEntry entry = new XMLEntry(type, id, question, nextYes, nextNo, classData);
         entry.setRoot(isRoot);
         return entry;
     }
 
-    private static Map<String, String> parseClassData(Node classDataNode)
-    {
+    private static Map<String, String> parseClassData(Node classDataNode) {
         Map<String, String> result = new HashMap<>();
         XMLNodeListStream.fromParentNode(classDataNode)
                 .forEach((x) -> result.put(x.getNodeName(), x.getTextContent()));
@@ -120,6 +115,14 @@ public class XMLEntry {
         return new Question(text);
     }
 
+    public Map<String, String> getClassData() {
+        return classData;
+    }
+
+    private void setDefaultValues() {
+        classData.putIfAbsent("skippable", isSkippableByDefault);
+    }
+
     public boolean isRoot() {
         return isRoot;
     }
@@ -140,10 +143,6 @@ public class XMLEntry {
         return type;
     }
 
-    public String getPattern() {
-        return pattern;
-    }
-
     public int getNextYes() {
         return nextYes;
     }
@@ -154,9 +153,5 @@ public class XMLEntry {
 
     public Question getQuestion() {
         return question;
-    }
-
-    public boolean isSkippable() {
-        return isSkippable;
     }
 }

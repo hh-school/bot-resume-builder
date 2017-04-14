@@ -1,13 +1,14 @@
 package ru.hh.resumebuilderbot.question.storage.builder;
 
-import ru.hh.resumebuilderbot.question.Question;
+import org.xml.sax.SAXException;
 import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLEntry;
+import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLParser;
 import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLValidator;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeForking;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeLinear;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeTerminal;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -18,9 +19,10 @@ public class NodeSet {
 
     private QuestionNode root;
 
-    NodeSet(List<XMLEntry> rawData) throws IOException {
+    private NodeSet(List<XMLEntry> rawData) throws IOException {
         XMLValidator.validate(rawData);
         nodesMap = makeNodes(rawData);
+        setRoot(rawData);
     }
 
     private NodeSet(QuestionNode root, Map<Integer, NodeSetEntry> nodesMap) {
@@ -34,8 +36,24 @@ public class NodeSet {
         }
     }
 
+    static NodeSet fromXMLFile(String filename) throws IOException {
+        try {
+            List<XMLEntry> rawData = new XMLParser().parse(filename);
+            return new NodeSet(rawData);
+        } catch (ParserConfigurationException | SAXException e) {
+            throw new IOException("Error parsing XML: internal error");
+        }
+    }
+
     public QuestionNode getRoot() {
         return root;
+    }
+
+    private void setRoot(List<XMLEntry> rawData) {
+        int rootIndex = rawData.stream()
+                .filter((x) -> x.isRoot())
+                .findFirst().get().getIndex();
+        root = nodesMap.get(rootIndex).getNode();
     }
 
     public void build() {
@@ -44,37 +62,8 @@ public class NodeSet {
 
     private Map<Integer, NodeSetEntry> makeNodes(List<XMLEntry> rawData) {
         Map<Integer, NodeSetEntry> result = new HashMap<>();
-        rawData.forEach((x) -> result.put(x.getIndex(), makeEntry(x)));
+        rawData.forEach((x) -> result.put(x.getIndex(), NodeSetEntry.fromXMLEntry(x)));
         return result;
-    }
-
-    private NodeSetEntry makeEntry(XMLEntry xmlEntry) {
-        boolean isSkippable = xmlEntry.isSkippable();
-        if (xmlEntry.getType().equals("terminal")) {
-            int index = xmlEntry.getIndex();
-            QuestionNode terminalNode = new QuestionNodeTerminal();
-            if (xmlEntry.isRoot()) {
-                root = terminalNode;
-            }
-            return new NodeSetEntry(terminalNode, index);
-        }
-        Question question = xmlEntry.getQuestion();
-        if (xmlEntry.getType().equals("linear")) {
-            QuestionNodeLinear linearNode = new QuestionNodeLinear(question, isSkippable);
-            int nextIndex = xmlEntry.getNextIndex();
-            if (xmlEntry.isRoot()) {
-                root = linearNode;
-            }
-            return new NodeSetEntry(linearNode, nextIndex);
-        }
-        String pattern = xmlEntry.getPattern();
-        int nextIndexYes = xmlEntry.getNextYes();
-        int nextIndexNo = xmlEntry.getNextNo();
-        QuestionNodeForking forkingNode = new QuestionNodeForking(question, pattern, isSkippable);
-        if (xmlEntry.isRoot()) {
-            root = forkingNode;
-        }
-        return new NodeSetEntry(forkingNode, nextIndexYes, nextIndexNo);
     }
 
     private void linkNodes(Map<Integer, NodeSetEntry> nodesMap) {

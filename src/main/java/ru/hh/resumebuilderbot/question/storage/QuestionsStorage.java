@@ -8,13 +8,15 @@ import java.io.IOException;
 
 public class QuestionsStorage {
 
+    private static final String XMLfilename = "src/main/resources/questions.xml";
+
     private static NodeSet nodeSetSample;
 
     static {
         // нужны конфиги - из них читать путь к файлу XML
         QuestionsLoader questionsLoader = new QuestionsLoader();
         try {
-            nodeSetSample = questionsLoader.load("src/main/resources/questions.xml");
+            nodeSetSample = questionsLoader.load(XMLfilename);
             nodeSetSample.build();
         } catch (IOException e) {
             e.printStackTrace();
