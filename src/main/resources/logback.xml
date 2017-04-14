@@ -5,15 +5,28 @@
             <Pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</Pattern>
         </layout>
     </appender>
+    <!--Console appender -->
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
+
     <!--Sentry appender, WARN level -->
     <appender name="Sentry" class="com.getsentry.raven.logback.SentryAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>WARN</level>
         </filter>
+        <!-- Set Sentry DSN -->
+        <dsn>https://8397097c6a584ebea9be79a46b4e6f6f:f830efff84624fcb85a6af3b22a4af9e@sentry.io/158448</dsn>
+
+        <!-- Optional, provide release version of your application -->
+        <release>1.0.0</release>
     </appender>
     <!-- Enable the File and Sentry appenders -->
     <root level="INFO">
         <appender-ref ref="File" />
+        <appender-ref ref="Console" />
         <appender-ref ref="Sentry" />
     </root>
 </configuration>

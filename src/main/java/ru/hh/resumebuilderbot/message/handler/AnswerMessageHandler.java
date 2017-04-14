@@ -11,6 +11,8 @@ import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 public class AnswerMessageHandler extends MessageHandler {
     @Override
     public QuestionsGenerator handle(User user, Answer answer) {
+        log.info("User {} answer {} for question {}", user.getIndex(), answer.getAnswerBody(),
+                UserDataStorage.getCurrentQuestion(user).getText());
 
         if (UserDataStorage.answerIsValid(user, answer)) {
             UserDataStorage.registerAnswer(user, answer);
