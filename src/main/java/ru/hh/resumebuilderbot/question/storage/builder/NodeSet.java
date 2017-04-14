@@ -4,7 +4,6 @@ import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLEntry;
 import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLValidator;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeCycle;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeForking;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeLinear;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeTerminal;
@@ -71,18 +70,11 @@ public class NodeSet {
         String pattern = xmlEntry.getPattern();
         int nextIndexYes = xmlEntry.getNextYes();
         int nextIndexNo = xmlEntry.getNextNo();
-        if (xmlEntry.getType().equals("forking")) {
-            QuestionNodeForking forkingNode = new QuestionNodeForking(question, pattern, isSkippable);
-            if (xmlEntry.isRoot()) {
-                root = forkingNode;
-            }
-            return new NodeSetEntry(forkingNode, nextIndexYes, nextIndexNo);
-        }
-        QuestionNodeCycle cycleNode = new QuestionNodeCycle(question, pattern, isSkippable);
+        QuestionNodeForking forkingNode = new QuestionNodeForking(question, pattern, isSkippable);
         if (xmlEntry.isRoot()) {
-            root = cycleNode;
+            root = forkingNode;
         }
-        return new NodeSetEntry(cycleNode, nextIndexYes, nextIndexNo);
+        return new NodeSetEntry(forkingNode, nextIndexYes, nextIndexNo);
     }
 
     private void linkNodes(Map<Integer, NodeSetEntry> nodesMap) {
@@ -100,13 +92,6 @@ public class NodeSet {
                 QuestionNodeForking forkingNode = (QuestionNodeForking) node;
                 forkingNode.setNextYes(nodesMap.get(nextIndexYes).getNode());
                 forkingNode.setNextNo(nodesMap.get(nextIndexNo).getNode());
-
-            }
-            if (node instanceof QuestionNodeCycle) {
-                QuestionNodeCycle cycleNode = (QuestionNodeCycle) node;
-                cycleNode.setNextIn(nodesMap.get(nextIndexYes).getNode());
-                cycleNode.setNextOut(nodesMap.get(nextIndexNo).getNode());
-
             }
         }
     }

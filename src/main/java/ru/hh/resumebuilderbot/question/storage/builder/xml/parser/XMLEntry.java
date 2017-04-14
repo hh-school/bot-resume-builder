@@ -84,15 +84,8 @@ public class XMLEntry {
             return entry;
         }
         String pattern = graphNodeAttributes.getNamedItem("pattern").getNodeValue();
-        int nextYes = 0;
-        int nextNo = 0;
-        if (type.equals("forking")) {
-            nextYes = Integer.parseInt(graphNodeAttributes.getNamedItem("nextYes").getNodeValue());
-            nextNo = Integer.parseInt(graphNodeAttributes.getNamedItem("nextNo").getNodeValue());
-        } else {
-            nextYes = Integer.parseInt(graphNodeAttributes.getNamedItem("nextIn").getNodeValue());
-            nextNo = Integer.parseInt(graphNodeAttributes.getNamedItem("nextOut").getNodeValue());
-        }
+        int nextYes = Integer.parseInt(graphNodeAttributes.getNamedItem("nextYes").getNodeValue());
+        int nextNo = Integer.parseInt(graphNodeAttributes.getNamedItem("nextNo").getNodeValue());
         XMLEntry entry = new XMLEntry(type, id, question, pattern, nextYes, nextNo, isSkippable);
         entry.setRoot(isRoot);
         return entry;
