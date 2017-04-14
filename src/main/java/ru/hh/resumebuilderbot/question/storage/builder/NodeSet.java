@@ -58,7 +58,7 @@ public class NodeSet {
             }
             return new NodeSetEntry(terminalNode, index);
         }
-        Question question = new Question(xmlEntry.getText(), xmlEntry.getAllowedAnswers());
+        Question question = xmlEntry.getQuestion();
         if (xmlEntry.getType().equals("linear")) {
             QuestionNodeLinear linearNode = new QuestionNodeLinear(question);
             int nextIndex = xmlEntry.getNextIndex();
