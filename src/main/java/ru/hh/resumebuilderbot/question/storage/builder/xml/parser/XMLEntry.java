@@ -6,7 +6,9 @@ import ru.hh.resumebuilderbot.question.Question;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class XMLEntry {
@@ -48,17 +50,12 @@ public class XMLEntry {
         this.index = index;
     }
 
-    private static Optional<Node> getFirstChildByName(Node node, String name)
-    {
-        return XMLNodeListStream.fromParentNode(node)
-                .filter((x) -> x.getNodeName().equals(name))
-                .findFirst();
-    }
-
     static XMLEntry fromGraphNode(Node graphNode) throws IOException {
         NamedNodeMap graphNodeAttributes = graphNode.getAttributes();
 
-        Optional<Node> questionNode = getFirstChildByName(graphNode, "question");
+        Optional<Node> questionNode = XMLNodeListStream.getFirstChildByName(graphNode, "question");
+        Optional<Node> classDataNode = XMLNodeListStream.getFirstChildByName(graphNode, "classData");
+        Map<String, String> classData = classDataNode.map((x) -> parseClassData(x)).orElse(new HashMap<>());
         int id = Integer.parseInt(graphNodeAttributes.getNamedItem("id").getNodeValue());
 
         Optional<Node> attributeRoot = Optional.ofNullable(graphNodeAttributes.getNamedItem("root"));
@@ -91,12 +88,20 @@ public class XMLEntry {
             entry.setRoot(isRoot);
             return entry;
         }
-        String pattern = graphNodeAttributes.getNamedItem("pattern").getNodeValue();
+        String pattern = classData.get("pattern");
         int nextYes = Integer.parseInt(graphNodeAttributes.getNamedItem("nextYes").getNodeValue());
         int nextNo = Integer.parseInt(graphNodeAttributes.getNamedItem("nextNo").getNodeValue());
         XMLEntry entry = new XMLEntry(type, id, question, pattern, nextYes, nextNo, isSkippable);
         entry.setRoot(isRoot);
         return entry;
+    }
+
+    private static Map<String, String> parseClassData(Node classDataNode)
+    {
+        Map<String, String> result = new HashMap<>();
+        XMLNodeListStream.fromParentNode(classDataNode)
+                .forEach((x) -> result.put(x.getNodeName(), x.getTextContent()));
+        return result;
     }
 
     private static Question makeQuestion(Node questionNode) {

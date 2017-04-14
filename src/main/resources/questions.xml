@@ -6,7 +6,10 @@
     <graphNode id="2" type="linear" next="3">
         <question text="Это второй вопрос"/>
     </graphNode>
-    <graphNode id="3" type="forking" pattern="Первый вариант" nextYes="4" nextNo="5">
+    <graphNode id="3" type="forking" nextYes="4" nextNo="5">
+        <classData>
+            <pattern>Первый вариант</pattern>
+        </classData>
         <question text="Это третий вопрос">
             <variantsOfAnswer othersAllowed="true">
                 <variant text="Первый вариант"/>
