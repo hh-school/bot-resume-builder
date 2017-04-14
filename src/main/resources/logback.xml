@@ -1,15 +1,15 @@
 <configuration>
     <appender name="File" class="ch.qos.logback.core.FileAppender">
         <file>log.log</file>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%date %-5level [%thread] %logger{10} [%file:%line] %msg%n</Pattern>
-        </layout>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%date %-5level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
     </appender>
     <!--Console appender -->
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%highlight(%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n)</Pattern>
-        </layout>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%highlight(%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n)</pattern>
+        </encoder>
     </appender>
 
     <!--Sentry appender, WARN level -->
@@ -17,11 +17,6 @@
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>WARN</level>
         </filter>
-        <!-- Set Sentry DSN -->
-        <dsn>https://8397097c6a584ebea9be79a46b4e6f6f:f830efff84624fcb85a6af3b22a4af9e@sentry.io/158448</dsn>
-
-        <!-- Optional, provide release version of your application -->
-        <release>1.0.0</release>
     </appender>
     <!-- Enable the File and Sentry appenders -->
     <root level="INFO">
