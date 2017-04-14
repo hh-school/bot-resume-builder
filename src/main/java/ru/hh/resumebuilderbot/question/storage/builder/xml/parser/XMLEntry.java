@@ -48,8 +48,17 @@ public class XMLEntry {
         this.index = index;
     }
 
+    private static Optional<Node> getFirstChildByName(Node node, String name)
+    {
+        return XMLNodeListStream.fromParentNode(node)
+                .filter((x) -> x.getNodeName().equals(name))
+                .findFirst();
+    }
+
     static XMLEntry fromGraphNode(Node graphNode) throws IOException {
         NamedNodeMap graphNodeAttributes = graphNode.getAttributes();
+
+        Optional<Node> questionNode = getFirstChildByName(graphNode, "question");
         int id = Integer.parseInt(graphNodeAttributes.getNamedItem("id").getNodeValue());
 
         Optional<Node> attributeRoot = Optional.ofNullable(graphNodeAttributes.getNamedItem("root"));
@@ -71,7 +80,6 @@ public class XMLEntry {
             return entry;
         }
 
-        Optional<Node> questionNode = XMLNodeListStream.fromParentNode(graphNode).findFirst();
         if (!questionNode.isPresent()) {
             throw new IOException("<question> not found inside non-terminal <node>");
         }
