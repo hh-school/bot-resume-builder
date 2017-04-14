@@ -14,7 +14,7 @@ import java.util.Optional;
 public class XMLEntry {
 
     private static final boolean isRootByDefault = false;
-    private static final boolean isSkippableByDefault = true;
+    private static final String isSkippableByDefault = "true";
 
     private int index;
     private String type;
@@ -55,7 +55,7 @@ public class XMLEntry {
 
         Optional<Node> questionNode = XMLNodeListStream.getFirstChildByName(graphNode, "question");
         Optional<Node> classDataNode = XMLNodeListStream.getFirstChildByName(graphNode, "classData");
-        Map<String, String> classData = classDataNode.map((x) -> parseClassData(x)).orElse(new HashMap<>());
+        Map<String, String> classData = classDataNode.map(XMLEntry::parseClassData).orElse(new HashMap<>());
         int id = Integer.parseInt(graphNodeAttributes.getNamedItem("id").getNodeValue());
 
         Optional<Node> attributeRoot = Optional.ofNullable(graphNodeAttributes.getNamedItem("root"));
@@ -63,10 +63,7 @@ public class XMLEntry {
                 .map((x) -> Boolean.parseBoolean(x.getNodeValue()))
                 .orElse(isRootByDefault);
 
-        Optional<Node> attributeSkippable = Optional.ofNullable(graphNodeAttributes.getNamedItem("skippable"));
-        boolean isSkippable = attributeSkippable
-                .map((x) -> Boolean.parseBoolean(x.getNodeValue()))
-                .orElse(isSkippableByDefault);
+        boolean isSkippable = Boolean.parseBoolean(classData.getOrDefault("skippable", isSkippableByDefault));
 
 
         String type = graphNodeAttributes.getNamedItem("type").getNodeValue();

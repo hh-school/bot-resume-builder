@@ -20,7 +20,10 @@
     <graphNode id="4" type="linear" next="6">
         <question text="Этот вопрос Вы видите, если выбрали первый вариант ответа"/>
     </graphNode>
-    <graphNode id="5" type="linear" next="7" skippable="false">
+    <graphNode id="5" type="linear" next="7">
+        <classData>
+            <skippable>false</skippable>
+        </classData>
         <question text="Этот вопрос Вы видите, если выбрали второй вариант ответа"/>
     </graphNode>
     <graphNode id="6" type="linear" next="7">
