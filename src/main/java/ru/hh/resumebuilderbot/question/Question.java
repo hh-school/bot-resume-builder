@@ -32,6 +32,6 @@ public class Question {
 
     public boolean answerIsAllowed(Answer answer) {
         return variantsOfAnswer.isEmpty() || otherVariantsAllowed ||
-                variantsOfAnswer.contains((answer.getAnswerBody()));
+                variantsOfAnswer.contains(answer.getAnswerBody());
     }
 }
