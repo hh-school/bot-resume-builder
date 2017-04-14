@@ -2,13 +2,13 @@
     <appender name="File" class="ch.qos.logback.core.FileAppender">
         <file>log.log</file>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</Pattern>
+            <Pattern>%date %-5level [%thread] %logger{10} [%file:%line] %msg%n</Pattern>
         </layout>
     </appender>
     <!--Console appender -->
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %highlight(%-5level) %logger{36} - %msg%n</Pattern>
         </layout>
     </appender>
 

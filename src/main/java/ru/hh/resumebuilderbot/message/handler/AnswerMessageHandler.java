@@ -13,7 +13,10 @@ public class AnswerMessageHandler extends MessageHandler {
     public QuestionsGenerator handle(User user, Answer answer) {
         log.info("User {} answer {} for question {}", user.getIndex(), answer.getAnswerBody(),
                 UserDataStorage.getCurrentQuestion(user).getText());
-
+        log.warn("test warning");
+        log.debug("test debug");
+        log.error("test error");
+        log.trace("test trace");
         if (UserDataStorage.answerIsValid(user, answer)) {
             UserDataStorage.registerAnswer(user, answer);
 

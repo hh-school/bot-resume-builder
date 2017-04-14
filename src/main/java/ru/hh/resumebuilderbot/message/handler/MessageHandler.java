@@ -7,7 +7,7 @@ import ru.hh.resumebuilderbot.User;
 import ru.hh.resumebuilderbot.question.generator.QuestionsGenerator;
 
 public abstract class MessageHandler {
-    Logger log = LoggerFactory.getLogger(MessageHandler.class);
+    protected final static Logger log = LoggerFactory.getLogger(MessageHandler.class);
 
     QuestionsGenerator questionsGenerator = new QuestionsGenerator();
 
