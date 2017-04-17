@@ -1,87 +1,144 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <graphNodes root="1">
-    <graphNode id="1" type="linear">
+    <graphNode id="1">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="first question"/>
+                </classData>
+            </base>
+        </nodeConstructor>
         <links>
             <link name="next" value="3"/>
         </links>
-        <question text="Это первый вопрос"/>
     </graphNode>
-    <graphNode id="3" type="forking">
+    <graphNode id="3">
+        <nodeConstructor>
+            <base classpath="QuestionNodeForking">
+                <classData>
+                    <answerPattern>Первый вариант</answerPattern>
+                    <question text="second question">
+                        <variantsOfAnswer othersAllowed="true">
+                            <variant text="Первый вариант"/>
+                            <variant text="Второй вариант"/>
+                        </variantsOfAnswer>
+                    </question>
+                </classData>
+            </base>
+        </nodeConstructor>
         <links>
             <link name="nextYes" value="4"/>
             <link name="nextNo" value="5"/>
         </links>
-        <classData>
-            <pattern>Первый вариант</pattern>
-        </classData>
-        <question text="Это третий вопрос">
-            <variantsOfAnswer othersAllowed="true">
-                <variant text="Первый вариант"/>
-                <variant text="Второй вариант"/>
-            </variantsOfAnswer>
-        </question>
     </graphNode>
-    <graphNode id="4" type="linear">
+    <graphNode id="4">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="Этот вопрос Вы видите, если выбрали первый вариант ответа"/>
+                </classData>
+            </base>
+            <validator classpath="PhoneNumberValidator"/>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>phone</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
         <links>
             <link name="next" value="6"/>
         </links>
-        <question text="Этот вопрос Вы видите, если выбрали первый вариант ответа"/>
     </graphNode>
-    <graphNode id="5" type="linear">
+    <graphNode id="5">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <skippable>false</skippable>
+                    <question text="Этот вопрос Вы видите, если выбрали второй вариант ответа"/>
+                </classData>
+            </base>
+        </nodeConstructor>
         <links>
             <link name="next" value="7"/>
         </links>
-        <classData>
-            <skippable>false</skippable>
-        </classData>
-        <question text="Этот вопрос Вы видите, если выбрали второй вариант ответа"/>
     </graphNode>
-    <graphNode id="6" type="linear">
+    <graphNode id="6">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="Это продолжение ветки первого варианта ответа"/>
+                </classData>
+            </base>
+        </nodeConstructor>
         <links>
             <link name="next" value="7"/>
         </links>
-        <question text="Это продолжение ветки первого варианта ответа"/>
     </graphNode>
-    <graphNode id="7" type="linear">
+    <graphNode id="7">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <skippable>true</skippable>
+                    <question text="Здесь ветки вопросов сливаются"/>
+                </classData>
+            </base>
+        </nodeConstructor>
         <links>
             <link name="next" value="8"/>
         </links>
-        <classData>
-            <skippable>true</skippable>
-        </classData>
-        <question text="Здесь ветки вопросов сливаются"/>
     </graphNode>
-    <graphNode id="8" type="linear">
+    <graphNode id="8">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="Начало цикла">
+                        <variantsOfAnswer othersAllowed="true">
+                            <variant text="Первый вариант"/>
+                            <variant text="Второй вариант"/>
+                        </variantsOfAnswer>
+                    </question>
+                </classData>
+            </base>
+        </nodeConstructor>
         <links>
             <link name="next" value="9"/>
         </links>
-        <question text="Начало цикла">
-            <variantsOfAnswer othersAllowed="true">
-                <variant text="Первый вариант"/>
-                <variant text="Второй вариант"/>
-            </variantsOfAnswer>
-        </question>
+
     </graphNode>
-    <graphNode id="9" type="linear">
+    <graphNode id="9">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="Тело цикла"/>
+                </classData>
+            </base>
+        </nodeConstructor>
         <links>
             <link name="next" value="10"/>
         </links>
-        <question text="Тело цикла"/>
     </graphNode>
-    <graphNode id="10" type="forking">
+    <graphNode id="10">
+        <nodeConstructor>
+            <base classpath="QuestionNodeForking">
+                <classData>
+                    <answerPattern>Да</answerPattern>
+                    <question text="Пройти цикл еще раз?">
+                        <variantsOfAnswer othersAllowed="false">
+                            <variant text="Да"/>
+                            <variant text="Нет"/>
+                        </variantsOfAnswer>
+                    </question>
+                </classData>
+            </base>
+        </nodeConstructor>
         <links>
             <link name="nextYes" value="8"/>
             <link name="nextNo" value="11"/>
         </links>
-        <classData>
-            <pattern>Да</pattern>
-        </classData>
-        <question text="Пройти цикл еще раз?">
-            <variantsOfAnswer othersAllowed="false">
-                <variant text="Да"/>
-                <variant text="Нет"/>
-            </variantsOfAnswer>
-        </question>
     </graphNode>
-    <graphNode id="11" type="terminal"/>
+    <graphNode id="11">
+        <nodeConstructor>
+            <base classpath="QuestionNodeTerminal"/>
+        </nodeConstructor>
+    </graphNode>
 </graphNodes>

@@ -1,6 +1,6 @@
 package ru.hh.resumebuilderbot.question.storage.graph;
 
-import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
+import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNode;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLEntry;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLRawData;
 

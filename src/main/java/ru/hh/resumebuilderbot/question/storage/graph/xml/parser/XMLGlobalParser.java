@@ -12,12 +12,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class XMLParser {
+public class XMLGlobalParser {
 
-    private final static Logger log = LoggerFactory.getLogger(XMLParser.class);
+    private final static Logger log = LoggerFactory.getLogger(XMLGlobalParser.class);
 
     public static XMLRawData parse(String filename) throws IOException {
+
         try {
             DocumentBuilder documentBuilder = createDocumentBuilder();
             Document document = buildDocument(documentBuilder, filename);
@@ -28,7 +30,9 @@ public class XMLParser {
 
             List<XMLEntry> entriesList = new ArrayList<>();
 
-            XMLNodeListStream.fromParentNode(root).forEach((x) -> entriesList.add(XMLEntry.fromGraphNode(x)));
+            for (Node graphNode : XMLAsStream.fromParentNode(root).collect(Collectors.toSet())) {
+                entriesList.add(XMLEntry.fromGraphNode(graphNode));
+            }
 
             return new XMLRawData(rootIndex, entriesList);
         } catch (IOException e) {
@@ -40,7 +44,7 @@ public class XMLParser {
         try {
             return Integer.parseInt(rootNode.getAttributes().getNamedItem("root").getNodeValue());
         } catch (NullPointerException e) {
-            throw new IOException("Wrong XML schema - no rootIndex attribute");
+            throw new IOException("No rootIndex attribute");
         }
     }
 
