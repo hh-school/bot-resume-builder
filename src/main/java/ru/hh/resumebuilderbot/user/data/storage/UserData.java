@@ -36,7 +36,7 @@ class UserData {
     }
 
     boolean currentNodeIsSkippable() {
-        return currentState.currentNodeIsSkippable();
+        return questionNode.isSkippable();
     }
 
     private void saveAnswer(Answer answer) {
