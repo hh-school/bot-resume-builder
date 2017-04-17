@@ -80,16 +80,16 @@ public class GraphEntry {
         return node;
     }
 
-    int getNextIndex() {
-        return nextIndex;
-    }
-
-    int getNextIndexYes() {
-        return nextIndexYes;
-    }
-
-    int getNextIndexNo() {
-        return nextIndexNo;
+    void setLinks(Map<Integer, QuestionNode> nodesMap) {
+        if (node instanceof QuestionNodeLinear) {
+            QuestionNodeLinear linearNode = (QuestionNodeLinear) node;
+            linearNode.setNext(nodesMap.get(nextIndex));
+        }
+        if (node instanceof QuestionNodeForking) {
+            QuestionNodeForking forkingNode = (QuestionNodeForking) node;
+            forkingNode.setNextYes(nodesMap.get(nextIndexYes));
+            forkingNode.setNextNo(nodesMap.get(nextIndexNo));
+        }
     }
 
 

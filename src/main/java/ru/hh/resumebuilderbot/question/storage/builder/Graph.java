@@ -5,8 +5,6 @@ import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLEntry;
 import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLParser;
 import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLValidator;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeForking;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeLinear;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
@@ -52,7 +50,7 @@ public class Graph {
 
     private void setRoot(List<XMLEntry> rawData) {
         int rootIndex = rawData.stream()
-                .filter((x) -> x.isRoot())
+                .filter(XMLEntry::isRoot)
                 .findFirst().get().getIndex();
         root = entriesMap.get(rootIndex).getNode();
     }
@@ -66,22 +64,9 @@ public class Graph {
     }
 
     private void linkNodes() {
-        for (GraphEntry entry : entriesMap.values()) {
-            QuestionNode node = entry.getNode();
-            if (node instanceof QuestionNodeLinear) {
-                int nextIndex = entry.getNextIndex();
-                QuestionNodeLinear linearNode = (QuestionNodeLinear) node;
-                linearNode.setNext(entriesMap.get(nextIndex).getNode());
-                continue;
-            }
-            int nextIndexYes = entry.getNextIndexYes();
-            int nextIndexNo = entry.getNextIndexNo();
-            if (node instanceof QuestionNodeForking) {
-                QuestionNodeForking forkingNode = (QuestionNodeForking) node;
-                forkingNode.setNextYes(entriesMap.get(nextIndexYes).getNode());
-                forkingNode.setNextNo(entriesMap.get(nextIndexNo).getNode());
-            }
-        }
+        Map<Integer, QuestionNode> nodesMap = new HashMap<>();
+        entriesMap.forEach((key, value) -> nodesMap.put(key, value.getNode()));
+        entriesMap.values().forEach(x -> x.setLinks(nodesMap));
     }
 
     public Graph cloneContent() {
