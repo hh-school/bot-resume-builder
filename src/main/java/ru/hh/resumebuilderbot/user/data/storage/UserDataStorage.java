@@ -7,7 +7,6 @@ import ru.hh.resumebuilderbot.User;
 import ru.hh.resumebuilderbot.database.ServiceAggregator;
 import ru.hh.resumebuilderbot.question.Question;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
