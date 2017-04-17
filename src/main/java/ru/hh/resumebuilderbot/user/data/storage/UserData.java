@@ -1,34 +1,30 @@
 package ru.hh.resumebuilderbot.user.data.storage;
 
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.CurrentUserState;
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class UserData {
 
-    private CurrentUserState currentState;
+    private QuestionNode questionNode;
     private List<UserAnswer> answers = new ArrayList<>();
 
-    UserData() {
-        currentState = new CurrentUserState();
-    }
-
     void registerAnswer(Answer answer) {
-        currentState.registerAnswer(answer);
-        if (currentState.needToSaveAnswer()) {
+        questionNode.registerAnswer(answer);
+        if (questionNode.needToSaveAnswer()) {
             saveAnswer(answer);
         }
     }
 
     void moveForward() {
-        currentState.moveForward();
+        questionNode = questionNode.getNext();
     }
 
     Question getCurrentQuestion() {
-        return currentState.getCurrentQuestion();
+        return questionNode.getQuestion();
     }
 
     List<UserAnswer> getAnswers() {
@@ -36,7 +32,7 @@ class UserData {
     }
 
     boolean answerIsValid(Answer answer) {
-        return currentState.answerIsValid(answer);
+        return questionNode.answerIsValid(answer);
     }
 
     boolean currentNodeIsSkippable() {
@@ -44,7 +40,7 @@ class UserData {
     }
 
     private void saveAnswer(Answer answer) {
-        Question currentQuestion = currentState.getCurrentQuestion();
+        Question currentQuestion = questionNode.getQuestion();
         answers.add(new UserAnswer(currentQuestion, answer));
     }
 }
