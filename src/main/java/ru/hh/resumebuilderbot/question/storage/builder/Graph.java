@@ -14,21 +14,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NodeSet {
-    private Map<Integer, NodeSetEntry> nodesMap;
+public class Graph {
+    private Map<Integer, GraphEntry> nodesMap;
 
     private QuestionNode root;
 
-    private NodeSet(List<XMLEntry> rawData) throws IOException {
+    private Graph(List<XMLEntry> rawData) throws IOException {
         XMLValidator.validate(rawData);
         nodesMap = makeNodes(rawData);
         setRoot(rawData);
     }
 
-    private NodeSet(QuestionNode root, Map<Integer, NodeSetEntry> nodesMap) {
+    private Graph(QuestionNode root, Map<Integer, GraphEntry> nodesMap) {
         this.nodesMap = new HashMap<>();
-        for (Map.Entry<Integer, NodeSetEntry> entry : nodesMap.entrySet()) {
-            NodeSetEntry newEntry = entry.getValue().cloneContent();
+        for (Map.Entry<Integer, GraphEntry> entry : nodesMap.entrySet()) {
+            GraphEntry newEntry = entry.getValue().cloneContent();
             if (entry.getValue().getNode() == root) {
                 this.root = newEntry.getNode();
             }
@@ -36,10 +36,10 @@ public class NodeSet {
         }
     }
 
-    public static NodeSet fromXMLFile(String filename) throws IOException {
+    public static Graph fromXMLFile(String filename) throws IOException {
         try {
             List<XMLEntry> rawData = new XMLParser().parse(filename);
-            return new NodeSet(rawData);
+            return new Graph(rawData);
         } catch (ParserConfigurationException | SAXException e) {
             throw new IOException("Error parsing XML: internal error");
         }
@@ -60,14 +60,14 @@ public class NodeSet {
         linkNodes(nodesMap);
     }
 
-    private Map<Integer, NodeSetEntry> makeNodes(List<XMLEntry> rawData) {
-        Map<Integer, NodeSetEntry> result = new HashMap<>();
-        rawData.forEach((x) -> result.put(x.getIndex(), NodeSetEntry.fromXMLEntry(x)));
+    private Map<Integer, GraphEntry> makeNodes(List<XMLEntry> rawData) {
+        Map<Integer, GraphEntry> result = new HashMap<>();
+        rawData.forEach((x) -> result.put(x.getIndex(), GraphEntry.fromXMLEntry(x)));
         return result;
     }
 
-    private void linkNodes(Map<Integer, NodeSetEntry> nodesMap) {
-        for (NodeSetEntry entry : nodesMap.values()) {
+    private void linkNodes(Map<Integer, GraphEntry> nodesMap) {
+        for (GraphEntry entry : nodesMap.values()) {
             QuestionNode node = entry.getNode();
             if (node instanceof QuestionNodeLinear) {
                 int nextIndex = entry.getNextIndex();
@@ -85,8 +85,8 @@ public class NodeSet {
         }
     }
 
-    public NodeSet cloneContent() {
-        return new NodeSet(root, nodesMap);
+    public Graph cloneContent() {
+        return new Graph(root, nodesMap);
     }
 
 }
