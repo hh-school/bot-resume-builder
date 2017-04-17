@@ -38,6 +38,11 @@ public class QuestionNodeTerminal implements QuestionNode {
     }
 
     @Override
+    public boolean isSkippable() {
+        return true;
+    }
+
+    @Override
     public QuestionNode cloneContent() {
         return new QuestionNodeTerminal();
     }

@@ -20,8 +20,8 @@
     </appender>
     <!-- Enable the File and Sentry appenders -->
     <root level="INFO">
-        <appender-ref ref="File" />
-        <appender-ref ref="Console" />
-        <appender-ref ref="Sentry" />
+        <appender-ref ref="File"/>
+        <appender-ref ref="Console"/>
+        <appender-ref ref="Sentry"/>
     </root>
 </configuration>

@@ -39,6 +39,10 @@ class UserData {
         return currentState.answerIsValid(answer);
     }
 
+    boolean currentNodeIsSkippable() {
+        return currentState.currentNodeIsSkippable();
+    }
+
     private void saveAnswer(Answer answer) {
         Question currentQuestion = currentState.getCurrentQuestion();
         answers.add(new UserAnswer(currentQuestion, answer));

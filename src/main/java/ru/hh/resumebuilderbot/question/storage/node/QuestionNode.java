@@ -14,5 +14,7 @@ public interface QuestionNode {
 
     boolean needToSaveAnswer();
 
+    boolean isSkippable();
+
     QuestionNode cloneContent();
 }

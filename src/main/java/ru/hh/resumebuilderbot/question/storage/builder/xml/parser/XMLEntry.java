@@ -6,33 +6,43 @@ import ru.hh.resumebuilderbot.question.Question;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class XMLEntry {
+
+    private static final boolean isRootByDefault = false;
+    private static final String isSkippableByDefault = "true";
+
     private int index;
     private String type;
     private int nextIndex;
     private Question question;
-    private String pattern;
     private int nextYes;
     private int nextNo;
     private boolean isRoot;
+    private Map<String, String> classData;
 
-    private XMLEntry(int index, int nextIndex, Question question) {
+    private XMLEntry(int index, int nextIndex, Question question, Map<String, String> classData) {
         this.index = index;
         this.type = "linear";
         this.nextIndex = nextIndex;
         this.question = question;
+        this.classData = classData;
+        setDefaultValues();
     }
 
-    private XMLEntry(String type, int index, Question question, String pattern, int nextYes, int nextNo) {
+    private XMLEntry(String type, int index, Question question, int nextYes, int nextNo,
+                     Map<String, String> classData) {
         this.index = index;
         this.type = type;
         this.question = question;
-        this.pattern = pattern;
         this.nextYes = nextYes;
         this.nextNo = nextNo;
+        this.classData = classData;
+        setDefaultValues();
     }
 
     private XMLEntry(int index) {
@@ -42,10 +52,16 @@ public class XMLEntry {
 
     static XMLEntry fromGraphNode(Node graphNode) throws IOException {
         NamedNodeMap graphNodeAttributes = graphNode.getAttributes();
+
+        Optional<Node> questionNode = XMLNodeListStream.getFirstChildByName(graphNode, "question");
+        Optional<Node> classDataNode = XMLNodeListStream.getFirstChildByName(graphNode, "classData");
+        Map<String, String> classData = classDataNode.map(XMLEntry::parseClassData).orElse(new HashMap<>());
         int id = Integer.parseInt(graphNodeAttributes.getNamedItem("id").getNodeValue());
 
         Optional<Node> attributeRoot = Optional.ofNullable(graphNodeAttributes.getNamedItem("root"));
-        boolean isRoot = attributeRoot.isPresent() && Boolean.parseBoolean(attributeRoot.get().getNodeValue());
+        boolean isRoot = attributeRoot
+                .map((x) -> Boolean.parseBoolean(x.getNodeValue()))
+                .orElse(isRootByDefault);
 
         String type = graphNodeAttributes.getNamedItem("type").getNodeValue();
 
@@ -55,32 +71,29 @@ public class XMLEntry {
             return entry;
         }
 
-        Optional<Node> questionNode = XMLNodeListStream.fromParentNode(graphNode).findFirst();
         if (!questionNode.isPresent()) {
             throw new IOException("<question> not found inside non-terminal <node>");
         }
         Question question = makeQuestion(questionNode.get());
 
-
         if (type.equals("linear")) {
             int nextId = Integer.parseInt(graphNodeAttributes.getNamedItem("next").getNodeValue());
-            XMLEntry entry = new XMLEntry(id, nextId, question);
+            XMLEntry entry = new XMLEntry(id, nextId, question, classData);
             entry.setRoot(isRoot);
             return entry;
         }
-        String pattern = graphNodeAttributes.getNamedItem("pattern").getNodeValue();
-        int nextYes = 0;
-        int nextNo = 0;
-        if (type.equals("forking")) {
-            nextYes = Integer.parseInt(graphNodeAttributes.getNamedItem("nextYes").getNodeValue());
-            nextNo = Integer.parseInt(graphNodeAttributes.getNamedItem("nextNo").getNodeValue());
-        } else {
-            nextYes = Integer.parseInt(graphNodeAttributes.getNamedItem("nextIn").getNodeValue());
-            nextNo = Integer.parseInt(graphNodeAttributes.getNamedItem("nextOut").getNodeValue());
-        }
-        XMLEntry entry = new XMLEntry(type, id, question, pattern, nextYes, nextNo);
+        int nextYes = Integer.parseInt(graphNodeAttributes.getNamedItem("nextYes").getNodeValue());
+        int nextNo = Integer.parseInt(graphNodeAttributes.getNamedItem("nextNo").getNodeValue());
+        XMLEntry entry = new XMLEntry(type, id, question, nextYes, nextNo, classData);
         entry.setRoot(isRoot);
         return entry;
+    }
+
+    private static Map<String, String> parseClassData(Node classDataNode) {
+        Map<String, String> result = new HashMap<>();
+        XMLNodeListStream.fromParentNode(classDataNode)
+                .forEach(x -> result.put(x.getNodeName(), x.getTextContent()));
+        return result;
     }
 
     private static Question makeQuestion(Node questionNode) {
@@ -102,6 +115,14 @@ public class XMLEntry {
         return new Question(text);
     }
 
+    public Map<String, String> getClassData() {
+        return classData;
+    }
+
+    private void setDefaultValues() {
+        classData.putIfAbsent("skippable", isSkippableByDefault);
+    }
+
     public boolean isRoot() {
         return isRoot;
     }
@@ -120,10 +141,6 @@ public class XMLEntry {
 
     public String getType() {
         return type;
-    }
-
-    public String getPattern() {
-        return pattern;
     }
 
     public int getNextYes() {

@@ -4,6 +4,7 @@ import ru.hh.resumebuilderbot.message.handler.AnswerMessageHandler;
 import ru.hh.resumebuilderbot.message.handler.ClearMessageHandler;
 import ru.hh.resumebuilderbot.message.handler.MessageHandler;
 import ru.hh.resumebuilderbot.message.handler.ShowMessageHandler;
+import ru.hh.resumebuilderbot.message.handler.SkipMessageHandler;
 import ru.hh.resumebuilderbot.message.handler.StartMessageHandler;
 import ru.hh.resumebuilderbot.message.handler.UnknownMessageHandler;
 
@@ -20,6 +21,7 @@ class Selector {
         registerParser("/start", StartMessageHandler.class);
         registerParser("/show", ShowMessageHandler.class);
         registerParser("/clear", ClearMessageHandler.class);
+        registerParser("/skip", SkipMessageHandler.class);
         registerParser(".*", AnswerMessageHandler.class);
     }
 

@@ -56,6 +56,10 @@ public class UserDataStorage {
         return getUserData(user).answerIsValid(answer);
     }
 
+    public static boolean currentNodeIsSkippable(User user) {
+        return getUserData(user).currentNodeIsSkippable();
+    }
+
     private static UserData getUserData(User user) {
         return instance.userDataMap.get(user);
     }

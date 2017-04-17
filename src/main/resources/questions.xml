@@ -6,7 +6,10 @@
     <graphNode id="2" type="linear" next="3">
         <question text="Это второй вопрос"/>
     </graphNode>
-    <graphNode id="3" type="forking" pattern="Первый вариант" nextYes="4" nextNo="5">
+    <graphNode id="3" type="forking" nextYes="4" nextNo="5">
+        <classData>
+            <pattern>Первый вариант</pattern>
+        </classData>
         <question text="Это третий вопрос">
             <variantsOfAnswer othersAllowed="true">
                 <variant text="Первый вариант"/>
@@ -18,6 +21,9 @@
         <question text="Этот вопрос Вы видите, если выбрали первый вариант ответа"/>
     </graphNode>
     <graphNode id="5" type="linear" next="7">
+        <classData>
+            <skippable>false</skippable>
+        </classData>
         <question text="Этот вопрос Вы видите, если выбрали второй вариант ответа"/>
     </graphNode>
     <graphNode id="6" type="linear" next="7">
@@ -26,25 +32,8 @@
     <graphNode id="7" type="linear" next="8">
         <question text="Здесь ветки вопросов сливаются"/>
     </graphNode>
-    <graphNode id="8" type="linear" next="9">
+    <graphNode id="8" type="linear" next="10">
         <question text="Далее будет пример цикла"/>
     </graphNode>
-    <graphNode id="9" type="cycle" pattern="Закончить опрос" nextIn="10" nextOut="11">
-        <question text="Вы хотите зайти внутрь цикла или закончить опрос?">
-            <variantsOfAnswer othersAllowed="false">
-                <variant text="Закончить опрос"/>
-                <variant text="Зайти внутрь цикла"/>
-            </variantsOfAnswer>
-        </question>
-    </graphNode>
     <graphNode id="10" type="terminal"/>
-    <graphNode id="11" type="linear" next="12">
-        <question text="Вы зашли внутрь цикла"/>
-    </graphNode>
-    <graphNode id="12" type="linear" next="13">
-        <question text="Вы все еще внутри цикла"/>
-    </graphNode>
-    <graphNode id="13" type="linear" next="9">
-        <question text="Это последний вопрос в теле цикла"/>
-    </graphNode>
 </graphNodes>
