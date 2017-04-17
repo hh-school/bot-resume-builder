@@ -27,10 +27,6 @@ class UserData {
         return questionNode.getQuestion();
     }
 
-    List<UserAnswer> getAnswers() {
-        return answers;
-    }
-
     boolean answerIsValid(Answer answer) {
         return questionNode.answerIsValid(answer);
     }
