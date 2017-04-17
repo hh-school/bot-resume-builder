@@ -15,25 +15,25 @@ import java.util.List;
 import java.util.Map;
 
 public class Graph {
-    private Map<Integer, GraphEntry> nodesMap;
+    private Map<Integer, GraphEntry> entriesMap;
 
     private QuestionNode root;
 
     private Graph(List<XMLEntry> rawData) throws IOException {
         XMLValidator.validate(rawData);
-        nodesMap = makeNodesMap(rawData);
+        entriesMap = makeNodesMap(rawData);
         setRoot(rawData);
         linkNodes();
     }
 
-    private Graph(QuestionNode root, Map<Integer, GraphEntry> nodesMap) {
-        this.nodesMap = new HashMap<>();
-        for (Map.Entry<Integer, GraphEntry> entry : nodesMap.entrySet()) {
+    private Graph(QuestionNode root, Map<Integer, GraphEntry> entriesMap) {
+        this.entriesMap = new HashMap<>();
+        for (Map.Entry<Integer, GraphEntry> entry : entriesMap.entrySet()) {
             GraphEntry newEntry = entry.getValue().cloneContent();
             if (entry.getValue().getNode() == root) {
                 this.root = newEntry.getNode();
             }
-            this.nodesMap.put(entry.getKey(), newEntry);
+            this.entriesMap.put(entry.getKey(), newEntry);
         }
     }
 
@@ -54,7 +54,7 @@ public class Graph {
         int rootIndex = rawData.stream()
                 .filter((x) -> x.isRoot())
                 .findFirst().get().getIndex();
-        root = nodesMap.get(rootIndex).getNode();
+        root = entriesMap.get(rootIndex).getNode();
     }
 
     private Map<Integer, GraphEntry> makeNodesMap(List<XMLEntry> rawData) throws IOException {
@@ -66,26 +66,26 @@ public class Graph {
     }
 
     private void linkNodes() {
-        for (GraphEntry entry : nodesMap.values()) {
+        for (GraphEntry entry : entriesMap.values()) {
             QuestionNode node = entry.getNode();
             if (node instanceof QuestionNodeLinear) {
                 int nextIndex = entry.getNextIndex();
                 QuestionNodeLinear linearNode = (QuestionNodeLinear) node;
-                linearNode.setNext(nodesMap.get(nextIndex).getNode());
+                linearNode.setNext(entriesMap.get(nextIndex).getNode());
                 continue;
             }
             int nextIndexYes = entry.getNextIndexYes();
             int nextIndexNo = entry.getNextIndexNo();
             if (node instanceof QuestionNodeForking) {
                 QuestionNodeForking forkingNode = (QuestionNodeForking) node;
-                forkingNode.setNextYes(nodesMap.get(nextIndexYes).getNode());
-                forkingNode.setNextNo(nodesMap.get(nextIndexNo).getNode());
+                forkingNode.setNextYes(entriesMap.get(nextIndexYes).getNode());
+                forkingNode.setNextNo(entriesMap.get(nextIndexNo).getNode());
             }
         }
     }
 
     public Graph cloneContent() {
-        Graph result = new Graph(root, nodesMap);
+        Graph result = new Graph(root, entriesMap);
         result.linkNodes();
         return result;
     }
