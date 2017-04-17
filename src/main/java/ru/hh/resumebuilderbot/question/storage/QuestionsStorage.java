@@ -1,22 +1,22 @@
 package ru.hh.resumebuilderbot.question.storage;
 
 import ru.hh.resumebuilderbot.question.storage.builder.NodeSet;
-import ru.hh.resumebuilderbot.question.storage.builder.QuestionsLoader;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 
 import java.io.IOException;
 
+import static ru.hh.resumebuilderbot.question.storage.builder.NodeSet.fromXMLFile;
+
 public class QuestionsStorage {
 
-    private static final String XMLfilename = "src/main/resources/questions.xml";
+    private static final String XMLFilename = "src/main/resources/questions.xml";
 
     private static NodeSet nodeSetSample;
 
     static {
         // нужны конфиги - из них читать путь к файлу XML
-        QuestionsLoader questionsLoader = new QuestionsLoader();
         try {
-            nodeSetSample = questionsLoader.load(XMLfilename);
+            nodeSetSample = fromXMLFile(XMLFilename);
             nodeSetSample.build();
         } catch (IOException e) {
             e.printStackTrace();

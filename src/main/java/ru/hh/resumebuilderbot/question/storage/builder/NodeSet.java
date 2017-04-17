@@ -36,7 +36,7 @@ public class NodeSet {
         }
     }
 
-    static NodeSet fromXMLFile(String filename) throws IOException {
+    public static NodeSet fromXMLFile(String filename) throws IOException {
         try {
             List<XMLEntry> rawData = new XMLParser().parse(filename);
             return new NodeSet(rawData);
