@@ -21,8 +21,9 @@ public class Graph {
 
     private Graph(List<XMLEntry> rawData) throws IOException {
         XMLValidator.validate(rawData);
-        nodesMap = makeNodes(rawData);
+        nodesMap = makeNodesMap(rawData);
         setRoot(rawData);
+        linkNodes();
     }
 
     private Graph(QuestionNode root, Map<Integer, GraphEntry> nodesMap) {
@@ -56,17 +57,15 @@ public class Graph {
         root = nodesMap.get(rootIndex).getNode();
     }
 
-    public void build() {
-        linkNodes(nodesMap);
-    }
-
-    private Map<Integer, GraphEntry> makeNodes(List<XMLEntry> rawData) {
+    private Map<Integer, GraphEntry> makeNodesMap(List<XMLEntry> rawData) throws IOException {
         Map<Integer, GraphEntry> result = new HashMap<>();
-        rawData.forEach((x) -> result.put(x.getIndex(), GraphEntry.fromXMLEntry(x)));
+        for (XMLEntry xmlEntry : rawData) {
+            result.put(xmlEntry.getIndex(), GraphEntry.fromXMLEntry(xmlEntry));
+        }
         return result;
     }
 
-    private void linkNodes(Map<Integer, GraphEntry> nodesMap) {
+    private void linkNodes() {
         for (GraphEntry entry : nodesMap.values()) {
             QuestionNode node = entry.getNode();
             if (node instanceof QuestionNodeLinear) {
@@ -86,7 +85,9 @@ public class Graph {
     }
 
     public Graph cloneContent() {
-        return new Graph(root, nodesMap);
+        Graph result = new Graph(root, nodesMap);
+        result.linkNodes();
+        return result;
     }
 
 }

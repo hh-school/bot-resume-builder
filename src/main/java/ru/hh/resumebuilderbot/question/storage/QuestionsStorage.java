@@ -17,7 +17,6 @@ public class QuestionsStorage {
         // нужны конфиги - из них читать путь к файлу XML
         try {
             graphSample = fromXMLFile(XMLFilename);
-            graphSample.build();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -28,7 +27,6 @@ public class QuestionsStorage {
 
     public static QuestionNode getRoot() throws IOException {
         Graph graphNew = graphSample.cloneContent();
-        graphNew.build();
         return graphNew.getRoot();
     }
 
