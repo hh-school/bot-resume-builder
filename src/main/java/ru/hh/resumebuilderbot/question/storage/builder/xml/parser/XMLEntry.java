@@ -92,7 +92,7 @@ public class XMLEntry {
     private static Map<String, String> parseClassData(Node classDataNode) {
         Map<String, String> result = new HashMap<>();
         XMLNodeListStream.fromParentNode(classDataNode)
-                .forEach((x) -> result.put(x.getNodeName(), x.getTextContent()));
+                .forEach(x -> result.put(x.getNodeName(), x.getTextContent()));
         return result;
     }
 

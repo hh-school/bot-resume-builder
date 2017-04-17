@@ -21,7 +21,7 @@ class XMLNodeListStream {
 
     static Optional<Node> getFirstChildByName(Node node, String name) {
         return XMLNodeListStream.fromParentNode(node)
-                .filter((x) -> x.getNodeName().equals(name))
+                .filter(x -> x.getNodeName().equals(name))
                 .findFirst();
     }
 }
