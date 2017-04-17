@@ -1,7 +1,10 @@
 package ru.hh.resumebuilderbot.question.storage.builder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLEntry;
+import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLValidator;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeForking;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeLinear;
@@ -11,6 +14,9 @@ import java.io.IOException;
 import java.util.Map;
 
 public class GraphEntry {
+
+    private final static Logger log = LoggerFactory.getLogger(XMLValidator.class);
+
     private QuestionNode node;
     private int nextIndex;
     private int nextIndexYes;
@@ -45,6 +51,7 @@ public class GraphEntry {
         if (xmlEntry.getType().equals("forking")) {
             return makeForkingEntry(xmlEntry, classData);
         }
+        log.error("Error parsing XML: unknown node type");
         throw new IOException("Error parsing XML: node type is invalid");
     }
 

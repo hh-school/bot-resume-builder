@@ -1,5 +1,7 @@
 package ru.hh.resumebuilderbot.question.storage.builder.xml.parser;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import ru.hh.resumebuilderbot.question.Question;
@@ -15,6 +17,8 @@ public class XMLEntry {
 
     private static final boolean isRootByDefault = false;
     private static final String isSkippableByDefault = "true";
+
+    private final static Logger log = LoggerFactory.getLogger(XMLEntry.class);
 
     private int index;
     private String type;
@@ -72,7 +76,8 @@ public class XMLEntry {
         }
 
         if (!questionNode.isPresent()) {
-            throw new IOException("<question> not found inside non-terminal <node>");
+            log.error("XML schema error : <question> is not found inside non-terminal <node>");
+            throw new IOException("<question> is not found inside non-terminal <node>");
         }
         Question question = makeQuestion(questionNode.get());
 

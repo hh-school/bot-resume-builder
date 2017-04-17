@@ -1,5 +1,7 @@
 package ru.hh.resumebuilderbot.question.storage.builder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLEntry;
 import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLParser;
@@ -13,6 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Graph {
+
+    private final static Logger log = LoggerFactory.getLogger(XMLValidator.class);
+
     private Map<Integer, GraphEntry> entriesMap;
 
     private QuestionNode root;
@@ -40,6 +45,7 @@ public class Graph {
             List<XMLEntry> rawData = new XMLParser().parse(filename);
             return new Graph(rawData);
         } catch (ParserConfigurationException | SAXException e) {
+            log.error("Error parsing XML: internal error");
             throw new IOException("Error parsing XML: internal error");
         }
     }
