@@ -2,21 +2,24 @@ package ru.hh.resumebuilderbot.user.data.storage;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.QuestionsStorage;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class UserData {
+public class UserData {
 
     private QuestionNode questionNode;
     private List<UserAnswer> answers = new ArrayList<>();
 
+    public UserData() {
+        questionNode = QuestionsStorage.getRoot();
+    }
+
     void registerAnswer(Answer answer) {
         questionNode.registerAnswer(answer);
-        if (questionNode.needToSaveAnswer()) {
-            saveAnswer(answer);
-        }
+        questionNode.saveAnswer(this, answer);
     }
 
     void moveForward() {
@@ -39,4 +42,8 @@ class UserData {
         Question currentQuestion = questionNode.getQuestion();
         answers.add(new UserAnswer(currentQuestion, answer));
     }
+
+
+    public void savePhoneNumber(String phoneNumber)
+    {}
 }

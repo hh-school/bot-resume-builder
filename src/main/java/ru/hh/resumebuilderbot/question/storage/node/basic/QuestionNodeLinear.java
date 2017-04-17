@@ -1,7 +1,9 @@
-package ru.hh.resumebuilderbot.question.storage.node;
+package ru.hh.resumebuilderbot.question.storage.node.basic;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
+import ru.hh.resumebuilderbot.user.data.storage.UserData;
 
 public class QuestionNodeLinear implements QuestionNode {
     private Question question;
@@ -38,11 +40,6 @@ public class QuestionNodeLinear implements QuestionNode {
     }
 
     @Override
-    public boolean needToSaveAnswer() {
-        return true;
-    }
-
-    @Override
     public boolean isSkippable() {
         return isSkippable;
     }
@@ -50,5 +47,10 @@ public class QuestionNodeLinear implements QuestionNode {
     @Override
     public QuestionNode cloneContent() {
         return new QuestionNodeLinear(question, isSkippable);
+    }
+
+    @Override
+    public void saveAnswer(UserData dest, Answer answer) {
+
     }
 }

@@ -3,9 +3,9 @@ package ru.hh.resumebuilderbot.question.storage.builder;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLEntry;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeForking;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeLinear;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeTerminal;
+import ru.hh.resumebuilderbot.question.storage.node.basic.QuestionNodeForking;
+import ru.hh.resumebuilderbot.question.storage.node.basic.QuestionNodeLinear;
+import ru.hh.resumebuilderbot.question.storage.node.basic.QuestionNodeTerminal;
 
 import java.io.IOException;
 import java.util.Map;
