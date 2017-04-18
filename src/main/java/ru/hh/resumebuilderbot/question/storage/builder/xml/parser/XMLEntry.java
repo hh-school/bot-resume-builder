@@ -19,21 +19,18 @@ public class XMLEntry {
 
     private int index;
     private String type;
-    private int nextIndex;
     private Question question;
-    private int nextYes;
-    private int nextNo;
     private boolean isRoot;
     private Map<String, String> classData;
+
+    private Map<String, Integer> links;
 
     private XMLEntry(String type, int index, Question question, Map<String, Integer> links,
                      Map<String, String> classData) {
         this.index = index;
         this.type = type;
         this.question = question;
-        this.nextIndex = links.getOrDefault("next", 0);
-        this.nextYes = links.getOrDefault("nextYes", 0);
-        this.nextNo = links.getOrDefault("nextNo", 0);
+        this.links = links;
         this.classData = classData;
         setDefaultValues();
     }
@@ -114,6 +111,10 @@ public class XMLEntry {
 
     }
 
+    public Map<String, Integer> getLinks() {
+        return links;
+    }
+
     public Map<String, String> getClassData() {
         return classData;
     }
@@ -134,20 +135,8 @@ public class XMLEntry {
         return index;
     }
 
-    public int getNextIndex() {
-        return nextIndex;
-    }
-
     public String getType() {
         return type;
-    }
-
-    public int getNextYes() {
-        return nextYes;
-    }
-
-    public int getNextNo() {
-        return nextNo;
     }
 
     public Question getQuestion() {
