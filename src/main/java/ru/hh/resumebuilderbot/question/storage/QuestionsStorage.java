@@ -25,9 +25,8 @@ public class QuestionsStorage {
     private QuestionsStorage() {
     }
 
-    public static QuestionNode getRoot() {
-        Graph graphNew = graphSample.cloneContent();
-        return graphNew.getRoot();
+    public static Graph cloneSampleGraph() {
+        return graphSample.cloneContent();
     }
 
 }
