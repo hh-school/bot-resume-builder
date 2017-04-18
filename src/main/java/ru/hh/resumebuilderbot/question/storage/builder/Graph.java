@@ -19,7 +19,7 @@ public class Graph {
 
     private Graph(List<XMLEntry> rawData) throws IOException {
         XMLValidator.validate(rawData);
-        entriesMap = makeNodesMap(rawData);
+        entriesMap = makeEntriesMap(rawData);
         setRoot(rawData);
         linkNodes();
     }
@@ -55,7 +55,7 @@ public class Graph {
         root = entriesMap.get(rootIndex).getNode();
     }
 
-    private Map<Integer, GraphEntry> makeNodesMap(List<XMLEntry> rawData) throws IOException {
+    private Map<Integer, GraphEntry> makeEntriesMap(List<XMLEntry> rawData) throws IOException {
         Map<Integer, GraphEntry> result = new HashMap<>();
         for (XMLEntry xmlEntry : rawData) {
             result.put(xmlEntry.getIndex(), GraphEntry.fromXMLEntry(xmlEntry));

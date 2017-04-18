@@ -121,6 +121,7 @@ public class XMLEntry {
 
     private void setDefaultValues() {
         classData.putIfAbsent("skippable", isSkippableByDefault);
+        links.put("self", index);
     }
 
     public boolean isRoot() {
