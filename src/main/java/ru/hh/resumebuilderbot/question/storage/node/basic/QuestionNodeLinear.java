@@ -5,6 +5,8 @@ import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 import ru.hh.resumebuilderbot.user.data.storage.UserData;
 
+import java.util.Map;
+
 public class QuestionNodeLinear implements QuestionNode {
     private Question question;
     private boolean isSkippable;
@@ -13,6 +15,11 @@ public class QuestionNodeLinear implements QuestionNode {
     public QuestionNodeLinear(Question question, boolean isSkippable) {
         this.question = question;
         this.isSkippable = isSkippable;
+    }
+
+    @Override
+    public void setLinks(Map<String, QuestionNode> links) {
+        next = links.get("next");
     }
 
     @Override
@@ -33,10 +40,6 @@ public class QuestionNodeLinear implements QuestionNode {
     @Override
     public QuestionNode getNext() {
         return next;
-    }
-
-    public void setNext(QuestionNode next) {
-        this.next = next;
     }
 
     @Override
