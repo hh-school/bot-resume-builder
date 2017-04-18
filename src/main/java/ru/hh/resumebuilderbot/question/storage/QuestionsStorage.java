@@ -4,8 +4,6 @@ import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 
 import java.io.IOException;
 
-import static ru.hh.resumebuilderbot.question.storage.graph.Graph.fromXMLFile;
-
 public class QuestionsStorage {
 
     private static final String XMLFilename = "src/main/resources/questions.xml";
@@ -15,7 +13,7 @@ public class QuestionsStorage {
     static {
         // нужны конфиги - из них читать путь к файлу XML
         try {
-            graphSample = fromXMLFile(XMLFilename);
+            graphSample = Graph.fromXMLFile(XMLFilename);
         } catch (IOException e) {
             e.printStackTrace();
         }
