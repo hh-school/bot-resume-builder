@@ -26,35 +26,22 @@ public class XMLEntry {
     private boolean isRoot;
     private Map<String, String> classData;
 
-    private XMLEntry(int index, int nextIndex, Question question, Map<String, String> classData) {
-        this.index = index;
-        this.type = "linear";
-        this.nextIndex = nextIndex;
-        this.question = question;
-        this.classData = classData;
-        setDefaultValues();
-    }
-
-    private XMLEntry(String type, int index, Question question, int nextYes, int nextNo,
+    private XMLEntry(String type, int index, Question question, Map<String, Integer> links,
                      Map<String, String> classData) {
         this.index = index;
         this.type = type;
         this.question = question;
-        this.nextYes = nextYes;
-        this.nextNo = nextNo;
+        this.nextIndex = links.getOrDefault("next", 0);
+        this.nextYes = links.getOrDefault("nextYes", 0);
+        this.nextNo = links.getOrDefault("nextNo", 0);
         this.classData = classData;
         setDefaultValues();
-    }
-
-    private XMLEntry(int index) {
-        this.type = "terminal";
-        this.index = index;
     }
 
     static XMLEntry fromGraphNode(Node graphNode) throws IOException {
         NamedNodeMap graphNodeAttributes = graphNode.getAttributes();
 
-        Optional<Node> questionNode = XMLNodeListStream.getFirstChildByName(graphNode, "question");
+        Optional<Node> optionalQuestionNode = XMLNodeListStream.getFirstChildByName(graphNode, "question");
         Optional<Node> classDataNode = XMLNodeListStream.getFirstChildByName(graphNode, "classData");
         Map<String, String> classData = classDataNode.map(XMLEntry::parseClassData).orElse(new HashMap<>());
         int id = Integer.parseInt(graphNodeAttributes.getNamedItem("id").getNodeValue());
@@ -68,26 +55,9 @@ public class XMLEntry {
 
         String type = graphNodeAttributes.getNamedItem("type").getNodeValue();
 
-        if (type.equals("terminal")) {
-            XMLEntry entry = new XMLEntry(id);
-            entry.setRoot(isRoot);
-            return entry;
-        }
+        Question question = makeQuestion(optionalQuestionNode);
 
-        if (!questionNode.isPresent()) {
-            throw new IOException("<question> not found inside non-terminal <node>");
-        }
-        Question question = makeQuestion(questionNode.get());
-
-        if (type.equals("linear")) {
-            int nextId = links.get("next");
-            XMLEntry entry = new XMLEntry(id, nextId, question, classData);
-            entry.setRoot(isRoot);
-            return entry;
-        }
-        int nextYes = links.get("nextYes");
-        int nextNo = links.get("nextNo");
-        XMLEntry entry = new XMLEntry(type, id, question, nextYes, nextNo, classData);
+        XMLEntry entry = new XMLEntry(type, id, question, links, classData);
         entry.setRoot(isRoot);
         return entry;
     }
@@ -99,7 +69,15 @@ public class XMLEntry {
         return result;
     }
 
-    private static Question makeQuestion(Node questionNode) {
+    private static Question makeQuestion(Optional<Node> optionalQuestionNode) {
+
+        Node questionNode = null;
+        if (optionalQuestionNode.isPresent()) {
+            questionNode = optionalQuestionNode.get();
+        } else {
+            return null;
+        }
+
         NamedNodeMap attributes = questionNode.getAttributes();
 
         String text = attributes.getNamedItem("text").getNodeValue();
