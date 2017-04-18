@@ -3,6 +3,7 @@ package ru.hh.resumebuilderbot.user.data.storage;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.QuestionsStorage;
+import ru.hh.resumebuilderbot.question.storage.builder.Graph;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 
 import java.util.ArrayList;
@@ -10,11 +11,13 @@ import java.util.List;
 
 public class UserData {
 
+    private Graph graph;
     private QuestionNode questionNode;
     private List<UserAnswer> answers = new ArrayList<>();
 
     public UserData() {
-        questionNode = QuestionsStorage.getRoot();
+        graph = QuestionsStorage.cloneSampleGraph();
+        questionNode = graph.getRoot();
     }
 
     void registerAnswer(Answer answer) {
