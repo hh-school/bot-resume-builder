@@ -44,6 +44,6 @@ public class UserData {
     }
 
 
-    public void savePhoneNumber(String phoneNumber)
-    {}
+    public void savePhoneNumber(String phoneNumber) {
+    }
 }

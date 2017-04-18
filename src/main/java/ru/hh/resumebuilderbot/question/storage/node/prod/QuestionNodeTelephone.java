@@ -12,6 +12,6 @@ public class QuestionNodeTelephone extends QuestionNodeLinear {
 
     @Override
     public void saveAnswer(UserData dest, Answer answer) {
-        dest.savePhoneNumber((String)answer.getAnswerBody());
+        dest.savePhoneNumber((String) answer.getAnswerBody());
     }
 }
