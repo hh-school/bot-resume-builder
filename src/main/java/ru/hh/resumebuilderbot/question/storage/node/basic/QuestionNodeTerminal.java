@@ -7,11 +7,18 @@ import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
 import ru.hh.resumebuilderbot.user.data.storage.UserData;
 
+import java.util.Map;
+
 public class QuestionNodeTerminal implements QuestionNode {
     private Question question;
 
     public QuestionNodeTerminal() {
         question = new Question(TextsStorage.getText(TextId.FINISHED));
+    }
+
+    @Override
+    public void setLinks(Map<String, QuestionNode> links) {
+
     }
 
     @Override
