@@ -2,7 +2,6 @@ package ru.hh.resumebuilderbot.question.storage;
 
 import ru.hh.resumebuilderbot.question.storage.builder.Graph;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
-import ru.hh.resumebuilderbot.user.data.storage.UserData;
 
 import java.io.IOException;
 
