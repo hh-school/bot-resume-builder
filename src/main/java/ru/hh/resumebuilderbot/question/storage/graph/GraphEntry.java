@@ -1,11 +1,11 @@
-package ru.hh.resumebuilderbot.question.storage.builder;
+package ru.hh.resumebuilderbot.question.storage.graph;
 
 import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLEntry;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
-import ru.hh.resumebuilderbot.question.storage.node.basic.QuestionNodeForking;
-import ru.hh.resumebuilderbot.question.storage.node.basic.QuestionNodeLinear;
-import ru.hh.resumebuilderbot.question.storage.node.basic.QuestionNodeTerminal;
+import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
+import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeForking;
+import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeLinear;
+import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeTerminal;
+import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLEntry;
 
 import java.io.IOException;
 import java.util.HashMap;

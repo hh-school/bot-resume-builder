@@ -1,4 +1,4 @@
-package ru.hh.resumebuilderbot.question.storage.builder.xml.parser;
+package ru.hh.resumebuilderbot.question.storage.graph.xml.parser;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;

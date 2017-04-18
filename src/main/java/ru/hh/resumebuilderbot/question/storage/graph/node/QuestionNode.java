@@ -1,4 +1,4 @@
-package ru.hh.resumebuilderbot.question.storage.node;
+package ru.hh.resumebuilderbot.question.storage.graph.node;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;

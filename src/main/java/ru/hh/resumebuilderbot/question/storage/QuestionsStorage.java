@@ -1,10 +1,10 @@
 package ru.hh.resumebuilderbot.question.storage;
 
-import ru.hh.resumebuilderbot.question.storage.builder.Graph;
+import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 
 import java.io.IOException;
 
-import static ru.hh.resumebuilderbot.question.storage.builder.Graph.fromXMLFile;
+import static ru.hh.resumebuilderbot.question.storage.graph.Graph.fromXMLFile;
 
 public class QuestionsStorage {
 

@@ -1,29 +1,29 @@
-package ru.hh.resumebuilderbot.question.storage.node.basic;
+package ru.hh.resumebuilderbot.question.storage.graph.node;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
-import ru.hh.resumebuilderbot.texts.storage.TextId;
-import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
 import ru.hh.resumebuilderbot.user.data.storage.UserData;
 
 import java.util.Map;
 
-public class QuestionNodeTerminal implements QuestionNode {
+public class QuestionNodeLinear implements QuestionNode {
     private Question question;
+    private boolean isSkippable;
+    private QuestionNode next;
 
-    public QuestionNodeTerminal() {
-        question = new Question(TextsStorage.getText(TextId.FINISHED));
+    public QuestionNodeLinear(Question question, boolean isSkippable) {
+        this.question = question;
+        this.isSkippable = isSkippable;
     }
 
     @Override
     public void setLinks(Map<String, QuestionNode> links) {
-
+        next = links.get("next");
     }
 
     @Override
     public boolean answerIsValid(Answer answer) {
-        return true;
+        return question.answerIsAllowed(answer);
     }
 
     @Override
@@ -38,17 +38,17 @@ public class QuestionNodeTerminal implements QuestionNode {
 
     @Override
     public QuestionNode getNext() {
-        return this;
+        return next;
     }
 
     @Override
     public boolean isSkippable() {
-        return true;
+        return isSkippable;
     }
 
     @Override
     public QuestionNode cloneContent() {
-        return new QuestionNodeTerminal();
+        return new QuestionNodeLinear(question, isSkippable);
     }
 
     @Override

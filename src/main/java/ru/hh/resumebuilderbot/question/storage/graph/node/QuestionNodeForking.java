@@ -1,8 +1,7 @@
-package ru.hh.resumebuilderbot.question.storage.node.basic;
+package ru.hh.resumebuilderbot.question.storage.graph.node;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 import ru.hh.resumebuilderbot.user.data.storage.UserData;
 
 import java.util.Map;

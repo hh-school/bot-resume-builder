@@ -1,10 +1,10 @@
-package ru.hh.resumebuilderbot.question.storage.builder;
+package ru.hh.resumebuilderbot.question.storage.graph;
 
 import org.xml.sax.SAXException;
-import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLEntry;
-import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLParser;
-import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLValidator;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
+import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
+import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLEntry;
+import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLParser;
+import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLValidator;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
