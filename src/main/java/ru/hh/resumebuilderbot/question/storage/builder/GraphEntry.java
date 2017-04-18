@@ -12,68 +12,55 @@ import java.util.Map;
 
 public class GraphEntry {
     private QuestionNode node;
-    private int nextIndex;
-    private int nextIndexYes;
-    private int nextIndexNo;
+    private Map<String, Integer> links;
 
-    private GraphEntry(QuestionNode node, int nextIndex) {
+    private GraphEntry(QuestionNode node, Map<String, Integer> links) {
         this.node = node;
-        this.nextIndex = nextIndex;
-    }
-
-    private GraphEntry(QuestionNode node, int nextIndexYes, int nextIndexNo) {
-        this.node = node;
-        this.nextIndexYes = nextIndexYes;
-        this.nextIndexNo = nextIndexNo;
-    }
-
-    private GraphEntry(QuestionNode node, int nextIndex, int nextIndexYes, int nextIndexNo) {
-        this.node = node;
-        this.nextIndex = nextIndex;
-        this.nextIndexYes = nextIndexYes;
-        this.nextIndexNo = nextIndexNo;
+        this.links = links;
     }
 
     static GraphEntry fromXMLEntry(XMLEntry xmlEntry) throws IOException {
+        Map<String, Integer> links = xmlEntry.getLinks();
         Map<String, String> classData = xmlEntry.getClassData();
+        Question question = xmlEntry.getQuestion();
         if (xmlEntry.getType().equals("terminal")) {
-            return makeTerminalEntry(xmlEntry, classData);
+            return makeTerminalEntry(links, classData, question);
         }
         if (xmlEntry.getType().equals("linear")) {
-            return makeLinearEntry(xmlEntry, classData);
+            return makeLinearEntry(links, classData, question);
         }
         if (xmlEntry.getType().equals("forking")) {
-            return makeForkingEntry(xmlEntry, classData);
+            return makeForkingEntry(links, classData, question);
         }
         throw new IOException("Error parsing XML: node type is invalid");
     }
 
-    private static GraphEntry makeTerminalEntry(XMLEntry xmlEntry, Map<String, String> classData) {
-        int index = xmlEntry.getIndex();
+    private static GraphEntry makeTerminalEntry(Map<String, Integer> links,
+                                                Map<String, String> classData,
+                                                Question question) {
         QuestionNode terminalNode = new QuestionNodeTerminal();
-        return new GraphEntry(terminalNode, index);
+        return new GraphEntry(terminalNode, links);
     }
 
-    private static GraphEntry makeLinearEntry(XMLEntry xmlEntry, Map<String, String> classData) {
+    private static GraphEntry makeLinearEntry(Map<String, Integer> links,
+                                              Map<String, String> classData,
+                                              Question question) {
         boolean isSkippable = Boolean.parseBoolean(classData.get("skippable"));
-        Question question = xmlEntry.getQuestion();
         QuestionNodeLinear linearNode = new QuestionNodeLinear(question, isSkippable);
-        int nextIndex = xmlEntry.getLinks().get("next");
-        return new GraphEntry(linearNode, nextIndex);
+        return new GraphEntry(linearNode, links);
     }
 
-    private static GraphEntry makeForkingEntry(XMLEntry xmlEntry, Map<String, String> classData) {
+    private static GraphEntry makeForkingEntry(Map<String, Integer> links,
+                                               Map<String, String> classData,
+                                               Question question) {
         boolean isSkippable = Boolean.parseBoolean(classData.get("skippable"));
-        Question question = xmlEntry.getQuestion();
         String pattern = classData.get("pattern");
-        int nextIndexYes = xmlEntry.getLinks().get("nextYes");
-        int nextIndexNo = xmlEntry.getLinks().get("nextNo");
         QuestionNodeForking forkingNode = new QuestionNodeForking(question, pattern, isSkippable);
-        return new GraphEntry(forkingNode, nextIndexYes, nextIndexNo);
+        return new GraphEntry(forkingNode, links);
     }
 
     GraphEntry cloneContent() {
-        return new GraphEntry(node.cloneContent(), nextIndex, nextIndexYes, nextIndexNo);
+        return new GraphEntry(node.cloneContent(), links);
     }
 
     public QuestionNode getNode() {
@@ -83,12 +70,12 @@ public class GraphEntry {
     void setLinks(Map<Integer, QuestionNode> nodesMap) {
         if (node instanceof QuestionNodeLinear) {
             QuestionNodeLinear linearNode = (QuestionNodeLinear) node;
-            linearNode.setNext(nodesMap.get(nextIndex));
+            linearNode.setNext(nodesMap.get(links.get("next")));
         }
         if (node instanceof QuestionNodeForking) {
             QuestionNodeForking forkingNode = (QuestionNodeForking) node;
-            forkingNode.setNextYes(nodesMap.get(nextIndexYes));
-            forkingNode.setNextNo(nodesMap.get(nextIndexNo));
+            forkingNode.setNextYes(nodesMap.get(links.get("nextYes")));
+            forkingNode.setNextNo(nodesMap.get(links.get("nextNo")));
         }
     }
 
