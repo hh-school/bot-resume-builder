@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class XMLEntry {
 
@@ -58,6 +59,8 @@ public class XMLEntry {
         Map<String, String> classData = classDataNode.map(XMLEntry::parseClassData).orElse(new HashMap<>());
         int id = Integer.parseInt(graphNodeAttributes.getNamedItem("id").getNodeValue());
 
+        Map<String, Integer> links = parseLinks(XMLNodeListStream.getFirstChildByName(graphNode, "links"));
+
         Optional<Node> attributeRoot = Optional.ofNullable(graphNodeAttributes.getNamedItem("root"));
         boolean isRoot = attributeRoot
                 .map((x) -> Boolean.parseBoolean(x.getNodeValue()))
@@ -77,13 +80,13 @@ public class XMLEntry {
         Question question = makeQuestion(questionNode.get());
 
         if (type.equals("linear")) {
-            int nextId = Integer.parseInt(graphNodeAttributes.getNamedItem("next").getNodeValue());
+            int nextId = links.get("next");
             XMLEntry entry = new XMLEntry(id, nextId, question, classData);
             entry.setRoot(isRoot);
             return entry;
         }
-        int nextYes = Integer.parseInt(graphNodeAttributes.getNamedItem("nextYes").getNodeValue());
-        int nextNo = Integer.parseInt(graphNodeAttributes.getNamedItem("nextNo").getNodeValue());
+        int nextYes = links.get("nextYes");
+        int nextNo = links.get("nextNo");
         XMLEntry entry = new XMLEntry(type, id, question, nextYes, nextNo, classData);
         entry.setRoot(isRoot);
         return entry;
@@ -113,6 +116,24 @@ public class XMLEntry {
             return new Question(text, variantsOfAnswer, otherVariantsAllowed);
         }
         return new Question(text);
+    }
+
+    private static Map<String, Integer> parseLinks(Optional<Node> optionalLinksNode) {
+        Map<String, Integer> result = new HashMap<>();
+        if (!optionalLinksNode.isPresent()) {
+            return result;
+        }
+        Stream<Node> linksStream = XMLNodeListStream.fromParentNode(optionalLinksNode.get());
+        linksStream.forEach(x -> parseLink(x, result));
+        return result;
+    }
+
+    private static void parseLink(Node src, Map<String, Integer> dest) {
+        NamedNodeMap attributes = src.getAttributes();
+        String name = attributes.getNamedItem("name").getNodeValue();
+        int value = Integer.parseInt(attributes.getNamedItem("value").getNodeValue());
+        dest.put(name, value);
+
     }
 
     public Map<String, String> getClassData() {

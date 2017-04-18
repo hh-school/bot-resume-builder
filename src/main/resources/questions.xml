@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <graphNodes>
-    <graphNode id="1" root="true" type="linear" next="2">
+    <graphNode id="1" root="true" type="linear">
+        <links>
+            <link name="next" value="2"/>
+        </links>
         <question text="Это первый вопрос"/>
     </graphNode>
-    <graphNode id="2" type="linear" next="3">
+    <graphNode id="2" type="linear">
+        <links>
+            <link name="next" value="3"/>
+        </links>
         <question text="Это второй вопрос"/>
     </graphNode>
-    <graphNode id="3" type="forking" nextYes="4" nextNo="5">
+    <graphNode id="3" type="forking">
+        <links>
+            <link name="nextYes" value="4"/>
+            <link name="nextNo" value="5"/>
+        </links>
         <classData>
             <pattern>Первый вариант</pattern>
         </classData>
@@ -17,22 +27,37 @@
             </variantsOfAnswer>
         </question>
     </graphNode>
-    <graphNode id="4" type="linear" next="6">
+    <graphNode id="4" type="linear">
+        <links>
+            <link name="next" value="6"/>
+        </links>
         <question text="Этот вопрос Вы видите, если выбрали первый вариант ответа"/>
     </graphNode>
-    <graphNode id="5" type="linear" next="7">
+    <graphNode id="5" type="linear">
+        <links>
+            <link name="next" value="7"/>
+        </links>
         <classData>
             <skippable>false</skippable>
         </classData>
         <question text="Этот вопрос Вы видите, если выбрали второй вариант ответа"/>
     </graphNode>
-    <graphNode id="6" type="linear" next="7">
+    <graphNode id="6" type="linear">
+        <links>
+            <link name="next" value="7"/>
+        </links>
         <question text="Это продолжение ветки первого варианта ответа"/>
     </graphNode>
-    <graphNode id="7" type="linear" next="8">
+    <graphNode id="7" type="linear">
+        <links>
+            <link name="next" value="8"/>
+        </links>
         <question text="Здесь ветки вопросов сливаются"/>
     </graphNode>
-    <graphNode id="8" type="linear" next="10">
+    <graphNode id="8" type="linear">
+        <links>
+            <link name="next" value="10"/>
+        </links>
         <question text="Далее будет пример цикла"/>
     </graphNode>
     <graphNode id="10" type="terminal"/>
