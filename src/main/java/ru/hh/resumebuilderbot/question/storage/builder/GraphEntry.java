@@ -58,7 +58,7 @@ public class GraphEntry {
         boolean isSkippable = Boolean.parseBoolean(classData.get("skippable"));
         Question question = xmlEntry.getQuestion();
         QuestionNodeLinear linearNode = new QuestionNodeLinear(question, isSkippable);
-        int nextIndex = xmlEntry.getNextIndex();
+        int nextIndex = xmlEntry.getLinks().get("next");
         return new GraphEntry(linearNode, nextIndex);
     }
 
@@ -66,8 +66,8 @@ public class GraphEntry {
         boolean isSkippable = Boolean.parseBoolean(classData.get("skippable"));
         Question question = xmlEntry.getQuestion();
         String pattern = classData.get("pattern");
-        int nextIndexYes = xmlEntry.getNextYes();
-        int nextIndexNo = xmlEntry.getNextNo();
+        int nextIndexYes = xmlEntry.getLinks().get("nextYes");
+        int nextIndexNo = xmlEntry.getLinks().get("nextNo");
         QuestionNodeForking forkingNode = new QuestionNodeForking(question, pattern, isSkippable);
         return new GraphEntry(forkingNode, nextIndexYes, nextIndexNo);
     }
