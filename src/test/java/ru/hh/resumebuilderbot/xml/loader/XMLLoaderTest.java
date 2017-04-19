@@ -1,9 +1,11 @@
-package ru.hh.resumebuilderbot.question.storage.graph;
+package ru.hh.resumebuilderbot.xml.loader;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.graph.Graph;
+import ru.hh.resumebuilderbot.question.storage.graph.GraphEntry;
 import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
 import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeForking;
 import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeLinear;
