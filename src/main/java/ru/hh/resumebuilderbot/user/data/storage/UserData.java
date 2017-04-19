@@ -13,7 +13,7 @@ public class UserData {
     private List<UserAnswer> answers = new ArrayList<>();
 
     UserData() {
-        questionNode = QuestionsStorage.cloneSampleGraph().getRoot();
+        questionNode = QuestionsStorage.getClonedRoot();
     }
 
     void registerAnswer(Answer answer) {
