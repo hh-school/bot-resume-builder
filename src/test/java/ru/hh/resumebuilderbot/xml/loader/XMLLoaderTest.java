@@ -1,6 +1,5 @@
 package ru.hh.resumebuilderbot.xml.loader;
 
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
@@ -35,21 +34,24 @@ public class XMLLoaderTest {
 
     private static Set<Integer> sampleIndexSet = new HashSet<>();
 
-    @BeforeMethod
-    static void loadFile() throws Exception {
-        graph = Graph.fromXMLFile(allFeaturesFilename);
-        clonedGraph = graph.cloneContent();
+    static {
+        try {
+            graph = Graph.fromXMLFile(allFeaturesFilename);
+            clonedGraph = graph.cloneContent();
 
 
-        root = graph.getRoot();
-        clonedRoot = clonedGraph.getRoot();
+            root = graph.getRoot();
+            clonedRoot = clonedGraph.getRoot();
 
-        Field entriesMapField = Graph.class.getDeclaredField("entriesMap");
-        entriesMapField.setAccessible(true);
-        entriesMap = (Map<Integer, GraphEntry>) entriesMapField.get(graph);
-        clonedEntriesMap = (Map<Integer, GraphEntry>) entriesMapField.get(clonedGraph);
+            Field entriesMapField = Graph.class.getDeclaredField("entriesMap");
+            entriesMapField.setAccessible(true);
+            entriesMap = (Map<Integer, GraphEntry>) entriesMapField.get(graph);
+            clonedEntriesMap = (Map<Integer, GraphEntry>) entriesMapField.get(clonedGraph);
 
-        makeSamples();
+            makeSamples();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
