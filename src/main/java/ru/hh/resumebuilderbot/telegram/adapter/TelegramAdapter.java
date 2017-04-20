@@ -33,8 +33,10 @@ public class TelegramAdapter implements MessengerAdapter {
 
         List<String> variantsOfAnswer = question.getVariantsOfAnswer();
         if (!variantsOfAnswer.isEmpty()) {
-            message.setReplyMarkup(generateInlineKeyboard(variantsOfAnswer));
-        } 
+            message.setReplyMarkup(generateReplyKeyboard(variantsOfAnswer));
+        } else {
+            message.setReplyMarkup(new ReplyKeyboardRemove());
+        }
         try {
             bot.sendMessage(message);
         } catch (TelegramApiException e) {
@@ -55,6 +57,20 @@ public class TelegramAdapter implements MessengerAdapter {
         }
         result.setKeyboard(rowsInline);
         return result;
+    }
+
+    private ReplyKeyboardMarkup generateReplyKeyboard(List<String> variantsOfAnswer) {
+        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
+        List<KeyboardRow> keyboardRows = new ArrayList<>();
+        for (String variant : variantsOfAnswer) {
+            KeyboardRow keyboardRow = new KeyboardRow();
+            KeyboardButton button = new KeyboardButton(variant);
+            keyboardRow.add(button);
+            keyboardRows.add(keyboardRow);
+        }
+        keyboardMarkup.setKeyboard(keyboardRows);
+        keyboardMarkup.setOneTimeKeyboad(true);
+        return keyboardMarkup;
     }
 
     @Override
