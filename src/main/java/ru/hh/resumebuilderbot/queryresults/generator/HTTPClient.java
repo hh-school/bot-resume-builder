@@ -14,8 +14,8 @@ import java.util.Map;
 /**
  * Created by Sergey on 21.04.2017.
  */
-public class URLRequest {
-    private final static Logger log = LoggerFactory.getLogger(URLRequest.class);
+public class HTTPClient {
+    private final static Logger log = LoggerFactory.getLogger(HTTPClient.class);
 
     public static String get(String urlToRead) {
         try {

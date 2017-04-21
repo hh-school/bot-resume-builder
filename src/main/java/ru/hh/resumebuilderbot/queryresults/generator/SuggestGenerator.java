@@ -223,13 +223,13 @@ public class SuggestGenerator {
         queryParams.put("text", query);
         queryParams.put("locale", getQueryLanguage(query));
 
-        String jsonInput = URLRequest.get(url, queryParams);
+        String jsonInput = HTTPClient.get(url, queryParams);
         JsonParser parser = new JsonParser();
         return parser.parse(jsonInput).getAsJsonObject().getAsJsonArray("items");
     }
 
     private static JsonArray getJsonArrayFromURL(String url) {
-        String jsonInput = URLRequest.get(url);
+        String jsonInput = HTTPClient.get(url);
         JsonParser parser = new JsonParser();
         return parser.parse(jsonInput).getAsJsonArray();
     }
