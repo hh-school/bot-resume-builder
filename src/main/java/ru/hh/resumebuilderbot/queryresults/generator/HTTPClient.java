@@ -17,7 +17,11 @@ import java.util.Map;
 public class HTTPClient {
     private final static Logger log = LoggerFactory.getLogger(HTTPClient.class);
 
-    public static String get(String urlToRead) {
+    private final static String divider = "&";
+
+    private final static String queryBeginner = "?";
+
+    public static String sendGetRequest(String urlToRead) {
         try {
             StringBuilder result = new StringBuilder();
             URL url = new URL(urlToRead);
@@ -37,23 +41,31 @@ public class HTTPClient {
         }
     }
 
-    public static String get(String url, Map<String, String> queryParams) {
-        try {
-            if (!queryParams.isEmpty()) {
-                StringBuilder query = new StringBuilder();
-                query.append("?");
-                for (Map.Entry<String, String> param : queryParams.entrySet()) {
-                    query.append(String.format("%s=%s&",
-                            URLEncoder.encode(param.getKey(), "UTF-8"),
-                            URLEncoder.encode(param.getValue(), "UTF-8")));
-                }
-                query.deleteCharAt(query.length()-1);
-                url = url + query.toString();
+    public static String sendGetRequest(String url, Map<String, String> queryParams) {
+        String urlWithParams = url;
+        if (!queryParams.isEmpty()) {
+            for (Map.Entry<String, String> param : queryParams.entrySet()) {
+                urlWithParams = addQueryParameter(urlWithParams, param.getKey(), param.getValue());
             }
-            return get(url);
+        }
+        return sendGetRequest(urlWithParams);
+    }
+
+    private static String addQueryParameter(String url, String param, String value) {
+        try {
+            StringBuilder urlWithParam = new StringBuilder(url);
+            if (url.contains(queryBeginner)) {
+                urlWithParam.append(divider);
+            } else {
+                urlWithParam.append(queryBeginner);
+            }
+            urlWithParam.append(String.format("%s=%s",
+                    URLEncoder.encode(param, "UTF-8"),
+                    URLEncoder.encode(value, "UTF-8")));
+            return urlWithParam.toString();
         } catch (IOException e) {
             log.error(e.getMessage());
-            return "error";
+            return url;
         }
     }
 }
