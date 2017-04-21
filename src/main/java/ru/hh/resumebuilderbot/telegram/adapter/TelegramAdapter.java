@@ -10,7 +10,6 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardButto
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
-import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.MessengerAdapter;
 import ru.hh.resumebuilderbot.User;
 import ru.hh.resumebuilderbot.question.Question;

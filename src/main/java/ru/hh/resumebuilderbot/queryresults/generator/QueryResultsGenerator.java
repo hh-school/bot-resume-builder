@@ -24,14 +24,14 @@ public class QueryResultsGenerator {
     }
 
     public List<InlineQueryResult> getResults() {
-        String currentState = "2";//getCurrentState(chatId);
+        String currentState = "2"; //getCurrentState(chatId);
         List<InlineQueryResult> queryResults = new ArrayList<>();
         switch (currentState) {
             case "1":
                 queryResults = getResultsFromRowData(SuggestGenerator.getInstitutes(textForSearch));
                 break;
             case "2":
-                String instId = "39144";//getCurrentInst(chatId)
+                String instId = "39144"; //getCurrentInst(chatId)
                 queryResults = getResultsFromRowData(SuggestGenerator.getFaculties(instId, textForSearch));
                 break;
             case "3":

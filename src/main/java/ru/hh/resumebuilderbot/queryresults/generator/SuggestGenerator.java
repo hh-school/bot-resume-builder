@@ -42,9 +42,9 @@ public class SuggestGenerator {
 
         JsonObject mainObject = getJsonObjectFromURL(institutesUrlRequest, searchQuery);
         JsonArray institutes = mainObject.getAsJsonArray("items");
-        if (institutes.size() == 0)
+        if (institutes.size() == 0) {
             return nothingFoundResult(searchQuery);
-
+        }
         for (JsonElement institute : institutes) {
             JsonObject instituteObject = institute.getAsJsonObject();
             Map<String, String> instResult = new HashMap<>();
@@ -70,9 +70,9 @@ public class SuggestGenerator {
         List<Map<String, String>> results = new ArrayList<>();
         JsonArray faculties = getJsonObjectFromURL(String.format(facultiesUrlRequest, instId));
 
-        if (faculties.size() == 0)
+        if (faculties.size() == 0) {
             return instituteHasNoFaculties();
-
+        }
         for (JsonElement faculty : faculties) {
             JsonObject facultyObject = faculty.getAsJsonObject();
             Map<String, String> instResult = new HashMap<>();
@@ -90,8 +90,9 @@ public class SuggestGenerator {
 
             results.add(instResult);
         }
-        if (results.size() == 0)
+        if (results.size() == 0) {
             return nothingFoundResult(searchQuery);
+        }
         return results;
     }
 
@@ -104,9 +105,9 @@ public class SuggestGenerator {
         JsonObject mainObject = getJsonObjectFromURL(companiesUrlRequest, searchQuery);
         JsonArray companies = mainObject.getAsJsonArray("items");
 
-        if (companies.size() == 0)
+        if (companies.size() == 0) {
             return nothingFoundResult(searchQuery);
-
+        }
         for (JsonElement company : companies) {
             JsonObject companyObject = company.getAsJsonObject();
             Map<String, String> companyResult = new HashMap<>();
@@ -199,8 +200,9 @@ public class SuggestGenerator {
         JsonObject mainObject = getJsonObjectFromURL(url, searchQuery);
         JsonArray array = mainObject.getAsJsonArray("items");
 
-        if (array.size() == 0)
+        if (array.size() == 0) {
             return nothingFoundResult(searchQuery);
+        }
         List<Map<String, String>> results = new ArrayList<>();
         for (JsonElement element : array) {
             JsonObject elementObject = element.getAsJsonObject();
