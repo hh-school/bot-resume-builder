@@ -13,18 +13,12 @@ import java.util.Map;
  * Created by Sergey on 20.04.2017.
  */
 public class QueryResultsGenerator {
-    String queryId;
-    Integer chatId;
-    String textForSearch;
 
-    public QueryResultsGenerator(InlineQuery inlineQuery) {
-        this.chatId = inlineQuery.getFrom().getId();
-        this.queryId = inlineQuery.getId();
-        this.textForSearch = inlineQuery.getQuery();
-    }
-
-    public List<InlineQueryResult> getResults() {
+    public List<InlineQueryResult> getResults(InlineQuery inlineQuery) {
+        Integer chatId = inlineQuery.getFrom().getId();
+        String textForSearch = inlineQuery.getQuery();
         String currentState = "2"; //getCurrentState(chatId);
+
         List<InlineQueryResult> queryResults = new ArrayList<>();
         switch (currentState) {
             case "1":

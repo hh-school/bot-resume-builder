@@ -17,21 +17,21 @@ import java.util.regex.Pattern;
  * Created by Sergey on 20.04.2017.
  */
 public class SuggestGenerator {
-    protected final static Logger log = LoggerFactory.getLogger(URLRequest.class);
+    protected final static Logger log = LoggerFactory.getLogger(SuggestGenerator.class);
 
-    private final static String institutesUrlRequest = "https://api.hh.ru/suggests/educational_institutions";
+    private final static String institutesUrl = "https://api.hh.ru/suggests/educational_institutions";
 
-    private final static String facultiesUrlRequest = "https://api.hh.ru/educational_institutions/%s/faculties";
+    private final static String facultiesUrl = "https://api.hh.ru/educational_institutions/%s/faculties";
 
-    private final static String companiesUrlRequest = "https://api.hh.ru/suggests/companies";
+    private final static String companiesUrl = "https://api.hh.ru/suggests/companies";
 
-    private final static String specializationsUrlRequest = "https://api.hh.ru/suggests/fields_of_study";
+    private final static String specializationsUrl = "https://api.hh.ru/suggests/fields_of_study";
 
-    private final static String skillsUrlRequest = "https://api.hh.ru/suggests/skill_set";
+    private final static String skillsUrl = "https://api.hh.ru/suggests/skill_set";
 
-    private final static String positionsUrlRequest = "https://api.hh.ru/suggests/positions";
+    private final static String positionsUrl = "https://api.hh.ru/suggests/positions";
 
-    private final static String areasUrlRequest = "https://api.hh.ru/suggests/areas";
+    private final static String areasUrl = "https://api.hh.ru/suggests/areas";
 
     public static List<Map<String, String>> getInstitutes(String searchQuery) {
         if (searchQuery.length() < 2) {
@@ -40,7 +40,7 @@ public class SuggestGenerator {
 
         List<Map<String, String>> results = new ArrayList<>();
 
-        JsonObject mainObject = getJsonObjectFromURL(institutesUrlRequest, searchQuery);
+        JsonObject mainObject = getJsonObjectFromURL(institutesUrl, searchQuery);
         JsonArray institutes = mainObject.getAsJsonArray("items");
         if (institutes.size() == 0) {
             return nothingFoundResult(searchQuery);
@@ -68,7 +68,7 @@ public class SuggestGenerator {
 
     public static List<Map<String, String>> getFaculties(String instId, String searchQuery) {
         List<Map<String, String>> results = new ArrayList<>();
-        JsonArray faculties = getJsonObjectFromURL(String.format(facultiesUrlRequest, instId));
+        JsonArray faculties = getJsonObjectFromURL(String.format(facultiesUrl, instId));
 
         if (faculties.size() == 0) {
             return instituteHasNoFaculties();
@@ -102,7 +102,7 @@ public class SuggestGenerator {
         }
 
         List<Map<String, String>> results = new ArrayList<>();
-        JsonObject mainObject = getJsonObjectFromURL(companiesUrlRequest, searchQuery);
+        JsonObject mainObject = getJsonObjectFromURL(companiesUrl, searchQuery);
         JsonArray companies = mainObject.getAsJsonArray("items");
 
         if (companies.size() == 0) {
@@ -138,19 +138,19 @@ public class SuggestGenerator {
     }
 
     public static List<Map<String, String>> getSpecializations(String searchQuery) {
-        return standartQueryResult(specializationsUrlRequest, searchQuery);
+        return standartQueryResult(specializationsUrl, searchQuery);
     }
 
     public static List<Map<String, String>> getSkills(String searchQuery) {
-        return standartQueryResult(skillsUrlRequest, searchQuery);
+        return standartQueryResult(skillsUrl, searchQuery);
     }
 
     public static List<Map<String, String>> getPositions(String searchQuery) {
-        return standartQueryResult(positionsUrlRequest, searchQuery);
+        return standartQueryResult(positionsUrl, searchQuery);
     }
 
     public static List<Map<String, String>> getAreas(String searchQuery) {
-        return standartQueryResult(areasUrlRequest, searchQuery);
+        return standartQueryResult(areasUrl, searchQuery);
     }
 
     private static String getQueryLanguage(String query) {
