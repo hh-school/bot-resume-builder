@@ -24,13 +24,30 @@ public class QueryResultsGenerator {
     }
 
     public List<InlineQueryResult> getResults() {
-        String currentState = "1";//getCurrentState(chatId);
+        String currentState = "3";//getCurrentState(chatId);
         List<InlineQueryResult> queryResults = new ArrayList<>();
         switch (currentState) {
             case "1":
                 queryResults = getResultsFromRowData(SuggestGenerator.getInstitutes(textForSearch));
                 break;
             case "2":
+                String instId = "39144";//getCurrentInst(chatId)
+                queryResults = getResultsFromRowData(SuggestGenerator.getFaculties(instId, textForSearch));
+                break;
+            case "3":
+                queryResults = getResultsFromRowData(SuggestGenerator.getCompanies(textForSearch));
+                break;
+            case "4":
+                queryResults = getResultsFromRowData(SuggestGenerator.getSpecializations(textForSearch));
+                break;
+            case "5":
+                queryResults = getResultsFromRowData(SuggestGenerator.getSkills(textForSearch));
+                break;
+            case "6":
+                queryResults = getResultsFromRowData(SuggestGenerator.getPositions(textForSearch));
+                break;
+            case "7":
+                queryResults = getResultsFromRowData(SuggestGenerator.getAreas(textForSearch));
                 break;
             default:
                 break;
@@ -45,8 +62,11 @@ public class QueryResultsGenerator {
             InlineQueryResultArticle queryResult = new InlineQueryResultArticle();
             queryResult.setTitle(rowElement.get("title"));
             queryResult.setId(Integer.toString(i + 1));
-            if (rowElement.containsKey("description")) {
+            if (rowElement.containsKey("description") && !rowElement.get("description").equals("")) {
                 queryResult.setDescription(rowElement.get("description"));
+            }
+            if (rowElement.containsKey("thumb")) {
+                queryResult.setThumbUrl(rowElement.get("thumb"));
             }
             InputTextMessageContent messageContent = new InputTextMessageContent();
             messageContent.setMessageText(rowElement.get("text"));

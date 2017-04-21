@@ -19,29 +19,32 @@ import java.util.regex.Pattern;
 public class SuggestGenerator {
     protected final static Logger log = LoggerFactory.getLogger(URLRequest.class);
 
-    private final static String instUrlRequest = "https://api.hh.ru/suggests/educational_institutions";
+    private final static String institutesUrlRequest = "https://api.hh.ru/suggests/educational_institutions";
 
-    private final static String CompaniesUrlRequest = "https://api.hh.ru/suggests/companies";
+    private final static String facultiesUrlRequest = "https://api.hh.ru/educational_institutions/%s/faculties";
 
+    private final static String companiesUrlRequest = "https://api.hh.ru/suggests/companies";
+
+    private final static String specializationsUrlRequest = "https://api.hh.ru/suggests/fields_of_study";
+
+    private final static String skillsUrlRequest = "https://api.hh.ru/suggests/skill_set";
+
+    private final static String positionsUrlRequest = "https://api.hh.ru/suggests/positions";
+
+    private final static String areasUrlRequest = "https://api.hh.ru/suggests/areas";
 
     public static List<Map<String, String>> getInstitutes(String searchQuery) {
-        List<Map<String, String>> results = new ArrayList<>();
         if (searchQuery.length() < 2) {
-            Map<String, String> errorResult = new HashMap<>();
-            errorResult.put("text", "Не выбран ВУЗ");
-            errorResult.put("description", "Продолжайте ввод названия ВУЗа");
-            errorResult.put("title", "Для появления подсказки требуется минимум 2 введенных символа");
-            results.add(errorResult);
-            return results;
+            return shortQueryResult();
         }
-        Map<String, String> queryParams = new HashMap<>();
-        queryParams.put("text", searchQuery);
-        queryParams.put("locale", getQueryLanguage(searchQuery));
 
-        String jsonInput = URLRequest.get(instUrlRequest, queryParams);
-        JsonParser parser = new JsonParser();
-        JsonObject mainObject = parser.parse(jsonInput).getAsJsonObject();
+        List<Map<String, String>> results = new ArrayList<>();
+
+        JsonObject mainObject = getJsonObjectFromURL(institutesUrlRequest, searchQuery);
         JsonArray institutes = mainObject.getAsJsonArray("items");
+        if (institutes.size() == 0)
+            return nothingFoundResult(searchQuery);
+
         for (JsonElement institute : institutes) {
             JsonObject instituteObject = institute.getAsJsonObject();
             Map<String, String> instResult = new HashMap<>();
@@ -63,6 +66,96 @@ public class SuggestGenerator {
         return results;
     }
 
+    public static List<Map<String, String>> getFaculties(String instId, String searchQuery) {
+        if (searchQuery.length() < 2) {
+            return shortQueryResult();
+        }
+
+        List<Map<String, String>> results = new ArrayList<>();
+        JsonObject mainObject = getJsonObjectFromURL(facultiesUrlRequest, searchQuery);
+        JsonArray institutes = mainObject.getAsJsonArray("items");
+
+        if (institutes.size() == 0)
+            return nothingFoundResult(searchQuery);
+
+        for (JsonElement institute : institutes) {
+            JsonObject instituteObject = institute.getAsJsonObject();
+            Map<String, String> instResult = new HashMap<>();
+
+            String acronym = instituteObject.get("acronym").getAsString();
+            String text = instituteObject.get("text").getAsString();
+            String id = instituteObject.get("id").getAsString();
+
+            instResult.put("id", id);
+            instResult.put("text", text);
+            if (acronym.equals("")) {
+                instResult.put("title", text);
+            } else {
+                instResult.put("title", acronym);
+                instResult.put("description", text);
+            }
+            results.add(instResult);
+        }
+        return results;
+    }
+
+    public static List<Map<String, String>> getCompanies(String searchQuery) {
+        if (searchQuery.length() < 2) {
+            return shortQueryResult();
+        }
+
+        List<Map<String, String>> results = new ArrayList<>();
+        JsonObject mainObject = getJsonObjectFromURL(companiesUrlRequest, searchQuery);
+        JsonArray companies = mainObject.getAsJsonArray("items");
+
+        if (companies.size() == 0)
+            return nothingFoundResult(searchQuery);
+
+        for (JsonElement company : companies) {
+            JsonObject companyObject = company.getAsJsonObject();
+            Map<String, String> companyResult = new HashMap<>();
+
+            String url = "";
+            if (!companyObject.get("url").isJsonNull()) {
+                url = companyObject.get("url").getAsString();
+            }
+            String text = companyObject.get("text").getAsString();
+            String id = companyObject.get("id").getAsString();
+
+            String thumb = "";
+            if (!companyObject.get("logo_urls").isJsonNull()) {
+                JsonObject companyLogo = companyObject.get("logo_urls").getAsJsonObject();
+                thumb = companyLogo.get("90").getAsString();
+            }
+
+            companyResult.put("id", id);
+            companyResult.put("text", text);
+            if (!thumb.equals("")) {
+                companyResult.put("thumb", thumb);
+            }
+            companyResult.put("title", text);
+            companyResult.put("description", url);
+            results.add(companyResult);
+        }
+        return results;
+    }
+
+    public static List<Map<String, String>> getSpecializations(String searchQuery) {
+        return standartQueryResult(specializationsUrlRequest, searchQuery);
+    }
+
+    public static List<Map<String, String>> getSkills(String searchQuery) {
+        return standartQueryResult(skillsUrlRequest, searchQuery);
+    }
+
+    public static List<Map<String, String>> getPositions(String searchQuery) {
+        return standartQueryResult(positionsUrlRequest, searchQuery);
+    }
+
+    public static List<Map<String, String>> getAreas(String searchQuery) {
+        return standartQueryResult(areasUrlRequest, searchQuery);
+    }
+
     private static String getQueryLanguage(String query) {
         //пока для простоты 2 языка
         Pattern pattern = Pattern.compile("[а-яА-ЯёЁ]*");
@@ -70,5 +163,61 @@ public class SuggestGenerator {
             return "RU";
         }
         return "EN";
+    }
+
+    private static List<Map<String, String>> shortQueryResult() {
+        List<Map<String, String>> errorResults = new ArrayList<>();
+        Map<String, String> errorResult = new HashMap<>();
+        errorResult.put("text", "Ничего не выбрано");
+        errorResult.put("description", "Для появления подсказки требуется минимум 2 введенных символа");
+        errorResult.put("title", "Продолжайте ввод названия");
+        errorResults.add(errorResult);
+        return errorResults;
+    }
+
+    private static List<Map<String, String>> nothingFoundResult(String query) {
+        List<Map<String, String>> errorResults = new ArrayList<>();
+        Map<String, String> errorResult = new HashMap<>();
+        errorResult.put("text", "Ничего не выбрано");
+        errorResult.put("description", "Проверьте правильность введенных данных");
+        errorResult.put("title", String.format("По запросу '%s' ничего не найдено", query));
+        errorResults.add(errorResult);
+        return errorResults;
+    }
+
+    private static List<Map<String, String>> standartQueryResult(String url, String searchQuery) {
+        if (searchQuery.length() < 2) {
+            return shortQueryResult();
+        }
+
+        JsonObject mainObject = getJsonObjectFromURL(url, searchQuery);
+        JsonArray array = mainObject.getAsJsonArray("items");
+
+        if (array.size() == 0)
+            return nothingFoundResult(searchQuery);
+        List<Map<String, String>> results = new ArrayList<>();
+        for (JsonElement element : array) {
+            JsonObject elementObject = element.getAsJsonObject();
+            Map<String, String> companyResult = new HashMap<>();
+
+            String text = elementObject.get("text").getAsString();
+            String id = elementObject.get("id").getAsString();
+
+            companyResult.put("id", id);
+            companyResult.put("text", text);
+            companyResult.put("title", text);
+            results.add(companyResult);
+        }
+        return results;
+    }
+
+    private static JsonObject getJsonObjectFromURL(String url, String query) {
+        Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("text", query);
+        queryParams.put("locale", getQueryLanguage(query));
+
+        String jsonInput = URLRequest.get(url, queryParams);
+        JsonParser parser = new JsonParser();
+        return parser.parse(jsonInput).getAsJsonObject();
     }
 }
