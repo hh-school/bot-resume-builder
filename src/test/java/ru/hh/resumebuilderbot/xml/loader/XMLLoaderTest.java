@@ -50,7 +50,7 @@ public class XMLLoaderTest {
 
             makeSamples();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("Exception during graph building");
         }
 
     }
