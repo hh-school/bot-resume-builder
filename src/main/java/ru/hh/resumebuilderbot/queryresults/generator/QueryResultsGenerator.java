@@ -17,7 +17,7 @@ public class QueryResultsGenerator {
     public static List<InlineQueryResult> getResults(InlineQuery inlineQuery) {
         Integer chatId = inlineQuery.getFrom().getId();
         String textForSearch = inlineQuery.getQuery();
-        String currentState = "3"; //getCurrentState(chatId);
+        String currentState = "2"; //getCurrentState(chatId);
 
         List<InlineQueryResult> queryResults = new ArrayList<>();
         switch (currentState) {

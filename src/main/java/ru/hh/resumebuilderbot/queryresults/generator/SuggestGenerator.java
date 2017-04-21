@@ -6,6 +6,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.hh.resumebuilderbot.texts.storage.TextId;
+import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -186,9 +188,10 @@ public class SuggestGenerator {
     private static List<Map<String, String>> instituteHasNoFaculties() {
         List<Map<String, String>> errorResults = new ArrayList<>();
         Map<String, String> errorResult = new HashMap<>();
-        errorResult.put("text", "Нет факультета");
-        errorResult.put("description", "У вашего вуза не найдено факультетов");
-        errorResult.put("title", "Нет факультета");
+        TextsStorage.getText(TextId.NO_FACULTIES_FOUND);
+        errorResult.put("text", TextsStorage.getText(TextId.NO_FACULTIES_FOUND));
+        errorResult.put("description", TextsStorage.getText(TextId.NO_FACULTIES_FOUND_DESCRIPTION));
+        errorResult.put("title", TextsStorage.getText(TextId.NO_FACULTIES_FOUND));
         errorResults.add(errorResult);
         return errorResults;
     }

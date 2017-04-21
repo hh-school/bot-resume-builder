@@ -27,6 +27,11 @@ public class TextsStorage {
                 "Ответ не понятен");
         textsMap.put(TextId.CANT_SKIP,
                 "Этот вопрос пропустить нельзя");
+        textsMap.put(TextId.NO_FACULTIES_FOUND,
+                "Нет факультета");
+        textsMap.put(TextId.NO_FACULTIES_FOUND_DESCRIPTION,
+                "У вашего вуза не найдено факультетов");
+
     }
 
     //end hardcode
