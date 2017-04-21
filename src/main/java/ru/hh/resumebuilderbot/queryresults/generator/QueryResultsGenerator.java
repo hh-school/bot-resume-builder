@@ -24,7 +24,7 @@ public class QueryResultsGenerator {
     }
 
     public List<InlineQueryResult> getResults() {
-        String currentState = "3";//getCurrentState(chatId);
+        String currentState = "2";//getCurrentState(chatId);
         List<InlineQueryResult> queryResults = new ArrayList<>();
         switch (currentState) {
             case "1":

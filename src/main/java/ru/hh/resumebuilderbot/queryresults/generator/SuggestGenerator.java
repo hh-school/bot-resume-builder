@@ -67,35 +67,31 @@ public class SuggestGenerator {
     }
 
     public static List<Map<String, String>> getFaculties(String instId, String searchQuery) {
-        if (searchQuery.length() < 2) {
-            return shortQueryResult();
-        }
-
         List<Map<String, String>> results = new ArrayList<>();
-        JsonObject mainObject = getJsonObjectFromURL(facultiesUrlRequest, searchQuery);
-        JsonArray institutes = mainObject.getAsJsonArray("items");
+        JsonArray faculties = getJsonObjectFromURL(String.format(facultiesUrlRequest, instId));
 
-        if (institutes.size() == 0)
-            return nothingFoundResult(searchQuery);
+        if (faculties.size() == 0)
+            return instituteHasNoFaculties();
 
-        for (JsonElement institute : institutes) {
-            JsonObject instituteObject = institute.getAsJsonObject();
+        for (JsonElement faculty : faculties) {
+            JsonObject facultyObject = faculty.getAsJsonObject();
             Map<String, String> instResult = new HashMap<>();
 
-            String acronym = instituteObject.get("acronym").getAsString();
-            String text = instituteObject.get("text").getAsString();
-            String id = instituteObject.get("id").getAsString();
+            String text = facultyObject.get("name").getAsString();
+            if (!text.toLowerCase().contains(searchQuery.toLowerCase())){
+                continue;
+            }
+
+            String id = facultyObject.get("id").getAsString();
 
             instResult.put("id", id);
             instResult.put("text", text);
-            if (acronym.equals("")) {
-                instResult.put("title", text);
-            } else {
-                instResult.put("title", acronym);
-                instResult.put("description", text);
-            }
+            instResult.put("title", text);
+
             results.add(instResult);
         }
+        if (results.size() == 0)
+            return nothingFoundResult(searchQuery);
         return results;
     }
 
@@ -185,6 +181,16 @@ public class SuggestGenerator {
         return errorResults;
     }
 
+    private static List<Map<String, String>> instituteHasNoFaculties() {
+        List<Map<String, String>> errorResults = new ArrayList<>();
+        Map<String, String> errorResult = new HashMap<>();
+        errorResult.put("text", "Нет факультета");
+        errorResult.put("description", "У вашего вуза не найдено факультетов");
+        errorResult.put("title", "Нет факультета");
+        errorResults.add(errorResult);
+        return errorResults;
+    }
+
     private static List<Map<String, String>> standartQueryResult(String url, String searchQuery) {
         if (searchQuery.length() < 2) {
             return shortQueryResult();
@@ -219,5 +225,11 @@ public class SuggestGenerator {
         String jsonInput = URLRequest.get(url, queryParams);
         JsonParser parser = new JsonParser();
         return parser.parse(jsonInput).getAsJsonObject();
+    }
+
+    private static JsonArray getJsonObjectFromURL(String url) {
+        String jsonInput = URLRequest.get(url);
+        JsonParser parser = new JsonParser();
+        return parser.parse(jsonInput).getAsJsonArray();
     }
 }
