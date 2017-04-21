@@ -40,8 +40,7 @@ public class SuggestGenerator {
 
         List<Map<String, String>> results = new ArrayList<>();
 
-        JsonObject mainObject = getJsonObjectFromURL(institutesUrl, searchQuery);
-        JsonArray institutes = mainObject.getAsJsonArray("items");
+        JsonArray institutes = getJsonArrayFromURL(institutesUrl, searchQuery);
         if (institutes.size() == 0) {
             return nothingFoundResult(searchQuery);
         }
@@ -68,7 +67,7 @@ public class SuggestGenerator {
 
     public static List<Map<String, String>> getFaculties(String instId, String searchQuery) {
         List<Map<String, String>> results = new ArrayList<>();
-        JsonArray faculties = getJsonObjectFromURL(String.format(facultiesUrl, instId));
+        JsonArray faculties = getJsonArrayFromURL(String.format(facultiesUrl, instId));
 
         if (faculties.size() == 0) {
             return instituteHasNoFaculties();
@@ -102,8 +101,7 @@ public class SuggestGenerator {
         }
 
         List<Map<String, String>> results = new ArrayList<>();
-        JsonObject mainObject = getJsonObjectFromURL(companiesUrl, searchQuery);
-        JsonArray companies = mainObject.getAsJsonArray("items");
+        JsonArray companies = getJsonArrayFromURL(companiesUrl, searchQuery);
 
         if (companies.size() == 0) {
             return nothingFoundResult(searchQuery);
@@ -196,9 +194,7 @@ public class SuggestGenerator {
         if (searchQuery.length() < 2) {
             return shortQueryResult();
         }
-
-        JsonObject mainObject = getJsonObjectFromURL(url, searchQuery);
-        JsonArray array = mainObject.getAsJsonArray("items");
+        JsonArray array = getJsonArrayFromURL(url, searchQuery);
 
         if (array.size() == 0) {
             return nothingFoundResult(searchQuery);
@@ -219,17 +215,17 @@ public class SuggestGenerator {
         return results;
     }
 
-    private static JsonObject getJsonObjectFromURL(String url, String query) {
+    private static JsonArray getJsonArrayFromURL(String url, String query) {
         Map<String, String> queryParams = new HashMap<>();
         queryParams.put("text", query);
         queryParams.put("locale", getQueryLanguage(query));
 
         String jsonInput = URLRequest.get(url, queryParams);
         JsonParser parser = new JsonParser();
-        return parser.parse(jsonInput).getAsJsonObject();
+        return parser.parse(jsonInput).getAsJsonObject().getAsJsonArray("items");
     }
 
-    private static JsonArray getJsonObjectFromURL(String url) {
+    private static JsonArray getJsonArrayFromURL(String url) {
         String jsonInput = URLRequest.get(url);
         JsonParser parser = new JsonParser();
         return parser.parse(jsonInput).getAsJsonArray();
