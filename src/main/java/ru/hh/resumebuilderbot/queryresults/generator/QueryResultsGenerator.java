@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class QueryResultsGenerator {
 
-    public List<InlineQueryResult> getResults(InlineQuery inlineQuery) {
+    public static List<InlineQueryResult> getResults(InlineQuery inlineQuery) {
         Integer chatId = inlineQuery.getFrom().getId();
         String textForSearch = inlineQuery.getQuery();
         String currentState = "2"; //getCurrentState(chatId);
@@ -49,7 +49,7 @@ public class QueryResultsGenerator {
         return queryResults;
     }
 
-    private List<InlineQueryResult> getResultsFromRowData(List<Map<String, String>> rowData) {
+    private static List<InlineQueryResult> getResultsFromRowData(List<Map<String, String>> rowData) {
         List<InlineQueryResult> queryResults = new ArrayList<>();
         for (int i = 0; i < rowData.size() && i < 50; i++) {
             Map<String, String> rowElement = rowData.get(i);
