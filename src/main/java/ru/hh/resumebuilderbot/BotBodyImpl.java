@@ -11,7 +11,7 @@ public class BotBodyImpl implements BotBody {
     private MessengerAdapter messengerAdapter;
 
     @Override
-    public void answer(User user, Answer answer) {
+    public void askNextQuestions(User user, Answer answer) {
         synchronized (UserDataStorage.getMutex(user)) {
             MessageHandler messageHandler = Selector.select(answer);
             QuestionsGenerator questionsGenerator = messageHandler.handle(user, answer);

@@ -28,7 +28,7 @@ public class TestMessengerAdapter implements MessengerAdapter {
 
     @Override
     public void ask(User user, Question question) {
-        bot.answer(user, getAnswer(question));
+        bot.askNextQuestions(user, getAnswer(question));
     }
 
 
