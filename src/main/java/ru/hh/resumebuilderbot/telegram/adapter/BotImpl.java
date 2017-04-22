@@ -11,7 +11,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.User;
-import ru.hh.resumebuilderbot.queryresults.generator.QueryResultsGenerator;
+import ru.hh.resumebuilderbot.suggester.QueryResultsGenerator;
 import ru.hh.resumebuilderbot.telegram.adapter.answer.TelegramAnswer;
 import ru.hh.resumebuilderbot.telegram.adapter.answer.TelegramAnswerFactory;
 

@@ -1,4 +1,4 @@
-package ru.hh.resumebuilderbot.queryresults.generator;
+package ru.hh.resumebuilderbot.suggester;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

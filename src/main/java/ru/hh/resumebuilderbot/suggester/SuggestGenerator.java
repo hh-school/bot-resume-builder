@@ -1,4 +1,4 @@
-package ru.hh.resumebuilderbot.queryresults.generator;
+package ru.hh.resumebuilderbot.suggester;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -32,17 +32,18 @@ public class SuggestGenerator {
 
     private final static String areasUrl = "https://api.hh.ru/suggests/areas";
 
-    public static List<Map<String, String>> getInstitutes(String searchQuery) {
+    public static RawSuggestData getInstitutes(String searchQuery) {
         if (searchQuery.length() < 2) {
             return shortQueryResult();
         }
-
-        List<Map<String, String>> results = new ArrayList<>();
 
         JsonArray institutes = getJsonArrayFromURL(institutesUrl, searchQuery);
         if (institutes.size() == 0) {
             return nothingFoundResult(searchQuery);
         }
+
+        RawSuggestData results = new RawSuggestData();
+
         for (JsonElement institute : institutes) {
             JsonObject instituteObject = institute.getAsJsonObject();
             Map<String, String> instResult = new HashMap<>();
@@ -67,13 +68,15 @@ public class SuggestGenerator {
         return results;
     }
 
-    public static List<Map<String, String>> getFaculties(String instId, String searchQuery) {
-        List<Map<String, String>> results = new ArrayList<>();
+    public static RawSuggestData getFaculties(String instId, String searchQuery) {
         JsonArray faculties = getJsonArrayFromURL(String.format(facultiesUrl, instId));
 
         if (faculties.size() == 0) {
             return instituteHasNoFaculties();
         }
+
+        RawSuggestData results = new RawSuggestData();
+
         for (JsonElement faculty : faculties) {
             JsonObject facultyObject = faculty.getAsJsonObject();
 
@@ -85,7 +88,6 @@ public class SuggestGenerator {
             String id = facultyObject.get("id").getAsString();
 
             Map<String, String> instResult = new HashMap<>();
-
             instResult.put("id", id);
             instResult.put("text", text);
             instResult.put("title", text);
@@ -98,17 +100,17 @@ public class SuggestGenerator {
         return results;
     }
 
-    public static List<Map<String, String>> getCompanies(String searchQuery) {
+    public static RawSuggestData getCompanies(String searchQuery) {
         if (searchQuery.length() < 2) {
             return shortQueryResult();
         }
 
-        List<Map<String, String>> results = new ArrayList<>();
         JsonArray companies = getJsonArrayFromURL(companiesUrl, searchQuery);
 
         if (companies.size() == 0) {
             return nothingFoundResult(searchQuery);
         }
+        RawSuggestData results = new RawSuggestData();
         for (JsonElement company : companies) {
             JsonObject companyObject = company.getAsJsonObject();
             Map<String, String> companyResult = new HashMap<>();
@@ -138,19 +140,19 @@ public class SuggestGenerator {
         return results;
     }
 
-    public static List<Map<String, String>> getSpecializations(String searchQuery) {
+    public static RawSuggestData getSpecializations(String searchQuery) {
         return standartQueryResult(specializationsUrl, searchQuery);
     }
 
-    public static List<Map<String, String>> getSkills(String searchQuery) {
+    public static RawSuggestData getSkills(String searchQuery) {
         return standartQueryResult(skillsUrl, searchQuery);
     }
 
-    public static List<Map<String, String>> getPositions(String searchQuery) {
+    public static RawSuggestData getPositions(String searchQuery) {
         return standartQueryResult(positionsUrl, searchQuery);
     }
 
-    public static List<Map<String, String>> getAreas(String searchQuery) {
+    public static RawSuggestData getAreas(String searchQuery) {
         return standartQueryResult(areasUrl, searchQuery);
     }
 
@@ -162,37 +164,32 @@ public class SuggestGenerator {
         return "EN";
     }
 
-    private static List<Map<String, String>> shortQueryResult() {
-        List<Map<String, String>> errorResults = new ArrayList<>();
+    private static RawSuggestData shortQueryResult() {
         Map<String, String> errorResult = new HashMap<>();
         errorResult.put("text", TextsStorage.getText(TextId.NOTHING_SELECTED));
         errorResult.put("description", TextsStorage.getText(TextId.NEED_MORE_ONE_SYMBOL));
         errorResult.put("title", TextsStorage.getText(TextId.CONTINUE_INPUT));
-        errorResults.add(errorResult);
-        return errorResults;
+        return new RawSuggestData(errorResult);
     }
 
-    private static List<Map<String, String>> nothingFoundResult(String query) {
-        List<Map<String, String>> errorResults = new ArrayList<>();
+    private static RawSuggestData nothingFoundResult(String query) {
         Map<String, String> errorResult = new HashMap<>();
         errorResult.put("text", TextsStorage.getText(TextId.NOTHING_SELECTED));
         errorResult.put("description", TextsStorage.getText(TextId.CHECK_INPUT_DATA));
         errorResult.put("title", String.format("По запросу '%s' ничего не найдено", query));
-        errorResults.add(errorResult);
-        return errorResults;
+        return new RawSuggestData(errorResult);
     }
 
-    private static List<Map<String, String>> instituteHasNoFaculties() {
+    private static RawSuggestData instituteHasNoFaculties() {
         List<Map<String, String>> errorResults = new ArrayList<>();
         Map<String, String> errorResult = new HashMap<>();
         errorResult.put("text", TextsStorage.getText(TextId.NO_FACULTIES_FOUND));
         errorResult.put("description", TextsStorage.getText(TextId.NO_FACULTIES_FOUND_DESCRIPTION));
         errorResult.put("title", TextsStorage.getText(TextId.NO_FACULTIES_FOUND));
-        errorResults.add(errorResult);
-        return errorResults;
+        return new RawSuggestData(errorResult);
     }
 
-    private static List<Map<String, String>> standartQueryResult(String url, String searchQuery) {
+    private static RawSuggestData standartQueryResult(String url, String searchQuery) {
         if (searchQuery.length() < 2) {
             return shortQueryResult();
         }
@@ -201,7 +198,7 @@ public class SuggestGenerator {
         if (array.size() == 0) {
             return nothingFoundResult(searchQuery);
         }
-        List<Map<String, String>> results = new ArrayList<>();
+        RawSuggestData results = new RawSuggestData();
         for (JsonElement element : array) {
             JsonObject elementObject = element.getAsJsonObject();
             Map<String, String> companyResult = new HashMap<>();

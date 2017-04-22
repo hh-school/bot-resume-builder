@@ -1,4 +1,4 @@
-package ru.hh.resumebuilderbot.queryresults.generator;
+package ru.hh.resumebuilderbot.suggester;
 
 import org.telegram.telegrambots.api.objects.inlinequery.InlineQuery;
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputTextMessageContent;
@@ -48,7 +48,7 @@ public class QueryResultsGenerator {
         return queryResults;
     }
 
-    private static List<InlineQueryResult> getResultsFromRawData(List<Map<String, String>> rawData) {
+    private static List<InlineQueryResult> getResultsFromRawData(RawSuggestData rawData) {
         List<InlineQueryResult> queryResults = new ArrayList<>();
         for (int i = 0; i < rawData.size() && i < maxResultsAmount; i++) {
             Map<String, String> rowElement = rawData.get(i);
