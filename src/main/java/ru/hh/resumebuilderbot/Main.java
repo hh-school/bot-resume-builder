@@ -3,9 +3,11 @@ package ru.hh.resumebuilderbot;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.telegram.telegrambots.ApiContextInitializer;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import ru.hh.resumebuilderbot.database.service.UserService;
 import ru.hh.resumebuilderbot.di.GuiceCommonModule;
 import ru.hh.resumebuilderbot.di.GuiceProdModule;
+import ru.hh.resumebuilderbot.telegram.adapter.BotImpl;
 import ru.hh.resumebuilderbot.telegram.adapter.TelegramAdapter;
 
 public class Main {
@@ -18,15 +20,18 @@ public class Main {
         UserService userService = injector.getInstance(UserService.class);
         System.out.println(userService.getAll());
         ApiContextInitializer.init();
-        MessengerAdapter messengerAdapter = new TelegramAdapter(
-                System.getenv(TOKEN_ENV_NAME),
-                System.getenv(BOT_USERNAME_ENV_NAME));
 
         // connect to telegram server
-        BotBody bot = new BotBodyImpl();
+        BotBody botBody = new BotBodyImpl();
 
-        messengerAdapter.setBotBody(bot);
-        bot.setMessenger(messengerAdapter);
+        TelegramLongPollingBot bot = new BotImpl(
+                System.getenv(TOKEN_ENV_NAME),
+                System.getenv(BOT_USERNAME_ENV_NAME),
+                botBody);
+
+        MessengerAdapter messengerAdapter = new TelegramAdapter(bot);
+
+        botBody.setMessenger(messengerAdapter);
 
         // configure connection to job site
         // ...

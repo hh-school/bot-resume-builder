@@ -175,8 +175,8 @@ public class Experience {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user.getId(), company.getId(), companyName, companyUrl, area.getId(), position,
-                startDate, endDate, description);
+        return Objects.hash(id, user.getId(), company.getId(), companyName, companyUrl, area.getId(),
+                position, startDate, endDate, description);
     }
 
     @Override
