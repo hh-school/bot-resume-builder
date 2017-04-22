@@ -3,6 +3,7 @@ package ru.hh.resumebuilderbot;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.telegram.telegrambots.ApiContextInitializer;
+import ru.hh.resumebuilderbot.database.service.UserService;
 import ru.hh.resumebuilderbot.di.GuiceCommonModule;
 import ru.hh.resumebuilderbot.di.GuiceProdModule;
 import ru.hh.resumebuilderbot.telegram.adapter.TelegramAdapter;
@@ -13,7 +14,9 @@ public class Main {
 
     public static void main(String[] args) {
         Injector injector = Guice.createInjector(new GuiceCommonModule(), new GuiceProdModule());
-
+        // TODO удалить после внедрения db в сервис.
+        UserService userService = injector.getInstance(UserService.class);
+        System.out.println(userService.getAll());
         ApiContextInitializer.init();
         MessengerAdapter messengerAdapter = new TelegramAdapter(
                 System.getenv(TOKEN_ENV_NAME),

@@ -1,0 +1,3 @@
+FROM postgres:alpine
+
+COPY sql/create.sql /docker-entrypoint-initdb.d
