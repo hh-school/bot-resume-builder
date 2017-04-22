@@ -1,22 +1,27 @@
 package ru.hh.resumebuilderbot;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import ru.hh.resumebuilderbot.message.handler.MessageHandler;
-import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.generator.QuestionsGenerator;
 import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
-import java.util.Queue;
-
+@Singleton
 public class BotBodyImpl implements BotBody {
+    private final Selector selector;
     private MessengerAdapter messengerAdapter;
+    private final UserDataStorage userDataStorage;
+
+    @Inject
+    public BotBodyImpl(UserDataStorage userDataStorage, Selector selector) {
+        this.userDataStorage = userDataStorage;
+        this.selector = selector;
+    }
 
     @Override
     public void askNextQuestions(User user, Answer answer) {
-        synchronized (UserDataStorage.getMutex(user)) {
-            MessageHandler messageHandler = Selector.select(answer);
-            QuestionsGenerator questionsGenerator = messageHandler.handle(user, answer);
-            Queue<Question> questions = questionsGenerator.generateQuestions();
-            questions.forEach((question) -> messengerAdapter.ask(user, question));
+        synchronized (userDataStorage.getMutex(user)) {
+            MessageHandler messageHandler = selector.select(answer);
+            messageHandler.handle(user, answer).forEach((question) -> messengerAdapter.ask(user, question));
         }
     }
 
