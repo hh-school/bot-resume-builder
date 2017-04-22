@@ -14,34 +14,38 @@ import java.util.Map;
  */
 public class QueryResultsGenerator {
 
+    private final static Integer maxResultsAmount = 50;
+
     public static List<InlineQueryResult> getResults(InlineQuery inlineQuery) {
         Integer chatId = inlineQuery.getFrom().getId();
         String textForSearch = inlineQuery.getQuery();
-        String currentState = "2"; //getCurrentState(chatId);
+        String currentState = "2";
+//        Question currentQuestion = UserDataStorage.getCurrentQuestion(new User(chatId));
+//        currentQuestion.needSuggest()
 
         List<InlineQueryResult> queryResults = new ArrayList<>();
         switch (currentState) {
-            case "1":
-                queryResults = getResultsFromRowData(SuggestGenerator.getInstitutes(textForSearch));
+            case "Institutes":
+                queryResults = getResultsFromRawData(SuggestGenerator.getInstitutes(textForSearch));
                 break;
-            case "2":
+            case "Faculties":
                 String instId = "39144"; //getCurrentInst(chatId)
-                queryResults = getResultsFromRowData(SuggestGenerator.getFaculties(instId, textForSearch));
+                queryResults = getResultsFromRawData(SuggestGenerator.getFaculties(instId, textForSearch));
                 break;
-            case "3":
-                queryResults = getResultsFromRowData(SuggestGenerator.getCompanies(textForSearch));
+            case "Companies":
+                queryResults = getResultsFromRawData(SuggestGenerator.getCompanies(textForSearch));
                 break;
-            case "4":
-                queryResults = getResultsFromRowData(SuggestGenerator.getSpecializations(textForSearch));
+            case "Specializations":
+                queryResults = getResultsFromRawData(SuggestGenerator.getSpecializations(textForSearch));
                 break;
-            case "5":
-                queryResults = getResultsFromRowData(SuggestGenerator.getSkills(textForSearch));
+            case "Skills":
+                queryResults = getResultsFromRawData(SuggestGenerator.getSkills(textForSearch));
                 break;
-            case "6":
-                queryResults = getResultsFromRowData(SuggestGenerator.getPositions(textForSearch));
+            case "Positions":
+                queryResults = getResultsFromRawData(SuggestGenerator.getPositions(textForSearch));
                 break;
-            case "7":
-                queryResults = getResultsFromRowData(SuggestGenerator.getAreas(textForSearch));
+            case "Areas":
+                queryResults = getResultsFromRawData(SuggestGenerator.getAreas(textForSearch));
                 break;
             default:
                 break;
@@ -49,10 +53,10 @@ public class QueryResultsGenerator {
         return queryResults;
     }
 
-    private static List<InlineQueryResult> getResultsFromRowData(List<Map<String, String>> rowData) {
+    private static List<InlineQueryResult> getResultsFromRawData(List<Map<String, String>> rawData) {
         List<InlineQueryResult> queryResults = new ArrayList<>();
-        for (int i = 0; i < rowData.size() && i < 50; i++) {
-            Map<String, String> rowElement = rowData.get(i);
+        for (int i = 0; i < rawData.size() && i < maxResultsAmount; i++) {
+            Map<String, String> rowElement = rawData.get(i);
             InlineQueryResultArticle queryResult = new InlineQueryResultArticle();
             queryResult.setTitle(rowElement.get("title"));
             queryResult.setId(Integer.toString(i + 1));

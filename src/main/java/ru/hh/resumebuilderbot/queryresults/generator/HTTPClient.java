@@ -27,7 +27,7 @@ public class HTTPClient {
             URL url = new URL(urlToRead);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0");//проверить с другим именем
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
             while ((line = rd.readLine()) != null) {

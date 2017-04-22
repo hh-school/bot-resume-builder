@@ -31,6 +31,14 @@ public class TextsStorage {
                 "Нет факультета");
         textsMap.put(TextId.NO_FACULTIES_FOUND_DESCRIPTION,
                 "У вашего вуза не найдено факультетов");
+        textsMap.put(TextId.CONTINUE_INPUT,
+                "Продолжайте ввод названия");
+        textsMap.put(TextId.NOTHING_SELECTED,
+                "Ничего не выбрано");
+        textsMap.put(TextId.NEED_MORE_ONE_SYMBOL,
+                "Для появления подсказки требуется минимум 2 введенных символа");
+        textsMap.put(TextId.CHECK_INPUT_DATA,
+                "Проверьте правильность введенных данных");
 
     }
 

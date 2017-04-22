@@ -79,7 +79,6 @@ public class SuggestGenerator {
         }
         for (JsonElement faculty : faculties) {
             JsonObject facultyObject = faculty.getAsJsonObject();
-            Map<String, String> instResult = new HashMap<>();
 
             String text = facultyObject.get("name").getAsString();
             if (!text.toLowerCase().contains(searchQuery.toLowerCase())){
@@ -87,6 +86,8 @@ public class SuggestGenerator {
             }
 
             String id = facultyObject.get("id").getAsString();
+
+            Map<String, String> instResult = new HashMap<>();
 
             instResult.put("id", id);
             instResult.put("text", text);
@@ -168,9 +169,9 @@ public class SuggestGenerator {
     private static List<Map<String, String>> shortQueryResult() {
         List<Map<String, String>> errorResults = new ArrayList<>();
         Map<String, String> errorResult = new HashMap<>();
-        errorResult.put("text", "Ничего не выбрано");
-        errorResult.put("description", "Для появления подсказки требуется минимум 2 введенных символа");
-        errorResult.put("title", "Продолжайте ввод названия");
+        errorResult.put("text", TextsStorage.getText(TextId.NOTHING_SELECTED));
+        errorResult.put("description", TextsStorage.getText(TextId.NEED_MORE_ONE_SYMBOL));
+        errorResult.put("title", TextsStorage.getText(TextId.CONTINUE_INPUT));
         errorResults.add(errorResult);
         return errorResults;
     }
@@ -178,8 +179,8 @@ public class SuggestGenerator {
     private static List<Map<String, String>> nothingFoundResult(String query) {
         List<Map<String, String>> errorResults = new ArrayList<>();
         Map<String, String> errorResult = new HashMap<>();
-        errorResult.put("text", "Ничего не выбрано");
-        errorResult.put("description", "Проверьте правильность введенных данных");
+        errorResult.put("text", TextsStorage.getText(TextId.NOTHING_SELECTED));
+        errorResult.put("description", TextsStorage.getText(TextId.CHECK_INPUT_DATA));
         errorResult.put("title", String.format("По запросу '%s' ничего не найдено", query));
         errorResults.add(errorResult);
         return errorResults;
@@ -188,7 +189,6 @@ public class SuggestGenerator {
     private static List<Map<String, String>> instituteHasNoFaculties() {
         List<Map<String, String>> errorResults = new ArrayList<>();
         Map<String, String> errorResult = new HashMap<>();
-        TextsStorage.getText(TextId.NO_FACULTIES_FOUND);
         errorResult.put("text", TextsStorage.getText(TextId.NO_FACULTIES_FOUND));
         errorResult.put("description", TextsStorage.getText(TextId.NO_FACULTIES_FOUND_DESCRIPTION));
         errorResult.put("title", TextsStorage.getText(TextId.NO_FACULTIES_FOUND));
