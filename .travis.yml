@@ -15,7 +15,7 @@ after_success:
     docker tag $BACKEND_REPO:$TRAVIS_COMMIT $BACKEND_REPO:latest;
 
     export POSTGRES_REPO=$DOCKER_USERNAME/resume-builder-bot-postgres;
-    docker build -t $POSTGRES_REPO:$TRAVIS_COMMIT .;
+    docker build -f Dockerfile.postgres -t $POSTGRES_REPO:$TRAVIS_COMMIT .;
     docker tag $POSTGRES_REPO:$TRAVIS_COMMIT $POSTGRES_REPO:latest;
 
     docker push $BACKEND_REPO:latest;

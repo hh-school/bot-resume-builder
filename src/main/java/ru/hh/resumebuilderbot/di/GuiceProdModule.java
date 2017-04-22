@@ -1,6 +1,8 @@
 package ru.hh.resumebuilderbot.di;
 
 import com.google.inject.AbstractModule;
+import ru.hh.resumebuilderbot.BotBody;
+import ru.hh.resumebuilderbot.BotBodyImpl;
 import ru.hh.resumebuilderbot.database.dao.AreaDAO;
 import ru.hh.resumebuilderbot.database.dao.AreaDAOImpl;
 import ru.hh.resumebuilderbot.database.dao.NodeDAO;
@@ -74,5 +76,6 @@ public class GuiceProdModule extends AbstractModule {
     protected void configure() {
         configureDAO();
         configureServices();
+        bind(BotBody.class).to(BotBodyImpl.class);
     }
 }

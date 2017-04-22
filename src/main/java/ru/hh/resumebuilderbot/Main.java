@@ -22,7 +22,7 @@ public class Main {
         ApiContextInitializer.init();
 
         // connect to telegram server
-        BotBody botBody = new BotBodyImpl();
+        BotBody botBody = injector.getInstance(BotBody.class);
 
         TelegramLongPollingBot bot = new BotImpl(
                 System.getenv(TOKEN_ENV_NAME),

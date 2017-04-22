@@ -7,11 +7,16 @@ import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 import java.util.List;
 
 public class PlainTextCVBuilder implements CVBuilder {
+    private UserDataStorage userDataStorage;
+    public PlainTextCVBuilder(UserDataStorage userDataStorage) {
+        this.userDataStorage = userDataStorage;
+    }
+
     @Override
     public String build(User user) {
         StringBuilder resultBuilder = new StringBuilder();
         resultBuilder.append("Ваше резюме:");
-        List<UserAnswer> answers = UserDataStorage.getHistory(user);
+        List<UserAnswer> answers = userDataStorage.getHistory(user);
         for (UserAnswer userAnswer : answers) {
             appendUserAnswer(resultBuilder, userAnswer);
         }
