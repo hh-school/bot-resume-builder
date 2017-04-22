@@ -11,9 +11,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
 
-/**
- * Created by Sergey on 21.04.2017.
- */
 public class HTTPClient {
     private final static Logger log = LoggerFactory.getLogger(HTTPClient.class);
 
@@ -32,7 +29,7 @@ public class HTTPClient {
             String line;
             while ((line = rd.readLine()) != null) {
                 result.append(line);
-                result.append("\n");
+                result.append(System.lineSeparator());
             }
             rd.close();
             return result.toString();

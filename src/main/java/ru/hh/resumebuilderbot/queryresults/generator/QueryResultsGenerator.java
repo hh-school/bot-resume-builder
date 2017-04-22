@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Sergey on 20.04.2017.
- */
 public class QueryResultsGenerator {
 
     private final static Integer maxResultsAmount = 50;
@@ -20,8 +17,6 @@ public class QueryResultsGenerator {
         Integer chatId = inlineQuery.getFrom().getId();
         String textForSearch = inlineQuery.getQuery();
         String currentState = "Institutes";
-//        Question currentQuestion = UserDataStorage.getCurrentQuestion(new User(chatId));
-//        currentQuestion.needSuggest()
 
         List<InlineQueryResult> queryResults = new ArrayList<>();
         switch (currentState) {
@@ -29,7 +24,7 @@ public class QueryResultsGenerator {
                 queryResults = getResultsFromRawData(SuggestGenerator.getInstitutes(textForSearch));
                 break;
             case "Faculties":
-                String instId = "39144"; //getCurrentInst(chatId)
+                String instId = "39144";
                 queryResults = getResultsFromRawData(SuggestGenerator.getFaculties(instId, textForSearch));
                 break;
             case "Companies":

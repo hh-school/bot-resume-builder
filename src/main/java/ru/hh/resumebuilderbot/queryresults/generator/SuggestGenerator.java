@@ -15,9 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-/**
- * Created by Sergey on 20.04.2017.
- */
 public class SuggestGenerator {
     protected final static Logger log = LoggerFactory.getLogger(SuggestGenerator.class);
 
@@ -158,7 +155,6 @@ public class SuggestGenerator {
     }
 
     private static String getQueryLanguage(String query) {
-        //пока для простоты 2 языка
         Pattern pattern = Pattern.compile("[а-яА-ЯёЁ]*");
         if (pattern.matcher(query).matches()) {
             return "RU";
