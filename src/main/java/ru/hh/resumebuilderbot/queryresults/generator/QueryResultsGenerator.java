@@ -19,7 +19,7 @@ public class QueryResultsGenerator {
     public static List<InlineQueryResult> getResults(InlineQuery inlineQuery) {
         Integer chatId = inlineQuery.getFrom().getId();
         String textForSearch = inlineQuery.getQuery();
-        String currentState = "2";
+        String currentState = "Institutes";
 //        Question currentQuestion = UserDataStorage.getCurrentQuestion(new User(chatId));
 //        currentQuestion.needSuggest()
 
@@ -57,20 +57,25 @@ public class QueryResultsGenerator {
         List<InlineQueryResult> queryResults = new ArrayList<>();
         for (int i = 0; i < rawData.size() && i < maxResultsAmount; i++) {
             Map<String, String> rowElement = rawData.get(i);
-            InlineQueryResultArticle queryResult = new InlineQueryResultArticle();
-            queryResult.setTitle(rowElement.get("title"));
-            queryResult.setId(Integer.toString(i + 1));
-            if (rowElement.containsKey("description") && !rowElement.get("description").equals("")) {
-                queryResult.setDescription(rowElement.get("description"));
-            }
-            if (rowElement.containsKey("thumb")) {
-                queryResult.setThumbUrl(rowElement.get("thumb"));
-            }
-            InputTextMessageContent messageContent = new InputTextMessageContent();
-            messageContent.setMessageText(rowElement.get("text"));
-            queryResult.setInputMessageContent(messageContent);
-            queryResults.add(queryResult);
+            rowElement.put("index", Integer.toString(i + 1));
+            queryResults.add(getQueryResultFromMap(rowElement));
         }
         return queryResults;
+    }
+
+    private static InlineQueryResult getQueryResultFromMap(Map<String, String> rowElement) {
+        InlineQueryResultArticle queryResult = new InlineQueryResultArticle();
+        queryResult.setTitle(rowElement.get("title"));
+        queryResult.setId(rowElement.get("index"));
+        if (rowElement.containsKey("description") && !rowElement.get("description").equals("")) {
+            queryResult.setDescription(rowElement.get("description"));
+        }
+        if (rowElement.containsKey("thumb")) {
+            queryResult.setThumbUrl(rowElement.get("thumb"));
+        }
+        InputTextMessageContent messageContent = new InputTextMessageContent();
+        messageContent.setMessageText(rowElement.get("text"));
+        queryResult.setInputMessageContent(messageContent);
+        return queryResult;
     }
 }
