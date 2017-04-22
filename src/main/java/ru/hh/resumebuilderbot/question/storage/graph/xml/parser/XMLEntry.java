@@ -4,7 +4,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import ru.hh.resumebuilderbot.question.Question;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +34,7 @@ public class XMLEntry {
         setDefaultValues();
     }
 
-    static XMLEntry fromGraphNode(Node graphNode) throws IOException {
+    static XMLEntry fromGraphNode(Node graphNode) {
         NamedNodeMap graphNodeAttributes = graphNode.getAttributes();
 
         Optional<Node> optionalQuestionNode = XMLNodeListStream.getFirstChildByName(graphNode, "question");

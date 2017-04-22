@@ -1,5 +1,7 @@
 package ru.hh.resumebuilderbot.question.storage.graph;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
 import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeForking;
@@ -7,12 +9,12 @@ import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeLinear;
 import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeTerminal;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLEntry;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public class GraphEntry {
+    private static final Logger log = LoggerFactory.getLogger(GraphEntry.class);
     private QuestionNode node;
     private Map<String, Integer> indexLinks;
 
@@ -21,7 +23,7 @@ public class GraphEntry {
         this.indexLinks = indexLinks;
     }
 
-    static GraphEntry fromXMLEntry(XMLEntry xmlEntry) throws IOException {
+    static GraphEntry fromXMLEntry(XMLEntry xmlEntry) {
         Map<String, Integer> indexLinks = xmlEntry.getLinks();
         Map<String, String> classData = xmlEntry.getClassData();
         Question question = xmlEntry.getQuestion();
@@ -34,7 +36,8 @@ public class GraphEntry {
         if (xmlEntry.getType().equals("forking")) {
             return makeForkingEntry(indexLinks, classData, question);
         }
-        throw new IOException("Error parsing XML: node type is invalid");
+        log.error("Error: wrong XML schema - unsupported node base type");
+        throw new RuntimeException("Error: wrong XML schema - unsupported node base type");
     }
 
     private static GraphEntry makeTerminalEntry(Map<String, Integer> indexLinks,

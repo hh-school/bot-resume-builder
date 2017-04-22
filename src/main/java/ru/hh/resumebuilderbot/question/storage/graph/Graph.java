@@ -1,13 +1,10 @@
 package ru.hh.resumebuilderbot.question.storage.graph;
 
-import org.xml.sax.SAXException;
 import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLEntry;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLParser;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLValidator;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +15,7 @@ public class Graph {
 
     private int rootIndex;
 
-    private Graph(List<XMLEntry> rawData) throws IOException {
+    private Graph(List<XMLEntry> rawData) {
         XMLValidator.validate(rawData);
         entriesMap = makeEntriesMap(rawData);
         setRoot(rawData);
@@ -34,13 +31,9 @@ public class Graph {
         }
     }
 
-    public static Graph fromXMLFile(String filename) throws IOException {
-        try {
-            List<XMLEntry> rawData = new XMLParser().parse(filename);
-            return new Graph(rawData);
-        } catch (ParserConfigurationException | SAXException e) {
-            throw new IOException("Error parsing XML: internal error");
-        }
+    public static Graph fromXMLFile(String filename) {
+        List<XMLEntry> rawData = XMLParser.parse(filename);
+        return new Graph(rawData);
     }
 
     public QuestionNode getRoot() {
@@ -53,7 +46,7 @@ public class Graph {
                 .findFirst().get().getIndex();
     }
 
-    private Map<Integer, GraphEntry> makeEntriesMap(List<XMLEntry> rawData) throws IOException {
+    private Map<Integer, GraphEntry> makeEntriesMap(List<XMLEntry> rawData) {
         Map<Integer, GraphEntry> result = new HashMap<>();
         for (XMLEntry xmlEntry : rawData) {
             result.put(xmlEntry.getIndex(), GraphEntry.fromXMLEntry(xmlEntry));
