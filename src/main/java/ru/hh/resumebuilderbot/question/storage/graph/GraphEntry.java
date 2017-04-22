@@ -10,6 +10,7 @@ import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLEntry;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class GraphEntry {
     private QuestionNode node;
@@ -74,5 +75,27 @@ public class GraphEntry {
         node.setLinks(objectLinks);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        GraphEntry that = (GraphEntry) o;
+        boolean result = getNode().hasEqualContent(that.getNode()) &&
+                indexLinks.keySet().containsAll(that.indexLinks.keySet()) &&
+                that.indexLinks.keySet().containsAll(indexLinks.keySet());
+        for (Map.Entry<String, Integer> mapEntry : indexLinks.entrySet()) {
+            result = result && Objects.equals(mapEntry.getValue(), that.indexLinks.get(mapEntry.getKey()));
+        }
+        return result;
+    }
 
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getNode(), indexLinks);
+    }
 }

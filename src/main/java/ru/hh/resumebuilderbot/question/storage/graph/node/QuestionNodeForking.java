@@ -5,6 +5,7 @@ import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.user.data.storage.UserData;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class QuestionNodeForking implements QuestionNode {
@@ -67,5 +68,15 @@ public class QuestionNodeForking implements QuestionNode {
     @Override
     public void saveAnswer(UserData dest, Answer answer) {
 
+    }
+
+    @Override
+    public boolean hasEqualContent(QuestionNode questionNode) {
+        if (!(questionNode instanceof QuestionNodeForking)) {
+            return false;
+        }
+        QuestionNodeForking that = (QuestionNodeForking) questionNode;
+        return Objects.equals(that.question, question)
+                && that.isSkippable == isSkippable && that.answerPattern.pattern().equals(answerPattern.pattern());
     }
 }

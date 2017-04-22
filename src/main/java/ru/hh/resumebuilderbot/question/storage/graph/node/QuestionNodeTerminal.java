@@ -54,4 +54,9 @@ public class QuestionNodeTerminal implements QuestionNode {
     public void saveAnswer(UserData dest, Answer answer) {
 
     }
+
+    @Override
+    public boolean hasEqualContent(QuestionNode questionNode) {
+        return questionNode instanceof QuestionNodeTerminal;
+    }
 }

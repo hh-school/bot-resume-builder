@@ -23,4 +23,6 @@ public interface QuestionNode {
     QuestionNode cloneContent();
 
     void saveAnswer(UserData dest, Answer answer);
+
+    boolean hasEqualContent(QuestionNode questionNode);
 }

@@ -11,11 +11,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Graph {
     private Map<Integer, GraphEntry> entriesMap;
 
-    private QuestionNode root;
+    private int rootIndex;
 
     private Graph(List<XMLEntry> rawData) throws IOException {
         XMLValidator.validate(rawData);
@@ -24,13 +25,11 @@ public class Graph {
         linkNodes();
     }
 
-    private Graph(QuestionNode root, Map<Integer, GraphEntry> entriesMap) {
+    private Graph(int rootIndex, Map<Integer, GraphEntry> entriesMap) {
         this.entriesMap = new HashMap<>();
+        this.rootIndex = rootIndex;
         for (Map.Entry<Integer, GraphEntry> entry : entriesMap.entrySet()) {
             GraphEntry newEntry = entry.getValue().cloneContent();
-            if (entry.getValue().getNode() == root) {
-                this.root = newEntry.getNode();
-            }
             this.entriesMap.put(entry.getKey(), newEntry);
         }
     }
@@ -45,14 +44,13 @@ public class Graph {
     }
 
     public QuestionNode getRoot() {
-        return root;
+        return entriesMap.get(rootIndex).getNode();
     }
 
     private void setRoot(List<XMLEntry> rawData) {
-        int rootIndex = rawData.stream()
+        rootIndex = rawData.stream()
                 .filter(XMLEntry::isRoot)
                 .findFirst().get().getIndex();
-        root = entriesMap.get(rootIndex).getNode();
     }
 
     private Map<Integer, GraphEntry> makeEntriesMap(List<XMLEntry> rawData) throws IOException {
@@ -70,9 +68,31 @@ public class Graph {
     }
 
     public Graph cloneContent() {
-        Graph result = new Graph(root, entriesMap);
+        Graph result = new Graph(rootIndex, entriesMap);
         result.linkNodes();
         return result;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Graph that = (Graph) o;
+        boolean result = rootIndex == that.rootIndex &&
+                entriesMap.keySet().containsAll(that.entriesMap.keySet()) &&
+                that.entriesMap.keySet().containsAll(entriesMap.keySet());
+        for (Map.Entry<Integer, GraphEntry> mapEntry : entriesMap.entrySet()) {
+            result = result && Objects.equals(mapEntry.getValue(), that.entriesMap.get(mapEntry.getKey()));
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(entriesMap, rootIndex);
+    }
 }
