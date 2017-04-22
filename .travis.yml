@@ -8,11 +8,18 @@ services:
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
     set -e;
-    export REPO=$DOCKER_USERNAME/$DOCKER_IMAGE_NAME;
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker build -t $REPO:$TRAVIS_COMMIT .;
-    docker tag $REPO:$TRAVIS_COMMIT $REPO:latest;
-    docker push $REPO:latest;
+
+    export BACKEND_REPO=$DOCKER_USERNAME/resume-builder-bot;
+    docker build -t $BACKEND_REPO:$TRAVIS_COMMIT .;
+    docker tag $BACKEND_REPO:$TRAVIS_COMMIT $BACKEND_REPO:latest;
+
+    export POSTGRES_REPO=$DOCKER_USERNAME/resume-builder-bot-postgres;
+    docker build -t $POSTGRES_REPO:$TRAVIS_COMMIT .;
+    docker tag $POSTGRES_REPO:$TRAVIS_COMMIT $POSTGRES_REPO:latest;
+
+    docker push $BACKEND_REPO:latest;
+    docker push $POSTGRES_REPO:latest;
     fi
 
 branches:
