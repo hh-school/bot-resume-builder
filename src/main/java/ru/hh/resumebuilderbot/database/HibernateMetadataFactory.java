@@ -19,7 +19,25 @@ import ru.hh.resumebuilderbot.database.model.gender.Gender;
 
 public class HibernateMetadataFactory {
     public static Metadata prod() {
-        StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder().build();
+        StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
+                .applySetting(
+                        "hibernate.connection.url",
+                        String.format(
+                                "jdbc:postgresql://%s:%s/%s",
+                                System.getenv("DB_HOST"),
+                                System.getenv("DB_PORT"),
+                                System.getenv("DB_NAME")
+                        )
+                )
+                .applySetting(
+                        "hibernate.connection.username", System.getenv("DB_USER")
+
+                )
+                .applySetting(
+                        "hibernate.connection.password", System.getenv("DB_PASSWORD")
+
+                )
+                .build();
         return new MetadataSources(standardRegistry)
                 .addAnnotatedClass(Contact.class)
                 .addAnnotatedClass(ContactType.class)
