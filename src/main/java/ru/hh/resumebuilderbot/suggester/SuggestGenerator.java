@@ -9,9 +9,7 @@ import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -81,7 +79,7 @@ public class SuggestGenerator {
             JsonObject facultyObject = faculty.getAsJsonObject();
 
             String text = facultyObject.get("name").getAsString();
-            if (!text.toLowerCase().contains(searchQuery.toLowerCase())){
+            if (!text.toLowerCase().contains(searchQuery.toLowerCase())) {
                 continue;
             }
 
@@ -181,7 +179,6 @@ public class SuggestGenerator {
     }
 
     private static RawSuggestData instituteHasNoFaculties() {
-        List<Map<String, String>> errorResults = new ArrayList<>();
         Map<String, String> errorResult = new HashMap<>();
         errorResult.put("text", TextsStorage.getText(TextId.NO_FACULTIES_FOUND));
         errorResult.put("description", TextsStorage.getText(TextId.NO_FACULTIES_FOUND_DESCRIPTION));
