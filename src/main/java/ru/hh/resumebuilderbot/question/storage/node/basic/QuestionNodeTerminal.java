@@ -1,15 +1,24 @@
-package ru.hh.resumebuilderbot.question.storage.node;
+package ru.hh.resumebuilderbot.question.storage.node.basic;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
+import ru.hh.resumebuilderbot.user.data.storage.UserData;
+
+import java.util.Map;
 
 public class QuestionNodeTerminal implements QuestionNode {
     private Question question;
 
     public QuestionNodeTerminal() {
         question = new Question(TextsStorage.getText(TextId.FINISHED));
+    }
+
+    @Override
+    public void setLinks(Map<String, QuestionNode> links) {
+
     }
 
     @Override
@@ -33,11 +42,6 @@ public class QuestionNodeTerminal implements QuestionNode {
     }
 
     @Override
-    public boolean needToSaveAnswer() {
-        return false;
-    }
-
-    @Override
     public boolean isSkippable() {
         return true;
     }
@@ -45,5 +49,10 @@ public class QuestionNodeTerminal implements QuestionNode {
     @Override
     public QuestionNode cloneContent() {
         return new QuestionNodeTerminal();
+    }
+
+    @Override
+    public void saveAnswer(UserData dest, Answer answer) {
+
     }
 }

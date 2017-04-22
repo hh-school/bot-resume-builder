@@ -2,8 +2,14 @@ package ru.hh.resumebuilderbot.question.storage.node;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.user.data.storage.UserData;
+
+import java.util.Map;
 
 public interface QuestionNode {
+
+    void setLinks(Map<String, QuestionNode> links);
+
     boolean answerIsValid(Answer answer);
 
     void registerAnswer(Answer answer);
@@ -12,9 +18,9 @@ public interface QuestionNode {
 
     QuestionNode getNext();
 
-    boolean needToSaveAnswer();
-
     boolean isSkippable();
 
     QuestionNode cloneContent();
+
+    void saveAnswer(UserData dest, Answer answer);
 }

@@ -3,77 +3,65 @@ package ru.hh.resumebuilderbot.question.storage.builder;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.builder.xml.parser.XMLEntry;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeForking;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeLinear;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNodeTerminal;
+import ru.hh.resumebuilderbot.question.storage.node.basic.QuestionNodeForking;
+import ru.hh.resumebuilderbot.question.storage.node.basic.QuestionNodeLinear;
+import ru.hh.resumebuilderbot.question.storage.node.basic.QuestionNodeTerminal;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class GraphEntry {
     private QuestionNode node;
-    private int nextIndex;
-    private int nextIndexYes;
-    private int nextIndexNo;
+    private Map<String, Integer> indexLinks;
 
-    private GraphEntry(QuestionNode node, int nextIndex) {
+    private GraphEntry(QuestionNode node, Map<String, Integer> indexLinks) {
         this.node = node;
-        this.nextIndex = nextIndex;
-    }
-
-    private GraphEntry(QuestionNode node, int nextIndexYes, int nextIndexNo) {
-        this.node = node;
-        this.nextIndexYes = nextIndexYes;
-        this.nextIndexNo = nextIndexNo;
-    }
-
-    private GraphEntry(QuestionNode node, int nextIndex, int nextIndexYes, int nextIndexNo) {
-        this.node = node;
-        this.nextIndex = nextIndex;
-        this.nextIndexYes = nextIndexYes;
-        this.nextIndexNo = nextIndexNo;
+        this.indexLinks = indexLinks;
     }
 
     static GraphEntry fromXMLEntry(XMLEntry xmlEntry) throws IOException {
+        Map<String, Integer> indexLinks = xmlEntry.getLinks();
         Map<String, String> classData = xmlEntry.getClassData();
+        Question question = xmlEntry.getQuestion();
         if (xmlEntry.getType().equals("terminal")) {
-            return makeTerminalEntry(xmlEntry, classData);
+            return makeTerminalEntry(indexLinks, classData, question);
         }
         if (xmlEntry.getType().equals("linear")) {
-            return makeLinearEntry(xmlEntry, classData);
+            return makeLinearEntry(indexLinks, classData, question);
         }
         if (xmlEntry.getType().equals("forking")) {
-            return makeForkingEntry(xmlEntry, classData);
+            return makeForkingEntry(indexLinks, classData, question);
         }
         throw new IOException("Error parsing XML: node type is invalid");
     }
 
-    private static GraphEntry makeTerminalEntry(XMLEntry xmlEntry, Map<String, String> classData) {
-        int index = xmlEntry.getIndex();
+    private static GraphEntry makeTerminalEntry(Map<String, Integer> indexLinks,
+                                                Map<String, String> classData,
+                                                Question question) {
         QuestionNode terminalNode = new QuestionNodeTerminal();
-        return new GraphEntry(terminalNode, index);
+        return new GraphEntry(terminalNode, indexLinks);
     }
 
-    private static GraphEntry makeLinearEntry(XMLEntry xmlEntry, Map<String, String> classData) {
+    private static GraphEntry makeLinearEntry(Map<String, Integer> indexLinks,
+                                              Map<String, String> classData,
+                                              Question question) {
         boolean isSkippable = Boolean.parseBoolean(classData.get("skippable"));
-        Question question = xmlEntry.getQuestion();
         QuestionNodeLinear linearNode = new QuestionNodeLinear(question, isSkippable);
-        int nextIndex = xmlEntry.getNextIndex();
-        return new GraphEntry(linearNode, nextIndex);
+        return new GraphEntry(linearNode, indexLinks);
     }
 
-    private static GraphEntry makeForkingEntry(XMLEntry xmlEntry, Map<String, String> classData) {
+    private static GraphEntry makeForkingEntry(Map<String, Integer> indexLinks,
+                                               Map<String, String> classData,
+                                               Question question) {
         boolean isSkippable = Boolean.parseBoolean(classData.get("skippable"));
-        Question question = xmlEntry.getQuestion();
         String pattern = classData.get("pattern");
-        int nextIndexYes = xmlEntry.getNextYes();
-        int nextIndexNo = xmlEntry.getNextNo();
         QuestionNodeForking forkingNode = new QuestionNodeForking(question, pattern, isSkippable);
-        return new GraphEntry(forkingNode, nextIndexYes, nextIndexNo);
+        return new GraphEntry(forkingNode, indexLinks);
     }
 
     GraphEntry cloneContent() {
-        return new GraphEntry(node.cloneContent(), nextIndex, nextIndexYes, nextIndexNo);
+        return new GraphEntry(node.cloneContent(), indexLinks);
     }
 
     public QuestionNode getNode() {
@@ -81,15 +69,9 @@ public class GraphEntry {
     }
 
     void setLinks(Map<Integer, QuestionNode> nodesMap) {
-        if (node instanceof QuestionNodeLinear) {
-            QuestionNodeLinear linearNode = (QuestionNodeLinear) node;
-            linearNode.setNext(nodesMap.get(nextIndex));
-        }
-        if (node instanceof QuestionNodeForking) {
-            QuestionNodeForking forkingNode = (QuestionNodeForking) node;
-            forkingNode.setNextYes(nodesMap.get(nextIndexYes));
-            forkingNode.setNextNo(nodesMap.get(nextIndexNo));
-        }
+        Map<String, QuestionNode> objectLinks = new HashMap<>();
+        indexLinks.forEach((linkName, linkIndex) -> objectLinks.put(linkName, nodesMap.get(linkIndex)));
+        node.setLinks(objectLinks);
     }
 
 

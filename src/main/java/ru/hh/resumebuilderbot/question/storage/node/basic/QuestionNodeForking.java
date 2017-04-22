@@ -1,8 +1,11 @@
-package ru.hh.resumebuilderbot.question.storage.node;
+package ru.hh.resumebuilderbot.question.storage.node.basic;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
+import ru.hh.resumebuilderbot.user.data.storage.UserData;
 
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class QuestionNodeForking implements QuestionNode {
@@ -27,6 +30,12 @@ public class QuestionNodeForking implements QuestionNode {
     }
 
     @Override
+    public void setLinks(Map<String, QuestionNode> links) {
+        nextYes = links.get("nextYes");
+        nextNo = links.get("nextNo");
+    }
+
+    @Override
     public boolean answerIsValid(Answer answer) {
         return question.answerIsAllowed(answer);
     }
@@ -47,11 +56,6 @@ public class QuestionNodeForking implements QuestionNode {
     }
 
     @Override
-    public boolean needToSaveAnswer() {
-        return true;
-    }
-
-    @Override
     public boolean isSkippable() {
         return isSkippable;
     }
@@ -61,11 +65,8 @@ public class QuestionNodeForking implements QuestionNode {
         return new QuestionNodeForking(question, answerPattern, isSkippable);
     }
 
-    public void setNextYes(QuestionNode nextYes) {
-        this.nextYes = nextYes;
-    }
+    @Override
+    public void saveAnswer(UserData dest, Answer answer) {
 
-    public void setNextNo(QuestionNode nextNo) {
-        this.nextNo = nextNo;
     }
 }

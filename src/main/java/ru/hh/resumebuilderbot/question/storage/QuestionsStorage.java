@@ -1,7 +1,6 @@
 package ru.hh.resumebuilderbot.question.storage;
 
 import ru.hh.resumebuilderbot.question.storage.builder.Graph;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 
 import java.io.IOException;
 
@@ -25,9 +24,8 @@ public class QuestionsStorage {
     private QuestionsStorage() {
     }
 
-    public static QuestionNode getRoot() throws IOException {
-        Graph graphNew = graphSample.cloneContent();
-        return graphNew.getRoot();
+    public static Graph cloneSampleGraph() {
+        return graphSample.cloneContent();
     }
 
 }

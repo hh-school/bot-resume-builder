@@ -1,7 +1,11 @@
-package ru.hh.resumebuilderbot.question.storage.node;
+package ru.hh.resumebuilderbot.question.storage.node.basic;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
+import ru.hh.resumebuilderbot.user.data.storage.UserData;
+
+import java.util.Map;
 
 public class QuestionNodeLinear implements QuestionNode {
     private Question question;
@@ -11,6 +15,11 @@ public class QuestionNodeLinear implements QuestionNode {
     public QuestionNodeLinear(Question question, boolean isSkippable) {
         this.question = question;
         this.isSkippable = isSkippable;
+    }
+
+    @Override
+    public void setLinks(Map<String, QuestionNode> links) {
+        next = links.get("next");
     }
 
     @Override
@@ -33,15 +42,6 @@ public class QuestionNodeLinear implements QuestionNode {
         return next;
     }
 
-    public void setNext(QuestionNode next) {
-        this.next = next;
-    }
-
-    @Override
-    public boolean needToSaveAnswer() {
-        return true;
-    }
-
     @Override
     public boolean isSkippable() {
         return isSkippable;
@@ -50,5 +50,10 @@ public class QuestionNodeLinear implements QuestionNode {
     @Override
     public QuestionNode cloneContent() {
         return new QuestionNodeLinear(question, isSkippable);
+    }
+
+    @Override
+    public void saveAnswer(UserData dest, Answer answer) {
+
     }
 }
