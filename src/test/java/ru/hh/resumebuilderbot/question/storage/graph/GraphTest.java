@@ -19,18 +19,18 @@ public class GraphTest {
 
     private final static String allFeaturesFilename = "src/test/resources/XMLLoaderTest/AllFeatures.xml";
 
-    private static Graph sampleGraph;
+    private static Graph expectedGraph;
 
     static {
         try {
-            makeSamples();
+            createExpectedGraph();
         } catch (Exception e) {
             throw new RuntimeException("Exception during graph building");
         }
 
     }
 
-    private static void makeSamples() throws Exception {
+    private static void createExpectedGraph() throws Exception {
 
 
         Map<Integer, GraphEntry> entriesMap = new HashMap<>();
@@ -114,24 +114,18 @@ public class GraphTest {
         graphEntry = createGraphEntry(questionNode, links);
         entriesMap.put(11, graphEntry);
 
-        sampleGraph = createGraph(1, entriesMap);
+        expectedGraph = createGraph(1, entriesMap);
     }
 
     private static Graph createGraph(int rootIndex, Map<Integer, GraphEntry> entriesMap) throws Exception {
-        Class[] args = new Class[2];
-        args[0] = int.class;
-        args[1] = Map.class;
-        Constructor<Graph> constructor = Graph.class.getDeclaredConstructor(args);
+        Constructor<Graph> constructor = Graph.class.getDeclaredConstructor(int.class, Map.class);
         constructor.setAccessible(true);
         return constructor.newInstance(rootIndex, entriesMap);
 
     }
 
     private static GraphEntry createGraphEntry(QuestionNode questionNode, Map<String, Integer> links) throws Exception {
-        Class[] args = new Class[2];
-        args[0] = QuestionNode.class;
-        args[1] = Map.class;
-        Constructor<GraphEntry> constructor = GraphEntry.class.getDeclaredConstructor(args);
+        Constructor<GraphEntry> constructor = GraphEntry.class.getDeclaredConstructor(QuestionNode.class, Map.class);
         constructor.setAccessible(true);
         return constructor.newInstance(questionNode, links);
 
@@ -140,7 +134,7 @@ public class GraphTest {
     @Test(priority = 0)
     void fromXMLFileTest() throws Exception {
         Graph graph = Graph.fromXMLFile(allFeaturesFilename);
-        assertEquals(graph, sampleGraph);
+        assertEquals(graph, expectedGraph);
     }
 
     @Test(priority = 1, enabled = true)
