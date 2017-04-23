@@ -16,15 +16,15 @@ public class RawSuggestData {
         this.rawListData = new ArrayList<>();
     }
 
-    public int size(){
+    public int size() {
         return rawListData.size();
     }
 
-    public Map<String, String> get(int index){
+    public Map<String, String> get(int index) {
         return rawListData.get(index);
     }
 
-    public void add(Map<String, String> newElement){
+    public void add(Map<String, String> newElement) {
         this.rawListData.add(newElement);
     }
 }
