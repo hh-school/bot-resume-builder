@@ -8,6 +8,7 @@ import java.util.List;
 
 public class PlainTextCVBuilder implements CVBuilder {
     private UserDataStorage userDataStorage;
+
     public PlainTextCVBuilder(UserDataStorage userDataStorage) {
         this.userDataStorage = userDataStorage;
     }

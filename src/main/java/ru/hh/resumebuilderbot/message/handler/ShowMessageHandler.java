@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShowMessageHandler extends MessageHandler {
-    protected ShowMessageHandler(UserDataStorage userDataStorage) {
+    public ShowMessageHandler(UserDataStorage userDataStorage) {
         super(userDataStorage);
     }
 

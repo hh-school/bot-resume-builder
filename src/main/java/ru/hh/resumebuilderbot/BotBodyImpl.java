@@ -7,9 +7,9 @@ import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
 @Singleton
 public class BotBodyImpl implements BotBody {
+    private final UserDataStorage userDataStorage;
     private final Selector selector;
     private MessengerAdapter messengerAdapter;
-    private final UserDataStorage userDataStorage;
 
     @Inject
     public BotBodyImpl(UserDataStorage userDataStorage, Selector selector) {
