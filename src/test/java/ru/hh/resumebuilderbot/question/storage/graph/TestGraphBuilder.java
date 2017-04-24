@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TestGraphBuilder {
-    public static Graph build() throws Exception
-    {
+    public static Graph build() throws Exception {
         Map<Integer, GraphEntry> entriesMap = new HashMap<>();
 
         Question question = new Question("Это первый вопрос");
