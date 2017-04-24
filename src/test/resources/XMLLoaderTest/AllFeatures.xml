@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<graphNodes>
-    <graphNode id="1" root="true" type="linear">
+<graphNodes root="1">
+    <graphNode id="1" type="linear">
         <links>
             <link name="next" value="2"/>
         </links>

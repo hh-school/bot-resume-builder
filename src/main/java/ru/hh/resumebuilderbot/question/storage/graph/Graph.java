@@ -3,6 +3,7 @@ package ru.hh.resumebuilderbot.question.storage.graph;
 import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLEntry;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLParser;
+import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLRawData;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLValidator;
 
 import java.util.HashMap;
@@ -15,9 +16,9 @@ public class Graph {
 
     private int rootIndex;
 
-    private Graph(List<XMLEntry> rawData) {
+    private Graph(XMLRawData rawData) {
         XMLValidator.validate(rawData);
-        entriesMap = makeEntriesMap(rawData);
+        entriesMap = makeEntriesMap(rawData.getEntriesList());
         setRoot(rawData);
         linkNodes();
     }
@@ -32,18 +33,15 @@ public class Graph {
     }
 
     public static Graph fromXMLFile(String filename) {
-        List<XMLEntry> rawData = XMLParser.parse(filename);
-        return new Graph(rawData);
+        return new Graph(XMLParser.parse(filename));
     }
 
     public QuestionNode getRoot() {
         return entriesMap.get(rootIndex).getNode();
     }
 
-    private void setRoot(List<XMLEntry> rawData) {
-        rootIndex = rawData.stream()
-                .filter(XMLEntry::isRoot)
-                .findFirst().get().getIndex();
+    private void setRoot(XMLRawData rawData) {
+        rootIndex = rawData.getRootIndex();
     }
 
     private Map<Integer, GraphEntry> makeEntriesMap(List<XMLEntry> rawData) {
