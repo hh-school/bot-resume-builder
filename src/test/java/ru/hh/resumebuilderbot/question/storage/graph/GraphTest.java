@@ -1,5 +1,6 @@
 package ru.hh.resumebuilderbot.question.storage.graph;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
@@ -21,16 +22,8 @@ public class GraphTest {
 
     private static Graph expectedGraph;
 
-    static {
-        try {
-            createExpectedGraph();
-        } catch (Exception e) {
-            throw new RuntimeException("Exception during graph building");
-        }
-
-    }
-
-    private static void createExpectedGraph() throws Exception {
+    @BeforeClass
+    private void createExpectedGraph() throws Exception {
 
 
         Map<Integer, GraphEntry> entriesMap = new HashMap<>();
@@ -117,14 +110,14 @@ public class GraphTest {
         expectedGraph = createGraph(1, entriesMap);
     }
 
-    private static Graph createGraph(int rootIndex, Map<Integer, GraphEntry> entriesMap) throws Exception {
+    private Graph createGraph(int rootIndex, Map<Integer, GraphEntry> entriesMap) throws Exception {
         Constructor<Graph> constructor = Graph.class.getDeclaredConstructor(int.class, Map.class);
         constructor.setAccessible(true);
         return constructor.newInstance(rootIndex, entriesMap);
 
     }
 
-    private static GraphEntry createGraphEntry(QuestionNode questionNode, Map<String, Integer> links) throws Exception {
+    private GraphEntry createGraphEntry(QuestionNode questionNode, Map<String, Integer> links) throws Exception {
         Constructor<GraphEntry> constructor = GraphEntry.class.getDeclaredConstructor(QuestionNode.class, Map.class);
         constructor.setAccessible(true);
         return constructor.newInstance(questionNode, links);
