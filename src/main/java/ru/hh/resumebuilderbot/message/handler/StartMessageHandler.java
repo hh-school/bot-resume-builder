@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StartMessageHandler extends MessageHandler {
-    protected StartMessageHandler(UserDataStorage userDataStorage) {
+    public StartMessageHandler(UserDataStorage userDataStorage) {
         super(userDataStorage);
     }
 

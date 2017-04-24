@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SkipMessageHandler extends MessageHandler {
-    protected SkipMessageHandler(UserDataStorage userDataStorage) {
+    public SkipMessageHandler(UserDataStorage userDataStorage) {
         super(userDataStorage);
     }
 
