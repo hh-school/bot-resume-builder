@@ -18,14 +18,14 @@ public class XMLParser {
     private final static Logger log = LoggerFactory.getLogger(XMLParser.class);
 
     public static List<XMLEntry> parse(String filename) {
-        DocumentBuilder documentBuilder = null;
+        DocumentBuilder documentBuilder;
         try {
             documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         } catch (ParserConfigurationException e) {
             log.error("Error instantiating DocumentBuilder");
             throw new RuntimeException("Error instantiating DocumentBuilder");
         }
-        Document document = null;
+        Document document;
         try {
             document = documentBuilder.parse(filename);
         } catch (SAXException e) {
