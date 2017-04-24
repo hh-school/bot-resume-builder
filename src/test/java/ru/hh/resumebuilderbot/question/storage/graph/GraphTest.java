@@ -24,8 +24,6 @@ public class GraphTest {
 
     @BeforeClass
     private void createExpectedGraph() throws Exception {
-
-
         Map<Integer, GraphEntry> entriesMap = new HashMap<>();
 
         Question question = new Question("Это первый вопрос");
