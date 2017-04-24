@@ -74,11 +74,7 @@ public class Graph {
         }
         Graph that = (Graph) o;
         boolean result = rootIndex == that.rootIndex &&
-                entriesMap.keySet().containsAll(that.entriesMap.keySet()) &&
-                that.entriesMap.keySet().containsAll(entriesMap.keySet());
-        for (Map.Entry<Integer, GraphEntry> mapEntry : entriesMap.entrySet()) {
-            result = result && Objects.equals(mapEntry.getValue(), that.entriesMap.get(mapEntry.getKey()));
-        }
+                entriesMap.equals(that.entriesMap);
         return result;
     }
 

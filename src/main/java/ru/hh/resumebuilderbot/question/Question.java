@@ -45,13 +45,8 @@ public class Question {
             return false;
         }
         Question that = (Question) o;
-        boolean result = Objects.equals(getText(), that.getText());
-        if (this.variantsOfAnswer.isEmpty()) {
-            return that.variantsOfAnswer.isEmpty();
-        }
-        return result &&
-                this.variantsOfAnswer.containsAll(that.variantsOfAnswer) &&
-                that.variantsOfAnswer.containsAll(this.variantsOfAnswer);
+        return Objects.equals(getText(), that.getText()) && variantsOfAnswer.equals(that.variantsOfAnswer) &&
+                Objects.equals(otherVariantsAllowed, that.otherVariantsAllowed);
     }
 
     @Override

@@ -88,11 +88,7 @@ public class GraphEntry {
         }
         GraphEntry that = (GraphEntry) o;
         boolean result = getNode().hasEqualContent(that.getNode()) &&
-                indexLinks.keySet().containsAll(that.indexLinks.keySet()) &&
-                that.indexLinks.keySet().containsAll(indexLinks.keySet());
-        for (Map.Entry<String, Integer> mapEntry : indexLinks.entrySet()) {
-            result = result && Objects.equals(mapEntry.getValue(), that.indexLinks.get(mapEntry.getKey()));
-        }
+                indexLinks.equals(that.indexLinks);
         return result;
     }
 
