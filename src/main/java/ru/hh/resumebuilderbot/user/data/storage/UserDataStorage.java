@@ -37,10 +37,6 @@ public class UserDataStorage {
         userData.registerAnswer(answer);
     }
 
-    public List<UserAnswer> getHistory(User user) {
-        return getUserData(user).getAnswers();
-    }
-
     public Object getMutex(User user) {
         if (!contains(user)) {
             userDataMap.put(user, new UserData());

@@ -1,6 +1,7 @@
 package ru.hh.resumebuilderbot.cv.builder;
 
 import ru.hh.resumebuilderbot.User;
+import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
 public class PlainTextCVBuilder implements CVBuilder {
     private UserDataStorage userDataStorage;
