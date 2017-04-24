@@ -18,23 +18,9 @@ public class XMLParser {
     private final static Logger log = LoggerFactory.getLogger(XMLParser.class);
 
     public static List<XMLEntry> parse(String filename) {
-        DocumentBuilder documentBuilder;
-        try {
-            documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
-            log.error("Error instantiating DocumentBuilder");
-            throw new RuntimeException("Error instantiating DocumentBuilder");
-        }
-        Document document;
-        try {
-            document = documentBuilder.parse(filename);
-        } catch (SAXException e) {
-            log.error("Error parsing XML. Maybe XML is not valid");
-            throw new RuntimeException("Error parsing XML. Maybe XML is not valid");
-        } catch (IOException e) {
-            log.error("Error: can't read XML file");
-            throw new RuntimeException("Error: can't read XML file");
-        }
+        DocumentBuilder documentBuilder = createDocumentBuilder();
+        Document document = buildDocument(documentBuilder, filename);
+
         Node root = document.getDocumentElement();
 
         List<XMLEntry> result = new ArrayList<>();
@@ -42,5 +28,28 @@ public class XMLParser {
         XMLNodeListStream.fromParentNode(root).forEach((x) -> result.add(XMLEntry.fromGraphNode(x)));
 
         return result;
+    }
+
+    private static DocumentBuilder createDocumentBuilder()
+    {
+        try {
+            return DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            log.error("Error instantiating DocumentBuilder");
+            throw new RuntimeException("Error instantiating DocumentBuilder");
+        }
+    }
+
+    private static Document buildDocument(DocumentBuilder builder, String filename)
+    {
+        try {
+            return builder.parse(filename);
+        } catch (SAXException e) {
+            log.error("Error parsing XML. Maybe XML is not valid");
+            throw new RuntimeException("Error parsing XML. Maybe XML is not valid");
+        } catch (IOException e) {
+            log.error("Error: can't read XML file");
+            throw new RuntimeException("Error: can't read XML file");
+        }
     }
 }
