@@ -51,7 +51,8 @@ public class XMLEntry {
 
         String type = graphNodeAttributes.getNamedItem("type").getNodeValue();
 
-        Question question = makeQuestion(optionalQuestionNode);
+
+        Question question = optionalQuestionNode.map(x -> makeQuestion(x)).orElse(null);
 
         XMLEntry entry = new XMLEntry(type, id, question, links, classData);
         entry.setRoot(isRoot);
@@ -65,14 +66,7 @@ public class XMLEntry {
         return result;
     }
 
-    private static Question makeQuestion(Optional<Node> optionalQuestionNode) {
-
-        Node questionNode = null;
-        if (optionalQuestionNode.isPresent()) {
-            questionNode = optionalQuestionNode.get();
-        } else {
-            return null;
-        }
+    private static Question makeQuestion(Node questionNode) {
 
         NamedNodeMap attributes = questionNode.getAttributes();
 
@@ -120,10 +114,6 @@ public class XMLEntry {
 
     private void setDefaultValues() {
         classData.putIfAbsent("skippable", isSkippableByDefault);
-    }
-
-    public boolean isRoot() {
-        return isRoot;
     }
 
     private void setRoot(boolean root) {
