@@ -6,6 +6,7 @@ import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLParser;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLRawData;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLValidator;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +17,12 @@ public class Graph {
 
     private int rootIndex;
 
-    private Graph(XMLRawData rawData) {
-        XMLValidator.validate(rawData);
+    private Graph(XMLRawData rawData) throws IOException {
+        try {
+            XMLValidator.validate(rawData);
+        } catch (IOException e) {
+            throw new IOException("XML data validation error", e);
+        }
         entriesMap = makeEntriesMap(rawData.getEntriesList());
         setRoot(rawData);
         linkNodes();
@@ -32,7 +37,7 @@ public class Graph {
         }
     }
 
-    public static Graph fromXMLFile(String filename) {
+    public static Graph fromXMLFile(String filename) throws IOException {
         return new Graph(XMLParser.parse(filename));
     }
 

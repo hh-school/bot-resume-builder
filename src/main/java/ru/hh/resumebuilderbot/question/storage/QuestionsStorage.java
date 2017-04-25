@@ -3,6 +3,8 @@ package ru.hh.resumebuilderbot.question.storage;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
 
+import java.io.IOException;
+
 public class QuestionsStorage {
 
     private static final String XMLFilename = "src/main/resources/questions.xml";
@@ -11,7 +13,11 @@ public class QuestionsStorage {
 
     static {
         // нужны конфиги - из них читать путь к файлу XML
-        graphSample = Graph.fromXMLFile(XMLFilename);
+        try {
+            graphSample = Graph.fromXMLFile(XMLFilename);
+        } catch (IOException e) {
+            throw new RuntimeException("Error building graph", e);
+        }
     }
 
     private QuestionsStorage() {
