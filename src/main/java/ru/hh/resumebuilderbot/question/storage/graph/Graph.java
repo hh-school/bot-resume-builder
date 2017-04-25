@@ -1,20 +1,15 @@
 package ru.hh.resumebuilderbot.question.storage.graph;
 
 import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
-import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLEntry;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLParser;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLRawData;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLValidator;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Graph {
-    private Map<Integer, GraphEntry> entriesMap;
+    private GraphEntriesMap entriesMap;
 
     private int rootIndex;
 
@@ -24,18 +19,16 @@ public class Graph {
         } catch (IOException e) {
             throw new IOException("XML data validation error", e);
         }
-        entriesMap = makeEntriesMap(rawData.getEntriesList());
+        entriesMap = GraphEntriesMap.fromXMLRawData(rawData);
         setRoot(rawData);
-        linkNodes();
+        entriesMap.linkNodes();
     }
 
-    private Graph(int rootIndex, Map<Integer, GraphEntry> entriesMap) {
-        this.entriesMap = new HashMap<>();
+    private Graph(int rootIndex, GraphEntriesMap entriesMap) {
+
         this.rootIndex = rootIndex;
-        for (Map.Entry<Integer, GraphEntry> entry : entriesMap.entrySet()) {
-            GraphEntry newEntry = entry.getValue().cloneContent();
-            this.entriesMap.put(entry.getKey(), newEntry);
-        }
+        this.entriesMap = entriesMap;
+        entriesMap.linkNodes();
     }
 
     public static Graph fromXMLFile(String filename) throws IOException {
@@ -43,28 +36,15 @@ public class Graph {
     }
 
     public QuestionNode getRoot() {
-        return entriesMap.get(rootIndex).getNode();
+        return entriesMap.getNode(rootIndex);
     }
 
     private void setRoot(XMLRawData rawData) {
         rootIndex = rawData.getRootIndex();
     }
 
-    private Map<Integer, GraphEntry> makeEntriesMap(List<XMLEntry> rawData) {
-
-        return rawData.stream()
-                .collect(Collectors.toMap(XMLEntry::getIndex, GraphEntry::fromXMLEntry));
-    }
-
-    private void linkNodes() {
-        Map<Integer, QuestionNode> nodesMap = new HashMap<>();
-        entriesMap.forEach((key, value) -> nodesMap.put(key, value.getNode()));
-        entriesMap.values().forEach(x -> x.setLinks(nodesMap));
-    }
-
     public Graph cloneContent() {
-        Graph result = new Graph(rootIndex, entriesMap);
-        result.linkNodes();
+        Graph result = new Graph(rootIndex, entriesMap.clone());
         return result;
     }
 

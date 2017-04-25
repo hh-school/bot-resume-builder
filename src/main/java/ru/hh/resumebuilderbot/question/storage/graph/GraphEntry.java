@@ -9,9 +9,9 @@ import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeLinear;
 import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeTerminal;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLEntry;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class GraphEntry {
     private static final Logger log = LoggerFactory.getLogger(GraphEntry.class);
@@ -73,8 +73,9 @@ public class GraphEntry {
     }
 
     void setLinks(Map<Integer, QuestionNode> nodesMap) {
-        Map<String, QuestionNode> objectLinks = new HashMap<>();
-        indexLinks.forEach((linkName, linkIndex) -> objectLinks.put(linkName, nodesMap.get(linkIndex)));
+        Map<String, QuestionNode> objectLinks = indexLinks.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry<String, Integer>::getKey, x -> nodesMap.get(x.getValue())));
         node.setLinks(objectLinks);
     }
 

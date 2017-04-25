@@ -19,7 +19,7 @@ public class TestGraphBuilder {
         Question question = new Question("Это первый вопрос");
         QuestionNode questionNode = new QuestionNodeLinear(question, true);
         Map<String, Integer> links = new HashMap<>();
-        links.put("next", 2);
+        links.put("next", 3);
         GraphEntry graphEntry = createGraphEntry(questionNode, links);
         entriesMap.put(1, graphEntry);
 
@@ -95,20 +95,24 @@ public class TestGraphBuilder {
         graphEntry = createGraphEntry(questionNode, links);
         entriesMap.put(11, graphEntry);
 
-        return createGraph(1, entriesMap);
+        return createGraph(1, createGraphEntriesMap(entriesMap));
     }
 
-    private static Graph createGraph(int rootIndex, Map<Integer, GraphEntry> entriesMap) throws Exception {
-        Constructor<Graph> constructor = Graph.class.getDeclaredConstructor(int.class, Map.class);
+    private static Graph createGraph(int rootIndex, GraphEntriesMap entriesMap) throws Exception {
+        Constructor<Graph> constructor = Graph.class.getDeclaredConstructor(int.class, GraphEntriesMap.class);
         constructor.setAccessible(true);
         return constructor.newInstance(rootIndex, entriesMap);
-
     }
 
     private static GraphEntry createGraphEntry(QuestionNode questionNode, Map<String, Integer> links) throws Exception {
         Constructor<GraphEntry> constructor = GraphEntry.class.getDeclaredConstructor(QuestionNode.class, Map.class);
         constructor.setAccessible(true);
         return constructor.newInstance(questionNode, links);
+    }
 
+    private static GraphEntriesMap createGraphEntriesMap(Map<Integer, GraphEntry> entriesMap) throws Exception {
+        Constructor<GraphEntriesMap> constructor = GraphEntriesMap.class.getDeclaredConstructor(Map.class);
+        constructor.setAccessible(true);
+        return constructor.newInstance(entriesMap);
     }
 }

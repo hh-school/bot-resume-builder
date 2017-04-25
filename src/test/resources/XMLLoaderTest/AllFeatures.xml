@@ -2,7 +2,7 @@
 <graphNodes root="1">
     <graphNode id="1" type="linear">
         <links>
-            <link name="next" value="2"/>
+            <link name="next" value="3"/>
         </links>
         <question text="Это первый вопрос"/>
     </graphNode>
