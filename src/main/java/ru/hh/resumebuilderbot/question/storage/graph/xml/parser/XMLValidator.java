@@ -4,8 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.stream.Stream;
 
 public class XMLValidator {
 
@@ -16,13 +15,12 @@ public class XMLValidator {
     }
 
     private static void checkIDUniqueness(XMLRawData rawData) throws IOException {
-        Set<Integer> usedIndices = new HashSet<>();
-        for (XMLEntry entry : rawData.getEntriesList()) {
-            int index = entry.getIndex();
-            if (usedIndices.contains(index)) {
-                throw new IOException("Wrong XML schema - duplicate node index: " + index);
-            }
-            usedIndices.add(index);
+        if (getIndexStream(rawData).count() != getIndexStream(rawData).distinct().count()) {
+            throw new IOException("Wrong XML schema - duplicate node index: ");
         }
+    }
+
+    private static Stream<Integer> getIndexStream(XMLRawData rawData) {
+        return rawData.getEntriesList().stream().map(XMLEntry::getIndex);
     }
 }
