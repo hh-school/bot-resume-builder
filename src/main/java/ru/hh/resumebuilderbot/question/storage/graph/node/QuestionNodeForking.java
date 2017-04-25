@@ -76,7 +76,8 @@ public class QuestionNodeForking implements QuestionNode {
             return false;
         }
         QuestionNodeForking that = (QuestionNodeForking) questionNode;
-        return Objects.equals(that.question, question)
-                && that.isSkippable == isSkippable && that.answerPattern.pattern().equals(answerPattern.pattern());
+        return Objects.equals(that.question, question) &&
+                that.isSkippable == isSkippable &&
+                that.answerPattern.pattern().equals(answerPattern.pattern());
     }
 }
