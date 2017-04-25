@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Graph {
     private Map<Integer, GraphEntry> entriesMap;
@@ -50,11 +51,9 @@ public class Graph {
     }
 
     private Map<Integer, GraphEntry> makeEntriesMap(List<XMLEntry> rawData) {
-        Map<Integer, GraphEntry> result = new HashMap<>();
-        for (XMLEntry xmlEntry : rawData) {
-            result.put(xmlEntry.getIndex(), GraphEntry.fromXMLEntry(xmlEntry));
-        }
-        return result;
+
+        return rawData.stream()
+                .collect(Collectors.toMap(XMLEntry::getIndex, GraphEntry::fromXMLEntry));
     }
 
     private void linkNodes() {
