@@ -5,6 +5,7 @@ import org.w3c.dom.Node;
 import ru.hh.resumebuilderbot.question.Question;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,9 +87,8 @@ public class XMLEntry {
     }
 
     private static Map<String, Integer> parseLinks(Optional<Node> optionalLinksNode) {
-        Map<String, Integer> result = new HashMap<>();
         if (!optionalLinksNode.isPresent()) {
-            return result;
+            return Collections.EMPTY_MAP;
         }
         Stream<Node> linksStream = XMLNodeListStream.fromParentNode(optionalLinksNode.get());
         return linksStream.map(Node::getAttributes)
