@@ -58,7 +58,7 @@ public class Graph {
         }
         Graph that = (Graph) o;
         boolean result = rootIndex == that.rootIndex &&
-                entriesMap.equals(that.entriesMap);
+                Objects.equals(entriesMap, that.entriesMap);
         return result;
     }
 

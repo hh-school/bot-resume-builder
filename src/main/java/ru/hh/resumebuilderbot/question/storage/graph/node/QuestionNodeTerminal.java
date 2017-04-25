@@ -57,6 +57,12 @@ public class QuestionNodeTerminal implements QuestionNode {
 
     @Override
     public boolean hasEqualContent(QuestionNode questionNode) {
-        return questionNode instanceof QuestionNodeTerminal;
+        if (this == questionNode) {
+            return true;
+        }
+        if (questionNode == null || getClass() != questionNode.getClass()) {
+            return false;
+        }
+        return true;
     }
 }

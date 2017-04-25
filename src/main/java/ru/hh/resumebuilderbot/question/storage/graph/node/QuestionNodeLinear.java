@@ -59,11 +59,15 @@ public class QuestionNodeLinear implements QuestionNode {
 
     @Override
     public boolean hasEqualContent(QuestionNode questionNode) {
-        if (!(questionNode instanceof QuestionNodeLinear)) {
+
+        if (this == questionNode) {
+            return true;
+        }
+        if (questionNode == null || getClass() != questionNode.getClass()) {
             return false;
         }
         QuestionNodeLinear that = (QuestionNodeLinear) questionNode;
 
-        return Objects.equals(that.question, question) && that.isSkippable == isSkippable;
+        return Objects.equals(question, that.question) && that.isSkippable == isSkippable;
     }
 }

@@ -72,12 +72,17 @@ public class QuestionNodeForking implements QuestionNode {
 
     @Override
     public boolean hasEqualContent(QuestionNode questionNode) {
-        if (!(questionNode instanceof QuestionNodeForking)) {
+
+        if (this == questionNode) {
+            return true;
+        }
+        if (questionNode == null || getClass() != questionNode.getClass()) {
             return false;
         }
         QuestionNodeForking that = (QuestionNodeForking) questionNode;
+
         return Objects.equals(that.question, question) &&
-                that.isSkippable == isSkippable &&
-                that.answerPattern.pattern().equals(answerPattern.pattern());
+                Objects.equals(answerPattern.pattern(), that.answerPattern.pattern()) &&
+                that.isSkippable == isSkippable;
     }
 }

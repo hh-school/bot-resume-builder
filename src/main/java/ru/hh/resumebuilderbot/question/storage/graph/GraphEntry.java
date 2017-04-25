@@ -89,7 +89,7 @@ public class GraphEntry {
         }
         GraphEntry that = (GraphEntry) o;
         boolean result = getNode().hasEqualContent(that.getNode()) &&
-                indexLinks.equals(that.indexLinks);
+                Objects.equals(indexLinks, that.indexLinks);
         return result;
     }
 
