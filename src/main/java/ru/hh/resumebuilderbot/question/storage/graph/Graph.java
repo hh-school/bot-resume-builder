@@ -19,7 +19,11 @@ public class Graph {
         } catch (IOException e) {
             throw new IOException("XML data validation error", e);
         }
-        entriesMap = GraphEntriesMap.fromXMLRawData(rawData);
+        try {
+            entriesMap = GraphEntriesMap.fromXMLRawData(rawData);
+        } catch (IOException e) {
+            throw new IOException("Failed to build entries map", e);
+        }
         setRoot(rawData);
         entriesMap.linkNodes();
     }

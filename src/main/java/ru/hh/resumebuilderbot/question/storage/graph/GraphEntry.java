@@ -9,6 +9,7 @@ import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeLinear;
 import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeTerminal;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLEntry;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ public class GraphEntry {
         this.indexLinks = indexLinks;
     }
 
-    static GraphEntry fromXMLEntry(XMLEntry xmlEntry) {
+    static GraphEntry fromXMLEntry(XMLEntry xmlEntry) throws IOException {
         Map<String, Integer> indexLinks = xmlEntry.getLinks();
         Map<String, String> classData = xmlEntry.getClassData();
         Question question = xmlEntry.getQuestion();
@@ -36,8 +37,7 @@ public class GraphEntry {
         if (xmlEntry.getType().equals("forking")) {
             return makeForkingEntry(indexLinks, classData, question);
         }
-        log.error("Error: wrong XML schema - unsupported node base type");
-        throw new RuntimeException("Error: wrong XML schema - unsupported node base type");
+        throw new IOException("Unsupported node base type");
     }
 
     private static GraphEntry makeTerminalEntry(Map<String, Integer> indexLinks,

@@ -17,48 +17,48 @@ public class XMLParser {
 
     private final static Logger log = LoggerFactory.getLogger(XMLParser.class);
 
-    public static XMLRawData parse(String filename) {
-        DocumentBuilder documentBuilder = createDocumentBuilder();
-        Document document = buildDocument(documentBuilder, filename);
+    public static XMLRawData parse(String filename) throws IOException {
+        try {
+            DocumentBuilder documentBuilder = createDocumentBuilder();
+            Document document = buildDocument(documentBuilder, filename);
 
-        Node root = document.getDocumentElement();
+            Node root = document.getDocumentElement();
 
-        int rootIndex = extractRootIndex(root);
+            int rootIndex = extractRootIndex(root);
 
-        List<XMLEntry> entriesList = new ArrayList<>();
+            List<XMLEntry> entriesList = new ArrayList<>();
 
-        XMLNodeListStream.fromParentNode(root).forEach((x) -> entriesList.add(XMLEntry.fromGraphNode(x)));
+            XMLNodeListStream.fromParentNode(root).forEach((x) -> entriesList.add(XMLEntry.fromGraphNode(x)));
 
-        return new XMLRawData(rootIndex, entriesList);
+            return new XMLRawData(rootIndex, entriesList);
+        } catch (IOException e) {
+            throw new IOException("Error parsing XML file", e);
+        }
     }
 
-    private static int extractRootIndex(Node rootNode) {
+    private static int extractRootIndex(Node rootNode) throws IOException {
         try {
             return Integer.parseInt(rootNode.getAttributes().getNamedItem("root").getNodeValue());
         } catch (NullPointerException e) {
-            log.error("Error: wrong XML schema - no rootIndex attribute");
-            throw new RuntimeException("Error: wrong XML schema - no rootIndex attribute");
+            throw new IOException("Wrong XML schema - no rootIndex attribute");
         }
     }
 
-    private static DocumentBuilder createDocumentBuilder() {
+    private static DocumentBuilder createDocumentBuilder() throws IOException {
         try {
             return DocumentBuilderFactory.newInstance().newDocumentBuilder();
         } catch (ParserConfigurationException e) {
-            log.error("Error instantiating DocumentBuilder");
-            throw new RuntimeException("Error instantiating DocumentBuilder");
+            throw new IOException("Error instantiating DocumentBuilder");
         }
     }
 
-    private static Document buildDocument(DocumentBuilder builder, String filename) {
+    private static Document buildDocument(DocumentBuilder builder, String filename) throws IOException {
         try {
             return builder.parse(filename);
         } catch (SAXException e) {
-            log.error("Error parsing XML. Maybe XML is not valid");
-            throw new RuntimeException("Error parsing XML. Maybe XML is not valid");
+            throw new IOException("SAX exception. Maybe XML is not valid");
         } catch (IOException e) {
-            log.error("Error: can't read XML file");
-            throw new RuntimeException("Error: can't read XML file");
+            throw new IOException("Can't read XML file");
         }
     }
 }

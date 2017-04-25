@@ -20,7 +20,6 @@ public class XMLEntry {
     private int index;
     private String type;
     private Question question;
-    private boolean isRoot;
     private Map<String, String> classData;
 
     private Map<String, Integer> links;
@@ -56,7 +55,6 @@ public class XMLEntry {
         Question question = optionalQuestionNode.map(x -> makeQuestion(x)).orElse(null);
 
         XMLEntry entry = new XMLEntry(type, id, question, links, classData);
-        entry.setRoot(isRoot);
         return entry;
     }
 
@@ -95,8 +93,8 @@ public class XMLEntry {
         Stream<Node> linksStream = XMLNodeListStream.fromParentNode(optionalLinksNode.get());
         return linksStream.map(Node::getAttributes)
                 .collect(Collectors.toMap(
-                        x->x.getNamedItem("name").getNodeValue(),
-                        x->Integer.parseInt(x.getNamedItem("value").getNodeValue())));
+                        x -> x.getNamedItem("name").getNodeValue(),
+                        x -> Integer.parseInt(x.getNamedItem("value").getNodeValue())));
     }
 
     public Map<String, Integer> getLinks() {
@@ -109,10 +107,6 @@ public class XMLEntry {
 
     private void setDefaultValues() {
         classData.putIfAbsent("skippable", isSkippableByDefault);
-    }
-
-    private void setRoot(boolean root) {
-        isRoot = root;
     }
 
     public int getIndex() {

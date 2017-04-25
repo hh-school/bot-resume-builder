@@ -11,12 +11,16 @@ public class XMLValidator {
     private final static Logger log = LoggerFactory.getLogger(XMLValidator.class);
 
     public static void validate(XMLRawData rawData) throws IOException {
-        checkIDUniqueness(rawData);
+        try {
+            checkIDUniqueness(rawData);
+        } catch (IOException e) {
+            throw new IOException("Invalid XML schema", e);
+        }
     }
 
     private static void checkIDUniqueness(XMLRawData rawData) throws IOException {
         if (getIndexStream(rawData).count() != getIndexStream(rawData).distinct().count()) {
-            throw new IOException("Wrong XML schema - duplicate node index: ");
+            throw new IOException("Duplicated node index");
         }
     }
 

@@ -4,6 +4,7 @@ import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLEntry;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLRawData;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -16,9 +17,19 @@ public class GraphEntriesMap {
         this.entriesMap = entriesMap;
     }
 
-    static GraphEntriesMap fromXMLRawData(XMLRawData rawData) {
-        return new GraphEntriesMap(rawData.getEntriesList().stream()
-                .collect(Collectors.toMap(XMLEntry::getIndex, GraphEntry::fromXMLEntry)));
+    static GraphEntriesMap fromXMLRawData(XMLRawData rawData) throws IOException {
+
+        Map<Integer, GraphEntry> entriesMap = new HashMap<>();
+
+        for (XMLEntry xmlEntry : rawData.getEntriesList()) {
+            try {
+                entriesMap.put(xmlEntry.getIndex(), GraphEntry.fromXMLEntry(xmlEntry));
+            } catch (IOException e) {
+                throw new IOException("Failed to make graph entry with index = " + xmlEntry.getIndex(), e);
+            }
+        }
+
+        return new GraphEntriesMap(entriesMap);
     }
 
     void linkNodes() {
