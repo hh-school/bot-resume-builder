@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class XMLEntry {
@@ -92,16 +93,10 @@ public class XMLEntry {
             return result;
         }
         Stream<Node> linksStream = XMLNodeListStream.fromParentNode(optionalLinksNode.get());
-        linksStream.forEach(x -> parseLink(x, result));
-        return result;
-    }
-
-    private static void parseLink(Node src, Map<String, Integer> dest) {
-        NamedNodeMap attributes = src.getAttributes();
-        String name = attributes.getNamedItem("name").getNodeValue();
-        int value = Integer.parseInt(attributes.getNamedItem("value").getNodeValue());
-        dest.put(name, value);
-
+        return linksStream.map(Node::getAttributes)
+                .collect(Collectors.toMap(
+                        x->x.getNamedItem("name").getNodeValue(),
+                        x->Integer.parseInt(x.getNamedItem("value").getNodeValue())));
     }
 
     public Map<String, Integer> getLinks() {
