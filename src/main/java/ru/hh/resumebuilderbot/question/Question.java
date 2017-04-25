@@ -45,7 +45,8 @@ public class Question {
             return false;
         }
         Question that = (Question) o;
-        return Objects.equals(getText(), that.getText()) && variantsOfAnswer.equals(that.variantsOfAnswer) &&
+        return Objects.equals(getText(), that.getText()) &&
+                Objects.equals(variantsOfAnswer, that.variantsOfAnswer) &&
                 Objects.equals(otherVariantsAllowed, that.otherVariantsAllowed);
     }
 
