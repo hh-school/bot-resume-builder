@@ -12,7 +12,8 @@ public class PlainTextCVBuilder implements CVBuilder {
 
     @Override
     public String build(User user) {
-
+        // TODO Выдача резюме в текстовом формате
+        // https://trello.com/c/N7dBNooS/35-pdf-xml-word-excel-txt-jpg-png-svg-tiff-gif-bmp
         return "not implemented yet";
     }
 }
