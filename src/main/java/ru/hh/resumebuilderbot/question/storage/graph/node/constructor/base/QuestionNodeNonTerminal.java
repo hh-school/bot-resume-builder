@@ -6,7 +6,6 @@ import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.saver.DoNo
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.saver.Saver;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator.DefaultValidator;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator.Validator;
-import ru.hh.resumebuilderbot.user.data.storage.UserData;
 
 import java.util.Map;
 import java.util.Objects;
@@ -33,8 +32,8 @@ public abstract class QuestionNodeNonTerminal implements QuestionNode {
     }
 
     @Override
-    public void saveAnswer(UserData dest, Answer answer) {
-        saver.saveAnswer(dest, answer);
+    public void saveAnswer(Answer answer) {
+        saver.saveAnswer(answer);
     }
 
     public void setValidator(Validator validator) {

@@ -27,7 +27,7 @@ public class TelegramAdapter implements MessengerAdapter {
     @Override
     public void ask(TelegramUser telegramUser, Question question) {
         SendMessage message = new SendMessage()
-                .setChatId(telegramUser.getIndex())
+                .setChatId(telegramUser.getId())
                 .setText(question.getText());
 
         List<String> variantsOfAnswer = question.getVariantsOfAnswer();

@@ -18,7 +18,7 @@ public class SkipMessageHandler extends MessageHandler {
     @Override
     public List<Question> handle(TelegramUser telegramUser, Answer answer) {
         List<Question> questions = new ArrayList<>(2);
-        if (userDataStorage.currentNodeIsSkippable(telegramUser)) {
+        if (userDataStorage.getCurrentQuestionNode(telegramUser).isSkippable()) {
             userDataStorage.moveForward(telegramUser);
         } else {
             questions.add(new Question(TextsStorage.getText(TextId.CANT_SKIP)));

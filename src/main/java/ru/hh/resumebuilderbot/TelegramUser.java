@@ -2,13 +2,13 @@ package ru.hh.resumebuilderbot;
 
 public class TelegramUser {
     // todo: make private and override constructor
-    private final Integer id;
+    private final long id;
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public TelegramUser(Integer id) {
+    public TelegramUser(long id) {
         this.id = id;
     }
 

@@ -7,7 +7,25 @@ import ru.hh.resumebuilderbot.database.model.experience.Experience;
 import ru.hh.resumebuilderbot.database.model.gender.Gender;
 import ru.hh.resumebuilderbot.database.model.gender.GenderConverter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.Temporal;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.TemporalType;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.OneToMany;
+import javax.persistence.Convert;
+
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -22,7 +40,7 @@ public class User {
     // Некоторые проверки на null убраны, чтобы можно было последовательно заполнять резюме, необходимо будет проверять
     // это в коде (telegram_id оставлен, чтобы нельзя было создать пользователя без привязки к telegram)
     @Column(name = "telegram_id", nullable = false, unique = true, updatable = false)
-    private int telegramId;
+    private long telegramId;
     @Temporal(TemporalType.DATE)
     @Column(name = "birth_date")
     private Date birthDate;
@@ -96,11 +114,11 @@ public class User {
         this.id = id;
     }
 
-    public int getTelegramId() {
+    public long getTelegramId() {
         return telegramId;
     }
 
-    public void setTelegramId(int telegramId) {
+    public void setTelegramId(long telegramId) {
         this.telegramId = telegramId;
     }
 

@@ -4,7 +4,6 @@ import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.saver.Saver;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator.Validator;
-import ru.hh.resumebuilderbot.user.data.storage.UserData;
 
 import java.util.Map;
 import java.util.Objects;
@@ -64,7 +63,7 @@ public class QuestionNodeForking extends QuestionNodeNonTerminal {
     }
 
     @Override
-    public void saveAnswer(UserData dest, Answer answer) {
+    public void saveAnswer(Answer answer) {
 
     }
 

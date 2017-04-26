@@ -4,7 +4,6 @@ import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
-import ru.hh.resumebuilderbot.user.data.storage.UserData;
 
 import java.util.Map;
 
@@ -52,7 +51,7 @@ public class QuestionNodeTerminal implements QuestionNode {
     }
 
     @Override
-    public void saveAnswer(UserData dest, Answer answer) {
+    public void saveAnswer(Answer answer) {
 
     }
 
