@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<graphNodes>
-    <graphNode id="1" root="true" type="linear">
-        <links>
-            <link name="next" value="2"/>
-        </links>
-        <question text="Это первый вопрос"/>
-    </graphNode>
-    <graphNode id="2" type="linear">
+<graphNodes root="1">
+    <graphNode id="1" type="linear">
         <links>
             <link name="next" value="3"/>
         </links>
-        <question text="Это второй вопрос"/>
+        <question text="Это первый вопрос"/>
     </graphNode>
     <graphNode id="3" type="forking">
         <links>
@@ -52,13 +46,42 @@
         <links>
             <link name="next" value="8"/>
         </links>
+        <classData>
+            <skippable>true</skippable>
+        </classData>
         <question text="Здесь ветки вопросов сливаются"/>
     </graphNode>
     <graphNode id="8" type="linear">
         <links>
+            <link name="next" value="9"/>
+        </links>
+        <question text="Начало цикла">
+            <variantsOfAnswer othersAllowed="true">
+                <variant text="Первый вариант"/>
+                <variant text="Второй вариант"/>
+            </variantsOfAnswer>
+        </question>
+    </graphNode>
+    <graphNode id="9" type="linear">
+        <links>
             <link name="next" value="10"/>
         </links>
-        <question text="Далее будет пример цикла"/>
+        <question text="Тело цикла"/>
     </graphNode>
-    <graphNode id="10" type="terminal"/>
+    <graphNode id="10" type="forking">
+        <links>
+            <link name="nextYes" value="8"/>
+            <link name="nextNo" value="11"/>
+        </links>
+        <classData>
+            <pattern>Да</pattern>
+        </classData>
+        <question text="Пройти цикл еще раз?">
+            <variantsOfAnswer othersAllowed="false">
+                <variant text="Да"/>
+                <variant text="Нет"/>
+            </variantsOfAnswer>
+        </question>
+    </graphNode>
+    <graphNode id="11" type="terminal"/>
 </graphNodes>

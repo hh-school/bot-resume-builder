@@ -1,50 +1,43 @@
 package ru.hh.resumebuilderbot.user.data.storage;
 
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.CurrentUserState;
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.QuestionsStorage;
+import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class UserData {
-
-    private CurrentUserState currentState;
+public class UserData {
+    private QuestionNode questionNode;
     private List<UserAnswer> answers = new ArrayList<>();
 
     UserData() {
-        currentState = new CurrentUserState();
+        questionNode = QuestionsStorage.getClonedRoot();
     }
 
     void registerAnswer(Answer answer) {
-        currentState.registerAnswer(answer);
-        if (currentState.needToSaveAnswer()) {
-            saveAnswer(answer);
-        }
+        questionNode.registerAnswer(answer);
+        questionNode.saveAnswer(this, answer);
     }
 
     void moveForward() {
-        currentState.moveForward();
+        questionNode = questionNode.getNext();
     }
 
     Question getCurrentQuestion() {
-        return currentState.getCurrentQuestion();
-    }
-
-    List<UserAnswer> getAnswers() {
-        return answers;
+        return questionNode.getQuestion();
     }
 
     boolean answerIsValid(Answer answer) {
-        return currentState.answerIsValid(answer);
+        return questionNode.answerIsValid(answer);
     }
 
     boolean currentNodeIsSkippable() {
-        return currentState.currentNodeIsSkippable();
+        return questionNode.isSkippable();
     }
 
-    private void saveAnswer(Answer answer) {
-        Question currentQuestion = currentState.getCurrentQuestion();
-        answers.add(new UserAnswer(currentQuestion, answer));
+
+    public void savePhoneNumber(String phoneNumber) {
     }
 }

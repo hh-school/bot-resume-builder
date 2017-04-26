@@ -7,7 +7,6 @@ import ru.hh.resumebuilderbot.User;
 import ru.hh.resumebuilderbot.database.ServiceAggregator;
 import ru.hh.resumebuilderbot.question.Question;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -36,10 +35,6 @@ public class UserDataStorage {
     public void registerAnswer(User user, Answer answer) {
         UserData userData = getUserData(user);
         userData.registerAnswer(answer);
-    }
-
-    public List<UserAnswer> getHistory(User user) {
-        return getUserData(user).getAnswers();
     }
 
     public Object getMutex(User user) {

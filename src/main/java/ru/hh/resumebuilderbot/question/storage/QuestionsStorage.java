@@ -1,11 +1,9 @@
 package ru.hh.resumebuilderbot.question.storage;
 
-import ru.hh.resumebuilderbot.question.storage.builder.Graph;
-import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
+import ru.hh.resumebuilderbot.question.storage.graph.Graph;
+import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
 
 import java.io.IOException;
-
-import static ru.hh.resumebuilderbot.question.storage.builder.Graph.fromXMLFile;
 
 public class QuestionsStorage {
 
@@ -16,18 +14,17 @@ public class QuestionsStorage {
     static {
         // нужны конфиги - из них читать путь к файлу XML
         try {
-            graphSample = fromXMLFile(XMLFilename);
+            graphSample = Graph.fromXMLFile(XMLFilename);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error building graph", e);
         }
     }
 
     private QuestionsStorage() {
     }
 
-    public static QuestionNode getRoot() throws IOException {
-        Graph graphNew = graphSample.cloneContent();
-        return graphNew.getRoot();
+    public static QuestionNode getClonedRoot() {
+        return graphSample.cloneContent().getRoot();
     }
 
 }
