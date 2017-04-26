@@ -6,13 +6,16 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.User;
 import ru.hh.resumebuilderbot.database.ServiceAggregator;
+import ru.hh.resumebuilderbot.database.model.Node;
+import ru.hh.resumebuilderbot.database.model.User;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import ru.hh.resumebuilderbot.question.storage.builder.Graph;
+import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
 
 @Singleton
 public class UserDataStorage {
@@ -27,10 +30,17 @@ public class UserDataStorage {
         this.graphProvider = graphProvider;
     }
 
-    public boolean contains(User user) {
-        return userDataMap.containsKey(user);
+    public boolean contains(Integer telegramId) {
+        User user = serviceAggregator.getUserService().getUserByTelegramId(telegramId);
+        if (user == null) {
+            return false;
+        }
+        return true;
     }
 
+    public void clear(Integer telegramId) {
+        User user = serviceAggregator.getUserService().getUserByTelegramId(telegramId);
+        serviceAggregator.getUserService().delete(user);
     private UserData createNewUserData(User user) {
         log.info("Create new user data for user {}", user.getIndex());
         UserData userData = new UserData(graphProvider.get().getRoot());
@@ -42,13 +52,19 @@ public class UserDataStorage {
         createNewUserData(user);
     }
 
-    public void startNewChat(User user) {
-        createNewUserData(user);
+    public void startNewChat(Integer telegramId) {
+        if (contains(telegramId)) {
+            clear(telegramId);
+        }
+        User user = new User();
+        user.setTelegramId(telegramId);
+        serviceAggregator.getUserService().create(user);
     }
 
-    public void registerAnswer(User user, Answer answer) {
-        UserData userData = getUserData(user);
-        userData.registerAnswer(answer);
+    public void registerAnswer(Integer telegramId, Answer answer) {
+        User user = serviceAggregator.getUserService().getUserByTelegramId(telegramId);
+        QuestionNode questionNode = Graph.get(user.getNode().getId());//как-то так я вижу это
+        questionNode.registerAnswer(answer);
     }
 
     public Object getMutex(User user) {
@@ -58,13 +74,17 @@ public class UserDataStorage {
         return getUserData(user);
     }
 
-    public Question getCurrentQuestion(User user) {
-        return getUserData(user).getCurrentQuestion();
+    public Question getCurrentQuestion(Integer telegramId) {
+        User user = serviceAggregator.getUserService().getUserByTelegramId(telegramId);
+        QuestionNode questionNode = Graph.get(user.getNode().getId());//как-то так я вижу это
+        return questionNode.getQuestion();
     }
 
-    public void moveForward(User user) {
-        UserData userData = getUserData(user);
-        userData.moveForward();
+    public void moveForward(Integer telegramId) {
+        User user = serviceAggregator.getUserService().getUserByTelegramId(telegramId);
+        QuestionNode questionNode = Graph.getNext(user.getNode().getId());//как-то так я вижу это
+        Node node = serviceAggregator.getNodeService().get(questionNode.getId());
+        user.setNode(node);
     }
 
     public boolean answerIsValid(User user, Answer answer) {
@@ -75,7 +95,4 @@ public class UserDataStorage {
         return getUserData(user).currentNodeIsSkippable();
     }
 
-    private UserData getUserData(User user) {
-        return userDataMap.get(user);
-    }
 }
