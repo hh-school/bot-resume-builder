@@ -9,7 +9,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class ContactTypeServiceImpl extends GenericServiceImpl<ContactType, Integer> implements ContactTypeService {
+public class ContactTypeServiceImpl extends GenericServiceImpl<ContactType, Integer, ContactTypeDAO>
+        implements ContactTypeService {
     @Inject
     public ContactTypeServiceImpl(ContactTypeDAO contactTypeDAO, SessionFactory sessionFactory) {
         super(contactTypeDAO, sessionFactory);

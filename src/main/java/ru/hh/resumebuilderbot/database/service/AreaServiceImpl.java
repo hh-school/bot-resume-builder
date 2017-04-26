@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class AreaServiceImpl extends GenericServiceImpl<Area, Integer> implements AreaService {
+public class AreaServiceImpl extends GenericServiceImpl<Area, Integer, AreaDAO> implements AreaService {
     @Inject
     public AreaServiceImpl(AreaDAO areaDAO, SessionFactory sessionFactory) {
         super(areaDAO, sessionFactory);

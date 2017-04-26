@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class NodeServiceImpl extends GenericServiceImpl<Node, Integer> implements NodeService {
+public class NodeServiceImpl extends GenericServiceImpl<Node, Integer, NodeDAO> implements NodeService {
     @Inject
     public NodeServiceImpl(NodeDAO nodeDAO, SessionFactory sessionFactory) {
         super(nodeDAO, sessionFactory);
