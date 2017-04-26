@@ -1,11 +1,8 @@
 package ru.hh.resumebuilderbot.database.model.experience;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import ru.hh.resumebuilderbot.database.model.Area;
+
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -17,6 +14,12 @@ public class Company {
     private Integer id;
     @Column(name = "name")
     private String name;
+    @Column(name = "url")
+    private String url;
+
+    @ManyToOne
+    @JoinColumn(name = "area_id")
+    private Area area;
 
     public Company() {
     }
@@ -37,6 +40,22 @@ public class Company {
         this.name = name;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -47,16 +66,18 @@ public class Company {
         }
         Company company = (Company) o;
         return Objects.equals(id, company.id) &&
-                Objects.equals(name, company.name);
+                Objects.equals(name, company.name) &&
+                Objects.equals(url, company.url) &&
+                Objects.equals(area, company.area);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, url);
     }
 
     @Override
     public String toString() {
-        return String.format("Company{id=%d, name='%s'}", id, name);
+        return String.format("Company{id=%d, name='%s', url = '%s', area = '%d'}", id, name, url, area.getId());
     }
 }

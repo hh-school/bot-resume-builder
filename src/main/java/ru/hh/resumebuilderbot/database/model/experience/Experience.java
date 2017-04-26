@@ -3,20 +3,7 @@ package ru.hh.resumebuilderbot.database.model.experience;
 import ru.hh.resumebuilderbot.database.model.Area;
 import ru.hh.resumebuilderbot.database.model.User;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -34,14 +21,6 @@ public class Experience {
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
-    @Column(name = "company_name")
-    private String companyName;
-    @Column(name = "company_url")
-    private String companyUrl;
-
-    @ManyToOne
-    @JoinColumn(name = "area_id")
-    private Area area;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
@@ -86,30 +65,6 @@ public class Experience {
 
     public void setCompany(Company company) {
         this.company = company;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public String getCompanyUrl() {
-        return companyUrl;
-    }
-
-    public void setCompanyUrl(String companyUrl) {
-        this.companyUrl = companyUrl;
-    }
-
-    public Area getArea() {
-        return area;
-    }
-
-    public void setArea(Area area) {
-        this.area = area;
     }
 
     public Set<Industry> getIndustries() {
@@ -164,9 +119,6 @@ public class Experience {
         return Objects.equals(id, that.id) &&
                 Objects.equals(user.getId(), that.user.getId()) &&
                 Objects.equals(company.getId(), that.company.getId()) &&
-                Objects.equals(companyName, that.companyName) &&
-                Objects.equals(companyUrl, that.companyUrl) &&
-                Objects.equals(area.getId(), that.area.getId()) &&
                 Objects.equals(position, that.position) &&
                 Objects.equals(startDate, that.startDate) &&
                 Objects.equals(endDate, that.endDate) &&
@@ -175,14 +127,14 @@ public class Experience {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user.getId(), company.getId(), companyName, companyUrl, area.getId(),
+        return Objects.hash(id, user.getId(), company.getId(),
                 position, startDate, endDate, description);
     }
 
     @Override
     public String toString() {
-        return String.format("Experience{id=%d, user=%s, company=%s, companyName='%s', companyUrl='%s', area=%s, " +
-                        "position='%s', startDate=%s, endDate=%s, description='%s'}", id, user.getId(), company.getId(),
-                companyName, companyUrl, area.getId(), position, startDate, endDate, description);
+        return String.format("Experience{id=%d, user=%s, company=%s, position='%s', startDate=%s, " +
+                "endDate=%s, description='%s'}", id, user.getId(), company.getId(), position,
+                startDate, endDate, description);
     }
 }
