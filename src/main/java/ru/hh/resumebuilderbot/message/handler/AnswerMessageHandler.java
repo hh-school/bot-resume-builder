@@ -1,8 +1,9 @@
 package ru.hh.resumebuilderbot.message.handler;
 
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.User;
+import ru.hh.resumebuilderbot.TelegramUser;
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
 import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
@@ -16,18 +17,19 @@ public class AnswerMessageHandler extends MessageHandler {
     }
 
     @Override
-    public List<Question> handle(User user, Answer answer) {
-        log.info("User {} answer {} for question {}", user.getIndex(), answer.getAnswerBody(),
-                userDataStorage.getCurrentQuestion(user).getText());
+    public List<Question> handle(TelegramUser telegramUser, Answer answer) {
+        log.info("User {} answer {} for question {}", telegramUser.getId(), answer.getAnswerBody(),
+                userDataStorage.getCurrentQuestion(telegramUser).getText());
         List<Question> questions = new ArrayList<>(2);
-        if (userDataStorage.answerIsValid(user, answer)) {
-            userDataStorage.registerAnswer(user, answer);
+        QuestionNode currentQuestionNode = userDataStorage.getCurrentQuestionNode(telegramUser);
+        if (currentQuestionNode.answerIsValid(answer)) {
+            currentQuestionNode.registerAnswer(answer);
 
-            userDataStorage.moveForward(user);
+            userDataStorage.moveForward(telegramUser);
         } else {
             questions.add(new Question(TextsStorage.getText(TextId.INVALID_ANSWER)));
         }
-        questions.add(userDataStorage.getCurrentQuestion(user));
+        questions.add(userDataStorage.getCurrentQuestion(telegramUser));
         return questions;
     }
 }

@@ -1,7 +1,7 @@
 package ru.hh.resumebuilderbot.message.handler;
 
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.User;
+import ru.hh.resumebuilderbot.TelegramUser;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
@@ -16,11 +16,11 @@ public class ClearMessageHandler extends MessageHandler {
     }
 
     @Override
-    public List<Question> handle(User user, Answer answer) {
-        userDataStorage.clear(user);
+    public List<Question> handle(TelegramUser telegramUser, Answer answer) {
+        userDataStorage.clear(telegramUser);
         List<Question> questions = new ArrayList<>(2);
         questions.add(new Question(TextsStorage.getText(TextId.CLEARED)));
-        questions.add(userDataStorage.getCurrentQuestion(user));
+        questions.add(userDataStorage.getCurrentQuestion(telegramUser));
         return questions;
     }
 }

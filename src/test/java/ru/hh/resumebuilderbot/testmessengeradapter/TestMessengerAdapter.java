@@ -3,7 +3,7 @@ package ru.hh.resumebuilderbot.testmessengeradapter;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.MessengerAdapter;
-import ru.hh.resumebuilderbot.User;
+import ru.hh.resumebuilderbot.TelegramUser;
 import ru.hh.resumebuilderbot.question.Question;
 
 import java.io.IOException;
@@ -27,8 +27,8 @@ public class TestMessengerAdapter implements MessengerAdapter {
     }
 
     @Override
-    public void ask(User user, Question question) {
-        bot.askNextQuestions(user, getAnswer(question));
+    public void ask(TelegramUser telegramUser, Question question) {
+        bot.askNextQuestions(telegramUser, getAnswer(question));
     }
 
 

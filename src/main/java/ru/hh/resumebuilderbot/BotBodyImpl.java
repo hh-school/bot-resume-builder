@@ -18,11 +18,9 @@ public class BotBodyImpl implements BotBody {
     }
 
     @Override
-    public void askNextQuestions(User user, Answer answer) {
-        synchronized (userDataStorage.getMutex(user)) {
-            MessageHandler messageHandler = selector.select(answer);
-            messageHandler.handle(user, answer).forEach((question) -> messengerAdapter.ask(user, question));
-        }
+    public void askNextQuestions(TelegramUser telegramUser, Answer answer) {
+        MessageHandler messageHandler = selector.select(answer);
+        messageHandler.handle(telegramUser, answer).forEach((question) -> messengerAdapter.ask(telegramUser, question));
     }
 
     @Override

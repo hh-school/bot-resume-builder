@@ -24,7 +24,7 @@ public class HTTPClient {
             URL url = new URL(urlToRead);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("User-Agent", "HH-ResumeBuilderBot/0.2");
+            conn.setRequestProperty("TelegramUser-Agent", "HH-ResumeBuilderBot/0.2");
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
             while ((line = rd.readLine()) != null) {

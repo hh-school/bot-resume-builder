@@ -3,11 +3,11 @@ package ru.hh.resumebuilderbot.user.data.storage;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import ru.hh.resumebuilderbot.TelegramUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.database.ServiceAggregator;
-import ru.hh.resumebuilderbot.database.model.Node;
 import ru.hh.resumebuilderbot.database.model.User;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import ru.hh.resumebuilderbot.question.storage.builder.Graph;
 import ru.hh.resumebuilderbot.question.storage.node.QuestionNode;
+import ru.hh.resumebuilderbot.question.storage.QuestionsStorage;
+import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
 
 @Singleton
 public class UserDataStorage {
@@ -30,16 +32,16 @@ public class UserDataStorage {
         this.graphProvider = graphProvider;
     }
 
-    public boolean contains(Integer telegramId) {
-        User user = serviceAggregator.getUserService().getUserByTelegramId(telegramId);
+    public boolean contains(TelegramUser telegramUser) {
+        User user = serviceAggregator.getUserService().getUserByTelegramId(telegramUser.getId());
         if (user == null) {
             return false;
         }
         return true;
     }
 
-    public void clear(Integer telegramId) {
-        User user = serviceAggregator.getUserService().getUserByTelegramId(telegramId);
+    public void clear(TelegramUser telegramUser) {
+        User user = serviceAggregator.getUserService().getUserByTelegramId(telegramUser.getId());
         serviceAggregator.getUserService().delete(user);
     private UserData createNewUserData(User user) {
         log.info("Create new user data for user {}", user.getIndex());
@@ -52,47 +54,27 @@ public class UserDataStorage {
         createNewUserData(user);
     }
 
-    public void startNewChat(Integer telegramId) {
-        if (contains(telegramId)) {
-            clear(telegramId);
-        }
+    private void addNewUser(TelegramUser telegramUser){
         User user = new User();
-        user.setTelegramId(telegramId);
+        user.setTelegramId(telegramUser.getId());
         serviceAggregator.getUserService().create(user);
     }
 
-    public void registerAnswer(Integer telegramId, Answer answer) {
-        User user = serviceAggregator.getUserService().getUserByTelegramId(telegramId);
-        QuestionNode questionNode = Graph.get(user.getNode().getId());//как-то так я вижу это
-        questionNode.registerAnswer(answer);
-    }
-
-    public Object getMutex(User user) {
-        if (!contains(user)) {
-            return createNewUserData(user);
+    public void startNewChat(TelegramUser telegramUser) {
+        if (contains(telegramUser)) {
+            clear(telegramUser);
         }
-        return getUserData(user);
+        addNewUser(telegramUser);
     }
 
-    public Question getCurrentQuestion(Integer telegramId) {
-        User user = serviceAggregator.getUserService().getUserByTelegramId(telegramId);
-        QuestionNode questionNode = Graph.get(user.getNode().getId());//как-то так я вижу это
+    public QuestionNode getCurrentQuestionNode(TelegramUser telegramUser){
+        User user = serviceAggregator.getUserService().getUserByTelegramId(telegramUser.getId());
+        QuestionNode questionNode =  QuestionsStorage.getClonedRoot();
+        return questionNode;
+    }
+
+    public Question getCurrentQuestion(TelegramUser telegramUser) {
+        QuestionNode questionNode =  getCurrentQuestionNode(telegramUser);
         return questionNode.getQuestion();
     }
-
-    public void moveForward(Integer telegramId) {
-        User user = serviceAggregator.getUserService().getUserByTelegramId(telegramId);
-        QuestionNode questionNode = Graph.getNext(user.getNode().getId());//как-то так я вижу это
-        Node node = serviceAggregator.getNodeService().get(questionNode.getId());
-        user.setNode(node);
-    }
-
-    public boolean answerIsValid(User user, Answer answer) {
-        return getUserData(user).answerIsValid(answer);
-    }
-
-    public boolean currentNodeIsSkippable(User user) {
-        return getUserData(user).currentNodeIsSkippable();
-    }
-
 }

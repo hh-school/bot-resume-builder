@@ -3,7 +3,7 @@ package ru.hh.resumebuilderbot.message.handler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.User;
+import ru.hh.resumebuilderbot.TelegramUser;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
@@ -18,5 +18,5 @@ public abstract class MessageHandler {
         this.userDataStorage = userDataStorage;
     }
 
-    public abstract List<Question> handle(User user, Answer answer);
+    public abstract List<Question> handle(TelegramUser telegramUser, Answer answer);
 }
