@@ -1,26 +1,30 @@
 package ru.hh.resumebuilderbot.user.data.storage;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.User;
 import ru.hh.resumebuilderbot.database.ServiceAggregator;
 import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.storage.QuestionsStorage;
+import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Singleton
 public class UserDataStorage {
+    public static final Logger log = LoggerFactory.getLogger(UserDataStorage.class);
     private final ServiceAggregator serviceAggregator;
-    private final QuestionsStorage questionsStorage;
+    private final Provider<Graph> graphProvider;
     private Map<User, UserData> userDataMap = new ConcurrentHashMap<>();
 
     @Inject
-    private UserDataStorage(ServiceAggregator serviceAggregator, QuestionsStorage questionsStorage) {
+    private UserDataStorage(ServiceAggregator serviceAggregator, Provider<Graph> graphProvider) {
         this.serviceAggregator = serviceAggregator;
-        this.questionsStorage = questionsStorage;
+        this.graphProvider = graphProvider;
     }
 
     public boolean contains(User user) {
@@ -28,7 +32,8 @@ public class UserDataStorage {
     }
 
     private UserData createNewUserData(User user) {
-        UserData userData = new UserData(questionsStorage.getClonedRoot());
+        log.info("Create new user data for user {}", user.getIndex());
+        UserData userData = new UserData(graphProvider.get().getRoot());
         userDataMap.put(user, userData);
         return userData;
     }

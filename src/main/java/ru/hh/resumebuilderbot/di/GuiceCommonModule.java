@@ -17,7 +17,7 @@ public class GuiceCommonModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(String.class).annotatedWith(Names.named("xmlFilename")).toInstance(Config.GRAPH_XML_FILEPATH);
+        bind(String.class).annotatedWith(Names.named("GRAPH_XML_FILEPATH")).toInstance(Config.GRAPH_XML_FILEPATH);
     }
 
     @Provides
@@ -29,11 +29,17 @@ public class GuiceCommonModule extends AbstractModule {
 
     @Provides
     @Singleton
-    public Graph provideGraph(@Named("xmlFilename") String xmlFilename) {
+    @Named("GRAPH_FROM_XML")
+    public Graph provideXMLGraph(@Named("GRAPH_XML_FILEPATH") String xmlFilepath) {
         try {
-            return Graph.fromXMLFile(xmlFilename);
+            return Graph.fromXMLFile(xmlFilepath);
         } catch (IOException e) {
             throw new RuntimeException("Error building graph", e);
         }
+    }
+
+    @Provides
+    public Graph provideGraph(@Named("GRAPH_FROM_XML") Graph graph) {
+        return graph.cloneContent();
     }
 }
