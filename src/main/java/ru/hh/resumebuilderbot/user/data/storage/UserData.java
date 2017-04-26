@@ -2,7 +2,6 @@ package ru.hh.resumebuilderbot.user.data.storage;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.storage.QuestionsStorage;
 import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
 
 import java.util.ArrayList;
@@ -12,8 +11,8 @@ public class UserData {
     private QuestionNode questionNode;
     private List<UserAnswer> answers = new ArrayList<>();
 
-    UserData() {
-        questionNode = QuestionsStorage.getClonedRoot();
+    UserData(QuestionNode rootQuestionNode) {
+        questionNode = rootQuestionNode;
     }
 
     void registerAnswer(Answer answer) {
@@ -36,7 +35,6 @@ public class UserData {
     boolean currentNodeIsSkippable() {
         return questionNode.isSkippable();
     }
-
 
     public void savePhoneNumber(String phoneNumber) {
     }
