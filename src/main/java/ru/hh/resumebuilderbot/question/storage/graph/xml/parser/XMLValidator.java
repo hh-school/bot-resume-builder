@@ -11,6 +11,7 @@ public class XMLValidator {
     private final static Logger log = LoggerFactory.getLogger(XMLValidator.class);
 
     public static void validate(XMLRawData rawData) throws IOException {
+
         try {
             checkIDUniqueness(rawData);
         } catch (IOException e) {
@@ -27,4 +28,5 @@ public class XMLValidator {
     private static Stream<Integer> getIndexStream(XMLRawData rawData) {
         return rawData.getEntriesList().stream().map(XMLEntry::getIndex);
     }
+
 }

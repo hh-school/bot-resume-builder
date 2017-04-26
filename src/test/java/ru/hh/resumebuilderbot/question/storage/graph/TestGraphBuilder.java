@@ -1,12 +1,18 @@
 package ru.hh.resumebuilderbot.question.storage.graph;
 
 import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
-import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeForking;
-import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeLinear;
-import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeTerminal;
+import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNode;
+import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNodeForking;
+import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNodeLinear;
+import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNodeNonTerminal;
+import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNodeTerminal;
+import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.saver.DatabaseSaver;
+import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.saver.Saver;
+import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator.PhoneNumberValidator;
+import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator.Validator;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +22,7 @@ public class TestGraphBuilder {
     public static Graph build() throws Exception {
         Map<Integer, GraphEntry> entriesMap = new HashMap<>();
 
-        Question question = new Question("Это первый вопрос");
+        Question question = new Question("first question");
         QuestionNode questionNode = new QuestionNodeLinear(question, true);
         Map<String, Integer> links = new HashMap<>();
         links.put("next", 3);
@@ -26,7 +32,7 @@ public class TestGraphBuilder {
         List<String> variantsOfAnswer = new ArrayList<>();
         variantsOfAnswer.add("Первый вариант");
         variantsOfAnswer.add("Второй вариант");
-        question = new Question("Это третий вопрос", variantsOfAnswer, true);
+        question = new Question("second question", variantsOfAnswer, true);
         questionNode = new QuestionNodeForking(question, "Первый вариант", true);
         links = new HashMap<>();
         links.put("nextYes", 4);
@@ -36,6 +42,8 @@ public class TestGraphBuilder {
 
         question = new Question("Этот вопрос Вы видите, если выбрали первый вариант ответа");
         questionNode = new QuestionNodeLinear(question, true);
+        setValidator((QuestionNodeNonTerminal) questionNode, new PhoneNumberValidator());
+        setSaver((QuestionNodeNonTerminal) questionNode, new DatabaseSaver("phone"));
         links = new HashMap<>();
         links.put("next", 6);
         graphEntry = createGraphEntry(questionNode, links);
@@ -114,5 +122,17 @@ public class TestGraphBuilder {
         Constructor<GraphEntriesMap> constructor = GraphEntriesMap.class.getDeclaredConstructor(Map.class);
         constructor.setAccessible(true);
         return constructor.newInstance(entriesMap);
+    }
+
+    private static void setValidator(QuestionNodeNonTerminal questionNode, Validator validator) throws Exception {
+        Field field = questionNode.getClass().getSuperclass().getDeclaredField("validator");
+        field.setAccessible(true);
+        field.set(questionNode, validator);
+    }
+
+    private static void setSaver(QuestionNodeNonTerminal questionNode, Saver saver) throws Exception {
+        Field field = questionNode.getClass().getSuperclass().getDeclaredField("saver");
+        field.setAccessible(true);
+        field.set(questionNode, saver);
     }
 }

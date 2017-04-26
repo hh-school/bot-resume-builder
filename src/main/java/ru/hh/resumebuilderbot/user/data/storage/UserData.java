@@ -2,7 +2,7 @@ package ru.hh.resumebuilderbot.user.data.storage;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
+import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNode;
 
 import java.util.ArrayList;
 import java.util.List;

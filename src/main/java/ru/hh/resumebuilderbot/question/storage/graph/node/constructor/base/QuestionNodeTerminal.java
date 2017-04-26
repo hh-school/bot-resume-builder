@@ -1,30 +1,28 @@
-package ru.hh.resumebuilderbot.question.storage.graph.node;
+package ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.texts.storage.TextId;
+import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
 import ru.hh.resumebuilderbot.user.data.storage.UserData;
 
 import java.util.Map;
-import java.util.Objects;
 
-public class QuestionNodeLinear implements QuestionNode {
+public class QuestionNodeTerminal implements QuestionNode {
     private Question question;
-    private boolean isSkippable;
-    private QuestionNode next;
 
-    public QuestionNodeLinear(Question question, boolean isSkippable) {
-        this.question = question;
-        this.isSkippable = isSkippable;
+    public QuestionNodeTerminal() {
+        question = new Question(TextsStorage.getText(TextId.FINISHED));
     }
 
     @Override
     public void setLinks(Map<String, QuestionNode> links) {
-        next = links.get("next");
+
     }
 
     @Override
     public boolean answerIsValid(Answer answer) {
-        return question.answerIsAllowed(answer);
+        return true;
     }
 
     @Override
@@ -39,17 +37,17 @@ public class QuestionNodeLinear implements QuestionNode {
 
     @Override
     public QuestionNode getNext() {
-        return next;
+        return this;
     }
 
     @Override
     public boolean isSkippable() {
-        return isSkippable;
+        return true;
     }
 
     @Override
     public QuestionNode cloneContent() {
-        return new QuestionNodeLinear(question, isSkippable);
+        return new QuestionNodeTerminal();
     }
 
     @Override
@@ -59,15 +57,12 @@ public class QuestionNodeLinear implements QuestionNode {
 
     @Override
     public boolean hasEqualContent(QuestionNode questionNode) {
-
         if (this == questionNode) {
             return true;
         }
         if (questionNode == null || getClass() != questionNode.getClass()) {
             return false;
         }
-        QuestionNodeLinear that = (QuestionNodeLinear) questionNode;
-
-        return Objects.equals(question, that.question) && that.isSkippable == isSkippable;
+        return true;
     }
 }

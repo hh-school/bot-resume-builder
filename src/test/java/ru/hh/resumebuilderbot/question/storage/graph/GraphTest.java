@@ -13,11 +13,14 @@ public class GraphTest {
 
     @BeforeClass
     private void createExpectedGraph() throws Exception {
-
-        expectedGraph = TestGraphBuilder.build();
+        try {
+            expectedGraph = TestGraphBuilder.build();
+        } catch (Exception e) {
+            throw new RuntimeException("Exception during graph building");
+        }
     }
 
-    @Test(priority = 0)
+    @Test(priority = 0, enabled = true)
     void fromXMLFileTest() throws Exception {
         Graph graph = Graph.fromXMLFile(allFeaturesFilename);
         assertEquals(graph, expectedGraph);

@@ -2,11 +2,8 @@ package ru.hh.resumebuilderbot.question.storage.graph;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
-import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeForking;
-import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeLinear;
-import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNodeTerminal;
+import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.QuestionNodeBuilder;
+import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNode;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLEntry;
 
 import java.io.IOException;
@@ -16,6 +13,7 @@ import java.util.stream.Collectors;
 
 public class GraphEntry {
     private static final Logger log = LoggerFactory.getLogger(GraphEntry.class);
+
     private QuestionNode node;
     private Map<String, Integer> indexLinks;
 
@@ -26,46 +24,19 @@ public class GraphEntry {
 
     static GraphEntry fromXMLEntry(XMLEntry xmlEntry) throws IOException {
         Map<String, Integer> indexLinks = xmlEntry.getLinks();
-        Map<String, String> classData = xmlEntry.getClassData();
-        Question question = xmlEntry.getQuestion();
-        if (xmlEntry.getType().equals("terminal")) {
-            return makeTerminalEntry(indexLinks, classData, question);
-        }
-        if (xmlEntry.getType().equals("linear")) {
-            return makeLinearEntry(indexLinks, classData, question);
-        }
-        if (xmlEntry.getType().equals("forking")) {
-            return makeForkingEntry(indexLinks, classData, question);
-        }
-        throw new IOException("Unsupported node base type");
-    }
+        Map<String, Map<String, Object>> constructorData = xmlEntry.getConstructorData();
 
-    private static GraphEntry makeTerminalEntry(Map<String, Integer> indexLinks,
-                                                Map<String, String> classData,
-                                                Question question) {
-        QuestionNode terminalNode = new QuestionNodeTerminal();
-        return new GraphEntry(terminalNode, indexLinks);
-    }
+        QuestionNode questionNode = QuestionNodeBuilder.build(constructorData);
 
-    private static GraphEntry makeLinearEntry(Map<String, Integer> indexLinks,
-                                              Map<String, String> classData,
-                                              Question question) {
-        boolean isSkippable = Boolean.parseBoolean(classData.get("skippable"));
-        QuestionNodeLinear linearNode = new QuestionNodeLinear(question, isSkippable);
-        return new GraphEntry(linearNode, indexLinks);
-    }
-
-    private static GraphEntry makeForkingEntry(Map<String, Integer> indexLinks,
-                                               Map<String, String> classData,
-                                               Question question) {
-        boolean isSkippable = Boolean.parseBoolean(classData.get("skippable"));
-        String pattern = classData.get("pattern");
-        QuestionNodeForking forkingNode = new QuestionNodeForking(question, pattern, isSkippable);
-        return new GraphEntry(forkingNode, indexLinks);
+        return new GraphEntry(questionNode, indexLinks);
     }
 
     GraphEntry cloneContent() {
-        return new GraphEntry(node.cloneContent(), indexLinks);
+        Map<String, Integer> clonedIndexLinks = indexLinks.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry<String, Integer>::getKey, Map.Entry<String, Integer>::getValue
+                ));
+        return new GraphEntry(node.cloneContent(), clonedIndexLinks);
     }
 
     public QuestionNode getNode() {
@@ -88,14 +59,12 @@ public class GraphEntry {
             return false;
         }
         GraphEntry that = (GraphEntry) o;
-        boolean result = getNode().hasEqualContent(that.getNode()) &&
+        return getNode().hasEqualContent(that.getNode()) &&
                 Objects.equals(indexLinks, that.indexLinks);
-        return result;
     }
 
     @Override
     public int hashCode() {
-
         return Objects.hash(getNode(), indexLinks);
     }
 }

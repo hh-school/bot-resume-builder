@@ -1,7 +1,7 @@
 package ru.hh.resumebuilderbot.question.storage.graph;
 
-import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
-import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLParser;
+import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNode;
+import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLGlobalParser;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLRawData;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLValidator;
 
@@ -29,14 +29,13 @@ public class Graph {
     }
 
     private Graph(int rootIndex, GraphEntriesMap entriesMap) {
-
         this.rootIndex = rootIndex;
         this.entriesMap = entriesMap;
         entriesMap.linkNodes();
     }
 
     public static Graph fromXMLFile(String filename) throws IOException {
-        return new Graph(XMLParser.parse(filename));
+        return new Graph(XMLGlobalParser.parse(filename));
     }
 
     public QuestionNode getRoot() {
@@ -48,8 +47,7 @@ public class Graph {
     }
 
     public Graph cloneContent() {
-        Graph result = new Graph(rootIndex, entriesMap.clone());
-        return result;
+        return new Graph(rootIndex, entriesMap.clone());
     }
 
     @Override
@@ -61,9 +59,8 @@ public class Graph {
             return false;
         }
         Graph that = (Graph) o;
-        boolean result = rootIndex == that.rootIndex &&
+        return rootIndex == that.rootIndex &&
                 Objects.equals(entriesMap, that.entriesMap);
-        return result;
     }
 
     @Override
