@@ -6,6 +6,7 @@ import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.User;
 import ru.hh.resumebuilderbot.database.ServiceAggregator;
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.QuestionsStorage;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,23 +14,31 @@ import java.util.concurrent.ConcurrentHashMap;
 @Singleton
 public class UserDataStorage {
     private final ServiceAggregator serviceAggregator;
+    private final QuestionsStorage questionsStorage;
     private Map<User, UserData> userDataMap = new ConcurrentHashMap<>();
 
     @Inject
-    private UserDataStorage(ServiceAggregator serviceAggregator) {
+    private UserDataStorage(ServiceAggregator serviceAggregator, QuestionsStorage questionsStorage) {
         this.serviceAggregator = serviceAggregator;
+        this.questionsStorage = questionsStorage;
     }
 
     public boolean contains(User user) {
         return userDataMap.containsKey(user);
     }
 
+    private UserData createNewUserData(User user) {
+        UserData userData = new UserData(questionsStorage.getClonedRoot());
+        userDataMap.put(user, userData);
+        return userData;
+    }
+
     public void clear(User user) {
-        userDataMap.put(user, new UserData());
+        createNewUserData(user);
     }
 
     public void startNewChat(User user) {
-        userDataMap.put(user, new UserData());
+        createNewUserData(user);
     }
 
     public void registerAnswer(User user, Answer answer) {
@@ -39,7 +48,7 @@ public class UserDataStorage {
 
     public Object getMutex(User user) {
         if (!contains(user)) {
-            userDataMap.put(user, new UserData());
+            return createNewUserData(user);
         }
         return getUserData(user);
     }

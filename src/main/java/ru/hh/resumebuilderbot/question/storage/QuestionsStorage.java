@@ -1,30 +1,20 @@
 package ru.hh.resumebuilderbot.question.storage;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.question.storage.graph.node.QuestionNode;
 
-import java.io.IOException;
-
+@Singleton
 public class QuestionsStorage {
+    private Graph graphSample;
 
-    private static final String XMLFilename = "src/main/resources/questions.xml";
-
-    private static Graph graphSample;
-
-    static {
-        // нужны конфиги - из них читать путь к файлу XML
-        try {
-            graphSample = Graph.fromXMLFile(XMLFilename);
-        } catch (IOException e) {
-            throw new RuntimeException("Error building graph", e);
-        }
+    @Inject
+    public QuestionsStorage(Graph graphSample) {
+        this.graphSample = graphSample;
     }
 
-    private QuestionsStorage() {
-    }
-
-    public static QuestionNode getClonedRoot() {
+    public QuestionNode getClonedRoot() {
         return graphSample.cloneContent().getRoot();
     }
-
 }
