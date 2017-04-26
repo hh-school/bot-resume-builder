@@ -9,38 +9,39 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public abstract class GenericServiceImpl<T, PK extends Serializable> implements GenericService<T, PK> {
-    protected SessionFactory sessionFactory;
-    private GenericDAO<T, PK> genericDAO;
+public abstract class GenericServiceImpl<T, PK extends Serializable, DAOT extends GenericDAO<T, PK>>
+        implements GenericService<T, PK> {
+    protected final SessionFactory sessionFactory;
+    protected final DAOT dao;
 
-    public GenericServiceImpl(GenericDAO<T, PK> genericDAO, SessionFactory sessionFactory) {
-        this.genericDAO = genericDAO;
+    public GenericServiceImpl(DAOT dao, SessionFactory sessionFactory) {
+        this.dao = dao;
         this.sessionFactory = sessionFactory;
     }
 
     @Override
     public void create(T entity) {
-        inTransaction(() -> genericDAO.create(entity));
+        inTransaction(() -> dao.create(entity));
     }
 
     @Override
     public T get(PK id) {
-        return inTransaction(() -> genericDAO.get(id));
+        return inTransaction(() -> dao.get(id));
     }
 
     @Override
     public List<T> getAll() {
-        return inTransaction(() -> genericDAO.getAll());
+        return inTransaction(dao::getAll);
     }
 
     @Override
     public void update(T entity) {
-        inTransaction(() -> genericDAO.update(entity));
+        inTransaction(() -> dao.update(entity));
     }
 
     @Override
     public void delete(T entity) {
-        inTransaction(() -> genericDAO.delete(entity));
+        inTransaction(() -> dao.delete(entity));
     }
 
     protected <K> K inTransaction(Supplier<K> supplier) {

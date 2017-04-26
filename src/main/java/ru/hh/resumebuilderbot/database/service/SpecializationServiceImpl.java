@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class SpecializationServiceImpl extends GenericServiceImpl<Specialization, Integer>
+public class SpecializationServiceImpl extends GenericServiceImpl<Specialization, Integer, SpecializationDAO>
         implements SpecializationService {
     @Inject
     public SpecializationServiceImpl(SpecializationDAO specializationDAO, SessionFactory sessionFactory) {

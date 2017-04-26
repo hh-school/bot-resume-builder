@@ -9,7 +9,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class ExperienceServiceImpl extends GenericServiceImpl<Experience, Integer> implements ExperienceService {
+public class ExperienceServiceImpl extends GenericServiceImpl<Experience, Integer, ExperienceDAO>
+        implements ExperienceService {
     @Inject
     public ExperienceServiceImpl(ExperienceDAO experienceDAO, SessionFactory sessionFactory) {
         super(experienceDAO, sessionFactory);
