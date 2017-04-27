@@ -4,9 +4,31 @@
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="first question"/>
+                    <question text="Телефон"/>
+                    <skippable>false</skippable>
                 </classData>
             </base>
+            <validator classpath="PhoneNumberValidator"/>
+            <saver classpath="DatabaseSaver">
+                <databaseField>phone</databaseField>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="2"/>
+        </links>
+    </graphNode>
+    <graphNode id="2">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="E-mail"/>
+                    <skippable>false</skippable>
+                </classData>
+            </base>
+            <validator classpath="EMailNumberValidator"/>
+            <saver classpath="DatabaseSaver">
+                <databaseField>email</databaseField>
+            </saver>
         </nodeConstructor>
         <links>
             <link name="next" value="3"/>
@@ -14,61 +36,61 @@
     </graphNode>
     <graphNode id="3">
         <nodeConstructor>
-            <base classpath="QuestionNodeForking">
+            <base classpath="QuestionNodeLinear">
                 <classData>
-                    <answerPattern>Первый вариант</answerPattern>
-                    <question text="second question">
-                        <variantsOfAnswer othersAllowed="true">
-                            <variant text="Первый вариант"/>
-                            <variant text="Второй вариант"/>
-                        </variantsOfAnswer>
-                    </question>
+                    <question text="Имя"/>
+                    <skippable>false</skippable>
                 </classData>
             </base>
+            <saver classpath="DatabaseSaver">
+                <databaseField>firstName</databaseField>
+            </saver>
         </nodeConstructor>
         <links>
-            <link name="nextYes" value="4"/>
-            <link name="nextNo" value="5"/>
+            <link name="next" value="4"/>
         </links>
     </graphNode>
     <graphNode id="4">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Этот вопрос Вы видите, если выбрали первый вариант ответа"/>
+                    <question text="Фамилия"/>
+                    <skippable>false</skippable>
                 </classData>
             </base>
-            <validator classpath="PhoneNumberValidator"/>
             <saver classpath="DatabaseSaver">
-                <classData>
-                    <databaseField>phone</databaseField>
-                </classData>
+                <databaseField>lastName</databaseField>
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="6"/>
+            <link name="next" value="5"/>
         </links>
     </graphNode>
     <graphNode id="5">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <skippable>false</skippable>
-                    <question text="Этот вопрос Вы видите, если выбрали второй вариант ответа"/>
+                    <question text="Пол"/>
                 </classData>
             </base>
+            <saver classpath="DatabaseSaver">
+                <databaseField>sex</databaseField>
+            </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="7"/>
+            <link name="next" value="6"/>
         </links>
     </graphNode>
     <graphNode id="6">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Это продолжение ветки первого варианта ответа"/>
+                    <question text="Город проживания"/>
                 </classData>
             </base>
+            <saver classpath="DatabaseSaver">
+                <databaseField>town</databaseField>
+            </saver>
         </nodeConstructor>
         <links>
             <link name="next" value="7"/>
@@ -76,12 +98,40 @@
     </graphNode>
     <graphNode id="7">
         <nodeConstructor>
-            <base classpath="QuestionNodeLinear">
+            <base classpath="QuestionNodeForking">
                 <classData>
-                    <skippable>true</skippable>
-                    <question text="Здесь ветки вопросов сливаются"/>
+                    <answerPattern>Среднее</answerPattern>
+                    <question text="Образование">
+                        <variantsOfAnswer othersAllowed="false">
+                            <variant text="Высшее"/>
+                            <variant text="Неоконченное высшее"/>
+                            <variant text="Среднее специальное"/>
+                            <variant text="Среднее"/>
+                        </variantsOfAnswer>
+                    </question>
+                    <skippable>false</skippable>
                 </classData>
             </base>
+            <saver classpath="DatabaseSaver">
+                <databaseField>educationType</databaseField>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="nextYes" value="8"/>
+            <link name="nextNo" value="71"/>
+        </links>
+    </graphNode>
+    <graphNode id="71">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="Учебное заведение"/>
+                    <skippable>false</skippable>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <databaseField>institution</databaseField>
+            </saver>
         </nodeConstructor>
         <links>
             <link name="next" value="8"/>
@@ -89,56 +139,27 @@
     </graphNode>
     <graphNode id="8">
         <nodeConstructor>
-            <base classpath="QuestionNodeLinear">
-                <classData>
-                    <question text="Начало цикла">
-                        <variantsOfAnswer othersAllowed="true">
-                            <variant text="Первый вариант"/>
-                            <variant text="Второй вариант"/>
-                        </variantsOfAnswer>
-                    </question>
-                </classData>
-            </base>
-        </nodeConstructor>
-        <links>
-            <link name="next" value="9"/>
-        </links>
-
-    </graphNode>
-    <graphNode id="9">
-        <nodeConstructor>
-            <base classpath="QuestionNodeLinear">
-                <classData>
-                    <question text="Тело цикла"/>
-                </classData>
-            </base>
-        </nodeConstructor>
-        <links>
-            <link name="next" value="10"/>
-        </links>
-    </graphNode>
-    <graphNode id="10">
-        <nodeConstructor>
             <base classpath="QuestionNodeForking">
                 <classData>
-                    <answerPattern>Да</answerPattern>
-                    <question text="Пройти цикл еще раз?">
+                    <answerPattern>Среднее</answerPattern>
+                    <question text="Хотите заполнить еще одно образование?">
                         <variantsOfAnswer othersAllowed="false">
                             <variant text="Да"/>
                             <variant text="Нет"/>
                         </variantsOfAnswer>
                     </question>
+                    <skippable>false</skippable>
                 </classData>
             </base>
         </nodeConstructor>
         <links>
-            <link name="nextYes" value="8"/>
-            <link name="nextNo" value="11"/>
+            <link name="nextYes" value="7"/>
+            <link name="nextNo" value="9"/>
         </links>
     </graphNode>
-    <graphNode id="11">
+    <graphNode id="9">
         <nodeConstructor>
-            <base classpath="QuestionNodeTerminal"/>
+            <base classpath="QuestionNodeTerminal" />
         </nodeConstructor>
     </graphNode>
 </graphNodes>
