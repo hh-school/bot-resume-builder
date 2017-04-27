@@ -3,7 +3,6 @@ package ru.hh.resumebuilderbot;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.telegram.telegrambots.ApiContextInitializer;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import ru.hh.resumebuilderbot.database.service.UserService;
 import ru.hh.resumebuilderbot.di.GuiceCommonModule;
 import ru.hh.resumebuilderbot.di.GuiceProdModule;

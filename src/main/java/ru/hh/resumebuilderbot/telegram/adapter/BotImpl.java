@@ -50,7 +50,8 @@ public class BotImpl extends TelegramLongPollingBot {
         } else if (update.getInlineQuery() != null) {
             InlineQuery query = update.getInlineQuery();
             String chatId = query.getFrom().getId() + "";
-            List<InlineQueryResult> queryResults = QueryResultsGenerator.getResults(query, currentQuestions.get(chatId));
+            List<InlineQueryResult> queryResults = QueryResultsGenerator.
+                    getResults(query, currentQuestions.get(chatId));
             AnswerInlineQuery answerInlineQuery = new AnswerInlineQuery();
             answerInlineQuery.setCacheTime(1);
             answerInlineQuery.setInlineQueryId(query.getId());

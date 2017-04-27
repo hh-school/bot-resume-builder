@@ -6,7 +6,6 @@ import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResul
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResultArticle;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.QuestionSuggest;
-import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +16,8 @@ public class QueryResultsGenerator {
     private final static Integer maxResultsAmount = 50;
 
     public static List<InlineQueryResult> getResults(InlineQuery inlineQuery, Question question) {
-        Integer telegramId = inlineQuery.getFrom().getId();
         QuestionSuggest neededSuggest = question.getSuggestField();
         String textForSearch = inlineQuery.getQuery();
-        String currentState = "Institutes";
 
         List<InlineQueryResult> queryResults = new ArrayList<>();
         switch (neededSuggest) {
