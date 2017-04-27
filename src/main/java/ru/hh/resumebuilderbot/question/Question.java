@@ -26,7 +26,11 @@ public class Question {
         this.text = text;
         this.variantsOfAnswer = variantsOfAnswer;
         this.otherVariantsAllowed = otherVariantsAllowed;
-        this.suggestField = questionSuggest;
+        if (questionSuggest == null) {
+            this.suggestField = defaultSuggest;
+        } else {
+            this.suggestField = questionSuggest;
+        }
     }
 
     public Question(String text) {
