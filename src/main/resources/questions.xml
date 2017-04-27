@@ -25,7 +25,7 @@
                     <skippable>false</skippable>
                 </classData>
             </base>
-            <validator classpath="EMailNumberValidator"/>
+            <validator classpath="EMailValidator"/>
             <saver classpath="DatabaseSaver">
                 <databaseField>email</databaseField>
             </saver>
@@ -70,7 +70,12 @@
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Пол"/>
+                    <question text="Пол">
+                        <variantsOfAnswer othersAllowed="false">
+                            <variant text="Мужской"/>
+                            <variant text="Женский"/>
+                        </variantsOfAnswer>
+                    </question>
                 </classData>
             </base>
             <saver classpath="DatabaseSaver">
@@ -141,7 +146,7 @@
         <nodeConstructor>
             <base classpath="QuestionNodeForking">
                 <classData>
-                    <answerPattern>Среднее</answerPattern>
+                    <answerPattern>Да</answerPattern>
                     <question text="Хотите заполнить еще одно образование?">
                         <variantsOfAnswer othersAllowed="false">
                             <variant text="Да"/>
