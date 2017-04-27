@@ -19,7 +19,7 @@ public class XMLAsStream {
         return fromNodeList(node.getChildNodes());
     }
 
-    static Optional<Node> getFirstChildByName(Node node, String name) {
+    public static Optional<Node> getFirstChildByName(Node node, String name) {
         return XMLAsStream.fromParentNode(node)
                 .filter(x -> x.getNodeName().equals(name))
                 .findFirst();

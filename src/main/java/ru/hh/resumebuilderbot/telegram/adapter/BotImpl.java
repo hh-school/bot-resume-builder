@@ -34,7 +34,7 @@ public class BotImpl extends TelegramLongPollingBot {
         this.botBody = botBody;
     }
 
-    public void saveCurrentQuestion(long chatId, Question question){
+    public void saveCurrentQuestion(long chatId, Question question) {
         currentQuestions.put(chatId + "", question);
     }
 

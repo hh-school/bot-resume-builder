@@ -90,7 +90,9 @@
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Город проживания"/>
+                    <question text="Город проживания">
+                        <suggestType>AreasSuggest</suggestType>
+                    </question>
                 </classData>
             </base>
             <saver classpath="DatabaseSaver">
@@ -130,7 +132,9 @@
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Учебное заведение"/>
+                    <question text="Учебное заведение">
+                        <suggestType>InstitutesSuggest</suggestType>
+                    </question>
                     <skippable>false</skippable>
                 </classData>
             </base>
@@ -164,7 +168,7 @@
     </graphNode>
     <graphNode id="9">
         <nodeConstructor>
-            <base classpath="QuestionNodeTerminal" />
+            <base classpath="QuestionNodeTerminal"/>
         </nodeConstructor>
     </graphNode>
 </graphNodes>
