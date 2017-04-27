@@ -25,7 +25,7 @@
                     <skippable>false</skippable>
                 </classData>
             </base>
-            <validator classpath="EMailNumberValidator"/>
+            <validator classpath="EMailValidator"/>
             <saver classpath="DatabaseSaver">
                 <databaseField>email</databaseField>
             </saver>
