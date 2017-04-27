@@ -8,19 +8,19 @@ import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import ru.hh.resumebuilderbot.MessengerAdapter;
 import ru.hh.resumebuilderbot.User;
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.QuestionSuggest;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TelegramAdapter implements MessengerAdapter {
-    private final TelegramLongPollingBot bot;
+    private final BotImpl bot;
 
-    public TelegramAdapter(TelegramLongPollingBot bot) {
+    public TelegramAdapter(BotImpl bot) {
         this.bot = bot;
     }
 
@@ -33,10 +33,13 @@ public class TelegramAdapter implements MessengerAdapter {
         List<String> variantsOfAnswer = question.getVariantsOfAnswer();
         if (!variantsOfAnswer.isEmpty()) {
             message.setReplyMarkup(generateReplyKeyboard(variantsOfAnswer));
-        } else {
+        } else if (question.getSuggestField().equals(QuestionSuggest.NoSuggestNeeded)) {
             message.setReplyMarkup(new ReplyKeyboardRemove());
+        } else {
+            message.setReplyMarkup(generateSuggestInlineKeyboard());
         }
         try {
+            bot.saveCurrentQuestion(user.getIndex(), question);
             bot.sendMessage(message);
         } catch (TelegramApiException e) {
             e.printStackTrace();
@@ -54,6 +57,18 @@ public class TelegramAdapter implements MessengerAdapter {
                     .setCallbackData(variant));
             rowsInline.add(rowInline);
         }
+        result.setKeyboard(rowsInline);
+        return result;
+    }
+
+    private InlineKeyboardMarkup generateSuggestInlineKeyboard() {
+        InlineKeyboardMarkup result = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+        List<InlineKeyboardButton> rowInline = new ArrayList<>();
+        rowInline.add(new InlineKeyboardButton()
+                .setSwitchInlineQueryCurrentChat("")
+                .setText("Нажмите для получения вариантов-подсказки"));
+        rowsInline.add(rowInline);
         result.setKeyboard(rowsInline);
         return result;
     }

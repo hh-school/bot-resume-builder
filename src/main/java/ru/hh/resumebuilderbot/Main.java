@@ -3,7 +3,6 @@ package ru.hh.resumebuilderbot;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.telegram.telegrambots.ApiContextInitializer;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import ru.hh.resumebuilderbot.database.service.UserService;
 import ru.hh.resumebuilderbot.di.GuiceCommonModule;
 import ru.hh.resumebuilderbot.di.GuiceProdModule;
@@ -24,7 +23,7 @@ public class Main {
         // connect to telegram server
         BotBody botBody = injector.getInstance(BotBody.class);
 
-        TelegramLongPollingBot bot = new BotImpl(
+        BotImpl bot = new BotImpl(
                 System.getenv(TOKEN_ENV_NAME),
                 System.getenv(BOT_USERNAME_ENV_NAME),
                 botBody);

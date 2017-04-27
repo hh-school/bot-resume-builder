@@ -12,11 +12,20 @@ public class Question {
     private final List<String> variantsOfAnswer;
     private final boolean otherVariantsAllowed;
 
+    private QuestionSuggest suggestField = QuestionSuggest.NoSuggestNeeded;
 
     public Question(String text, List<String> variantsOfAnswer, boolean otherVariantsAllowed) {
         this.text = text;
         this.variantsOfAnswer = variantsOfAnswer;
         this.otherVariantsAllowed = otherVariantsAllowed;
+    }
+
+    public Question(String text, List<String> variantsOfAnswer,
+                    boolean otherVariantsAllowed, QuestionSuggest questionSuggest) {
+        this.text = text;
+        this.variantsOfAnswer = variantsOfAnswer;
+        this.otherVariantsAllowed = otherVariantsAllowed;
+        this.suggestField = questionSuggest;
     }
 
     public Question(String text) {
@@ -34,6 +43,10 @@ public class Question {
     public boolean answerIsAllowed(Answer answer) {
         return variantsOfAnswer.isEmpty() || otherVariantsAllowed ||
                 variantsOfAnswer.contains(answer.getAnswerBody());
+    }
+
+    public QuestionSuggest getSuggestField() {
+        return suggestField;
     }
 
     @Override
