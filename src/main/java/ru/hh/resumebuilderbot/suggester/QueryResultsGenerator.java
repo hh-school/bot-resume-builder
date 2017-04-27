@@ -4,6 +4,9 @@ import org.telegram.telegrambots.api.objects.inlinequery.InlineQuery;
 import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.InputTextMessageContent;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResultArticle;
+import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.QuestionSuggest;
+import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,33 +16,34 @@ public class QueryResultsGenerator {
 
     private final static Integer maxResultsAmount = 50;
 
-    public static List<InlineQueryResult> getResults(InlineQuery inlineQuery) {
-        Integer chatId = inlineQuery.getFrom().getId();
+    public static List<InlineQueryResult> getResults(InlineQuery inlineQuery, Question question) {
+        Integer telegramId = inlineQuery.getFrom().getId();
+        QuestionSuggest neededSuggest = question.getSuggestField();
         String textForSearch = inlineQuery.getQuery();
         String currentState = "Institutes";
 
         List<InlineQueryResult> queryResults = new ArrayList<>();
-        switch (currentState) {
-            case "Institutes":
+        switch (neededSuggest) {
+            case InstitutesSuggest:
                 queryResults = getResultsFromRawData(SuggestGenerator.getInstitutes(textForSearch));
                 break;
-            case "Faculties":
+            case FacultiesSuggest:
                 String instId = "39144";
                 queryResults = getResultsFromRawData(SuggestGenerator.getFaculties(instId, textForSearch));
                 break;
-            case "Companies":
+            case CompaniesSuggest:
                 queryResults = getResultsFromRawData(SuggestGenerator.getCompanies(textForSearch));
                 break;
-            case "Specializations":
+            case SpecializationsSuggest:
                 queryResults = getResultsFromRawData(SuggestGenerator.getSpecializations(textForSearch));
                 break;
-            case "Skills":
+            case SkillsSuggest:
                 queryResults = getResultsFromRawData(SuggestGenerator.getSkills(textForSearch));
                 break;
-            case "Positions":
+            case PositionsSuggest:
                 queryResults = getResultsFromRawData(SuggestGenerator.getPositions(textForSearch));
                 break;
-            case "Areas":
+            case AreasSuggest:
                 queryResults = getResultsFromRawData(SuggestGenerator.getAreas(textForSearch));
                 break;
             default:

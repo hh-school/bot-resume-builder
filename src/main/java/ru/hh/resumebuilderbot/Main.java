@@ -24,7 +24,7 @@ public class Main {
         // connect to telegram server
         BotBody botBody = injector.getInstance(BotBody.class);
 
-        TelegramLongPollingBot bot = new BotImpl(
+        BotImpl bot = new BotImpl(
                 System.getenv(TOKEN_ENV_NAME),
                 System.getenv(BOT_USERNAME_ENV_NAME),
                 botBody);
