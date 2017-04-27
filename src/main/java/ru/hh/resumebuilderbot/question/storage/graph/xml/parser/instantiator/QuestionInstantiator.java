@@ -16,7 +16,7 @@ public class QuestionInstantiator implements Instantiator {
         NamedNodeMap attributes = questionNode.getAttributes();
 
         String text = attributes.getNamedItem("text").getNodeValue();
-        QuestionSuggest suggest = null;
+        QuestionSuggest suggest = Question.getDefaultSuggest();
 
         Optional<Node> suggestTypeNode = XMLAsStream.getFirstChildByName(questionNode, "suggestType");
         if (suggestTypeNode.isPresent()) {
