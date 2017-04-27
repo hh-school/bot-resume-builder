@@ -3,6 +3,7 @@ package ru.hh.resumebuilderbot.question.storage.graph.xml.parser.instantiator;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.QuestionSuggest;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLAsStream;
 
 import java.util.ArrayList;
@@ -15,6 +16,12 @@ public class QuestionInstantiator implements Instantiator {
         NamedNodeMap attributes = questionNode.getAttributes();
 
         String text = attributes.getNamedItem("text").getNodeValue();
+        QuestionSuggest suggest = null;
+
+        Optional<Node> suggestTypeNode = XMLAsStream.getFirstChildByName(questionNode, "suggestType");
+        if (suggestTypeNode.isPresent()) {
+            suggest = QuestionSuggest.valueOf(suggestTypeNode.get().getTextContent());
+        }
 
         Optional<Node> variantsOfAnswerNode = XMLAsStream.getFirstChildByName(questionNode, "variantsOfAnswer");
         if (variantsOfAnswerNode.isPresent()) {
@@ -25,14 +32,8 @@ public class QuestionInstantiator implements Instantiator {
             List<String> variantsOfAnswer = new ArrayList<>();
             XMLAsStream.fromParentNode(variantsOfAnswerNode.get()).forEach((x) ->
                     variantsOfAnswer.add(x.getAttributes().getNamedItem("text").getNodeValue()));
-            return new Question(text, variantsOfAnswer, otherVariantsAllowed);
+            return new Question(text, variantsOfAnswer, otherVariantsAllowed, suggest);
         }
-        Optional<Node> suggestTypeNode = XMLAsStream.getFirstChildByName(questionNode, "suggestType");
-        if (suggestTypeNode.isPresent())
-        {
-            QuestionSuggest questionSuggest = QuestionSuggest.valueOf(suggestTypeNode.get().getTextContent());
-            return new Question(text, questionSuggest);
-        }
-        return new Question(text);
+        return new Question(text, suggest);
     }
 }

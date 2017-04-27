@@ -7,17 +7,18 @@ import java.util.List;
 import java.util.Objects;
 
 public class Question {
+
+    private static final QuestionSuggest defaultSuggest = QuestionSuggest.NoSuggestNeeded;
+
     private final String text;
 
     private final List<String> variantsOfAnswer;
     private final boolean otherVariantsAllowed;
 
-    private QuestionSuggest suggestField = QuestionSuggest.NoSuggestNeeded;
+    private final QuestionSuggest suggestField;
 
     public Question(String text, List<String> variantsOfAnswer, boolean otherVariantsAllowed) {
-        this.text = text;
-        this.variantsOfAnswer = variantsOfAnswer;
-        this.otherVariantsAllowed = otherVariantsAllowed;
+        this(text, variantsOfAnswer, otherVariantsAllowed, defaultSuggest);
     }
 
     public Question(String text, List<String> variantsOfAnswer,
@@ -29,7 +30,11 @@ public class Question {
     }
 
     public Question(String text) {
-        this(text, new ArrayList<>(), true);
+        this(text, new ArrayList<>(), true, defaultSuggest);
+    }
+
+    public Question(String text, QuestionSuggest suggestField) {
+        this(text, new ArrayList<>(), true, suggestField);
     }
 
     public List<String> getVariantsOfAnswer() {
