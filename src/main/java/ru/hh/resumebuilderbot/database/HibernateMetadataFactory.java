@@ -19,24 +19,33 @@ import ru.hh.resumebuilderbot.database.model.gender.Gender;
 
 public class HibernateMetadataFactory {
     public static Metadata prod() {
+        String dbHost = System.getenv("DB_HOST");
+        String dbPort = System.getenv("DB_PORT");
+        String dbName = System.getenv("DB_NAME");
+        String dbUser = System.getenv("DB_USER");
+        String dbPassword = System.getenv("DB_PASSWORD");
+        if (dbHost == null) {
+            throw new RuntimeException("\"DB_HOST\" env not set");
+        }
+        if (dbPort == null) {
+            throw new RuntimeException("\"DB_PORT\" env not set");
+        }
+        if (dbName == null) {
+            throw new RuntimeException("\"DB_NAME\" env not set");
+        }
+        if (dbUser == null) {
+            throw new RuntimeException("\"DB_USER\" env not set");
+        }
+        if (dbPassword == null) {
+            throw new RuntimeException("\"DB_PASSWORD\" env not set");
+        }
         StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
                 .applySetting(
                         "hibernate.connection.url",
-                        String.format(
-                                "jdbc:postgresql://%s:%s/%s",
-                                System.getenv("DB_HOST"),
-                                System.getenv("DB_PORT"),
-                                System.getenv("DB_NAME")
-                        )
+                        String.format("jdbc:postgresql://%s:%s/%s", dbHost, dbPort, dbName)
                 )
-                .applySetting(
-                        "hibernate.connection.username", System.getenv("DB_USER")
-
-                )
-                .applySetting(
-                        "hibernate.connection.password", System.getenv("DB_PASSWORD")
-
-                )
+                .applySetting("hibernate.connection.username", dbUser)
+                .applySetting("hibernate.connection.password", dbPassword)
                 .build();
         return new MetadataSources(standardRegistry)
                 .addAnnotatedClass(Contact.class)
