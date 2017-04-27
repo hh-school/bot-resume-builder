@@ -5,7 +5,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import ru.hh.resumebuilderbot.database.model.Area;
-import ru.hh.resumebuilderbot.database.model.Node;
 import ru.hh.resumebuilderbot.database.model.SalaryCurrency;
 import ru.hh.resumebuilderbot.database.model.Specialization;
 import ru.hh.resumebuilderbot.database.model.User;
@@ -51,7 +50,6 @@ public class HibernateMetadataFactory {
                 .addAnnotatedClass(Contact.class)
                 .addAnnotatedClass(ContactType.class)
                 .addAnnotatedClass(Education.class)
-                .addAnnotatedClass(Node.class)
                 .addAnnotatedClass(Company.class)
                 .addAnnotatedClass(Experience.class)
                 .addAnnotatedClass(Industry.class)

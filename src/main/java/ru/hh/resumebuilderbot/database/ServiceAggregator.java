@@ -3,7 +3,6 @@ package ru.hh.resumebuilderbot.database;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ru.hh.resumebuilderbot.database.service.AreaService;
-import ru.hh.resumebuilderbot.database.service.NodeService;
 import ru.hh.resumebuilderbot.database.service.SpecializationService;
 import ru.hh.resumebuilderbot.database.service.UserService;
 import ru.hh.resumebuilderbot.database.service.contact.ContactService;
@@ -22,7 +21,6 @@ public class ServiceAggregator {
     private final ExperienceService experienceService;
     private final IndustryService industryService;
     private final AreaService areaService;
-    private final NodeService nodeService;
     private final SpecializationService specializationService;
     private final UserService userService;
 
@@ -34,7 +32,6 @@ public class ServiceAggregator {
                              ExperienceService experienceService,
                              IndustryService industryService,
                              AreaService areaService,
-                             NodeService nodeService,
                              SpecializationService specializationService,
                              UserService userService) {
         this.contactService = contactService;
@@ -44,7 +41,6 @@ public class ServiceAggregator {
         this.experienceService = experienceService;
         this.industryService = industryService;
         this.areaService = areaService;
-        this.nodeService = nodeService;
         this.specializationService = specializationService;
         this.userService = userService;
     }
@@ -75,10 +71,6 @@ public class ServiceAggregator {
 
     public AreaService getAreaService() {
         return areaService;
-    }
-
-    public NodeService getNodeService() {
-        return nodeService;
     }
 
     public SpecializationService getSpecializationService() {
