@@ -16,7 +16,7 @@ public class QuestionInstantiator implements Instantiator {
 
         String text = attributes.getNamedItem("text").getNodeValue();
 
-        Optional<Node> variantsOfAnswerNode = XMLAsStream.fromParentNode(questionNode).findFirst();
+        Optional<Node> variantsOfAnswerNode = XMLAsStream.getFirstChildByName(questionNode, "variantsOfAnswer");
         if (variantsOfAnswerNode.isPresent()) {
             boolean otherVariantsAllowed = Boolean.parseBoolean(variantsOfAnswerNode.get()
                     .getAttributes()
@@ -26,6 +26,12 @@ public class QuestionInstantiator implements Instantiator {
             XMLAsStream.fromParentNode(variantsOfAnswerNode.get()).forEach((x) ->
                     variantsOfAnswer.add(x.getAttributes().getNamedItem("text").getNodeValue()));
             return new Question(text, variantsOfAnswer, otherVariantsAllowed);
+        }
+        Optional<Node> suggestTypeNode = XMLAsStream.getFirstChildByName(questionNode, "suggestType");
+        if (suggestTypeNode.isPresent())
+        {
+            QuestionSuggest questionSuggest = QuestionSuggest.valueOf(suggestTypeNode.get().getTextContent());
+            return new Question(text, questionSuggest);
         }
         return new Question(text);
     }
