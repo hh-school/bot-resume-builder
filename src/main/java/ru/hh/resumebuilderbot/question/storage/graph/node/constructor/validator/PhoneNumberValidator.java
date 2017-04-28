@@ -1,14 +1,10 @@
 package ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator;
 
-import ru.hh.resumebuilderbot.Answer;
-
 import java.util.regex.Pattern;
 
-public class PhoneNumberValidator extends Validator {
-    @Override
-    public boolean answerIsValid(Answer answer) {
-        String phoneNumber = (String) answer.getAnswerBody();
-        return Pattern.compile("\\+?[\\d-)(]+").matcher(phoneNumber).matches();
+public class PhoneNumberValidator extends PatternValidator {
+    public PhoneNumberValidator() {
+        pattern = Pattern.compile("\\+?[\\d-)(]+");
     }
 
     @Override
