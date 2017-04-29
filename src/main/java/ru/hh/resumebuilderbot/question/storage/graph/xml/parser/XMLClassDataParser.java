@@ -3,6 +3,7 @@ package ru.hh.resumebuilderbot.question.storage.graph.xml.parser;
 import org.w3c.dom.Node;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.instantiator.BooleanInstantiator;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.instantiator.Instantiator;
+import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.instantiator.IntegerInstantiator;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.instantiator.PatternInstantiator;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.instantiator.QuestionInstantiator;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.instantiator.StringInstantiator;
@@ -38,6 +39,7 @@ public class XMLClassDataParser {
         instantiators.put("skippable", new BooleanInstantiator());
         instantiators.put("answerPattern", new PatternInstantiator());
         instantiators.put("databaseField", new StringInstantiator());
+        instantiators.put("index", new IntegerInstantiator());
 
         Map<String, Object> defaultValuesForLinearNode = new HashMap<>();
         defaultValuesForLinearNode.put("skippable", Boolean.TRUE);

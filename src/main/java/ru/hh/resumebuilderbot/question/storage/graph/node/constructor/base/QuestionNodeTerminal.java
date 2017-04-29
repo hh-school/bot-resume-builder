@@ -10,24 +10,20 @@ import java.util.Map;
 
 public class QuestionNodeTerminal implements QuestionNode {
     private Question question;
+    private int index;
 
     public QuestionNodeTerminal() {
         question = new Question(TextsStorage.getText(TextId.FINISHED));
     }
 
     @Override
-    public void setLinks(Map<String, QuestionNode> links) {
+    public void setLinks(Map<String, QuestionNode> links, Map<String, Integer> indexLinks) {
 
     }
 
     @Override
     public boolean answerIsValid(Answer answer) {
         return true;
-    }
-
-    @Override
-    public void registerAnswer(Answer answer) {
-
     }
 
     @Override
@@ -38,6 +34,11 @@ public class QuestionNodeTerminal implements QuestionNode {
     @Override
     public QuestionNode getNext() {
         return this;
+    }
+
+    @Override
+    public int getNextIndex(Answer answer) {
+        return index;
     }
 
     @Override

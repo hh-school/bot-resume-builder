@@ -16,7 +16,6 @@ public class UserData {
     }
 
     void registerAnswer(Answer answer) {
-        questionNode.registerAnswer(answer);
         questionNode.saveAnswer(this, answer);
     }
 

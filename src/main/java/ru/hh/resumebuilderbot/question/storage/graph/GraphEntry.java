@@ -47,7 +47,7 @@ public class GraphEntry {
         Map<String, QuestionNode> objectLinks = indexLinks.entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry<String, Integer>::getKey, x -> nodesMap.get(x.getValue())));
-        node.setLinks(objectLinks);
+        node.setLinks(objectLinks, indexLinks);
     }
 
     @Override

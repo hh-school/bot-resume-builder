@@ -8,15 +8,15 @@ import java.util.Map;
 
 public interface QuestionNode {
 
-    void setLinks(Map<String, QuestionNode> links);
+    void setLinks(Map<String, QuestionNode> links, Map<String, Integer> indexLinks);
 
     boolean answerIsValid(Answer answer);
-
-    void registerAnswer(Answer answer);
 
     Question getQuestion();
 
     QuestionNode getNext();
+
+    int getNextIndex(Answer answer);
 
     boolean isSkippable();
 
