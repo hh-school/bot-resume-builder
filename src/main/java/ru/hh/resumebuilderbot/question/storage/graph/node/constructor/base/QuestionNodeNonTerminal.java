@@ -8,6 +8,7 @@ import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator.
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator.Validator;
 import ru.hh.resumebuilderbot.user.data.storage.UserData;
 
+import java.util.Map;
 import java.util.Objects;
 
 public abstract class QuestionNodeNonTerminal implements QuestionNode {
@@ -15,6 +16,7 @@ public abstract class QuestionNodeNonTerminal implements QuestionNode {
     protected boolean skippable;
     protected Validator validator = new DefaultValidator();
     protected Saver saver = new DoNothingSaver();
+    protected Map<String, Integer> indexLinks;
 
     @Override
     public boolean answerIsValid(Answer answer) {
@@ -48,6 +50,7 @@ public abstract class QuestionNodeNonTerminal implements QuestionNode {
         return Objects.equals(that.question, question) &&
                 Objects.equals(that.validator, validator) &&
                 Objects.equals(that.saver, saver) &&
+                Objects.equals(that.indexLinks, indexLinks) &&
                 that.skippable == skippable;
     }
 }
