@@ -36,19 +36,21 @@ public class QuestionNodeForking extends QuestionNodeNonTerminal {
     }
 
     @Override
-    public void setLinks(Map<String, QuestionNode> links) {
+    public void setLinks(Map<String, QuestionNode> links, Map<String, Integer> indexLinks) {
         nextYes = links.get("nextYes");
         nextNo = links.get("nextNo");
-    }
-
-    @Override
-    public void registerAnswer(Answer answer) {
-        matches = answerPattern.matcher((String) (answer.getAnswerBody())).matches();
+        this.indexLinks = indexLinks;
     }
 
     @Override
     public QuestionNode getNext() {
         return matches ? nextYes : nextNo;
+    }
+
+    @Override
+    public int getNextIndex(Answer answer) {
+        boolean matches = answerPattern.matcher((String) (answer.getAnswerBody())).matches();
+        return matches ? indexLinks.get("nextYes") : indexLinks.get("nextNo");
     }
 
     @Override

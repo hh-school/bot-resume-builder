@@ -28,18 +28,19 @@ public class QuestionNodeLinear extends QuestionNodeNonTerminal {
     }
 
     @Override
-    public void setLinks(Map<String, QuestionNode> links) {
+    public void setLinks(Map<String, QuestionNode> links, Map<String, Integer> indexLinks) {
         next = links.get("next");
-    }
-
-    @Override
-    public void registerAnswer(Answer answer) {
-
+        this.indexLinks = indexLinks;
     }
 
     @Override
     public QuestionNode getNext() {
         return next;
+    }
+
+    @Override
+    public int getNextIndex(Answer answer) {
+        return indexLinks.get("next");
     }
 
     @Override

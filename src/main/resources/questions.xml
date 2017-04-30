@@ -168,7 +168,9 @@
     </graphNode>
     <graphNode id="9">
         <nodeConstructor>
-            <base classpath="QuestionNodeTerminal"/>
+            <base classpath="QuestionNodeTerminal">
+                <index>9</index>
+            </base>
         </nodeConstructor>
     </graphNode>
 </graphNodes>
