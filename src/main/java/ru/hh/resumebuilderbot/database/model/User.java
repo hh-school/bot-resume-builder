@@ -240,7 +240,7 @@ public class User {
                 Objects.equals(birthDate, user.birthDate) &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
-                Objects.equals(area.getId(), user.area.getId()) &&
+                Objects.equals(area, user.area) &&
                 gender == user.gender &&
                 Objects.equals(careerObjective, user.careerObjective) &&
                 Objects.equals(salaryAmount, user.salaryAmount) &&
@@ -252,7 +252,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, telegramId, birthDate, firstName, lastName, area.getId(), gender, careerObjective,
+        return Objects.hash(id, telegramId, birthDate, firstName, lastName, area, gender, careerObjective,
                 salaryAmount, salaryCurrency, createDatetime, nodeId, nodeRelationId);
     }
 }

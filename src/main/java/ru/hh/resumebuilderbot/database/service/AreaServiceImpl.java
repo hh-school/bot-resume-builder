@@ -14,4 +14,8 @@ public class AreaServiceImpl extends GenericServiceImpl<Area, Integer, AreaDAO> 
     public AreaServiceImpl(AreaDAO areaDAO, SessionFactory sessionFactory) {
         super(areaDAO, sessionFactory);
     }
+
+    public Area getAreaByHHId(Integer hhId){
+        return inTransaction(() -> dao.getAreaByHHId(hhId));
+    }
 }

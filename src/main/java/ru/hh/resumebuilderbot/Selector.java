@@ -1,6 +1,7 @@
 package ru.hh.resumebuilderbot;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import ru.hh.resumebuilderbot.message.handler.AnswerMessageHandler;
 import ru.hh.resumebuilderbot.message.handler.ClearMessageHandler;
@@ -9,6 +10,7 @@ import ru.hh.resumebuilderbot.message.handler.ShowMessageHandler;
 import ru.hh.resumebuilderbot.message.handler.SkipMessageHandler;
 import ru.hh.resumebuilderbot.message.handler.StartMessageHandler;
 import ru.hh.resumebuilderbot.message.handler.UnknownMessageHandler;
+import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
 import java.lang.reflect.Constructor;
@@ -22,10 +24,12 @@ import java.util.regex.Pattern;
 class Selector {
     private final List<Parser> parsers;
     private final UserDataStorage userDataStorage;
+    private final Provider<Graph> graphProvider;
 
     @Inject
-    public Selector(UserDataStorage userDataStorage) {
+    public Selector(UserDataStorage userDataStorage, Provider<Graph> graphProvider) {
         this.userDataStorage = userDataStorage;
+        this.graphProvider = graphProvider;
         parsers = Collections.synchronizedList(new ArrayList<>());
         registerParser("/start", StartMessageHandler.class);
         registerParser("/show", ShowMessageHandler.class);
@@ -39,15 +43,16 @@ class Selector {
         for (Parser parser : parsers) {
             if (parser.matches(answerText)) {
                 try {
-                    Constructor<?> constructor = parser.getHandlerClass().getDeclaredConstructor(UserDataStorage.class);
-                    return (MessageHandler) constructor.newInstance(userDataStorage);
+                    Constructor<?> constructor = parser.getHandlerClass().
+                            getDeclaredConstructor(UserDataStorage.class, Graph.class );
+                    return (MessageHandler) constructor.newInstance(userDataStorage, graphProvider.get());
                 } catch (IllegalAccessException | InstantiationException | NoSuchMethodException
                         | InvocationTargetException e) {
                     e.printStackTrace();
                 }
             }
         }
-        return new UnknownMessageHandler(userDataStorage);
+        return new UnknownMessageHandler(userDataStorage, graphProvider.get());
     }
 
     private void registerParser(String regExp, Class handlerClass) {

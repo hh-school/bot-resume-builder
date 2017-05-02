@@ -4,14 +4,15 @@ import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.TelegramUser;
 import ru.hh.resumebuilderbot.cv.builder.CVFormats;
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShowMessageHandler extends MessageHandler {
-    public ShowMessageHandler(UserDataStorage userDataStorage) {
-        super(userDataStorage);
+    public ShowMessageHandler(UserDataStorage userDataStorage, Graph graph) {
+        super(userDataStorage, graph);
     }
 
     @Override

@@ -39,7 +39,7 @@ public class TelegramAdapter implements MessengerAdapter {
             message.setReplyMarkup(generateSuggestInlineKeyboard());
         }
         try {
-            bot.saveCurrentQuestion(user.getIndex(), question);
+            bot.saveCurrentQuestion(telegramUser.getId(), question);
             bot.sendMessage(message);
         } catch (TelegramApiException e) {
             e.printStackTrace();

@@ -20,7 +20,7 @@ public class UserDAOImpl extends GenericDAOImpl<User, Integer> implements UserDA
         super(sessionFactory);
     }
 
-    private final static String USER_BY_TELEGRAM_ID = "FROM TelegramUser WHERE telegram_id = :telegram_id";
+    private final static String USER_BY_TELEGRAM_ID = "FROM User WHERE telegram_id = :telegram_id";
 
     public User getByTelegramId(long telegramId){
         TypedQuery<User> query = getCurrentSession().createQuery(USER_BY_TELEGRAM_ID, User.class);

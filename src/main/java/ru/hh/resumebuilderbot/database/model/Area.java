@@ -17,6 +17,8 @@ public class Area {
     private Integer id;
     @Column(name = "name", nullable = false)
     private String name;
+    @Column(name = "hh_id")
+    private Integer hhId;
 
     public Area() {
     }
