@@ -35,7 +35,7 @@ public class Experience {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "experience__industry",
             joinColumns = {@JoinColumn(name = "experience_id", nullable = false, updatable = false)},

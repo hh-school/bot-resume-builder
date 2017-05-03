@@ -21,7 +21,7 @@ public interface QuestionNode {
 
     QuestionNode cloneContent();
 
-    void saveAnswer(Answer answer);
+    String getFieldNameToSave();
 
     boolean hasEqualContent(QuestionNode questionNode);
 }

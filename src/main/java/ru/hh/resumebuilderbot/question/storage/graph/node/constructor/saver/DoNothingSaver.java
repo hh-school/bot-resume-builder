@@ -4,8 +4,8 @@ import ru.hh.resumebuilderbot.Answer;
 
 public class DoNothingSaver extends Saver {
     @Override
-    public void saveAnswer(Answer answer) {
-
+    public String getDatabaseField() {
+        return null;
     }
 
     @Override

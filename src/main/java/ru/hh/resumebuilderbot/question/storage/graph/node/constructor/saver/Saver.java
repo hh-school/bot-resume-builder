@@ -3,7 +3,7 @@ package ru.hh.resumebuilderbot.question.storage.graph.node.constructor.saver;
 import ru.hh.resumebuilderbot.Answer;
 
 public abstract class Saver {
-    public abstract void saveAnswer(Answer answer);
+    public abstract String getDatabaseField();
 
     public abstract Saver clone();
 

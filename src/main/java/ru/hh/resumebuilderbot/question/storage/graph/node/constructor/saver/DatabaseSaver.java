@@ -16,8 +16,8 @@ public class DatabaseSaver extends Saver {
     }
 
     @Override
-    public void saveAnswer(Answer answer) {
-
+    public String getDatabaseField() {
+        return this.databaseField;
     }
 
     @Override

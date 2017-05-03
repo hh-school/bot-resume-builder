@@ -63,8 +63,8 @@ public class QuestionNodeForking extends QuestionNodeNonTerminal {
     }
 
     @Override
-    public void saveAnswer(Answer answer) {
-
+    public String getFieldNameToSave() {
+        return saver.getDatabaseField();
     }
 
     @Override

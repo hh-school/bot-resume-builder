@@ -51,8 +51,8 @@ public class QuestionNodeTerminal implements QuestionNode {
     }
 
     @Override
-    public void saveAnswer(Answer answer) {
-
+    public String getFieldNameToSave() {
+        return null;
     }
 
     @Override

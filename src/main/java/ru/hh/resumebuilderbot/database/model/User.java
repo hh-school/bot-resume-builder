@@ -27,6 +27,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Convert;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -48,14 +49,14 @@ public class User {
     private String firstName;
     @Column(name = "last_name", length = 100)
     private String lastName;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Contact> contacts;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<Education> educations;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<Education> educations = new HashSet<>(0);
     @ManyToOne
     @JoinColumn(name = "area_id")
     private Area area;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Experience> experiences;
     @Convert(converter = GenderConverter.class)
     @Column(name = "gender", length = 1)
@@ -64,7 +65,7 @@ public class User {
     @Column(name = "career_objective")
     private String careerObjective;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user__specialization",
             joinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)},

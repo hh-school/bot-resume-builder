@@ -1,9 +1,3 @@
-CREATE TABLE IF NOT EXISTS node (
-  id        INT PRIMARY KEY NOT NULL,
-  classpath VARCHAR(80) UNIQUE,
-  data      VARCHAR(1024)
-);
-
 CREATE TABLE IF NOT EXISTS area (
   id   SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL
@@ -21,7 +15,7 @@ CREATE TABLE IF NOT EXISTS "user" (
   salary_amount    INT,
   salary_currency  VARCHAR(3),
   create_datetime  TIMESTAMP WITH TIME ZONE,
-  node_id          INT REFERENCES node (id),
+  node_id          INT,
   node_relation_id INT
 );
 

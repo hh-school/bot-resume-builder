@@ -32,8 +32,8 @@ public abstract class QuestionNodeNonTerminal implements QuestionNode {
     }
 
     @Override
-    public void saveAnswer(Answer answer) {
-        saver.saveAnswer(answer);
+    public String getFieldNameToSave() {
+        return saver.getDatabaseField();
     }
 
     public void setValidator(Validator validator) {

@@ -18,7 +18,9 @@ import ru.hh.resumebuilderbot.database.model.experience.Experience;
 import ru.hh.resumebuilderbot.database.model.gender.Gender;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 
+import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -34,10 +36,7 @@ public class UserDataStorage {
 
     public boolean contains(TelegramUser telegramUser) {
         User user = getUser(telegramUser);
-        if (user == null) {
-            return false;
-        }
-        return true;
+        return user != null;
     }
 
     private User getUser(TelegramUser telegramUser) {
@@ -94,11 +93,13 @@ public class UserDataStorage {
         serviceAggregator.getUserService().update(user);
     }
 
-    public void addEducation(TelegramUser telegramUser, Education education) {
+    public void addNewEducation(TelegramUser telegramUser) {
         User user = getUser(telegramUser);
-        Set<Education> educations = user.getEducations();
-        educations.add(education);
-        user.setEducations(educations);
+        Education education = new Education();
+        education.setUser(user);
+        serviceAggregator.getEducationService().create(education);
+        user.setNodeRelationId(education.getId());
+        user.getEducations().add(education);
         serviceAggregator.getUserService().update(user);
     }
 

@@ -25,9 +25,10 @@ public class AnswerMessageHandler extends MessageHandler {
                 currentQuestionNode.getQuestion().getText());
         List<Question> questions = new ArrayList<>(2);
         if (currentQuestionNode.answerIsValid(answer)) {
-            //здесь должен быть метод, получающий поле, куда сохранять
-            String field = "";
-            saveValue(telegramUser, field, answer.getAnswerBody().toString());
+            String databaseField = currentQuestionNode.getFieldNameToSave();
+            if (databaseField != null) {
+                saveValue(telegramUser, databaseField, answer.getAnswerBody().toString());
+            }
             currentNodeId = graph.getNextNodeIndex(currentNodeId, answer);
             userDataStorage.saveNodeId(telegramUser, currentNodeId);
         } else {

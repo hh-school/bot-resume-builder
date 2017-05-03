@@ -26,18 +26,20 @@ public abstract class MessageHandler {
 
     protected void saveValue(TelegramUser telegramUser, String field, String value) {
         switch (field) {
-            case "firstname":
+            case "firstName":
                 userDataStorage.saveFirstname(telegramUser, value);
                 break;
-            case "lastname":
+            case "lastName":
                 userDataStorage.saveLastName(telegramUser, value);
                 break;
-            case "gender":
-                if (value.equals("Мужской")) {
-                    userDataStorage.saveGender(telegramUser, Gender.MALE);
-                } else {
-                    userDataStorage.saveGender(telegramUser, Gender.FEMALE);
-                }
+            case "sex":
+                userDataStorage.saveGender(telegramUser, Gender.fromCode(value.charAt(0)));
+                break;
+            case "town":
+                break;
+            default:
+                log.warn("User {}. Не найдено поле {} в базе данных. Попытка сохранить данные в невалидном поле",
+                        telegramUser.getId(), field);
                 break;
         }
     }
