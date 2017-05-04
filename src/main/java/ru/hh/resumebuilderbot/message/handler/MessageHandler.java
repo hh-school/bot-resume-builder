@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.TelegramUser;
+import ru.hh.resumebuilderbot.database.model.education.EducationLevel;
 import ru.hh.resumebuilderbot.database.model.gender.Gender;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
@@ -36,6 +37,14 @@ public abstract class MessageHandler {
                 userDataStorage.saveGender(telegramUser, Gender.fromCode(value.charAt(0)));
                 break;
             case "town":
+                userDataStorage.saveUserArea(telegramUser, value, null);
+                break;
+            case "educationType":
+                userDataStorage.addNewEducation(telegramUser);
+                userDataStorage.saveEducationLevel(telegramUser, EducationLevel.valueOf(value));
+                break;
+            case "institution":
+                userDataStorage.saveInstitute(telegramUser, null, value);
                 break;
             default:
                 log.warn("User {}. Не найдено поле {} в базе данных. Попытка сохранить данные в невалидном поле",

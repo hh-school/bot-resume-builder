@@ -1,7 +1,5 @@
 package ru.hh.resumebuilderbot.question.storage.graph.node.constructor.saver;
 
-import ru.hh.resumebuilderbot.Answer;
-
 import java.util.Objects;
 
 public class DatabaseSaver extends Saver {
