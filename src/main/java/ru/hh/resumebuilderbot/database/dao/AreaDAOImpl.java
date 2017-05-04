@@ -24,9 +24,23 @@ public class AreaDAOImpl extends GenericDAOImpl<Area, Integer> implements AreaDA
 
     private final static String AREA_BY_HH_ID = "FROM Area WHERE hh_id = :hh_id";
 
+    private final static String AREA_BY_NAME = "FROM Area WHERE name = :name";
+
     public Area getAreaByHHId(Integer hhId){
         TypedQuery<Area> query = getCurrentSession().createQuery(AREA_BY_HH_ID, Area.class);
-        query.setParameter("telegram_id", hhId);
+        query.setParameter("hh_id", hhId);
+        Area area = null;
+        try {
+            area = query.getSingleResult();
+        } catch (NoResultException e) {
+            log.info(e.getMessage());
+        }
+        return area;
+    }
+
+    public Area getAreaByName(String name){
+        TypedQuery<Area> query = getCurrentSession().createQuery(AREA_BY_NAME, Area.class);
+        query.setParameter("name", name);
         Area area = null;
         try {
             area = query.getSingleResult();

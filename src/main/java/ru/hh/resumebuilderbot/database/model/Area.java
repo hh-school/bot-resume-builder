@@ -39,6 +39,14 @@ public class Area {
         this.name = name;
     }
 
+    public Integer getHhId() {
+        return hhId;
+    }
+
+    public void setHhId(Integer hhId) {
+        this.hhId = hhId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

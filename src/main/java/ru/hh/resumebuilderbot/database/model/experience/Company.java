@@ -20,8 +20,8 @@ public class Company {
     private Integer id;
     @Column(name = "name")
     private String name;
-    @Column(name = "url")
-    private String url;
+    @Column(name = "hh_id")
+    private Integer hhId;
 
     @ManyToOne
     @JoinColumn(name = "area_id")
@@ -46,12 +46,12 @@ public class Company {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public Integer getHHId() {
+        return hhId;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setHHId(Integer hhId) {
+        this.hhId = hhId;
     }
 
     public Area getArea() {
@@ -73,17 +73,17 @@ public class Company {
         Company company = (Company) o;
         return Objects.equals(id, company.id) &&
                 Objects.equals(name, company.name) &&
-                Objects.equals(url, company.url) &&
+                Objects.equals(hhId, company.hhId) &&
                 Objects.equals(area, company.area);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, url);
+        return Objects.hash(id, name, hhId);
     }
 
     @Override
     public String toString() {
-        return String.format("Company{id=%d, name='%s', url = '%s', area = '%d'}", id, name, url, area.getId());
+        return String.format("Company{id=%d, name='%s', hhId = '%s', area = '%d'}", id, name, hhId, area.getId());
     }
 }

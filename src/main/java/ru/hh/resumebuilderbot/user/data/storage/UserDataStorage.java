@@ -14,13 +14,12 @@ import ru.hh.resumebuilderbot.database.model.User;
 import ru.hh.resumebuilderbot.database.model.contact.Contact;
 import ru.hh.resumebuilderbot.database.model.education.Education;
 import ru.hh.resumebuilderbot.database.model.education.EducationLevel;
+import ru.hh.resumebuilderbot.database.model.experience.Company;
 import ru.hh.resumebuilderbot.database.model.experience.Experience;
 import ru.hh.resumebuilderbot.database.model.gender.Gender;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 
-import javax.transaction.Transactional;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 
@@ -43,7 +42,7 @@ public class UserDataStorage {
         return serviceAggregator.getUserService().getUserByTelegramId(telegramUser.getId());
     }
 
-    public void clear(TelegramUser telegramUser) {
+    private void clear(TelegramUser telegramUser) {
         User user = getUser(telegramUser);
         serviceAggregator.getUserService().delete(user);
     }
@@ -67,6 +66,12 @@ public class UserDataStorage {
         return user.getNodeId();
     }
 
+    public void saveNodeId(TelegramUser telegramUser, Integer nodeId) {
+        User user = getUser(telegramUser);
+        user.setNodeId(nodeId);
+        serviceAggregator.getUserService().update(user);
+    }
+
     public void saveBirthDate(TelegramUser telegramUser, Date birthDate) {
         User user = getUser(telegramUser);
         user.setBirthDate(birthDate);
@@ -85,38 +90,6 @@ public class UserDataStorage {
         serviceAggregator.getUserService().update(user);
     }
 
-    public void addContact(TelegramUser telegramUser, Contact contact) {
-        User user = getUser(telegramUser);
-        Set<Contact> contacts = user.getContacts();
-        contacts.add(contact);
-        user.setContacts(contacts);
-        serviceAggregator.getUserService().update(user);
-    }
-
-    public void addNewEducation(TelegramUser telegramUser) {
-        User user = getUser(telegramUser);
-        Education education = new Education();
-        education.setUser(user);
-        serviceAggregator.getEducationService().create(education);
-        user.setNodeRelationId(education.getId());
-        user.getEducations().add(education);
-        serviceAggregator.getUserService().update(user);
-    }
-
-    public void saveArea(TelegramUser telegramUser, Area area) {
-        User user = getUser(telegramUser);
-        user.setArea(area);
-        serviceAggregator.getUserService().update(user);
-    }
-
-    public void addExperience(TelegramUser telegramUser, Experience experience) {
-        User user = getUser(telegramUser);
-        Set<Experience> experiences = user.getExperiences();
-        experiences.add(experience);
-        user.setExperiences(experiences);
-        serviceAggregator.getUserService().update(user);
-    }
-
     public void saveGender(TelegramUser telegramUser, Gender gender) {
         User user = getUser(telegramUser);
         user.setGender(gender);
@@ -126,14 +99,6 @@ public class UserDataStorage {
     public void saveCareerObjective(TelegramUser telegramUser, String careerObjective) {
         User user = getUser(telegramUser);
         user.setCareerObjective(careerObjective);
-        serviceAggregator.getUserService().update(user);
-    }
-
-    public void addSpecialization(TelegramUser telegramUser, Specialization specialization) {
-        User user = getUser(telegramUser);
-        Set<Specialization> specializations = user.getSpecializations();
-        specializations.add(specialization);
-        user.setSpecializations(specializations);
         serviceAggregator.getUserService().update(user);
     }
 
@@ -149,20 +114,41 @@ public class UserDataStorage {
         serviceAggregator.getUserService().update(user);
     }
 
-    public void saveNodeId(TelegramUser telegramUser, Integer nodeId) {
+    public void addNewContact(TelegramUser telegramUser, Contact contact) {
         User user = getUser(telegramUser);
-        user.setNodeId(nodeId);
+        user.getContacts().add(contact);
         serviceAggregator.getUserService().update(user);
+    }
+
+    public void addNewEducation(TelegramUser telegramUser) {
+        User user = getUser(telegramUser);
+        Education education = generateNewEducationForUser(user);
+        user.getEducations().add(education);
+        user.setNodeRelationId(education.getId());
+        serviceAggregator.getUserService().update(user);
+    }
+
+    private Education generateNewEducationForUser(User user) {
+        Education education = new Education();
+        education.setUser(user);
+        serviceAggregator.getEducationService().create(education);
+        return education;
     }
 
     private Education getCurrentEducation(TelegramUser telegramUser) {
         User user = getUser(telegramUser);
+        for (Education education : user.getEducations()) {
+            if (education.getId().equals(user.getNodeRelationId())) {
+                return education;
+            }
+        }
+        addNewEducation(telegramUser);
         return serviceAggregator.getEducationService().get(user.getNodeRelationId());
     }
 
-    public void saveEducationYear(TelegramUser telegramUser, Integer educationYear) {
+    public void saveEducationLevel(TelegramUser telegramUser, EducationLevel educationLevel) {
         Education education = getCurrentEducation(telegramUser);
-        education.setYear(educationYear);
+        education.setLevel(educationLevel);
         serviceAggregator.getEducationService().update(education);
     }
 
@@ -187,9 +173,130 @@ public class UserDataStorage {
         serviceAggregator.getEducationService().update(education);
     }
 
-    public void saveEducationLevel(TelegramUser telegramUser, EducationLevel educationLevel) {
+    public void saveEducationYear(TelegramUser telegramUser, Integer educationYear) {
         Education education = getCurrentEducation(telegramUser);
-        education.setLevel(educationLevel);
+        education.setYear(educationYear);
         serviceAggregator.getEducationService().update(education);
+    }
+
+    public void saveUserArea(TelegramUser telegramUser, String areaName, Integer areaHHId) {
+        User user = getUser(telegramUser);
+        Area area = getArea(areaName, areaHHId);
+        user.setArea(area);
+        serviceAggregator.getUserService().update(user);
+    }
+
+    private Area getArea(String areaName, Integer areaHHId) {
+        Area area;
+        if (areaHHId != null) {
+            area = serviceAggregator.getAreaService().getAreaByHHId(areaHHId);
+        } else {
+            area = serviceAggregator.getAreaService().getAreaByName(areaName);
+        }
+        if (area == null) {
+            area = createNewArea(areaName, areaHHId);
+        }
+        return area;
+    }
+
+    private Area createNewArea(String areaName, Integer areaHHId) {
+        Area area = new Area();
+        area.setName(areaName);
+        area.setHhId(areaHHId);
+        serviceAggregator.getAreaService().create(area);
+        return area;
+    }
+
+    public void addNewExperience(TelegramUser telegramUser) {
+        User user = getUser(telegramUser);
+        Experience experience = generateNewExperienceForUser(user);
+        user.getExperiences().add(experience);
+        user.setNodeRelationId(experience.getId());
+        serviceAggregator.getUserService().update(user);
+    }
+
+    private Experience generateNewExperienceForUser(User user) {
+        Experience experience = new Experience();
+        experience.setUser(user);
+        serviceAggregator.getExperienceService().create(experience);
+        return experience;
+    }
+
+    private Experience getCurrentExperience(TelegramUser telegramUser) {
+        User user = getUser(telegramUser);
+        for (Experience experience : user.getExperiences()) {
+            if (experience.getId().equals(user.getNodeRelationId())) {
+                return experience;
+            }
+        }
+        addNewExperience(telegramUser);
+        return serviceAggregator.getExperienceService().get(user.getNodeRelationId());
+    }
+
+    public void saveExperienceStartDate(TelegramUser telegramUser, Date startDate) {
+        Experience experience = getCurrentExperience(telegramUser);
+        experience.setStartDate(startDate);
+        serviceAggregator.getExperienceService().update(experience);
+    }
+
+    public void saveExpirienceEndDate(TelegramUser telegramUser, Date endDate) {
+        Experience experience = getCurrentExperience(telegramUser);
+        experience.setEndDate(endDate);
+        serviceAggregator.getExperienceService().update(experience);
+    }
+
+    public void saveExperiencePosition(TelegramUser telegramUser, String position) {
+        Experience experience = getCurrentExperience(telegramUser);
+        experience.setPosition(position);
+        serviceAggregator.getExperienceService().update(experience);
+    }
+
+    public void saveExperienceDescription(TelegramUser telegramUser, String description) {
+        Experience experience = getCurrentExperience(telegramUser);
+        experience.setDescription(description);
+        serviceAggregator.getExperienceService().update(experience);
+    }
+
+    public void saveExperienceCompany(TelegramUser telegramUser, String companyName, Integer companyHHId) {
+        Experience experience = getCurrentExperience(telegramUser);
+        Company company = getCompany(companyName, companyHHId);
+        experience.setCompany(company);
+        serviceAggregator.getExperienceService().update(experience);
+    }
+
+    private Company getCompany(String companyName, Integer companyHHId) {
+        Company company;
+        if (companyHHId != null) {
+            company = serviceAggregator.getCompanyService().getCompanyByHHId(companyHHId);
+        } else {
+            company = serviceAggregator.getCompanyService().getCompanyByName(companyName);
+        }
+        if (company == null) {
+            company = createNewCompany(companyName, companyHHId);
+        }
+        return company;
+    }
+
+    private Company createNewCompany(String companyName, Integer companyHHId) {
+        Company company = new Company();
+        company.setName(companyName);
+        company.setHHId(companyHHId);
+        serviceAggregator.getCompanyService().create(company);
+        return company;
+    }
+
+    public void saveCompanyArea(Integer hhId, String areaName, Integer areaHHId) {
+        Company company = getCompany(null, hhId);
+        Area area = getArea(areaName, areaHHId);
+        company.setArea(area);
+        serviceAggregator.getCompanyService().update(company);
+    }
+
+    public void addPosition(TelegramUser telegramUser, Specialization specialization) {
+        User user = getUser(telegramUser);
+        Set<Specialization> specializations = user.getSpecializations();
+        specializations.add(specialization);
+        user.setSpecializations(specializations);
+        serviceAggregator.getUserService().update(user);
     }
 }

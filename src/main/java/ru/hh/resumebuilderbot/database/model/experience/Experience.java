@@ -42,7 +42,7 @@ public class Experience {
             inverseJoinColumns = {@JoinColumn(name = "industry_id", nullable = false, updatable = false)}
     )
     private Set<Industry> industries;
-    @Column(name = "position", nullable = false)
+    @Column(name = "position")
     private String position;
     @Temporal(TemporalType.DATE)
     @Column(name = "start_date")
