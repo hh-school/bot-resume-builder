@@ -14,16 +14,16 @@ import javax.validation.constraints.NotNull;
 
 @Singleton
 public class CompanyDAOImpl extends GenericDAOImpl<Company, Integer> implements CompanyDAO {
-    private final static Logger log = LoggerFactory.getLogger(CompanyDAOImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(CompanyDAOImpl.class);
 
     @Inject
     public CompanyDAOImpl(@NotNull SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
-    private final static String COMPANY_BY_HH_ID = "FROM Company WHERE hh_id = :hh_id";
+    private static final String COMPANY_BY_HH_ID = "FROM Company WHERE hh_id = :hh_id";
 
-    private final static String COMPANY_BY_NAME = "FROM Company WHERE name = :name";
+    private static final String COMPANY_BY_NAME = "FROM Company WHERE name = :name";
 
     public Company getCompanyByHHId(Integer hhId){
         TypedQuery<Company> query = getCurrentSession().createQuery(COMPANY_BY_HH_ID, Company.class);

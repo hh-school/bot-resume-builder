@@ -4,5 +4,5 @@ import ru.hh.resumebuilderbot.database.model.User;
 import ru.hh.resumebuilderbot.database.service.base.GenericService;
 
 public interface UserService extends GenericService<User, Integer> {
-    public User getUserByTelegramId(long telegramId);
+    User getUserByTelegramId(long telegramId);
 }

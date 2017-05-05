@@ -15,16 +15,16 @@ import javax.validation.constraints.NotNull;
 @Singleton
 public class AreaDAOImpl extends GenericDAOImpl<Area, Integer> implements AreaDAO {
 
-    private final static Logger log = LoggerFactory.getLogger(AreaDAOImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(AreaDAOImpl.class);
 
     @Inject
     public AreaDAOImpl(@NotNull SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
-    private final static String AREA_BY_HH_ID = "FROM Area WHERE hh_id = :hh_id";
+    private static final String AREA_BY_HH_ID = "FROM Area WHERE hh_id = :hh_id";
 
-    private final static String AREA_BY_NAME = "FROM Area WHERE name = :name";
+    private static final String AREA_BY_NAME = "FROM Area WHERE name = :name";
 
     public Area getAreaByHHId(Integer hhId){
         TypedQuery<Area> query = getCurrentSession().createQuery(AREA_BY_HH_ID, Area.class);

@@ -1,16 +1,11 @@
 package ru.hh.resumebuilderbot.database.model.education;
 
 public enum EducationLevel {
-    HIGHER("Высшее"),
-    HIGHER_NOT_FINISHED("Неоконченное высшее"),
-    SECONDARY("Среднее специальное"),
-    BASE("Среднее");
+    HIGHER,
+    HIGHER_NOT_FINISHED,
+    SECONDARY,
+    BASE;
 
-    private final String code;
-
-    EducationLevel(String code){
-        this.code = code;
-    }
     public static EducationLevel fromCode(String code) {
         if (code.equals("Высшее")) {
             return HIGHER;
@@ -25,9 +20,5 @@ public enum EducationLevel {
             return BASE;
         }
         throw new UnsupportedOperationException("The code " + code + " is not supported!");
-    }
-
-   public String getCode() {
-        return code;
     }
 }

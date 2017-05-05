@@ -13,7 +13,7 @@ import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 import java.util.List;
 
 public abstract class MessageHandler {
-    protected final static Logger log = LoggerFactory.getLogger(MessageHandler.class);
+    protected static final Logger log = LoggerFactory.getLogger(MessageHandler.class);
     protected UserDataStorage userDataStorage;
     protected Graph graph;
 

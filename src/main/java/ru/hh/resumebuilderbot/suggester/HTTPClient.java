@@ -12,11 +12,11 @@ import java.net.URLEncoder;
 import java.util.Map;
 
 public class HTTPClient {
-    private final static Logger log = LoggerFactory.getLogger(HTTPClient.class);
+    private static final Logger log = LoggerFactory.getLogger(HTTPClient.class);
 
-    private final static String divider = "&";
+    private static final String divider = "&";
 
-    private final static String queryBeginner = "?";
+    private static final String queryBeginner = "?";
 
     public static String sendGetRequest(String urlToRead) {
         try {
@@ -24,7 +24,7 @@ public class HTTPClient {
             URL url = new URL(urlToRead);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("TelegramUser-Agent", "HH-ResumeBuilderBot/0.2");
+            conn.setRequestProperty("User-Agent", "HH-ResumeBuilderBot/0.2");
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
             while ((line = rd.readLine()) != null) {

@@ -28,7 +28,7 @@ public class UserDataStorage {
     private final ServiceAggregator serviceAggregator;
 
     @Inject
-    private UserDataStorage(ServiceAggregator serviceAggregator, Provider<Graph> graphProvider) {
+    private UserDataStorage(ServiceAggregator serviceAggregator) {
         this.serviceAggregator = serviceAggregator;
     }
 

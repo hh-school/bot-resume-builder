@@ -7,7 +7,7 @@ import static org.testng.Assert.assertEquals;
 
 public class GraphTest {
 
-    private final static String allFeaturesFilename = "src/test/resources/XMLLoaderTest/AllFeatures.xml";
+    private static final String allFeaturesFilename = "src/test/resources/XMLLoaderTest/AllFeatures.xml";
 
     private static Graph expectedGraph;
 

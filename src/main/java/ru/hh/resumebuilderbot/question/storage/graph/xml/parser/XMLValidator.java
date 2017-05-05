@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 public class XMLValidator {
 
-    private final static Logger log = LoggerFactory.getLogger(XMLValidator.class);
+    private static final Logger log = LoggerFactory.getLogger(XMLValidator.class);
 
     public static void validate(XMLRawData rawData) throws IOException {
 

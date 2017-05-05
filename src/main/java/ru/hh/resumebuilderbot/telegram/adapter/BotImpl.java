@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BotImpl extends TelegramLongPollingBot {
-    protected final static Logger log = LoggerFactory.getLogger(BotImpl.class);
+    protected static final Logger log = LoggerFactory.getLogger(BotImpl.class);
     private final String token;
     private final String botUsername;
     private BotBody botBody;

@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class QueryResultsGenerator {
 
-    private final static Integer maxResultsAmount = 50;
+    private static final Integer maxResultsAmount = 50;
 
     public static List<InlineQueryResult> getResults(InlineQuery inlineQuery, Question question) {
         QuestionSuggest neededSuggest = question.getSuggestField();

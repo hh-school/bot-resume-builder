@@ -48,7 +48,7 @@ public class User {
     private String firstName;
     @Column(name = "last_name", length = 100)
     private String lastName;
-    @Column(name = "phone")
+    @Column(name = "phone", length = 15)
     private String phone;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Education> educations = new HashSet<>(0);

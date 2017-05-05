@@ -14,21 +14,21 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 public class SuggestGenerator {
-    protected final static Logger log = LoggerFactory.getLogger(SuggestGenerator.class);
+    protected static final Logger log = LoggerFactory.getLogger(SuggestGenerator.class);
 
-    private final static String institutesUrl = "https://api.hh.ru/suggests/educational_institutions";
+    private static final String institutesUrl = "https://api.hh.ru/suggests/educational_institutions";
 
-    private final static String facultiesUrl = "https://api.hh.ru/educational_institutions/%s/faculties";
+    private static final String facultiesUrl = "https://api.hh.ru/educational_institutions/%s/faculties";
 
-    private final static String companiesUrl = "https://api.hh.ru/suggests/companies";
+    private static final String companiesUrl = "https://api.hh.ru/suggests/companies";
 
-    private final static String specializationsUrl = "https://api.hh.ru/suggests/fields_of_study";
+    private static final String specializationsUrl = "https://api.hh.ru/suggests/fields_of_study";
 
-    private final static String skillsUrl = "https://api.hh.ru/suggests/skill_set";
+    private static final String skillsUrl = "https://api.hh.ru/suggests/skill_set";
 
-    private final static String positionsUrl = "https://api.hh.ru/suggests/positions";
+    private static final String positionsUrl = "https://api.hh.ru/suggests/positions";
 
-    private final static String areasUrl = "https://api.hh.ru/suggests/areas";
+    private static final String areasUrl = "https://api.hh.ru/suggests/areas";
 
     public static RawSuggestData getInstitutes(String searchQuery) {
         if (searchQuery.length() < 2) {

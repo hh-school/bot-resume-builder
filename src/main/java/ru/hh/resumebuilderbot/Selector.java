@@ -24,12 +24,12 @@ import java.util.regex.Pattern;
 class Selector {
     private final List<Parser> parsers;
     private final UserDataStorage userDataStorage;
-    private final Provider<Graph> graphProvider;
+    private final Graph graph;
 
     @Inject
     public Selector(UserDataStorage userDataStorage, Provider<Graph> graphProvider) {
         this.userDataStorage = userDataStorage;
-        this.graphProvider = graphProvider;
+        this.graph = graphProvider.get();
         parsers = Collections.synchronizedList(new ArrayList<>());
         registerParser("/start", StartMessageHandler.class);
         registerParser("/show", ShowMessageHandler.class);
@@ -43,16 +43,16 @@ class Selector {
         for (Parser parser : parsers) {
             if (parser.matches(answerText)) {
                 try {
-                    Constructor<?> constructor = parser.getHandlerClass().
-                            getDeclaredConstructor(UserDataStorage.class, Graph.class );
-                    return (MessageHandler) constructor.newInstance(userDataStorage, graphProvider.get());
+                    Constructor<?> constructor = parser.getHandlerClass()
+                            .getDeclaredConstructor(UserDataStorage.class, Graph.class);
+                    return (MessageHandler) constructor.newInstance(userDataStorage, graph);
                 } catch (IllegalAccessException | InstantiationException | NoSuchMethodException
                         | InvocationTargetException e) {
                     e.printStackTrace();
                 }
             }
         }
-        return new UnknownMessageHandler(userDataStorage, graphProvider.get());
+        return new UnknownMessageHandler(userDataStorage, graph);
     }
 
     private void registerParser(String regExp, Class handlerClass) {

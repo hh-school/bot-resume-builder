@@ -13,14 +13,14 @@ import javax.validation.constraints.NotNull;
 
 @Singleton
 public class UserDAOImpl extends GenericDAOImpl<User, Integer> implements UserDAO {
-    private final static Logger log = LoggerFactory.getLogger(UserDAOImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(UserDAOImpl.class);
 
     @Inject
     public UserDAOImpl(@NotNull SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
-    private final static String USER_BY_TELEGRAM_ID = "FROM User WHERE telegram_id = :telegram_id";
+    private static final String USER_BY_TELEGRAM_ID = "FROM User WHERE telegram_id = :telegram_id";
 
     public User getByTelegramId(long telegramId){
         TypedQuery<User> query = getCurrentSession().createQuery(USER_BY_TELEGRAM_ID, User.class);
