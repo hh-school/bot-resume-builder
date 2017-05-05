@@ -9,10 +9,6 @@ import ru.hh.resumebuilderbot.database.dao.SpecializationDAO;
 import ru.hh.resumebuilderbot.database.dao.SpecializationDAOImpl;
 import ru.hh.resumebuilderbot.database.dao.UserDAO;
 import ru.hh.resumebuilderbot.database.dao.UserDAOImpl;
-import ru.hh.resumebuilderbot.database.dao.contact.ContactDAO;
-import ru.hh.resumebuilderbot.database.dao.contact.ContactDAOImpl;
-import ru.hh.resumebuilderbot.database.dao.contact.ContactTypeDAO;
-import ru.hh.resumebuilderbot.database.dao.contact.ContactTypeDAOImpl;
 import ru.hh.resumebuilderbot.database.dao.education.EducationDAO;
 import ru.hh.resumebuilderbot.database.dao.education.EducationDAOImpl;
 import ru.hh.resumebuilderbot.database.dao.experience.CompanyDAO;
@@ -27,10 +23,6 @@ import ru.hh.resumebuilderbot.database.service.SpecializationService;
 import ru.hh.resumebuilderbot.database.service.SpecializationServiceImpl;
 import ru.hh.resumebuilderbot.database.service.UserService;
 import ru.hh.resumebuilderbot.database.service.UserServiceImpl;
-import ru.hh.resumebuilderbot.database.service.contact.ContactService;
-import ru.hh.resumebuilderbot.database.service.contact.ContactServiceImpl;
-import ru.hh.resumebuilderbot.database.service.contact.ContactTypeService;
-import ru.hh.resumebuilderbot.database.service.contact.ContactTypeServiceImpl;
 import ru.hh.resumebuilderbot.database.service.education.EducationService;
 import ru.hh.resumebuilderbot.database.service.education.EducationServiceImpl;
 import ru.hh.resumebuilderbot.database.service.experience.CompanyService;
@@ -43,8 +35,6 @@ import ru.hh.resumebuilderbot.database.service.experience.IndustryServiceImpl;
 public class GuiceProdModule extends AbstractModule {
 
     private void configureDAO() {
-        bind(ContactDAO.class).to(ContactDAOImpl.class);
-        bind(ContactTypeDAO.class).to(ContactTypeDAOImpl.class);
         bind(EducationDAO.class).to(EducationDAOImpl.class);
         bind(CompanyDAO.class).to(CompanyDAOImpl.class);
         bind(ExperienceDAO.class).to(ExperienceDAOImpl.class);
@@ -55,8 +45,6 @@ public class GuiceProdModule extends AbstractModule {
     }
 
     private void configureServices() {
-        bind(ContactService.class).to(ContactServiceImpl.class);
-        bind(ContactTypeService.class).to(ContactTypeServiceImpl.class);
         bind(EducationService.class).to(EducationServiceImpl.class);
         bind(CompanyService.class).to(CompanyServiceImpl.class);
         bind(ExperienceService.class).to(ExperienceServiceImpl.class);

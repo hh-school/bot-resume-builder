@@ -1,7 +1,6 @@
 package ru.hh.resumebuilderbot.database.model;
 
 import org.hibernate.annotations.CreationTimestamp;
-import ru.hh.resumebuilderbot.database.model.contact.Contact;
 import ru.hh.resumebuilderbot.database.model.education.Education;
 import ru.hh.resumebuilderbot.database.model.experience.Experience;
 import ru.hh.resumebuilderbot.database.model.gender.Gender;
@@ -49,8 +48,8 @@ public class User {
     private String firstName;
     @Column(name = "last_name", length = 100)
     private String lastName;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Contact> contacts;
+    @Column(name = "phone")
+    private String phone;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Education> educations = new HashSet<>(0);
     @ManyToOne
@@ -147,12 +146,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Set<Contact> getContacts() {
-        return contacts;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setContacts(Set<Contact> contacts) {
-        this.contacts = contacts;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Set<Experience> getExperiences() {
@@ -241,6 +240,7 @@ public class User {
                 Objects.equals(birthDate, user.birthDate) &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
+                Objects.equals(phone, user.phone) &&
                 Objects.equals(area, user.area) &&
                 gender == user.gender &&
                 Objects.equals(careerObjective, user.careerObjective) &&
@@ -253,7 +253,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, telegramId, birthDate, firstName, lastName, area, gender, careerObjective,
-                salaryAmount, salaryCurrency, createDatetime, nodeId, nodeRelationId);
+        return Objects.hash(id, telegramId, birthDate, phone, firstName, lastName, area, gender,
+                careerObjective, salaryAmount, salaryCurrency, createDatetime, nodeId, nodeRelationId);
     }
 }

@@ -10,7 +10,9 @@
             </base>
             <validator classpath="PhoneNumberValidator"/>
             <saver classpath="DatabaseSaver">
-                <databaseField>phone</databaseField>
+                <classData>
+                    <databaseField>phone</databaseField>
+                </classData>
             </saver>
         </nodeConstructor>
         <links>
@@ -27,7 +29,9 @@
             </base>
             <validator classpath="EMailValidator"/>
             <saver classpath="DatabaseSaver">
-                <databaseField>email</databaseField>
+                <classData>
+                    <databaseField>email</databaseField>
+                </classData>
             </saver>
         </nodeConstructor>
         <links>
@@ -43,7 +47,9 @@
                 </classData>
             </base>
             <saver classpath="DatabaseSaver">
-                <databaseField>firstName</databaseField>
+                <classData>
+                    <databaseField>firstName</databaseField>
+                </classData>
             </saver>
         </nodeConstructor>
         <links>
@@ -59,7 +65,9 @@
                 </classData>
             </base>
             <saver classpath="DatabaseSaver">
-                <databaseField>lastName</databaseField>
+                <classData>
+                    <databaseField>lastName</databaseField>
+                </classData>
             </saver>
         </nodeConstructor>
         <links>
@@ -79,7 +87,9 @@
                 </classData>
             </base>
             <saver classpath="DatabaseSaver">
-                <databaseField>sex</databaseField>
+                <classData>
+                    <databaseField>sex</databaseField>
+                </classData>
             </saver>
         </nodeConstructor>
         <links>
@@ -96,7 +106,9 @@
                 </classData>
             </base>
             <saver classpath="DatabaseSaver">
-                <databaseField>town</databaseField>
+                <classData>
+                    <databaseField>town</databaseField>
+                </classData>
             </saver>
         </nodeConstructor>
         <links>
@@ -120,7 +132,9 @@
                 </classData>
             </base>
             <saver classpath="DatabaseSaver">
-                <databaseField>educationType</databaseField>
+                <classData>
+                    <databaseField>educationType</databaseField>
+                </classData>
             </saver>
         </nodeConstructor>
         <links>
@@ -139,7 +153,9 @@
                 </classData>
             </base>
             <saver classpath="DatabaseSaver">
-                <databaseField>institution</databaseField>
+                <classData>
+                    <databaseField>institution</databaseField>
+                </classData>
             </saver>
         </nodeConstructor>
         <links>

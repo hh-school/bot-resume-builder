@@ -11,7 +11,6 @@ import ru.hh.resumebuilderbot.database.model.Area;
 import ru.hh.resumebuilderbot.database.model.SalaryCurrency;
 import ru.hh.resumebuilderbot.database.model.Specialization;
 import ru.hh.resumebuilderbot.database.model.User;
-import ru.hh.resumebuilderbot.database.model.contact.Contact;
 import ru.hh.resumebuilderbot.database.model.education.Education;
 import ru.hh.resumebuilderbot.database.model.education.EducationLevel;
 import ru.hh.resumebuilderbot.database.model.experience.Company;
@@ -90,6 +89,12 @@ public class UserDataStorage {
         serviceAggregator.getUserService().update(user);
     }
 
+    public void savePhoneNumber(TelegramUser telegramUser, String phoneNumber) {
+        User user = getUser(telegramUser);
+        user.setPhone(phoneNumber);
+        serviceAggregator.getUserService().update(user);
+    }
+
     public void saveGender(TelegramUser telegramUser, Gender gender) {
         User user = getUser(telegramUser);
         user.setGender(gender);
@@ -111,12 +116,6 @@ public class UserDataStorage {
     public void saveSalaryCurrency(TelegramUser telegramUser, SalaryCurrency salaryCurrency) {
         User user = getUser(telegramUser);
         user.setSalaryCurrency(salaryCurrency);
-        serviceAggregator.getUserService().update(user);
-    }
-
-    public void addNewContact(TelegramUser telegramUser, Contact contact) {
-        User user = getUser(telegramUser);
-        user.getContacts().add(contact);
         serviceAggregator.getUserService().update(user);
     }
 
@@ -142,8 +141,8 @@ public class UserDataStorage {
                 return education;
             }
         }
-        addNewEducation(telegramUser);
-        return serviceAggregator.getEducationService().get(user.getNodeRelationId());
+        log.error("Не найдено образование для пользователя {} по id {}");
+        return null;
     }
 
     public void saveEducationLevel(TelegramUser telegramUser, EducationLevel educationLevel) {

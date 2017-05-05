@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS area (
 CREATE TABLE IF NOT EXISTS "user" (
   id               SERIAL PRIMARY KEY,
   telegram_id      INT UNIQUE               NOT NULL,
+  phone            VARCHAR(15)
   birth_date       DATE,
   first_name       VARCHAR(100),
   last_name        VARCHAR(100),
@@ -28,18 +29,6 @@ CREATE TABLE IF NOT EXISTS user__specialization (
   user_id           INT REFERENCES "user" (id)         NOT NULL,
   specialization_id INT REFERENCES specialization (id) NOT NULL,
   UNIQUE (user_id, specialization_id)
-);
-
-CREATE TABLE IF NOT EXISTS contact_type (
-  id        SERIAL PRIMARY KEY,
-  name      VARCHAR(255)        NOT NULL,
-  code_name VARCHAR(255) UNIQUE NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS contact (
-  id      SERIAL PRIMARY KEY,
-  type_id INT REFERENCES contact_type (id) NOT NULL,
-  user_id INT REFERENCES "user" (id)       NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS company (

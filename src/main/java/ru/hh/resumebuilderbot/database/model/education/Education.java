@@ -39,7 +39,7 @@ public class Education {
     private Integer specialityId;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "level", nullable = false, length = 20)
+    @Column(name = "level", length = 20)
     private EducationLevel level;
 
     public Education() {

@@ -27,6 +27,9 @@ public abstract class MessageHandler {
 
     protected void saveValue(TelegramUser telegramUser, String field, String value) {
         switch (field) {
+            case "phone":
+                userDataStorage.savePhoneNumber(telegramUser, value);
+                break;
             case "firstName":
                 userDataStorage.saveFirstname(telegramUser, value);
                 break;
@@ -41,7 +44,7 @@ public abstract class MessageHandler {
                 break;
             case "educationType":
                 userDataStorage.addNewEducation(telegramUser);
-                userDataStorage.saveEducationLevel(telegramUser, EducationLevel.valueOf(value));
+                userDataStorage.saveEducationLevel(telegramUser, EducationLevel.fromCode(value));
                 break;
             case "institution":
                 userDataStorage.saveInstitute(telegramUser, null, value);
