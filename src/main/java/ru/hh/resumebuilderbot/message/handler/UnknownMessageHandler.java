@@ -7,14 +7,14 @@ import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
-import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
+import ru.hh.resumebuilderbot.DBService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UnknownMessageHandler extends MessageHandler {
-    public UnknownMessageHandler(UserDataStorage userDataStorage, Graph graph) {
-        super(userDataStorage, graph);
+    public UnknownMessageHandler(DBService dbService, Graph graph) {
+        super(dbService, graph);
     }
 
     @Override

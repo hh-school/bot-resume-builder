@@ -1,19 +1,18 @@
 package ru.hh.resumebuilderbot.cv.builder;
 
+import ru.hh.resumebuilderbot.DBService;
 import ru.hh.resumebuilderbot.TelegramUser;
-import ru.hh.resumebuilderbot.user.data.storage.UserDataStorage;
 
 public class PlainTextCVBuilder implements CVBuilder {
-    private UserDataStorage userDataStorage;
+    private DBService dbService;
 
-    public PlainTextCVBuilder(UserDataStorage userDataStorage) {
-        this.userDataStorage = userDataStorage;
+    public PlainTextCVBuilder(DBService dbService) {
+        this.dbService = dbService;
     }
 
     @Override
     public String build(TelegramUser telegramUser) {
         // TODO Выдача резюме в текстовом формате
-        // https://trello.com/c/N7dBNooS/35-pdf-xml-word-excel-txt-jpg-png-svg-tiff-gif-bmp
         return "not implemented yet";
     }
 }

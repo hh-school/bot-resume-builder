@@ -1,11 +1,9 @@
-package ru.hh.resumebuilderbot.user.data.storage;
+package ru.hh.resumebuilderbot;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.hh.resumebuilderbot.TelegramUser;
 import ru.hh.resumebuilderbot.database.ServiceAggregator;
 import ru.hh.resumebuilderbot.database.model.Area;
 import ru.hh.resumebuilderbot.database.model.SalaryCurrency;
@@ -16,19 +14,18 @@ import ru.hh.resumebuilderbot.database.model.education.EducationLevel;
 import ru.hh.resumebuilderbot.database.model.experience.Company;
 import ru.hh.resumebuilderbot.database.model.experience.Experience;
 import ru.hh.resumebuilderbot.database.model.gender.Gender;
-import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 
 import java.util.Date;
 import java.util.Set;
 
 
 @Singleton
-public class UserDataStorage {
-    public static final Logger log = LoggerFactory.getLogger(UserDataStorage.class);
+public class DBService {
+    public static final Logger log = LoggerFactory.getLogger(DBService.class);
     private final ServiceAggregator serviceAggregator;
 
     @Inject
-    private UserDataStorage(ServiceAggregator serviceAggregator) {
+    private DBService(ServiceAggregator serviceAggregator) {
         this.serviceAggregator = serviceAggregator;
     }
 
