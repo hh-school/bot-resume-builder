@@ -50,6 +50,7 @@ public class User {
     private String lastName;
     @Column(name = "phone", length = 15)
     private String phone;
+    //TODO заменить EAGER на LAZY
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Education> educations = new HashSet<>(0);
     @ManyToOne

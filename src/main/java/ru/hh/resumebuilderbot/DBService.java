@@ -138,7 +138,8 @@ public class DBService {
                 return education;
             }
         }
-        log.error("Не найдено образование для пользователя {} по id {}");
+        log.error("Не найдено образование для пользователя {} по id {}",
+                user.getTelegramId(), user.getNodeRelationId());
         return null;
     }
 
