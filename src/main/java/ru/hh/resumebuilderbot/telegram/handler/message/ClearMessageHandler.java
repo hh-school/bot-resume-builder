@@ -1,4 +1,4 @@
-package ru.hh.resumebuilderbot.message.handler;
+package ru.hh.resumebuilderbot.telegram.handler.message;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.DBService;
@@ -10,20 +10,16 @@ import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StartMessageHandler extends MessageHandler {
-    public StartMessageHandler(DBService dbService, Graph graph) {
+public class ClearMessageHandler extends MessageHandler {
+    public ClearMessageHandler(DBService dbService, Graph graph) {
         super(dbService, graph);
     }
 
     @Override
     public List<Question> handle(Long telegramId, Answer answer) {
+        dbService.startNewChat(telegramId, graph.getRootIndex());
         List<Question> questions = new ArrayList<>(2);
-        if (dbService.contains(telegramId)) {
-            questions.add(new Question(TextsStorage.getText(TextId.ALREADY_STARTED)));
-        } else {
-            dbService.startNewChat(telegramId, graph.getRootIndex());
-            questions.add(new Question(TextsStorage.getText(TextId.HELLO)));
-        }
+        questions.add(new Question(TextsStorage.getText(TextId.CLEARED)));
         questions.add(graph.getNode(dbService.getNodeId(telegramId)).getQuestion());
         return questions;
     }

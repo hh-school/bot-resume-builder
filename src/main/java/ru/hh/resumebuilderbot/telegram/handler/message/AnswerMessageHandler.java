@@ -1,4 +1,4 @@
-package ru.hh.resumebuilderbot.message.handler;
+package ru.hh.resumebuilderbot.telegram.handler.message;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.DBService;

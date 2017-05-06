@@ -101,7 +101,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Город проживания">
-                        <suggestType>AreasSuggest</suggestType>
+                        <suggestType>AREAS_SUGGEST</suggestType>
                     </question>
                 </classData>
             </base>
@@ -147,7 +147,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Учебное заведение">
-                        <suggestType>InstitutesSuggest</suggestType>
+                        <suggestType>INSTITUTES_SUGGEST</suggestType>
                     </question>
                     <skippable>false</skippable>
                 </classData>

@@ -7,6 +7,7 @@ import ru.hh.resumebuilderbot.di.GuiceCommonModule;
 import ru.hh.resumebuilderbot.di.GuiceProdModule;
 import ru.hh.resumebuilderbot.telegram.adapter.BotImpl;
 import ru.hh.resumebuilderbot.telegram.adapter.TelegramAdapter;
+import ru.hh.resumebuilderbot.telegram.handler.suggest.SuggestHandler;
 
 public class Main {
     private static final String TOKEN_ENV_NAME = "TOKEN";
@@ -14,23 +15,20 @@ public class Main {
 
     public static void main(String[] args) {
         Injector injector = Guice.createInjector(new GuiceCommonModule(), new GuiceProdModule());
-
         ApiContextInitializer.init();
 
-        // connect to telegram server
         BotBody botBody = injector.getInstance(BotBody.class);
 
         BotImpl bot = new BotImpl(
                 System.getenv(TOKEN_ENV_NAME),
                 System.getenv(BOT_USERNAME_ENV_NAME),
-                botBody);
+                botBody,
+                injector.getInstance(SuggestHandler.class)
+        );
 
         MessengerAdapter messengerAdapter = new TelegramAdapter(bot);
 
         botBody.setMessenger(messengerAdapter);
-
-        // configure connection to job site
-        // ...
 
         messengerAdapter.start();
     }

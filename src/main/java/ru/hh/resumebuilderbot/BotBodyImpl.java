@@ -2,7 +2,7 @@ package ru.hh.resumebuilderbot;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ru.hh.resumebuilderbot.message.handler.MessageHandler;
+import ru.hh.resumebuilderbot.telegram.handler.message.MessageHandler;
 
 @Singleton
 public class BotBodyImpl implements BotBody {
