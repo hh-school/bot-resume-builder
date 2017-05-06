@@ -1,48 +1,44 @@
 package ru.hh.resumebuilderbot.question;
 
 import ru.hh.resumebuilderbot.Answer;
+import ru.hh.resumebuilderbot.telegram.handler.suggest.SuggestType;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Question {
-
-    private static final QuestionSuggest defaultSuggest = QuestionSuggest.NoSuggestNeeded;
+    public static final SuggestType DEFAULT_SUGGEST_TYPE = SuggestType.NO_SUGGEST_NEEDED;
 
     private final String text;
 
     private final List<String> variantsOfAnswer;
     private final boolean otherVariantsAllowed;
 
-    private final QuestionSuggest suggestField;
+    private final SuggestType suggestField;
 
     public Question(String text, List<String> variantsOfAnswer, boolean otherVariantsAllowed) {
-        this(text, variantsOfAnswer, otherVariantsAllowed, defaultSuggest);
+        this(text, variantsOfAnswer, otherVariantsAllowed, DEFAULT_SUGGEST_TYPE);
     }
 
-    public Question(String text, List<String> variantsOfAnswer,
-                    boolean otherVariantsAllowed, QuestionSuggest questionSuggest) {
+    public Question(String text, List<String> variantsOfAnswer, boolean otherVariantsAllowed,
+                    SuggestType suggestType) {
         this.text = text;
         this.variantsOfAnswer = variantsOfAnswer;
         this.otherVariantsAllowed = otherVariantsAllowed;
-        if (questionSuggest == null) {
-            this.suggestField = defaultSuggest;
+        if (suggestType == null) {
+            this.suggestField = DEFAULT_SUGGEST_TYPE;
         } else {
-            this.suggestField = questionSuggest;
+            this.suggestField = suggestType;
         }
     }
 
     public Question(String text) {
-        this(text, new ArrayList<>(), true, defaultSuggest);
+        this(text, new ArrayList<>(), true, DEFAULT_SUGGEST_TYPE);
     }
 
-    public Question(String text, QuestionSuggest suggestField) {
+    public Question(String text, SuggestType suggestField) {
         this(text, new ArrayList<>(), true, suggestField);
-    }
-
-    public static QuestionSuggest getDefaultSuggest() {
-        return defaultSuggest;
     }
 
     public List<String> getVariantsOfAnswer() {
@@ -58,7 +54,7 @@ public class Question {
                 variantsOfAnswer.contains(answer.getAnswerBody());
     }
 
-    public QuestionSuggest getSuggestField() {
+    public SuggestType getSuggestField() {
         return suggestField;
     }
 

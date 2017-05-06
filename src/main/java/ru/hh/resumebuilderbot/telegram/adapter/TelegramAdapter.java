@@ -11,7 +11,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import ru.hh.resumebuilderbot.MessengerAdapter;
 import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.QuestionSuggest;
+import ru.hh.resumebuilderbot.telegram.handler.suggest.SuggestType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class TelegramAdapter implements MessengerAdapter {
         List<String> variantsOfAnswer = question.getVariantsOfAnswer();
         if (!variantsOfAnswer.isEmpty()) {
             message.setReplyMarkup(generateReplyKeyboard(variantsOfAnswer));
-        } else if (question.getSuggestField().equals(QuestionSuggest.NoSuggestNeeded)) {
+        } else if (question.getSuggestField().equals(SuggestType.NO_SUGGEST_NEEDED)) {
             message.setReplyMarkup(new ReplyKeyboardRemove());
         } else {
             message.setReplyMarkup(generateSuggestInlineKeyboard());

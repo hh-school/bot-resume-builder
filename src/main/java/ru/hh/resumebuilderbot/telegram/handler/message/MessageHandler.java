@@ -1,4 +1,4 @@
-package ru.hh.resumebuilderbot.message.handler;
+package ru.hh.resumebuilderbot.telegram.handler.message;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -3,8 +3,8 @@ package ru.hh.resumebuilderbot.question.storage.graph.xml.parser.instantiator;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.QuestionSuggest;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLAsStream;
+import ru.hh.resumebuilderbot.telegram.handler.suggest.SuggestType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +16,11 @@ public class QuestionInstantiator implements Instantiator {
         NamedNodeMap attributes = questionNode.getAttributes();
 
         String text = attributes.getNamedItem("text").getNodeValue();
-        QuestionSuggest suggest = Question.getDefaultSuggest();
+        SuggestType suggestType = Question.DEFAULT_SUGGEST_TYPE;
 
         Optional<Node> suggestTypeNode = XMLAsStream.getFirstChildByName(questionNode, "suggestType");
         if (suggestTypeNode.isPresent()) {
-            suggest = QuestionSuggest.valueOf(suggestTypeNode.get().getTextContent());
+            suggestType = SuggestType.valueOf(suggestTypeNode.get().getTextContent());
         }
 
         Optional<Node> variantsOfAnswerNode = XMLAsStream.getFirstChildByName(questionNode, "variantsOfAnswer");
@@ -32,8 +32,8 @@ public class QuestionInstantiator implements Instantiator {
             List<String> variantsOfAnswer = new ArrayList<>();
             XMLAsStream.fromParentNode(variantsOfAnswerNode.get()).forEach((x) ->
                     variantsOfAnswer.add(x.getAttributes().getNamedItem("text").getNodeValue()));
-            return new Question(text, variantsOfAnswer, otherVariantsAllowed, suggest);
+            return new Question(text, variantsOfAnswer, otherVariantsAllowed, suggestType);
         }
-        return new Question(text, suggest);
+        return new Question(text, suggestType);
     }
 }
