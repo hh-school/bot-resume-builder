@@ -2,16 +2,16 @@ package ru.hh.resumebuilderbot.database.model.education;
 
 import ru.hh.resumebuilderbot.database.model.User;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 
 @Entity
 @Table(name = "education")
@@ -27,13 +27,19 @@ public class Education {
     private User user;
     @Column(name = "institution_name", length = 100)
     private String institutionName;
+    @Column(name = "institution_id")
+    private Integer institutionId;
     @Column(name = "faculty_name", length = 100)
     private String facultyName;
+    @Column(name = "faculty_id")
+    private Integer facultyId;
     @Column(name = "speciality_name", length = 100)
     private String specialityName;
+    @Column(name = "speciality_id")
+    private Integer specialityId;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "level", nullable = false, length = 20)
+    @Column(name = "level", length = 20)
     private EducationLevel level;
 
     public Education() {
@@ -71,6 +77,14 @@ public class Education {
         this.institutionName = institutionName;
     }
 
+    public Integer getInstitutionId() {
+        return institutionId;
+    }
+
+    public void setInstitutionId(Integer institutionId) {
+        this.institutionId = institutionId;
+    }
+
     public String getFacultyName() {
         return facultyName;
     }
@@ -79,12 +93,28 @@ public class Education {
         this.facultyName = facultyName;
     }
 
+    public Integer getFacultyId() {
+        return facultyId;
+    }
+
+    public void setFacultyId(Integer facultyId) {
+        this.facultyId = facultyId;
+    }
+
     public String getSpecialityName() {
         return specialityName;
     }
 
     public void setSpecialityName(String specialityName) {
         this.specialityName = specialityName;
+    }
+
+    public Integer getSpecialityId() {
+        return specialityId;
+    }
+
+    public void setSpecialityId(Integer specialityId) {
+        this.specialityId = specialityId;
     }
 
     public EducationLevel getLevel() {

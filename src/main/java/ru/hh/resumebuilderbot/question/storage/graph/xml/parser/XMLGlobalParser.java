@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class XMLGlobalParser {
 
-    private final static Logger log = LoggerFactory.getLogger(XMLGlobalParser.class);
+    private static final Logger log = LoggerFactory.getLogger(XMLGlobalParser.class);
 
     public static XMLRawData parse(String filename) throws IOException {
 

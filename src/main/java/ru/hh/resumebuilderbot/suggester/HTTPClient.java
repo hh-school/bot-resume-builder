@@ -12,11 +12,11 @@ import java.net.URLEncoder;
 import java.util.Map;
 
 public class HTTPClient {
-    private final static Logger log = LoggerFactory.getLogger(HTTPClient.class);
+    private static final Logger log = LoggerFactory.getLogger(HTTPClient.class);
 
-    private final static String divider = "&";
+    private static final String divider = "&";
 
-    private final static String queryBeginner = "?";
+    private static final String queryBeginner = "?";
 
     public static String sendGetRequest(String urlToRead) {
         try {

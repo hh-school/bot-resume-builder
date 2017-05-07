@@ -4,30 +4,25 @@ import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
-import ru.hh.resumebuilderbot.user.data.storage.UserData;
 
 import java.util.Map;
 
 public class QuestionNodeTerminal implements QuestionNode {
     private Question question;
+    private int index;
 
     public QuestionNodeTerminal() {
         question = new Question(TextsStorage.getText(TextId.FINISHED));
     }
 
     @Override
-    public void setLinks(Map<String, QuestionNode> links) {
+    public void setLinks(Map<String, QuestionNode> links, Map<String, Integer> indexLinks) {
 
     }
 
     @Override
     public boolean answerIsValid(Answer answer) {
         return true;
-    }
-
-    @Override
-    public void registerAnswer(Answer answer) {
-
     }
 
     @Override
@@ -41,6 +36,11 @@ public class QuestionNodeTerminal implements QuestionNode {
     }
 
     @Override
+    public int getNextIndex(Answer answer) {
+        return index;
+    }
+
+    @Override
     public boolean isSkippable() {
         return true;
     }
@@ -51,8 +51,8 @@ public class QuestionNodeTerminal implements QuestionNode {
     }
 
     @Override
-    public void saveAnswer(UserData dest, Answer answer) {
-
+    public String getFieldNameToSave() {
+        return null;
     }
 
     @Override

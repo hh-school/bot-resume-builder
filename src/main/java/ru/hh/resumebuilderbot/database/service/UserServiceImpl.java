@@ -14,4 +14,8 @@ public class UserServiceImpl extends GenericServiceImpl<User, Integer, UserDAO> 
     public UserServiceImpl(UserDAO userDAO, SessionFactory sessionFactory) {
         super(userDAO, sessionFactory);
     }
+
+    public User getUserByTelegramId(long telegramId) {
+        return inTransaction(() -> dao.getByTelegramId(telegramId));
+    }
 }

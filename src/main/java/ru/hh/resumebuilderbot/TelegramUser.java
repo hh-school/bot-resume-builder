@@ -1,15 +1,15 @@
 package ru.hh.resumebuilderbot;
 
-public class User {
+public class TelegramUser {
     // todo: make private and override constructor
-    private final long index;
+    private final long id;
 
-    public User(long index) {
-        this.index = index;
+    public long getId() {
+        return id;
     }
 
-    public long getIndex() {
-        return index;
+    public TelegramUser(long id) {
+        this.id = id;
     }
 
     @Override
@@ -21,13 +21,13 @@ public class User {
             return false;
         }
 
-        User user = (User) o;
+        TelegramUser telegramUser = (TelegramUser) o;
 
-        return getIndex() == user.getIndex();
+        return getId() == telegramUser.getId();
     }
 
     @Override
     public int hashCode() {
-        return (int) (getIndex() ^ (getIndex() >>> 32));
+        return (int) (getId() ^ (getId() >>> 32));
     }
 }

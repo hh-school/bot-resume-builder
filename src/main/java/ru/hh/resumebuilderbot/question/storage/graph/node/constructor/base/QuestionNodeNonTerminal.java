@@ -6,8 +6,8 @@ import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.saver.DoNo
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.saver.Saver;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator.DefaultValidator;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator.Validator;
-import ru.hh.resumebuilderbot.user.data.storage.UserData;
 
+import java.util.Map;
 import java.util.Objects;
 
 public abstract class QuestionNodeNonTerminal implements QuestionNode {
@@ -15,6 +15,7 @@ public abstract class QuestionNodeNonTerminal implements QuestionNode {
     protected boolean skippable;
     protected Validator validator = new DefaultValidator();
     protected Saver saver = new DoNothingSaver();
+    protected Map<String, Integer> indexLinks;
 
     @Override
     public boolean answerIsValid(Answer answer) {
@@ -31,8 +32,8 @@ public abstract class QuestionNodeNonTerminal implements QuestionNode {
     }
 
     @Override
-    public void saveAnswer(UserData dest, Answer answer) {
-        saver.saveAnswer(dest, answer);
+    public String getFieldNameToSave() {
+        return saver.getDatabaseField();
     }
 
     public void setValidator(Validator validator) {
@@ -48,6 +49,7 @@ public abstract class QuestionNodeNonTerminal implements QuestionNode {
         return Objects.equals(that.question, question) &&
                 Objects.equals(that.validator, validator) &&
                 Objects.equals(that.saver, saver) &&
+                Objects.equals(that.indexLinks, indexLinks) &&
                 that.skippable == skippable;
     }
 }

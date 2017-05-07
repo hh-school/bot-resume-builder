@@ -1,31 +1,32 @@
 package ru.hh.resumebuilderbot.database.model;
 
 import org.hibernate.annotations.CreationTimestamp;
-import ru.hh.resumebuilderbot.database.model.contact.Contact;
 import ru.hh.resumebuilderbot.database.model.education.Education;
 import ru.hh.resumebuilderbot.database.model.experience.Experience;
 import ru.hh.resumebuilderbot.database.model.gender.Gender;
 import ru.hh.resumebuilderbot.database.model.gender.GenderConverter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.JoinTable;
 import javax.persistence.Temporal;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.TemporalType;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.OneToMany;
+import javax.persistence.Convert;
+
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -39,7 +40,7 @@ public class User {
     // Некоторые проверки на null убраны, чтобы можно было последовательно заполнять резюме, необходимо будет проверять
     // это в коде (telegram_id оставлен, чтобы нельзя было создать пользователя без привязки к telegram)
     @Column(name = "telegram_id", nullable = false, unique = true, updatable = false)
-    private int telegramId;
+    private long telegramId;
     @Temporal(TemporalType.DATE)
     @Column(name = "birth_date")
     private Date birthDate;
@@ -47,14 +48,15 @@ public class User {
     private String firstName;
     @Column(name = "last_name", length = 100)
     private String lastName;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<Contact> contacts;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<Education> educations;
+    @Column(name = "phone", length = 15)
+    private String phone;
+    //TODO заменить EAGER на LAZY
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<Education> educations = new HashSet<>(0);
     @ManyToOne
     @JoinColumn(name = "area_id")
     private Area area;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Experience> experiences;
     @Convert(converter = GenderConverter.class)
     @Column(name = "gender", length = 1)
@@ -63,7 +65,7 @@ public class User {
     @Column(name = "career_objective")
     private String careerObjective;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user__specialization",
             joinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)},
@@ -80,30 +82,29 @@ public class User {
     @CreationTimestamp
     private Date createDatetime;
 
-    @ManyToOne
-    @JoinColumn(name = "node_id")
-    private Node node;
+    @Column(name = "node_id")
+    private Integer nodeId;
 
     @Column(name = "node_relation_id")
-    private Integer nodeRelation;
+    private Integer nodeRelationId;
 
     public User() {
     }
 
-    public Node getNode() {
-        return node;
+    public Integer getNodeId() {
+        return nodeId;
     }
 
-    public void setNode(Node node) {
-        this.node = node;
+    public void setNodeId(Integer nodeId) {
+        this.nodeId = nodeId;
     }
 
-    public Integer getNodeRelation() {
-        return nodeRelation;
+    public Integer getNodeRelationId() {
+        return nodeRelationId;
     }
 
-    public void setNodeRelation(Integer nodeRelation) {
-        this.nodeRelation = nodeRelation;
+    public void setNodeRelationId(Integer nodeRelationId) {
+        this.nodeRelationId = nodeRelationId;
     }
 
     public Integer getId() {
@@ -114,11 +115,11 @@ public class User {
         this.id = id;
     }
 
-    public int getTelegramId() {
+    public long getTelegramId() {
         return telegramId;
     }
 
-    public void setTelegramId(int telegramId) {
+    public void setTelegramId(long telegramId) {
         this.telegramId = telegramId;
     }
 
@@ -146,12 +147,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Set<Contact> getContacts() {
-        return contacts;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setContacts(Set<Contact> contacts) {
-        this.contacts = contacts;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Set<Experience> getExperiences() {
@@ -240,19 +241,20 @@ public class User {
                 Objects.equals(birthDate, user.birthDate) &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
-                Objects.equals(area.getId(), user.area.getId()) &&
+                Objects.equals(phone, user.phone) &&
+                Objects.equals(area, user.area) &&
                 gender == user.gender &&
                 Objects.equals(careerObjective, user.careerObjective) &&
                 Objects.equals(salaryAmount, user.salaryAmount) &&
                 salaryCurrency == user.salaryCurrency &&
                 Objects.equals(createDatetime, user.createDatetime) &&
-                Objects.equals(node.getId(), user.node.getId()) &&
-                Objects.equals(nodeRelation, user.nodeRelation);
+                Objects.equals(nodeId, user.nodeId) &&
+                Objects.equals(nodeRelationId, user.nodeRelationId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, telegramId, birthDate, firstName, lastName, area.getId(), gender, careerObjective,
-                salaryAmount, salaryCurrency, createDatetime, node.getId(), nodeRelation);
+        return Objects.hash(id, telegramId, birthDate, phone, firstName, lastName, area, gender,
+                careerObjective, salaryAmount, salaryCurrency, createDatetime, nodeId, nodeRelationId);
     }
 }

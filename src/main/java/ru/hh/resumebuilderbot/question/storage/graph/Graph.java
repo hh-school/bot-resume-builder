@@ -1,5 +1,6 @@
 package ru.hh.resumebuilderbot.question.storage.graph;
 
+import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNode;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLGlobalParser;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLRawData;
@@ -44,6 +45,19 @@ public class Graph {
 
     private void setRoot(XMLRawData rawData) {
         rootIndex = rawData.getRootIndex();
+    }
+
+    public int getRootIndex() {
+        return rootIndex;
+    }
+
+    public QuestionNode getNode(int index) {
+        return entriesMap.getNode(index);
+    }
+
+    public int getNextNodeIndex(int index, Answer answer) {
+        QuestionNode questionNode = getNode(index);
+        return questionNode.getNextIndex(answer);
     }
 
     public Graph cloneContent() {

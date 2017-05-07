@@ -1,11 +1,14 @@
 package ru.hh.resumebuilderbot.database.model.experience;
 
-import javax.persistence.Column;
+import ru.hh.resumebuilderbot.database.model.Area;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import java.util.Objects;
 
 @Entity
@@ -17,6 +20,12 @@ public class Company {
     private Integer id;
     @Column(name = "name")
     private String name;
+    @Column(name = "hh_id")
+    private Integer hhId;
+
+    @ManyToOne
+    @JoinColumn(name = "area_id")
+    private Area area;
 
     public Company() {
     }
@@ -37,6 +46,22 @@ public class Company {
         this.name = name;
     }
 
+    public Integer getHHId() {
+        return hhId;
+    }
+
+    public void setHHId(Integer hhId) {
+        this.hhId = hhId;
+    }
+
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -47,16 +72,18 @@ public class Company {
         }
         Company company = (Company) o;
         return Objects.equals(id, company.id) &&
-                Objects.equals(name, company.name);
+                Objects.equals(name, company.name) &&
+                Objects.equals(hhId, company.hhId) &&
+                Objects.equals(area, company.area);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, hhId);
     }
 
     @Override
     public String toString() {
-        return String.format("Company{id=%d, name='%s'}", id, name);
+        return String.format("Company{id=%d, name='%s', hhId = '%s', area = '%d'}", id, name, hhId, area.getId());
     }
 }

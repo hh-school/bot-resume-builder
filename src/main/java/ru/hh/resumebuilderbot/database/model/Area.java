@@ -17,6 +17,8 @@ public class Area {
     private Integer id;
     @Column(name = "name", nullable = false)
     private String name;
+    @Column(name = "hh_id")
+    private Integer hhId;
 
     public Area() {
     }
@@ -35,6 +37,14 @@ public class Area {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getHhId() {
+        return hhId;
+    }
+
+    public void setHhId(Integer hhId) {
+        this.hhId = hhId;
     }
 
     @Override

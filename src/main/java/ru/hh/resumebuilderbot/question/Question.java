@@ -49,6 +49,10 @@ public class Question {
         return text;
     }
 
+    public static QuestionSuggest getDefaultSuggest() {
+        return defaultSuggest;
+    }
+
     public boolean answerIsAllowed(Answer answer) {
         return variantsOfAnswer.isEmpty() || otherVariantsAllowed ||
                 variantsOfAnswer.contains(answer.getAnswerBody());

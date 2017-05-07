@@ -52,7 +52,7 @@ public class XMLEntry {
 
             Map<String, Object> saverData = parseOptionalConstructorElement(nodeConstructorNode,
                     "saver");
-            if (validatorData != null) {
+            if (saverData != null) {
                 nodeConstructorData.put("saver", saverData);
             }
             XMLEntry entry = new XMLEntry(id, links, nodeConstructorData);

@@ -1,7 +1,7 @@
 package ru.hh.resumebuilderbot.cv.builder;
 
-import ru.hh.resumebuilderbot.User;
+import ru.hh.resumebuilderbot.TelegramUser;
 
 public interface CVBuilder {
-    String build(User user);
+    String build(TelegramUser telegramUser);
 }

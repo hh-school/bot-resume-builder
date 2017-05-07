@@ -5,12 +5,9 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import ru.hh.resumebuilderbot.database.model.Area;
-import ru.hh.resumebuilderbot.database.model.Node;
 import ru.hh.resumebuilderbot.database.model.SalaryCurrency;
 import ru.hh.resumebuilderbot.database.model.Specialization;
 import ru.hh.resumebuilderbot.database.model.User;
-import ru.hh.resumebuilderbot.database.model.contact.Contact;
-import ru.hh.resumebuilderbot.database.model.contact.ContactType;
 import ru.hh.resumebuilderbot.database.model.education.Education;
 import ru.hh.resumebuilderbot.database.model.experience.Company;
 import ru.hh.resumebuilderbot.database.model.experience.Experience;
@@ -48,10 +45,7 @@ public class HibernateMetadataFactory {
                 .applySetting("hibernate.connection.password", dbPassword)
                 .build();
         return new MetadataSources(standardRegistry)
-                .addAnnotatedClass(Contact.class)
-                .addAnnotatedClass(ContactType.class)
                 .addAnnotatedClass(Education.class)
-                .addAnnotatedClass(Node.class)
                 .addAnnotatedClass(Company.class)
                 .addAnnotatedClass(Experience.class)
                 .addAnnotatedClass(Industry.class)

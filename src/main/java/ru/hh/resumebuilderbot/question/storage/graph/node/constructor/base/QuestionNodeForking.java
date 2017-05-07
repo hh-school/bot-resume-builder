@@ -4,7 +4,6 @@ import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.saver.Saver;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator.Validator;
-import ru.hh.resumebuilderbot.user.data.storage.UserData;
 
 import java.util.Map;
 import java.util.Objects;
@@ -36,19 +35,21 @@ public class QuestionNodeForking extends QuestionNodeNonTerminal {
     }
 
     @Override
-    public void setLinks(Map<String, QuestionNode> links) {
+    public void setLinks(Map<String, QuestionNode> links, Map<String, Integer> indexLinks) {
         nextYes = links.get("nextYes");
         nextNo = links.get("nextNo");
-    }
-
-    @Override
-    public void registerAnswer(Answer answer) {
-        matches = answerPattern.matcher((String) (answer.getAnswerBody())).matches();
+        this.indexLinks = indexLinks;
     }
 
     @Override
     public QuestionNode getNext() {
         return matches ? nextYes : nextNo;
+    }
+
+    @Override
+    public int getNextIndex(Answer answer) {
+        boolean matches = answerPattern.matcher((String) (answer.getAnswerBody())).matches();
+        return matches ? indexLinks.get("nextYes") : indexLinks.get("nextNo");
     }
 
     @Override
@@ -62,8 +63,8 @@ public class QuestionNodeForking extends QuestionNodeNonTerminal {
     }
 
     @Override
-    public void saveAnswer(UserData dest, Answer answer) {
-
+    public String getFieldNameToSave() {
+        return saver.getDatabaseField();
     }
 
     @Override

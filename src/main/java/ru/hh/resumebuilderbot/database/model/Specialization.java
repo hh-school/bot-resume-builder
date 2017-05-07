@@ -17,6 +17,8 @@ public class Specialization {
     private Integer id;
     @Column(name = "name", nullable = false)
     private String name;
+    @Column(name = "hh_id")
+    private Integer hhId;
 
     public Specialization() {
     }
@@ -37,6 +39,14 @@ public class Specialization {
         this.name = name;
     }
 
+    public Integer getHhId() {
+        return hhId;
+    }
+
+    public void setHhId(Integer hhId) {
+        this.hhId = hhId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -47,16 +57,17 @@ public class Specialization {
         }
         Specialization that = (Specialization) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name);
+                Objects.equals(name, that.name) &&
+                Objects.equals(hhId, that.hhId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, hhId);
     }
 
     @Override
     public String toString() {
-        return String.format("Specialization{id=%d, name='%s'}", id, name);
+        return String.format("Specialization{id=%d, name='%s', hh_id='%d'}", id, name, hhId);
     }
 }
