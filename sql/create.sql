@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS area (
-  id        SERIAL PRIMARY KEY,
-  hh_id     INT,
-  name      VARCHAR(255) NOT NULL
+  id    SERIAL PRIMARY KEY,
+  hh_id INT,
+  name  VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "user" (
   id               SERIAL PRIMARY KEY,
-  telegram_id      INT UNIQUE               NOT NULL,
-  phone            VARCHAR(15)
+  telegram_id      BIGINT UNIQUE NOT NULL,
+  phone            VARCHAR(15),
   birth_date       DATE,
   first_name       VARCHAR(100),
   last_name        VARCHAR(100),
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS "user" (
 );
 
 CREATE TABLE IF NOT EXISTS specialization (
-  id        SERIAL PRIMARY KEY,
-  hh_id     INT,
-  name      VARCHAR(255) NOT NULL
+  id    SERIAL PRIMARY KEY,
+  hh_id INT,
+  name  VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS user__specialization (
@@ -34,20 +34,20 @@ CREATE TABLE IF NOT EXISTS user__specialization (
 );
 
 CREATE TABLE IF NOT EXISTS company (
-  id        SERIAL PRIMARY KEY,
-  name      VARCHAR(255) NOT NULL,
-  hh_id     INT,
-  area_id   INT REFERENCES area (id)
+  id      SERIAL PRIMARY KEY,
+  name    VARCHAR(255) NOT NULL,
+  hh_id   INT,
+  area_id INT REFERENCES area (id)
 );
 
 CREATE TABLE IF NOT EXISTS experience (
-  id           SERIAL PRIMARY KEY,
-  user_id      INT REFERENCES "user" (id) NOT NULL,
-  company_id   INT REFERENCES company (id),
-  position     VARCHAR(255),
-  start_date   DATE,
-  end_date     DATE,
-  description  VARCHAR(1000)
+  id          SERIAL PRIMARY KEY,
+  user_id     INT REFERENCES "user" (id) NOT NULL,
+  company_id  INT REFERENCES company (id),
+  position    VARCHAR(255),
+  start_date  DATE,
+  end_date    DATE,
+  description VARCHAR(1000)
 );
 
 CREATE TABLE IF NOT EXISTS industry (
