@@ -15,11 +15,11 @@ public class AreaServiceImpl extends GenericServiceImpl<Area, Integer, AreaDAO> 
         super(areaDAO, sessionFactory);
     }
 
-    public Area getAreaByHHId(Integer hhId){
+    public Area getAreaByHHId(Integer hhId) {
         return inTransaction(() -> dao.getAreaByHHId(hhId));
     }
 
-    public Area getAreaByName(String name){
+    public Area getAreaByName(String name) {
         return inTransaction(() -> dao.getAreaByName(name));
     }
 }

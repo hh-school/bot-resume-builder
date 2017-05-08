@@ -2,12 +2,12 @@ package ru.hh.resumebuilderbot.message.handler;
 
 
 import ru.hh.resumebuilderbot.Answer;
+import ru.hh.resumebuilderbot.DBService;
 import ru.hh.resumebuilderbot.TelegramUser;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
-import ru.hh.resumebuilderbot.DBService;
 
 import java.util.ArrayList;
 import java.util.List;

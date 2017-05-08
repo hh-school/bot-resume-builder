@@ -2,21 +2,20 @@ package ru.hh.resumebuilderbot.database.model.experience;
 
 import ru.hh.resumebuilderbot.database.model.User;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
 import javax.persistence.TemporalType;
-
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -147,7 +146,7 @@ public class Experience {
     @Override
     public String toString() {
         return String.format("Experience{id=%d, user=%s, company=%s, position='%s', startDate=%s, " +
-                "endDate=%s, description='%s'}", id, user.getId(), company.getId(), position,
+                        "endDate=%s, description='%s'}", id, user.getId(), company.getId(), position,
                 startDate, endDate, description);
     }
 }

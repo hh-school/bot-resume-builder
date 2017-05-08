@@ -15,11 +15,11 @@ public class CompanyServiceImpl extends GenericServiceImpl<Company, Integer, Com
         super(companyDAO, sessionFactory);
     }
 
-    public Company getCompanyByHHId(Integer hhId){
+    public Company getCompanyByHHId(Integer hhId) {
         return inTransaction(() -> dao.getCompanyByHHId(hhId));
     }
 
-    public Company getCompanyByName(String name){
+    public Company getCompanyByName(String name) {
         return inTransaction(() -> dao.getCompanyByName(name));
     }
 }

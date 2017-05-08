@@ -4,12 +4,12 @@ public class TelegramUser {
     // todo: make private and override constructor
     private final long id;
 
-    public long getId() {
-        return id;
-    }
-
     public TelegramUser(long id) {
         this.id = id;
+    }
+
+    public long getId() {
+        return id;
     }
 
     @Override

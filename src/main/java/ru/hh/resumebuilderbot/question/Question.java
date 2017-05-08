@@ -41,16 +41,16 @@ public class Question {
         this(text, new ArrayList<>(), true, suggestField);
     }
 
+    public static QuestionSuggest getDefaultSuggest() {
+        return defaultSuggest;
+    }
+
     public List<String> getVariantsOfAnswer() {
         return variantsOfAnswer;
     }
 
     public String getText() {
         return text;
-    }
-
-    public static QuestionSuggest getDefaultSuggest() {
-        return defaultSuggest;
     }
 
     public boolean answerIsAllowed(Answer answer) {
