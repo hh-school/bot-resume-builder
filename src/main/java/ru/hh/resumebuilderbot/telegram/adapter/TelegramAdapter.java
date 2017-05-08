@@ -10,7 +10,6 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardButto
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import ru.hh.resumebuilderbot.MessengerAdapter;
-import ru.hh.resumebuilderbot.TelegramUser;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.QuestionSuggest;
 
@@ -25,9 +24,9 @@ public class TelegramAdapter implements MessengerAdapter {
     }
 
     @Override
-    public void ask(TelegramUser telegramUser, Question question) {
+    public void ask(Long telegramId, Question question) {
         SendMessage message = new SendMessage()
-                .setChatId(telegramUser.getId())
+                .setChatId(telegramId)
                 .setText(question.getText());
 
         List<String> variantsOfAnswer = question.getVariantsOfAnswer();
@@ -39,7 +38,7 @@ public class TelegramAdapter implements MessengerAdapter {
             message.setReplyMarkup(generateSuggestInlineKeyboard());
         }
         try {
-            bot.saveCurrentQuestion(telegramUser.getId(), question);
+            bot.saveCurrentQuestion(telegramId, question);
             bot.sendMessage(message);
         } catch (TelegramApiException e) {
             e.printStackTrace();

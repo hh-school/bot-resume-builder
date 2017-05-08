@@ -2,7 +2,6 @@ package ru.hh.resumebuilderbot.message.handler;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.DBService;
-import ru.hh.resumebuilderbot.TelegramUser;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
@@ -17,11 +16,11 @@ public class ClearMessageHandler extends MessageHandler {
     }
 
     @Override
-    public List<Question> handle(TelegramUser telegramUser, Answer answer) {
-        dbService.startNewChat(telegramUser, graph.getRootIndex());
+    public List<Question> handle(Long telegramId, Answer answer) {
+        dbService.startNewChat(telegramId, graph.getRootIndex());
         List<Question> questions = new ArrayList<>(2);
         questions.add(new Question(TextsStorage.getText(TextId.CLEARED)));
-        questions.add(graph.getNode(dbService.getNodeId(telegramUser)).getQuestion());
+        questions.add(graph.getNode(dbService.getNodeId(telegramId)).getQuestion());
         return questions;
     }
 }

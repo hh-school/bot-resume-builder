@@ -3,7 +3,6 @@ package ru.hh.resumebuilderbot.message.handler;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.DBService;
-import ru.hh.resumebuilderbot.TelegramUser;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
@@ -18,7 +17,7 @@ public class UnknownMessageHandler extends MessageHandler {
     }
 
     @Override
-    public List<Question> handle(TelegramUser telegramUser, Answer answer) {
+    public List<Question> handle(Long telegramId, Answer answer) {
         List<Question> questions = new ArrayList<>(1);
         questions.add(new Question(TextsStorage.getText(TextId.UNKNOWN)));
         return questions;
