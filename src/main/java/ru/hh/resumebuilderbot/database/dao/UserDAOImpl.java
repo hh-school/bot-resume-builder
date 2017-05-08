@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.database.dao.base.GenericDAOImpl;
 import ru.hh.resumebuilderbot.database.model.User;
+
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
@@ -14,15 +15,14 @@ import javax.validation.constraints.NotNull;
 @Singleton
 public class UserDAOImpl extends GenericDAOImpl<User, Integer> implements UserDAO {
     private static final Logger log = LoggerFactory.getLogger(UserDAOImpl.class);
+    private static final String USER_BY_TELEGRAM_ID = "FROM User WHERE telegram_id = :telegram_id";
 
     @Inject
     public UserDAOImpl(@NotNull SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
-    private static final String USER_BY_TELEGRAM_ID = "FROM User WHERE telegram_id = :telegram_id";
-
-    public User getByTelegramId(long telegramId){
+    public User getByTelegramId(long telegramId) {
         TypedQuery<User> query = getCurrentSession().createQuery(USER_BY_TELEGRAM_ID, User.class);
         query.setParameter("telegram_id", telegramId);
         User user = null;
