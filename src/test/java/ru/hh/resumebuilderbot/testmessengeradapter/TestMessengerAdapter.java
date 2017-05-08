@@ -3,7 +3,6 @@ package ru.hh.resumebuilderbot.testmessengeradapter;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.MessengerAdapter;
-import ru.hh.resumebuilderbot.TelegramUser;
 import ru.hh.resumebuilderbot.question.Question;
 
 import java.io.IOException;
@@ -14,7 +13,6 @@ import java.util.Random;
 public class TestMessengerAdapter implements MessengerAdapter {
 
     private final String defaultAnswerText = "cant understand your question";
-
 
     private BotBody bot;
 
@@ -27,8 +25,8 @@ public class TestMessengerAdapter implements MessengerAdapter {
     }
 
     @Override
-    public void ask(TelegramUser telegramUser, Question question) {
-        bot.askNextQuestions(telegramUser, getAnswer(question));
+    public void ask(Long telegramId, Question question) {
+        bot.askNextQuestions(telegramId, getAnswer(question));
     }
 
 

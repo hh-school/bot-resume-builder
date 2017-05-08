@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.DBService;
-import ru.hh.resumebuilderbot.TelegramUser;
 import ru.hh.resumebuilderbot.database.model.education.EducationLevel;
 import ru.hh.resumebuilderbot.database.model.gender.Gender;
 import ru.hh.resumebuilderbot.question.Question;
@@ -23,35 +22,35 @@ public abstract class MessageHandler {
         this.graph = graph;
     }
 
-    public abstract List<Question> handle(TelegramUser telegramUser, Answer answer);
+    public abstract List<Question> handle(Long telegramId, Answer answer);
 
-    protected void saveValue(TelegramUser telegramUser, String field, String value) {
+    protected void saveValue(Long telegramId, String field, String value) {
         switch (field) {
             case "phone":
-                dbService.savePhoneNumber(telegramUser, value);
+                dbService.savePhoneNumber(telegramId, value);
                 break;
             case "firstName":
-                dbService.saveFirstname(telegramUser, value);
+                dbService.saveFirstname(telegramId, value);
                 break;
             case "lastName":
-                dbService.saveLastName(telegramUser, value);
+                dbService.saveLastName(telegramId, value);
                 break;
             case "sex":
-                dbService.saveGender(telegramUser, Gender.fromCode(value.charAt(0)));
+                dbService.saveGender(telegramId, Gender.fromCode(value.charAt(0)));
                 break;
             case "town":
-                dbService.saveUserArea(telegramUser, value, null);
+                dbService.saveUserArea(telegramId, value, null);
                 break;
             case "educationType":
-                dbService.addNewEducation(telegramUser);
-                dbService.saveEducationLevel(telegramUser, EducationLevel.fromCode(value));
+                dbService.addNewEducation(telegramId);
+                dbService.saveEducationLevel(telegramId, EducationLevel.fromCode(value));
                 break;
             case "institution":
-                dbService.saveInstitute(telegramUser, null, value);
+                dbService.saveInstitute(telegramId, null, value);
                 break;
             default:
                 log.warn("User {}. Не найдено поле {} в базе данных. Попытка сохранить данные в невалидном поле",
-                        telegramUser.getId(), field);
+                        telegramId, field);
                 break;
         }
     }

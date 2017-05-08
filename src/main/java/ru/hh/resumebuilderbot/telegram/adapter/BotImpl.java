@@ -10,7 +10,6 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.BotBody;
-import ru.hh.resumebuilderbot.TelegramUser;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.suggester.QueryResultsGenerator;
 import ru.hh.resumebuilderbot.telegram.adapter.answer.TelegramAnswer;
@@ -42,11 +41,10 @@ public class BotImpl extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         TelegramAnswer telegramAnswer = TelegramAnswerFactory.create(update);
         if (telegramAnswer != null) {
-            long chatId = telegramAnswer.getChatId();
-            TelegramUser telegramUser = new TelegramUser(chatId);
+            long telegramId = telegramAnswer.getChatId();
             String answerText = telegramAnswer.getAnswerText();
             Answer answer = new Answer(answerText);
-            this.botBody.askNextQuestions(telegramUser, answer);
+            this.botBody.askNextQuestions(telegramId, answer);
         } else if (update.getInlineQuery() != null) {
             InlineQuery query = update.getInlineQuery();
             String chatId = query.getFrom().getId() + "";
