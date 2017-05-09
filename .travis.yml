@@ -10,11 +10,11 @@ after_success:
     set -e;
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
 
-    export BACKEND_REPO=$DOCKER_USERNAME/resume-builder-bot;
+    export BACKEND_REPO=$DOCKER_ORGANIZATION/resume-builder-bot;
     docker build -t $BACKEND_REPO:$TRAVIS_COMMIT .;
     docker tag $BACKEND_REPO:$TRAVIS_COMMIT $BACKEND_REPO:latest;
 
-    export POSTGRES_REPO=$DOCKER_USERNAME/resume-builder-bot-postgres;
+    export POSTGRES_REPO=$DOCKER_ORGANIZATION/resume-builder-bot-postgres;
     docker build -f Dockerfile.postgres -t $POSTGRES_REPO:$TRAVIS_COMMIT .;
     docker tag $POSTGRES_REPO:$TRAVIS_COMMIT $POSTGRES_REPO:latest;
 
