@@ -3,7 +3,7 @@ version: "3"
 services:
   backend:
     container_name: resume_builder_bot_backend
-    image: bkhasanov/resume-builder-bot
+    image: hhschool/resume-builder-bot
     env_file: .env
     depends_on:
       - postgres
@@ -13,7 +13,7 @@ services:
 
   postgres:
     container_name: resume_builder_bot_postgres
-    image: bkhasanov/resume-builder-bot-postgres
+    image: hhschool/resume-builder-bot-postgres
     env_file: .env
     restart: always
     volumes:
