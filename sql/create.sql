@@ -33,6 +33,18 @@ CREATE TABLE IF NOT EXISTS user__specialization (
   UNIQUE (user_id, specialization_id)
 );
 
+CREATE TABLE IF NOT EXISTS skill (
+  id    SERIAL PRIMARY KEY,
+  hh_id INT,
+  name  VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS user__skill (
+  user_id   INT REFERENCES "user" (id)  NOT NULL,
+  skill_id  INT REFERENCES skill (id)   NOT NULL,
+  UNIQUE (user_id, skill_id)
+);
+
 CREATE TABLE IF NOT EXISTS company (
   id      SERIAL PRIMARY KEY,
   name    VARCHAR(255) NOT NULL,

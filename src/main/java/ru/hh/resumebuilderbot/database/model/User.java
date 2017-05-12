@@ -71,6 +71,14 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "specialization_id", nullable = false, updatable = false)}
     )
     private Set<Specialization> specializations;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user__skill",
+            joinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "skill_id", nullable = false, updatable = false)}
+    )
+    private Set<Skill> skills;
     @Column(name = "salary_amount")
     private Integer salaryAmount;
     @Enumerated(EnumType.STRING)
@@ -192,6 +200,14 @@ public class User {
 
     public void setSpecializations(Set<Specialization> specializations) {
         this.specializations = specializations;
+    }
+
+    public Set<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<Skill> skills) {
+        this.skills = skills;
     }
 
     public Integer getSalaryAmount() {

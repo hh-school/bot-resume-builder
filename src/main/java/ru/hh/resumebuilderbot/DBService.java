@@ -149,11 +149,15 @@ public class DBService {
         serviceAggregator.getEducationService().update(education);
     }
 
-    public void saveInstitute(Long telegramId, Integer instituteId, String instituteName) {
+    public void saveInstitute(Long telegramId, Integer instituteHHId, String instituteName) {
         Education education = getCurrentEducation(telegramId);
-        education.setInstitutionId(instituteId);
+        education.setInstitutionId(instituteHHId);
         education.setInstitutionName(instituteName);
         serviceAggregator.getEducationService().update(education);
+    }
+
+    public Integer getInstituteHHId(Long telegramId) {
+        return getCurrentEducation(telegramId).getInstitutionId();
     }
 
     public void saveFaculty(Long telegramId, Integer facultyId, String facultyName) {

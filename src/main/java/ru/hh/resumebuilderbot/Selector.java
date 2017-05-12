@@ -11,6 +11,8 @@ import ru.hh.resumebuilderbot.telegram.handler.message.ShowMessageHandler;
 import ru.hh.resumebuilderbot.telegram.handler.message.SkipMessageHandler;
 import ru.hh.resumebuilderbot.telegram.handler.message.StartMessageHandler;
 import ru.hh.resumebuilderbot.telegram.handler.message.UnknownMessageHandler;
+import ru.hh.resumebuilderbot.telegram.handler.suggest.SuggestHandler;
+import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.TelegramConverter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -24,11 +26,16 @@ class Selector {
     private final List<Parser> parsers;
     private final DBService dbService;
     private final Graph graph;
+    private final SuggestService suggestService;
+    private final TelegramConverter telegramConverter;
 
     @Inject
-    public Selector(DBService dbService, Provider<Graph> graphProvider) {
+    public Selector(DBService dbService, Provider<Graph> graphProvider,
+                    SuggestService suggestService, TelegramConverter telegramConverter) {
         this.dbService = dbService;
         this.graph = graphProvider.get();
+        this.suggestService = suggestService;
+        this.telegramConverter = telegramConverter;
         parsers = Collections.synchronizedList(new ArrayList<>());
         registerParser("/start", StartMessageHandler.class);
         registerParser("/show", ShowMessageHandler.class);
@@ -53,6 +60,11 @@ class Selector {
         }
         return new UnknownMessageHandler(dbService, graph);
     }
+
+    SuggestHandler getSuggestHandler() {
+        return new SuggestHandler(dbService, graph, suggestService, telegramConverter);
+    }
+
 
     private void registerParser(String regExp, Class handlerClass) {
         parsers.add(new Parser(regExp, handlerClass));
