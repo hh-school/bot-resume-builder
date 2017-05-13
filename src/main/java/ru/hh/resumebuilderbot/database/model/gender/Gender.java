@@ -11,10 +11,10 @@ public enum Gender {
     }
 
     public static Gender fromCode(char code) {
-        if (code == 'M' || code == 'm' || code == 'М' || code == 'м') {
+        if (code == 'M' || code == 'm' || code == 'М' || code == 'м' || code == 'О') {
             return MALE;
         }
-        if (code == 'F' || code == 'f' || code == 'Ж' || code == 'ж') {
+        if (code == 'F' || code == 'f' || code == 'Ж' || code == 'ж' || code == 'Д') {
             return FEMALE;
         }
         throw new UnsupportedOperationException("The code " + code + " is not supported!");

@@ -266,7 +266,7 @@ public class DBService {
         serviceAggregator.getExperienceService().update(experience);
     }
 
-    public void saveExpirienceEndDate(Long telegramId, Date endDate) {
+    public void saveExperienceEndDate(Long telegramId, Date endDate) {
         Experience experience = getCurrentExperience(telegramId);
         experience.setEndDate(endDate);
         serviceAggregator.getExperienceService().update(experience);

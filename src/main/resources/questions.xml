@@ -185,6 +185,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="А специальность свою сможете вспомнить?">
+                        <suggestType>SPECIALIZATIONS_SUGGEST</suggestType>
                     </question>
                 </classData>
             </base>
@@ -264,7 +265,7 @@
             </base>
             <saver classpath="DatabaseSaver">
                 <classData>
-                    <databaseField>lastWorkBeginDate</databaseField>
+                    <databaseField>workBeginDate</databaseField>
                 </classData>
             </saver>
         </nodeConstructor>
@@ -276,13 +277,13 @@
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Опишите свои обязанности: что именно вы делаете, какую пользу приносите компании, чем гордитесь.">
+                    <question text="Когда закончили там работать(или работаете до сих пор)?">
                     </question>
                 </classData>
             </base>
             <saver classpath="DatabaseSaver">
                 <classData>
-                    <databaseField>whatRUDoing</databaseField>
+                    <databaseField>workEndDate</databaseField>
                 </classData>
             </saver>
         </nodeConstructor>
@@ -294,13 +295,31 @@
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
+                    <question text="Опишите свои обязанности: что именно вы делаете, какую пользу приносите компании, чем гордитесь.">
+                    </question>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>experienceDescription</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="85"/>
+        </links>
+    </graphNode>
+    <graphNode id="85">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
                     <question text="Какую работу ищете? Укажите желаемую должность, чтобы работодатель мог проще вас найти.">
                     </question>
                 </classData>
             </base>
             <saver classpath="DatabaseSaver">
                 <classData>
-                    <databaseField>position</databaseField>
+                    <databaseField>career_objective</databaseField>
                 </classData>
             </saver>
         </nodeConstructor>
@@ -313,6 +332,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="А знаете уже, с какой должности хотите начать свою карьеру? Лучше указать название определённой должности, тогда работодатель будет проще найти вас.">
+                        <suggestType>POSITIONS_SUGGEST</suggestType>
                     </question>
                 </classData>
             </base>
@@ -349,12 +369,13 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Отлично! Осталось совсем чуть-чуть! Перечислите свои навыки: что вы умеете делать лучше всего, что пригодится вам в желаемой работе?">
+                        <suggestType>SKILLS_SUGGEST</suggestType>
                     </question>
                 </classData>
             </base>
             <saver classpath="DatabaseSaver">
                 <classData>
-                    <databaseField>position</databaseField>
+                    <databaseField>skill</databaseField>
                 </classData>
             </saver>
         </nodeConstructor>
