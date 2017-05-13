@@ -299,12 +299,12 @@ public class DBService {
             company = serviceAggregator.getCompanyService().getCompanyByName(companyName);
         }
         if (company == null) {
-            company = createNewCompany(companyName, companyHHId);
+            company = createCompany(companyName, companyHHId);
         }
         return company;
     }
 
-    private Company createNewCompany(String companyName, Integer companyHHId) {
+    private Company createCompany(String companyName, Integer companyHHId) {
         Company company = new Company();
         company.setName(companyName);
         company.setHHId(companyHHId);
@@ -342,12 +342,12 @@ public class DBService {
             skill = serviceAggregator.getSkillService().getSkillByName(skillName);
         }
         if (skill == null) {
-            skill = createNewSkill(skillName, skillHHId);
+            skill = createSkill(skillName, skillHHId);
         }
         return skill;
     }
 
-    private Skill createNewSkill(String skillName, Integer skillHHId) {
+    private Skill createSkill(String skillName, Integer skillHHId) {
         Skill skill = new Skill();
         skill.setName(skillName);
         skill.setHhId(skillHHId);
@@ -372,12 +372,12 @@ public class DBService {
                     .getSpecializationByName(specializationName);
         }
         if (specialization == null) {
-            specialization = createNewSpecialization(specializationName, specializationHHId);
+            specialization = createSpecialization(specializationName, specializationHHId);
         }
         return specialization;
     }
 
-    private Specialization createNewSpecialization(String specializationName, Integer specializationHHId) {
+    private Specialization createSpecialization(String specializationName, Integer specializationHHId) {
         Specialization specialization = new Specialization();
         specialization.setName(specializationName);
         specialization.setHhId(specializationHHId);

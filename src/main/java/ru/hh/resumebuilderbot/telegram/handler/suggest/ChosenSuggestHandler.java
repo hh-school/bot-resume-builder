@@ -50,8 +50,8 @@ public class ChosenSuggestHandler extends Handler {
                 dbService.saveUserArea(telegramId, area.getText(), Integer.valueOf(area.getId()));
                 break;
             case FACULTIES_SUGGEST:
-                Integer instituteId = dbService.getInstituteHHId(telegramId);
-                Faculty faculty = suggestService.getFaculties(instituteId.toString()).get(resultId);
+                Integer instituteHHId = dbService.getInstituteHHId(telegramId);
+                Faculty faculty = suggestService.getFaculties(instituteHHId.toString()).get(resultId);
                 dbService.saveFaculty(telegramId, Integer.valueOf(faculty.getId()), faculty.getName());
                 break;
             default:

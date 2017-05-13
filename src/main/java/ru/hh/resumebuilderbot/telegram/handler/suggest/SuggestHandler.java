@@ -26,7 +26,37 @@ public class SuggestHandler extends Handler {
 
     public List<InlineQueryResult> getSuggestResults(Long telegramId, String textForSearch) {
         SuggestType neededSuggest = getCurrentNode(telegramId).getQuestion().getSuggestField();
-        List<?> queryResults = null;
+        List<?> queryResults;
+        if (neededSuggest == SuggestType.FACULTIES_SUGGEST) {
+            String instituteId = dbService.getInstituteHHId(telegramId).toString();
+            queryResults = getFacultiesSuggests(instituteId, textForSearch);
+        } else {
+            queryResults = getCommonSuggests(neededSuggest, textForSearch);
+        }
+        if (queryResults == null || queryResults.isEmpty()) {
+            return NotificationInlineQueryResults.getNotFoundErrorResult(textForSearch);
+        }
+        if (queryResults.size() >= MAX_RESULTS_AMOUNT) {
+            queryResults = queryResults.subList(0, MAX_RESULTS_AMOUNT);
+        }
+        return telegramConverter.convertList(queryResults);
+    }
+
+    private List<?> getFacultiesSuggests(String instituteId, String textForSearch) {
+        if (instituteId == null) {
+            return NotificationInlineQueryResults.getNonFacultiesInstituteResult();
+        }
+        List<Faculty> queryResults = suggestService.getFaculties(instituteId);
+        if (queryResults.isEmpty()) {
+            return NotificationInlineQueryResults.getNonFacultiesInstituteResult();
+        }
+        return queryResults.stream()
+                .filter(faculty -> faculty.getName().contains(textForSearch))
+                .collect(Collectors.toList());
+    }
+
+    private List<?> getCommonSuggests(SuggestType neededSuggest, String textForSearch) {
+        List<?> queryResults;
         if (textForSearch.length() < MIN_QUERY_LEN &&
                 neededSuggest != SuggestType.FACULTIES_SUGGEST) {
             return NotificationInlineQueryResults.getShortQueryErrorResult();
@@ -50,29 +80,9 @@ public class SuggestHandler extends Handler {
             case AREAS_SUGGEST:
                 queryResults = suggestService.getAreas(textForSearch);
                 break;
-            case FACULTIES_SUGGEST:
-                Integer instituteId = dbService.getInstituteHHId(telegramId);
-                if (instituteId == null) {
-                    return NotificationInlineQueryResults.getNonFacultiesInstituteResult();
-                }
-                queryResults = suggestService.getFaculties(instituteId.toString());
-                if (queryResults.isEmpty()) {
-                    return NotificationInlineQueryResults.getNonFacultiesInstituteResult();
-                }
-                queryResults = queryResults.stream()
-                        .filter(faculty -> ((Faculty) faculty).getName().contains(textForSearch))
-                        .collect(Collectors.toList());
-                break;
             default:
                 throw new UnsupportedOperationException();
         }
-
-        if (queryResults == null || queryResults.isEmpty()) {
-            return NotificationInlineQueryResults.getNotFoundErrorResult(textForSearch);
-        }
-        if (queryResults.size() >= MAX_RESULTS_AMOUNT) {
-            queryResults = queryResults.subList(0, MAX_RESULTS_AMOUNT);
-        }
-        return telegramConverter.convertList(queryResults);
+        return queryResults;
     }
 }

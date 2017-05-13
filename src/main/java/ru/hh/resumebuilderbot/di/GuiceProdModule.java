@@ -39,24 +39,24 @@ import ru.hh.resumebuilderbot.database.service.experience.IndustryServiceImpl;
 public class GuiceProdModule extends AbstractModule {
 
     private void configureDAO() {
-        bind(EducationDAO.class).to(EducationDAOImpl.class);
+        bind(AreaDAO.class).to(AreaDAOImpl.class);
         bind(CompanyDAO.class).to(CompanyDAOImpl.class);
+        bind(EducationDAO.class).to(EducationDAOImpl.class);
         bind(ExperienceDAO.class).to(ExperienceDAOImpl.class);
         bind(IndustryDAO.class).to(IndustryDAOImpl.class);
-        bind(AreaDAO.class).to(AreaDAOImpl.class);
         bind(SkillDAO.class).to(SkillDAOImpl.class);
         bind(SpecializationDAO.class).to(SpecializationDAOImpl.class);
         bind(UserDAO.class).to(UserDAOImpl.class);
     }
 
     private void configureServices() {
-        bind(EducationService.class).to(EducationServiceImpl.class);
+        bind(AreaService.class).to(AreaServiceImpl.class);
         bind(CompanyService.class).to(CompanyServiceImpl.class);
+        bind(EducationService.class).to(EducationServiceImpl.class);
         bind(ExperienceService.class).to(ExperienceServiceImpl.class);
         bind(IndustryService.class).to(IndustryServiceImpl.class);
-        bind(AreaService.class).to(AreaServiceImpl.class);
-        bind(SpecializationService.class).to(SpecializationServiceImpl.class);
         bind(SkillService.class).to(SkillServiceImpl.class);
+        bind(SpecializationService.class).to(SpecializationServiceImpl.class);
         bind(UserService.class).to(UserServiceImpl.class);
     }
 

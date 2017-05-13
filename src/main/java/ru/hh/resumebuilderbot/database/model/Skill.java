@@ -20,7 +20,7 @@ public class Skill {
     @Column(name = "hh_id")
     private Integer hhId;
 
-    public Skill(){
+    public Skill() {
     }
 
     public Integer getId() {
