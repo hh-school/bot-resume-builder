@@ -15,4 +15,14 @@ public class SkillServiceImpl extends GenericServiceImpl<Skill, Integer, SkillDA
     public SkillServiceImpl(SkillDAO skillDAO, SessionFactory sessionFactory) {
         super(skillDAO, sessionFactory);
     }
+
+    @Override
+    public Skill getSkillByHHId(Integer hhId) {
+        return inTransaction(() -> dao.getSkillByHHId(hhId));
+    }
+
+    @Override
+    public Skill getSkillByName(String name) {
+        return inTransaction(() -> dao.getSkillByName(name));
+    }
 }

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.database.ServiceAggregator;
 import ru.hh.resumebuilderbot.database.model.Area;
 import ru.hh.resumebuilderbot.database.model.SalaryCurrency;
+import ru.hh.resumebuilderbot.database.model.Skill;
 import ru.hh.resumebuilderbot.database.model.Specialization;
 import ru.hh.resumebuilderbot.database.model.User;
 import ru.hh.resumebuilderbot.database.model.education.Education;
@@ -324,5 +325,63 @@ public class DBService {
         specializations.add(specialization);
         user.setSpecializations(specializations);
         serviceAggregator.getUserService().update(user);
+    }
+
+    public void saveSkill(Long telegramId, String skillName, Integer skillHHId){
+        User user = getUser(telegramId);
+        Skill skill = getSkill(skillName, skillHHId);
+        user.getSkills().add(skill);
+        serviceAggregator.getUserService().update(user);
+    }
+
+    private Skill getSkill(String skillName, Integer skillHHId) {
+        Skill skill;
+        if (skillHHId != null) {
+            skill = serviceAggregator.getSkillService().getSkillByHHId(skillHHId);
+        } else {
+            skill = serviceAggregator.getSkillService().getSkillByName(skillName);
+        }
+        if (skill == null) {
+            skill = createNewSkill(skillName, skillHHId);
+        }
+        return skill;
+    }
+
+    private Skill createNewSkill(String skillName, Integer skillHHId) {
+        Skill skill = new Skill();
+        skill.setName(skillName);
+        skill.setHhId(skillHHId);
+        serviceAggregator.getSkillService().create(skill);
+        return skill;
+    }
+
+    public void saveSpecialization(Long telegramId, String specializationName, Integer specializationHHId){
+        User user = getUser(telegramId);
+        Specialization specialization = getSpecialization(specializationName, specializationHHId);
+        user.getSpecializations().add(specialization);
+        serviceAggregator.getUserService().update(user);
+    }
+
+    private Specialization getSpecialization(String specializationName, Integer specializationHHId) {
+        Specialization specialization;
+        if (specializationHHId != null) {
+            specialization = serviceAggregator.getSpecializationService()
+                    .getSpecializationByHHId(specializationHHId);
+        } else {
+            specialization = serviceAggregator.getSpecializationService()
+                    .getSpecializationByName(specializationName);
+        }
+        if (specialization == null) {
+            specialization = createNewSpecialization(specializationName, specializationHHId);
+        }
+        return specialization;
+    }
+
+    private Specialization createNewSpecialization(String specializationName, Integer specializationHHId) {
+        Specialization specialization = new Specialization();
+        specialization.setName(specializationName);
+        specialization.setHhId(specializationHHId);
+        serviceAggregator.getSpecializationService().create(specialization);
+        return specialization;
     }
 }

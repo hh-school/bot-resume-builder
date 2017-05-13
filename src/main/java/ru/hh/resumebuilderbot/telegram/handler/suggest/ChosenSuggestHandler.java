@@ -22,7 +22,7 @@ public class ChosenSuggestHandler extends Handler {
 
     public void saveChosenSuggest(Long telegramId, Integer resultId, String queryText) {
         SuggestType neededSuggest = getCurrentNode(telegramId).getQuestion().getSuggestField();
-
+        //TODO check user choose right suggest before save
         switch (neededSuggest) {
             case INSTITUTES_SUGGEST:
                 Institute institute = suggestService.getInstitutes(queryText).get(resultId);
@@ -39,13 +39,14 @@ public class ChosenSuggestHandler extends Handler {
                 break;
             case SKILLS_SUGGEST:
                 Skill skill = suggestService.getSkills(queryText).get(resultId);
-                //TODO add skill save, position save, errorHandle
+                dbService.saveSkill(telegramId, skill.getText(), Integer.valueOf(skill.getId()));
                 break;
             case POSITIONS_SUGGEST:
                 Position position = suggestService.getPositions(queryText).get(resultId);
+                dbService.saveSpecialization(telegramId, position.getText(), Integer.valueOf(position.getId()));
                 break;
             case AREAS_SUGGEST:
-                Area area = suggestService.getAreas(queryText).get(resultId - 1);
+                Area area = suggestService.getAreas(queryText).get(resultId);
                 dbService.saveUserArea(telegramId, area.getText(), Integer.valueOf(area.getId()));
                 break;
             case FACULTIES_SUGGEST:
