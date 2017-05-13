@@ -7,11 +7,11 @@ import ru.hh.resumebuilderbot.http.response.entity.Skill;
 
 public class SkillTelegramConverter implements EntityTelegramConverter<Skill> {
     @Override
-    public InlineQueryResult convert(Skill skill) {
+    public InlineQueryResult convert(Skill skill, Integer id) {
         InputTextMessageContent messageContent = new InputTextMessageContent();
         messageContent.setMessageText(skill.getText());
         return new InlineQueryResultArticle()
-                .setId(skill.getId())
+                .setId(id.toString())
                 .setTitle(skill.getText())
                 .setInputMessageContent(messageContent);
     }

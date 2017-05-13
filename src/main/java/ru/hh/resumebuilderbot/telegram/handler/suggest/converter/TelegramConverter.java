@@ -41,8 +41,8 @@ public class TelegramConverter {
         return this;
     }
 
-    private <T> InlineQueryResult convert(T suggestEntity, EntityTelegramConverter<T> telegramConverter) {
-        return telegramConverter.convert(suggestEntity);
+    private <T> InlineQueryResult convert(T suggestEntity, int id, EntityTelegramConverter<T> telegramConverter) {
+        return telegramConverter.convert(suggestEntity, id);
     }
 
     public <T> List<InlineQueryResult> convertList(List<T> suggestEntities) {
@@ -52,8 +52,8 @@ public class TelegramConverter {
         }
 
         EntityTelegramConverter entityTelegramConverter = map.get(suggestEntities.get(0).getClass());
-        for (T suggestEntity : suggestEntities) {
-            results.add(convert(suggestEntity, entityTelegramConverter));
+        for (int i = 0; i < suggestEntities.size(); i++){
+            results.add(convert(suggestEntities.get(i), i, entityTelegramConverter));
         }
         return results;
     }

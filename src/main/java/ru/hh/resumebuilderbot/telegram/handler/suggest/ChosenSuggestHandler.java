@@ -1,6 +1,5 @@
 package ru.hh.resumebuilderbot.telegram.handler.suggest;
 
-import org.telegram.telegrambots.api.objects.inlinequery.ChosenInlineQuery;
 import ru.hh.resumebuilderbot.DBService;
 import ru.hh.resumebuilderbot.SuggestService;
 import ru.hh.resumebuilderbot.http.response.entity.Area;
@@ -21,11 +20,7 @@ public class ChosenSuggestHandler extends Handler {
         this.suggestService = suggestService;
     }
 
-    public void saveChosenSuggest(ChosenInlineQuery chosenInlineQuery) {
-        Long telegramId = Long.valueOf(chosenInlineQuery.getFrom().getId());
-        Integer resultId = Integer.valueOf(chosenInlineQuery.getResultId());
-        String queryText = chosenInlineQuery.getQuery();
-
+    public void saveChosenSuggest(Long telegramId, Integer resultId, String queryText) {
         SuggestType neededSuggest = getCurrentNode(telegramId).getQuestion().getSuggestField();
 
         switch (neededSuggest) {
@@ -44,13 +39,13 @@ public class ChosenSuggestHandler extends Handler {
                 break;
             case SKILLS_SUGGEST:
                 Skill skill = suggestService.getSkills(queryText).get(resultId);
-                //TODO add skill and position saver
+                //TODO add skill save, position save, errorHandle
                 break;
             case POSITIONS_SUGGEST:
                 Position position = suggestService.getPositions(queryText).get(resultId);
                 break;
             case AREAS_SUGGEST:
-                Area area = suggestService.getAreas(queryText).get(resultId);
+                Area area = suggestService.getAreas(queryText).get(resultId - 1);
                 dbService.saveUserArea(telegramId, area.getText(), Integer.valueOf(area.getId()));
                 break;
             case FACULTIES_SUGGEST:

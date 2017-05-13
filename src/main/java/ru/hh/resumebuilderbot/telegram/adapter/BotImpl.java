@@ -3,6 +3,7 @@ package ru.hh.resumebuilderbot.telegram.adapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.api.objects.inlinequery.ChosenInlineQuery;
 import org.telegram.telegrambots.api.objects.inlinequery.InlineQuery;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import ru.hh.resumebuilderbot.Answer;
@@ -37,7 +38,11 @@ public class BotImpl extends TelegramLongPollingBot {
             String queryId = inlineQuery.getId();
             this.botBody.provideSuggests(telegramId, query, queryId);
         } else if (update.getChosenInlineQuery() != null) {
-
+            ChosenInlineQuery chosenInlineQuery = update.getChosenInlineQuery();
+            long telegramId = chosenInlineQuery.getFrom().getId();
+            String queryText = chosenInlineQuery.getQuery();
+            Integer resultId = Integer.valueOf(chosenInlineQuery.getResultId());
+            this.botBody.saveChosenSuggest(telegramId, resultId, queryText);
         }
     }
 

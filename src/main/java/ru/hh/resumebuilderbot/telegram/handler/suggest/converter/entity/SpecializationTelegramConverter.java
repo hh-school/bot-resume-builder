@@ -7,11 +7,11 @@ import ru.hh.resumebuilderbot.http.response.entity.Specialization;
 
 public class SpecializationTelegramConverter implements EntityTelegramConverter<Specialization> {
     @Override
-    public InlineQueryResult convert(Specialization specialization) {
+    public InlineQueryResult convert(Specialization specialization, Integer id) {
         InputTextMessageContent messageContent = new InputTextMessageContent();
         messageContent.setMessageText(specialization.getText());
         return new InlineQueryResultArticle()
-                .setId(specialization.getId())
+                .setId(id.toString())
                 .setTitle(specialization.getText())
                 .setInputMessageContent(messageContent);
     }

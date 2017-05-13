@@ -156,6 +156,12 @@ public class DBService {
         serviceAggregator.getEducationService().update(education);
     }
 
+    public void saveInstitute(Long telegramId, String instituteName) {
+        Education education = getCurrentEducation(telegramId);
+        education.setInstitutionName(instituteName);
+        serviceAggregator.getEducationService().update(education);
+    }
+
     public Integer getInstituteHHId(Long telegramId) {
         return getCurrentEducation(telegramId).getInstitutionId();
     }
@@ -167,9 +173,21 @@ public class DBService {
         serviceAggregator.getEducationService().update(education);
     }
 
+    public void saveFaculty(Long telegramId, String facultyName) {
+        Education education = getCurrentEducation(telegramId);
+        education.setFacultyName(facultyName);
+        serviceAggregator.getEducationService().update(education);
+    }
+
     public void saveSpeciality(Long telegramId, Integer specialityId, String specialityName) {
         Education education = getCurrentEducation(telegramId);
         education.setSpecialityId(specialityId);
+        education.setSpecialityName(specialityName);
+        serviceAggregator.getEducationService().update(education);
+    }
+
+    public void saveSpeciality(Long telegramId, String specialityName) {
+        Education education = getCurrentEducation(telegramId);
         education.setSpecialityName(specialityName);
         serviceAggregator.getEducationService().update(education);
     }
@@ -183,6 +201,13 @@ public class DBService {
     public void saveUserArea(Long telegramId, String areaName, Integer areaHHId) {
         User user = getUser(telegramId);
         Area area = getArea(areaName, areaHHId);
+        user.setArea(area);
+        serviceAggregator.getUserService().update(user);
+    }
+
+    public void saveUserArea(Long telegramId, String areaName) {
+        User user = getUser(telegramId);
+        Area area = getArea(areaName, null);
         user.setArea(area);
         serviceAggregator.getUserService().update(user);
     }

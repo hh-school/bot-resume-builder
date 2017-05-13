@@ -6,4 +6,6 @@ public interface BotBody {
     void setMessenger(MessengerAdapter messenger);
 
     void provideSuggests(Long telegramId, String queryText, String queryId);
+
+    void saveChosenSuggest(Long telegramId, Integer resultId, String queryText);
 }

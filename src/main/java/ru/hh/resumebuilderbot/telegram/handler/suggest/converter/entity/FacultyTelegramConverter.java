@@ -7,11 +7,11 @@ import ru.hh.resumebuilderbot.http.response.entity.Faculty;
 
 public class FacultyTelegramConverter implements EntityTelegramConverter<Faculty> {
     @Override
-    public InlineQueryResult convert(Faculty faculty) {
+    public InlineQueryResult convert(Faculty faculty, Integer id) {
         InputTextMessageContent messageContent = new InputTextMessageContent();
         messageContent.setMessageText(faculty.getName());
         return new InlineQueryResultArticle()
-                .setId(faculty.getId())
+                .setId(id.toString())
                 .setTitle(faculty.getName())
                 .setInputMessageContent(messageContent);
     }

@@ -5,6 +5,8 @@ import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.BotBodyImpl;
 import ru.hh.resumebuilderbot.database.dao.AreaDAO;
 import ru.hh.resumebuilderbot.database.dao.AreaDAOImpl;
+import ru.hh.resumebuilderbot.database.dao.SkillDAO;
+import ru.hh.resumebuilderbot.database.dao.SkillDAOImpl;
 import ru.hh.resumebuilderbot.database.dao.SpecializationDAO;
 import ru.hh.resumebuilderbot.database.dao.SpecializationDAOImpl;
 import ru.hh.resumebuilderbot.database.dao.UserDAO;
@@ -19,6 +21,8 @@ import ru.hh.resumebuilderbot.database.dao.experience.IndustryDAO;
 import ru.hh.resumebuilderbot.database.dao.experience.IndustryDAOImpl;
 import ru.hh.resumebuilderbot.database.service.AreaService;
 import ru.hh.resumebuilderbot.database.service.AreaServiceImpl;
+import ru.hh.resumebuilderbot.database.service.SkillService;
+import ru.hh.resumebuilderbot.database.service.SkillServiceImpl;
 import ru.hh.resumebuilderbot.database.service.SpecializationService;
 import ru.hh.resumebuilderbot.database.service.SpecializationServiceImpl;
 import ru.hh.resumebuilderbot.database.service.UserService;
@@ -40,6 +44,7 @@ public class GuiceProdModule extends AbstractModule {
         bind(ExperienceDAO.class).to(ExperienceDAOImpl.class);
         bind(IndustryDAO.class).to(IndustryDAOImpl.class);
         bind(AreaDAO.class).to(AreaDAOImpl.class);
+        bind(SkillDAO.class).to(SkillDAOImpl.class);
         bind(SpecializationDAO.class).to(SpecializationDAOImpl.class);
         bind(UserDAO.class).to(UserDAOImpl.class);
     }
@@ -51,6 +56,7 @@ public class GuiceProdModule extends AbstractModule {
         bind(IndustryService.class).to(IndustryServiceImpl.class);
         bind(AreaService.class).to(AreaServiceImpl.class);
         bind(SpecializationService.class).to(SpecializationServiceImpl.class);
+        bind(SkillService.class).to(SkillServiceImpl.class);
         bind(UserService.class).to(UserServiceImpl.class);
     }
 

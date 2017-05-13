@@ -11,6 +11,7 @@ import ru.hh.resumebuilderbot.telegram.handler.message.ShowMessageHandler;
 import ru.hh.resumebuilderbot.telegram.handler.message.SkipMessageHandler;
 import ru.hh.resumebuilderbot.telegram.handler.message.StartMessageHandler;
 import ru.hh.resumebuilderbot.telegram.handler.message.UnknownMessageHandler;
+import ru.hh.resumebuilderbot.telegram.handler.suggest.ChosenSuggestHandler;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.SuggestHandler;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.TelegramConverter;
 
@@ -65,6 +66,9 @@ class Selector {
         return new SuggestHandler(dbService, graph, suggestService, telegramConverter);
     }
 
+    ChosenSuggestHandler getChosenSuggestHandler() {
+        return new ChosenSuggestHandler(dbService, graph, suggestService);
+    }
 
     private void registerParser(String regExp, Class handlerClass) {
         parsers.add(new Parser(regExp, handlerClass));

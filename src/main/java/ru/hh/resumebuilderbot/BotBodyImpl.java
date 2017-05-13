@@ -32,6 +32,11 @@ public class BotBodyImpl implements BotBody {
     }
 
     @Override
+    public void saveChosenSuggest(Long telegramId, Integer resultId, String queryText) {
+        selector.getChosenSuggestHandler().saveChosenSuggest(telegramId, resultId, queryText);
+    }
+
+    @Override
     public void setMessenger(MessengerAdapter messenger) {
         this.messengerAdapter = messenger;
     }

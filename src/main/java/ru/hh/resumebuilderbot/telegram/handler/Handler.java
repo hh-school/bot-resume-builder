@@ -38,14 +38,14 @@ public abstract class Handler {
                 dbService.saveGender(telegramId, Gender.fromCode(value.charAt(0)));
                 break;
             case "town":
-                dbService.saveUserArea(telegramId, value, null);
+                dbService.saveUserArea(telegramId, value);
                 break;
             case "educationType":
                 dbService.addNewEducation(telegramId);
                 dbService.saveEducationLevel(telegramId, EducationLevel.fromCode(value));
                 break;
             case "institution":
-                dbService.saveInstitute(telegramId, null, value);
+                dbService.saveInstitute(telegramId, value);
                 break;
             default:
                 log.warn("User {}. Не найдено поле {} в базе данных. Попытка сохранить данные в невалидном поле",

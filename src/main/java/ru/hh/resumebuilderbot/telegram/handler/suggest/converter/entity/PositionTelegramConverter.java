@@ -7,11 +7,11 @@ import ru.hh.resumebuilderbot.http.response.entity.Position;
 
 public class PositionTelegramConverter implements EntityTelegramConverter<Position> {
     @Override
-    public InlineQueryResult convert(Position position) {
+    public InlineQueryResult convert(Position position, Integer id) {
         InputTextMessageContent messageContent = new InputTextMessageContent();
         messageContent.setMessageText(position.getText());
         return new InlineQueryResultArticle()
-                .setId(position.getId())
+                .setId(id.toString())
                 .setTitle(position.getText())
                 .setInputMessageContent(messageContent);
     }

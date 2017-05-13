@@ -7,11 +7,11 @@ import ru.hh.resumebuilderbot.http.response.entity.Area;
 
 public class AreaTelegramConverter implements EntityTelegramConverter<Area> {
     @Override
-    public InlineQueryResult convert(Area area) {
+    public InlineQueryResult convert(Area area, Integer id) {
         InputTextMessageContent messageContent = new InputTextMessageContent();
         messageContent.setMessageText(area.getText());
         return new InlineQueryResultArticle()
-                .setId(area.getId())
+                .setId(id.toString())
                 .setTitle(area.getText())
                 .setInputMessageContent(messageContent);
     }

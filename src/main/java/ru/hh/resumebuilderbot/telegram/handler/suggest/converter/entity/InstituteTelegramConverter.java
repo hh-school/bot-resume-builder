@@ -7,12 +7,12 @@ import ru.hh.resumebuilderbot.http.response.entity.Institute;
 
 public class InstituteTelegramConverter implements EntityTelegramConverter<Institute> {
     @Override
-    public InlineQueryResult convert(Institute institute) {
+    public InlineQueryResult convert(Institute institute, Integer id) {
         InputTextMessageContent messageContent = new InputTextMessageContent();
         messageContent.setMessageText(institute.getText());
         InlineQueryResultArticle inlineQueryResult = new InlineQueryResultArticle();
         inlineQueryResult
-                .setId(institute.getId())
+                .setId(id.toString())
                 .setInputMessageContent(messageContent);
         if (institute.getAcronym().equals("")) {
             inlineQueryResult.setTitle(institute.getText());
