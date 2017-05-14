@@ -57,7 +57,8 @@ public class Area {
         }
         Area area = (Area) o;
         return Objects.equals(id, area.id) &&
-                Objects.equals(name, area.name);
+                Objects.equals(name, area.name) &&
+                Objects.equals(hhId, area.hhId);
     }
 
     @Override
@@ -67,6 +68,6 @@ public class Area {
 
     @Override
     public String toString() {
-        return String.format("Area{id=%d, name='%s'}", id, name);
+        return String.format("Area{id=%d, name='%s', hhId='%d'}", id, name, hhId);
     }
 }

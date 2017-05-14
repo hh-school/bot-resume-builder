@@ -2,9 +2,14 @@ package ru.hh.resumebuilderbot;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
 import ru.hh.resumebuilderbot.telegram.handler.message.MessageHandler;
+import ru.hh.resumebuilderbot.telegram.handler.suggest.NotificationInlineQueryResults;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.SuggestHandler;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.TelegramConverter;
+import ru.hh.resumebuilderbot.telegram.handler.suggest.exceptions.NoSuggestsFoundException;
+import ru.hh.resumebuilderbot.telegram.handler.suggest.exceptions.NonFacultiesFoundException;
+import ru.hh.resumebuilderbot.telegram.handler.suggest.exceptions.ShortSearchQueryException;
 
 import java.util.List;
 
@@ -28,9 +33,19 @@ public class BotBodyImpl implements BotBody {
 
     @Override
     public void provideSuggests(Long telegramId, String queryText, String queryId) {
+        List<InlineQueryResult> queryResults;
         SuggestHandler suggestHandler = handlerDispatcher.getSuggestHandler();
-        List<?> suggests = suggestHandler.getSuggestResults(telegramId, queryText);
-        messengerAdapter.provideSuggests(queryId, telegramConverter.convertList(suggests));
+        try {
+            List<?> suggests = suggestHandler.getSuggestResults(telegramId, queryText);
+            queryResults = telegramConverter.convertList(suggests);
+        } catch (NonFacultiesFoundException e) {
+            queryResults = NotificationInlineQueryResults.getNonFacultiesInstituteResult();
+        } catch (NoSuggestsFoundException e) {
+            queryResults = NotificationInlineQueryResults.getNotFoundErrorResult(e.getTextForSearch());
+        } catch (ShortSearchQueryException e) {
+            queryResults = NotificationInlineQueryResults.getShortQueryErrorResult();
+        }
+        messengerAdapter.provideSuggests(queryId, queryResults);
     }
 
     @Override
