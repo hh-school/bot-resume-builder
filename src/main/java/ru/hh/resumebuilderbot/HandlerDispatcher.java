@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 @Singleton
-class HandlersDispatcher {
+class HandlerDispatcher {
     private final DBService dbService;
     private final Graph graph;
     private final Map<String, MessageHandler> messageHandlers;
@@ -28,7 +28,7 @@ class HandlersDispatcher {
     private final ChosenSuggestHandler chosenSuggestHandler;
 
     @Inject
-    public HandlersDispatcher(DBService dbService, Provider<Graph> graphProvider, SuggestService suggestService) {
+    public HandlerDispatcher(DBService dbService, Provider<Graph> graphProvider, SuggestService suggestService) {
         this.dbService = dbService;
         this.graph = graphProvider.get();
         this.messageHandlers = Collections.synchronizedMap(new HashMap<>());

@@ -10,32 +10,32 @@ import java.util.List;
 
 @Singleton
 public class BotBodyImpl implements BotBody {
-    private final HandlersDispatcher handlersDispatcher;
+    private final HandlerDispatcher handlerDispatcher;
     private final TelegramConverter telegramConverter;
     private MessengerAdapter messengerAdapter;
 
     @Inject
-    public BotBodyImpl(HandlersDispatcher handlersDispatcher, TelegramConverter telegramConverter) {
-        this.handlersDispatcher = handlersDispatcher;
+    public BotBodyImpl(HandlerDispatcher handlerDispatcher, TelegramConverter telegramConverter) {
+        this.handlerDispatcher = handlerDispatcher;
         this.telegramConverter = telegramConverter;
     }
 
     @Override
     public void askNextQuestions(Long telegramId, Answer answer) {
-        MessageHandler messageHandler = handlersDispatcher.getMessageHandler(answer);
+        MessageHandler messageHandler = handlerDispatcher.getMessageHandler(answer);
         messageHandler.handle(telegramId, answer).forEach((question) -> messengerAdapter.ask(telegramId, question));
     }
 
     @Override
     public void provideSuggests(Long telegramId, String queryText, String queryId) {
-        SuggestHandler suggestHandler = handlersDispatcher.getSuggestHandler();
+        SuggestHandler suggestHandler = handlerDispatcher.getSuggestHandler();
         List<?> suggests = suggestHandler.getSuggestResults(telegramId, queryText);
         messengerAdapter.provideSuggests(queryId, telegramConverter.convertList(suggests));
     }
 
     @Override
     public void saveChosenSuggest(Long telegramId, Integer resultId, String queryText) {
-        handlersDispatcher.getChosenSuggestHandler().saveChosenSuggest(telegramId, resultId, queryText);
+        handlerDispatcher.getChosenSuggestHandler().saveChosenSuggest(telegramId, resultId, queryText);
     }
 
     @Override
