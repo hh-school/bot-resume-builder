@@ -12,6 +12,9 @@ import ru.hh.resumebuilderbot.http.response.entity.Specialization;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.telegram.handler.Handler;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class ChosenSuggestHandler extends Handler {
     private final SuggestService suggestService;
 
@@ -50,9 +53,16 @@ public class ChosenSuggestHandler extends Handler {
                 dbService.saveUserArea(telegramId, area.getText(), Integer.valueOf(area.getId()));
                 break;
             case FACULTIES_SUGGEST:
-                Integer instituteHHId = dbService.getInstituteHHId(telegramId);
-                Faculty faculty = suggestService.getFaculties(instituteHHId.toString()).get(resultId);
-                dbService.saveFaculty(telegramId, Integer.valueOf(faculty.getId()), faculty.getName());
+                String instituteHHId = dbService.getInstituteHHId(telegramId).toString();
+                List<Faculty> queryResults = suggestService.getFaculties(instituteHHId, queryText);
+                if (queryResults == null || queryResults.isEmpty()) {
+                    break;
+                }
+                Faculty chosenFaculty = queryResults.stream()
+                        .filter(faculty -> faculty.getName().contains(queryText))
+                        .collect(Collectors.toList())
+                        .get(resultId);
+                dbService.saveFaculty(telegramId, Integer.valueOf(chosenFaculty.getId()), chosenFaculty.getName());
                 break;
             default:
                 throw new UnsupportedOperationException();

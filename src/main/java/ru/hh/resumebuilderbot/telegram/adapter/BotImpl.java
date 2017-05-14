@@ -25,25 +25,41 @@ public class BotImpl extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        TelegramAnswer telegramAnswer = TelegramAnswerFactory.create(update);
-        if (telegramAnswer != null) {
-            long telegramId = telegramAnswer.getChatId();
-            String answerText = telegramAnswer.getAnswerText();
-            Answer answer = new Answer(answerText);
-            this.botBody.askNextQuestions(telegramId, answer);
-        } else if (update.getInlineQuery() != null) {
-            InlineQuery inlineQuery = update.getInlineQuery();
-            long telegramId = inlineQuery.getFrom().getId();
-            String query = inlineQuery.getQuery();
-            String queryId = inlineQuery.getId();
-            this.botBody.provideSuggests(telegramId, query, queryId);
+        handleUpdate(update);
+    }
+
+    private void handleUpdate(Update update){
+        if (update.getInlineQuery() != null) {
+            provideSuggests(update.getInlineQuery());
         } else if (update.getChosenInlineQuery() != null) {
-            ChosenInlineQuery chosenInlineQuery = update.getChosenInlineQuery();
-            long telegramId = chosenInlineQuery.getFrom().getId();
-            String queryText = chosenInlineQuery.getQuery();
-            Integer resultId = Integer.valueOf(chosenInlineQuery.getResultId());
-            this.botBody.saveChosenSuggest(telegramId, resultId, queryText);
+            saveChosenSuggest(update.getChosenInlineQuery());
+        } else {
+            TelegramAnswer telegramAnswer = TelegramAnswerFactory.create(update);
+            if (telegramAnswer != null) {
+                askNextQuestions(telegramAnswer);
+            }
         }
+    }
+
+    private void askNextQuestions(TelegramAnswer telegramAnswer){
+        long telegramId = telegramAnswer.getChatId();
+        String answerText = telegramAnswer.getAnswerText();
+        Answer answer = new Answer(answerText);
+        this.botBody.askNextQuestions(telegramId, answer);
+    }
+
+    private void provideSuggests(InlineQuery inlineQuery){
+        long telegramId = inlineQuery.getFrom().getId();
+        String query = inlineQuery.getQuery();
+        String queryId = inlineQuery.getId();
+        this.botBody.provideSuggests(telegramId, query, queryId);
+    }
+
+    private void saveChosenSuggest(ChosenInlineQuery chosenInlineQuery){
+        long telegramId = chosenInlineQuery.getFrom().getId();
+        String queryText = chosenInlineQuery.getQuery();
+        Integer resultId = Integer.valueOf(chosenInlineQuery.getResultId());
+        this.botBody.saveChosenSuggest(telegramId, resultId, queryText);
     }
 
     @Override

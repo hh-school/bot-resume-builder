@@ -28,7 +28,7 @@ public class SuggestHandler extends Handler {
         SuggestType neededSuggest = getCurrentNode(telegramId).getQuestion().getSuggestField();
         List<?> queryResults;
         if (neededSuggest == SuggestType.FACULTIES_SUGGEST) {
-            String instituteId = dbService.getInstituteHHId(telegramId).toString();
+            Integer instituteId = dbService.getInstituteHHId(telegramId);
             queryResults = getFacultiesSuggests(instituteId, textForSearch);
         } else {
             queryResults = getCommonSuggests(neededSuggest, textForSearch);
@@ -42,12 +42,12 @@ public class SuggestHandler extends Handler {
         return telegramConverter.convertList(queryResults);
     }
 
-    private List<?> getFacultiesSuggests(String instituteId, String textForSearch) {
+    private List<?> getFacultiesSuggests(Integer instituteId, String textForSearch) {
         if (instituteId == null) {
             return NotificationInlineQueryResults.getNonFacultiesInstituteResult();
         }
-        List<Faculty> queryResults = suggestService.getFaculties(instituteId);
-        if (queryResults.isEmpty()) {
+        List<Faculty> queryResults = suggestService.getFaculties(instituteId.toString(), textForSearch);
+        if (queryResults == null || queryResults.isEmpty()) {
             return NotificationInlineQueryResults.getNonFacultiesInstituteResult();
         }
         return queryResults.stream()
