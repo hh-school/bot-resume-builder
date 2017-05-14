@@ -1,0 +1,203 @@
+{
+  "clusters": null,
+  "items": [
+    {
+      "salary": null,
+      "snippet": {
+        "requirement": "Хорошее знание технологий: <highlighttext>Java</highlighttext> 8, Spring Core, Maven, Git. Опыт работы <highlighttext>java</highlighttext>-разработчиком от 2 лет. Базовые знания в области...",
+        "responsibility": "Разработка алгоритмов управления сетью. Разработка алгоритмов обеспечения отказоустойчивости. Анализ производительности существующего кода и его улучшение."
+      },
+      "archived": false,
+      "premium": false,
+      "name": "Программист Java",
+      "area": {
+        "url": "https://api.hh.ru/areas/1",
+        "id": "1",
+        "name": "Москва"
+      },
+      "url": "https://api.hh.ru/vacancies/20443823?host=hh.ru",
+      "created_at": "2017-05-13T16:54:03+0300",
+      "apply_alternate_url": "https://hh.ru/applicant/vacancy_response?vacancyId=20443823",
+      "relations": [],
+      "employer": {
+        "logo_urls": {
+          "90": "https://hhcdn.ru/employer-logo/1686690.jpeg",
+          "original": "https://hhcdn.ru/employer-logo-original/311081.jpg",
+          "240": "https://hhcdn.ru/employer-logo/1686691.jpeg"
+        },
+        "vacancies_url": "https://api.hh.ru/vacancies?employer_id=2162375",
+        "name": "Brain4net",
+        "url": "https://api.hh.ru/employers/2162375",
+        "alternate_url": "https://hh.ru/employer/2162375",
+        "id": "2162375",
+        "trusted": true
+      },
+      "response_letter_required": false,
+      "published_at": "2017-05-13T16:54:03+0300",
+      "address": {
+        "building": null,
+        "city": null,
+        "description": null,
+        "metro": {
+          "line_name": "Калужско-Рижская",
+          "station_id": "6.41",
+          "line_id": "6",
+          "lat": 55.656682,
+          "station_name": "Калужская",
+          "lng": 37.540075
+        },
+        "metro_stations": [
+          {
+            "line_name": "Калужско-Рижская",
+            "station_id": "6.41",
+            "line_id": "6",
+            "lat": 55.656682,
+            "station_name": "Калужская",
+            "lng": 37.540075
+          }
+        ],
+        "raw": null,
+        "street": null,
+        "lat": null,
+        "lng": null,
+        "id": "613931"
+      },
+      "department": null,
+      "alternate_url": "https://hh.ru/vacancy/20443823",
+      "type": {
+        "id": "open",
+        "name": "Открытая"
+      },
+      "id": "20443823"
+    },
+    {
+      "salary": {
+        "to": null,
+        "from": 60000,
+        "currency": "RUR"
+      },
+      "snippet": {
+        "requirement": "Знание <highlighttext>Java</highlighttext> SE. Знание JavaScript, JQuery, HTML, CSS. Опыт использования <highlighttext>Java</highlighttext> EE (EJB, JPA, JSF, JAX-WS, JAX-RS). ",
+        "responsibility": null
+      },
+      "archived": false,
+      "premium": false,
+      "name": "Разработчик Java",
+      "area": {
+        "url": "https://api.hh.ru/areas/2",
+        "id": "2",
+        "name": "Санкт-Петербург"
+      },
+      "url": "https://api.hh.ru/vacancies/20358943?host=hh.ru",
+      "created_at": "2017-05-13T15:38:16+0300",
+      "apply_alternate_url": "https://hh.ru/applicant/vacancy_response?vacancyId=20358943",
+      "relations": [],
+      "employer": {
+        "logo_urls": {
+          "90": "https://hhcdn.ru/employer-logo/2027958.jpeg",
+          "original": "https://hhcdn.ru/employer-logo-original/396426.jpg",
+          "240": "https://hhcdn.ru/employer-logo/2027959.jpeg"
+        },
+        "vacancies_url": "https://api.hh.ru/vacancies?employer_id=469282",
+        "name": "Наука",
+        "url": "https://api.hh.ru/employers/469282",
+        "alternate_url": "https://hh.ru/employer/469282",
+        "id": "469282",
+        "trusted": true
+      },
+      "response_letter_required": true,
+      "published_at": "2017-05-13T15:38:16+0300",
+      "address": {
+        "building": "21к2",
+        "city": "Санкт-Петербург",
+        "description": null,
+        "metro": {
+          "line_name": "Кировско-Выборгская",
+          "station_id": "14.193",
+          "line_id": "14",
+          "lat": 60.008942,
+          "station_name": "Политехническая",
+          "lng": 30.370907
+        },
+        "metro_stations": [
+          {
+            "line_name": "Кировско-Выборгская",
+            "station_id": "14.193",
+            "line_id": "14",
+            "lat": 60.008942,
+            "station_name": "Политехническая",
+            "lng": 30.370907
+          },
+          {
+            "line_name": "Кировско-Выборгская",
+            "station_id": "14.192",
+            "line_id": "14",
+            "lat": 60.012806,
+            "station_name": "Академическая",
+            "lng": 30.396044
+          }
+        ],
+        "raw": null,
+        "street": "Гжатская улица",
+        "lat": 60.004676,
+        "lng": 30.384185,
+        "id": "528576"
+      },
+      "department": null,
+      "alternate_url": "https://hh.ru/vacancy/20358943",
+      "type": {
+        "id": "open",
+        "name": "Открытая"
+      },
+      "id": "20358943"
+    },
+    {
+      "salary": {
+        "to": 2500,
+        "from": 2000,
+        "currency": "USD"
+      },
+      "snippet": {
+        "requirement": "Достойное знание <highlighttext>Java</highlighttext> и знакомство с такими фреймворками, как Play, Akka, Atmosphere. Понимание Git, Jenkins и Maven. Знание Scala и...",
+        "responsibility": "Основным направлением является сервис по созданию 3D туров квартир/домов/апартаментов. Разработка и поддержка масштабируемых cloud-based систем. "
+      },
+      "archived": false,
+      "premium": false,
+      "name": "Java-программист",
+      "area": {
+        "url": "https://api.hh.ru/areas/112",
+        "id": "112",
+        "name": "Ярославль"
+      },
+      "url": "https://api.hh.ru/vacancies/20402013?host=hh.ru",
+      "created_at": "2017-05-13T12:58:39+0300",
+      "apply_alternate_url": "https://hh.ru/applicant/vacancy_response?vacancyId=20402013",
+      "relations": [],
+      "employer": {
+        "logo_urls": null,
+        "vacancies_url": "https://api.hh.ru/vacancies?employer_id=2800027",
+        "name": "Immoviewer",
+        "url": "https://api.hh.ru/employers/2800027",
+        "alternate_url": "https://hh.ru/employer/2800027",
+        "id": "2800027",
+        "trusted": true
+      },
+      "response_letter_required": false,
+      "published_at": "2017-05-13T12:58:39+0300",
+      "address": null,
+      "department": null,
+      "alternate_url": "https://hh.ru/vacancy/20402013",
+      "type": {
+        "id": "open",
+        "name": "Открытая"
+      },
+      "id": "20402013"
+    }
+  ],
+  "pages": 667,
+  "arguments": null,
+  "found": 4448,
+  "alternate_url": "https://hh.ru/search/vacancy?text=Java&items_on_page=3&enable_snippets=true",
+  "per_page": 3,
+  "page": 0
+}
