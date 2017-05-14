@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.database.ServiceAggregator;
 import ru.hh.resumebuilderbot.database.model.Area;
 import ru.hh.resumebuilderbot.database.model.SalaryCurrency;
+import ru.hh.resumebuilderbot.database.model.Skill;
 import ru.hh.resumebuilderbot.database.model.Specialization;
 import ru.hh.resumebuilderbot.database.model.User;
 import ru.hh.resumebuilderbot.database.model.education.Education;
@@ -149,11 +150,21 @@ public class DBService {
         serviceAggregator.getEducationService().update(education);
     }
 
-    public void saveInstitute(Long telegramId, Integer instituteId, String instituteName) {
+    public void saveInstitute(Long telegramId, Integer instituteHHId, String instituteName) {
         Education education = getCurrentEducation(telegramId);
-        education.setInstitutionId(instituteId);
+        education.setInstitutionId(instituteHHId);
         education.setInstitutionName(instituteName);
         serviceAggregator.getEducationService().update(education);
+    }
+
+    public void saveInstitute(Long telegramId, String instituteName) {
+        Education education = getCurrentEducation(telegramId);
+        education.setInstitutionName(instituteName);
+        serviceAggregator.getEducationService().update(education);
+    }
+
+    public Integer getInstituteHHId(Long telegramId) {
+        return getCurrentEducation(telegramId).getInstitutionId();
     }
 
     public void saveFaculty(Long telegramId, Integer facultyId, String facultyName) {
@@ -163,9 +174,21 @@ public class DBService {
         serviceAggregator.getEducationService().update(education);
     }
 
+    public void saveFaculty(Long telegramId, String facultyName) {
+        Education education = getCurrentEducation(telegramId);
+        education.setFacultyName(facultyName);
+        serviceAggregator.getEducationService().update(education);
+    }
+
     public void saveSpeciality(Long telegramId, Integer specialityId, String specialityName) {
         Education education = getCurrentEducation(telegramId);
         education.setSpecialityId(specialityId);
+        education.setSpecialityName(specialityName);
+        serviceAggregator.getEducationService().update(education);
+    }
+
+    public void saveSpeciality(Long telegramId, String specialityName) {
+        Education education = getCurrentEducation(telegramId);
         education.setSpecialityName(specialityName);
         serviceAggregator.getEducationService().update(education);
     }
@@ -179,6 +202,13 @@ public class DBService {
     public void saveUserArea(Long telegramId, String areaName, Integer areaHHId) {
         User user = getUser(telegramId);
         Area area = getArea(areaName, areaHHId);
+        user.setArea(area);
+        serviceAggregator.getUserService().update(user);
+    }
+
+    public void saveUserArea(Long telegramId, String areaName) {
+        User user = getUser(telegramId);
+        Area area = getArea(areaName, null);
         user.setArea(area);
         serviceAggregator.getUserService().update(user);
     }
@@ -269,12 +299,12 @@ public class DBService {
             company = serviceAggregator.getCompanyService().getCompanyByName(companyName);
         }
         if (company == null) {
-            company = createNewCompany(companyName, companyHHId);
+            company = createCompany(companyName, companyHHId);
         }
         return company;
     }
 
-    private Company createNewCompany(String companyName, Integer companyHHId) {
+    private Company createCompany(String companyName, Integer companyHHId) {
         Company company = new Company();
         company.setName(companyName);
         company.setHHId(companyHHId);
@@ -295,5 +325,63 @@ public class DBService {
         specializations.add(specialization);
         user.setSpecializations(specializations);
         serviceAggregator.getUserService().update(user);
+    }
+
+    public void saveSkill(Long telegramId, String skillName, Integer skillHHId){
+        User user = getUser(telegramId);
+        Skill skill = getSkill(skillName, skillHHId);
+        user.getSkills().add(skill);
+        serviceAggregator.getUserService().update(user);
+    }
+
+    private Skill getSkill(String skillName, Integer skillHHId) {
+        Skill skill;
+        if (skillHHId != null) {
+            skill = serviceAggregator.getSkillService().getSkillByHHId(skillHHId);
+        } else {
+            skill = serviceAggregator.getSkillService().getSkillByName(skillName);
+        }
+        if (skill == null) {
+            skill = createSkill(skillName, skillHHId);
+        }
+        return skill;
+    }
+
+    private Skill createSkill(String skillName, Integer skillHHId) {
+        Skill skill = new Skill();
+        skill.setName(skillName);
+        skill.setHhId(skillHHId);
+        serviceAggregator.getSkillService().create(skill);
+        return skill;
+    }
+
+    public void saveSpecialization(Long telegramId, String specializationName, Integer specializationHHId){
+        User user = getUser(telegramId);
+        Specialization specialization = getSpecialization(specializationName, specializationHHId);
+        user.getSpecializations().add(specialization);
+        serviceAggregator.getUserService().update(user);
+    }
+
+    private Specialization getSpecialization(String specializationName, Integer specializationHHId) {
+        Specialization specialization;
+        if (specializationHHId != null) {
+            specialization = serviceAggregator.getSpecializationService()
+                    .getSpecializationByHHId(specializationHHId);
+        } else {
+            specialization = serviceAggregator.getSpecializationService()
+                    .getSpecializationByName(specializationName);
+        }
+        if (specialization == null) {
+            specialization = createSpecialization(specializationName, specializationHHId);
+        }
+        return specialization;
+    }
+
+    private Specialization createSpecialization(String specializationName, Integer specializationHHId) {
+        Specialization specialization = new Specialization();
+        specialization.setName(specializationName);
+        specialization.setHhId(specializationHHId);
+        serviceAggregator.getSpecializationService().create(specialization);
+        return specialization;
     }
 }

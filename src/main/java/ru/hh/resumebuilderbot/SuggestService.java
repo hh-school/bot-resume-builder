@@ -59,9 +59,9 @@ public class SuggestService {
         );
     }
 
-    public List<Faculty> getFaculties(String instituteId) {
+    public List<Faculty> getFaculties(String instituteId, String searchQuery) {
         return makeSafeRequest(
-                () -> hhHTTPService.listFaculties(instituteId, getQueryLanguage(null))
+                () -> hhHTTPService.listFaculties(instituteId, getQueryLanguage(searchQuery))
         );
     }
 

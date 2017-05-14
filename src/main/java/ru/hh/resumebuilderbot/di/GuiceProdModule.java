@@ -5,6 +5,8 @@ import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.BotBodyImpl;
 import ru.hh.resumebuilderbot.database.dao.AreaDAO;
 import ru.hh.resumebuilderbot.database.dao.AreaDAOImpl;
+import ru.hh.resumebuilderbot.database.dao.SkillDAO;
+import ru.hh.resumebuilderbot.database.dao.SkillDAOImpl;
 import ru.hh.resumebuilderbot.database.dao.SpecializationDAO;
 import ru.hh.resumebuilderbot.database.dao.SpecializationDAOImpl;
 import ru.hh.resumebuilderbot.database.dao.UserDAO;
@@ -19,6 +21,8 @@ import ru.hh.resumebuilderbot.database.dao.experience.IndustryDAO;
 import ru.hh.resumebuilderbot.database.dao.experience.IndustryDAOImpl;
 import ru.hh.resumebuilderbot.database.service.AreaService;
 import ru.hh.resumebuilderbot.database.service.AreaServiceImpl;
+import ru.hh.resumebuilderbot.database.service.SkillService;
+import ru.hh.resumebuilderbot.database.service.SkillServiceImpl;
 import ru.hh.resumebuilderbot.database.service.SpecializationService;
 import ru.hh.resumebuilderbot.database.service.SpecializationServiceImpl;
 import ru.hh.resumebuilderbot.database.service.UserService;
@@ -35,21 +39,23 @@ import ru.hh.resumebuilderbot.database.service.experience.IndustryServiceImpl;
 public class GuiceProdModule extends AbstractModule {
 
     private void configureDAO() {
-        bind(EducationDAO.class).to(EducationDAOImpl.class);
+        bind(AreaDAO.class).to(AreaDAOImpl.class);
         bind(CompanyDAO.class).to(CompanyDAOImpl.class);
+        bind(EducationDAO.class).to(EducationDAOImpl.class);
         bind(ExperienceDAO.class).to(ExperienceDAOImpl.class);
         bind(IndustryDAO.class).to(IndustryDAOImpl.class);
-        bind(AreaDAO.class).to(AreaDAOImpl.class);
+        bind(SkillDAO.class).to(SkillDAOImpl.class);
         bind(SpecializationDAO.class).to(SpecializationDAOImpl.class);
         bind(UserDAO.class).to(UserDAOImpl.class);
     }
 
     private void configureServices() {
-        bind(EducationService.class).to(EducationServiceImpl.class);
+        bind(AreaService.class).to(AreaServiceImpl.class);
         bind(CompanyService.class).to(CompanyServiceImpl.class);
+        bind(EducationService.class).to(EducationServiceImpl.class);
         bind(ExperienceService.class).to(ExperienceServiceImpl.class);
         bind(IndustryService.class).to(IndustryServiceImpl.class);
-        bind(AreaService.class).to(AreaServiceImpl.class);
+        bind(SkillService.class).to(SkillServiceImpl.class);
         bind(SpecializationService.class).to(SpecializationServiceImpl.class);
         bind(UserService.class).to(UserServiceImpl.class);
     }

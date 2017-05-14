@@ -6,6 +6,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import ru.hh.resumebuilderbot.database.model.Area;
 import ru.hh.resumebuilderbot.database.model.SalaryCurrency;
+import ru.hh.resumebuilderbot.database.model.Skill;
 import ru.hh.resumebuilderbot.database.model.Specialization;
 import ru.hh.resumebuilderbot.database.model.User;
 import ru.hh.resumebuilderbot.database.model.education.Education;
@@ -45,13 +46,14 @@ public class HibernateMetadataFactory {
                 .applySetting("hibernate.connection.password", dbPassword)
                 .build();
         return new MetadataSources(standardRegistry)
-                .addAnnotatedClass(Education.class)
-                .addAnnotatedClass(Company.class)
-                .addAnnotatedClass(Experience.class)
-                .addAnnotatedClass(Industry.class)
                 .addAnnotatedClass(Area.class)
+                .addAnnotatedClass(Company.class)
+                .addAnnotatedClass(Education.class)
+                .addAnnotatedClass(Experience.class)
                 .addAnnotatedClass(Gender.class)
+                .addAnnotatedClass(Industry.class)
                 .addAnnotatedClass(SalaryCurrency.class)
+                .addAnnotatedClass(Skill.class)
                 .addAnnotatedClass(Specialization.class)
                 .addAnnotatedClass(User.class)
                 .getMetadataBuilder()

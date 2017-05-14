@@ -1,6 +1,7 @@
 package ru.hh.resumebuilderbot.telegram.handler.suggest.converter;
 
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
+import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResultArticle;
 import ru.hh.resumebuilderbot.http.response.entity.Area;
 import ru.hh.resumebuilderbot.http.response.entity.Company;
 import ru.hh.resumebuilderbot.http.response.entity.Faculty;
@@ -41,7 +42,7 @@ public class TelegramConverter {
         return this;
     }
 
-    private <T> InlineQueryResult convert(T suggestEntity, EntityTelegramConverter<T> telegramConverter) {
+    private <T> InlineQueryResultArticle convert(T suggestEntity, EntityTelegramConverter<T> telegramConverter) {
         return telegramConverter.convert(suggestEntity);
     }
 
@@ -52,8 +53,8 @@ public class TelegramConverter {
         }
 
         EntityTelegramConverter entityTelegramConverter = map.get(suggestEntities.get(0).getClass());
-        for (T suggestEntity : suggestEntities) {
-            results.add(convert(suggestEntity, entityTelegramConverter));
+        for (Integer i = 0; i < suggestEntities.size(); i++){
+            results.add(convert(suggestEntities.get(i), entityTelegramConverter).setId(i.toString()));
         }
         return results;
     }

@@ -9,8 +9,8 @@ import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
-@Table(name = "area")
-public class Area {
+@Table(name = "skill")
+public class Skill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -20,7 +20,7 @@ public class Area {
     @Column(name = "hh_id")
     private Integer hhId;
 
-    public Area() {
+    public Skill() {
     }
 
     public Integer getId() {
@@ -55,19 +55,19 @@ public class Area {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Area area = (Area) o;
-        return Objects.equals(id, area.id) &&
-                Objects.equals(name, area.name) &&
-                Objects.equals(hhId, area.hhId);
+        Skill that = (Skill) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(hhId, that.hhId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, hhId);
     }
 
     @Override
     public String toString() {
-        return String.format("Area{id=%d, name='%s', hhId='%d'}", id, name, hhId);
+        return String.format("Skill{id=%d, name='%s', hh_id='%d'}", id, name, hhId);
     }
 }

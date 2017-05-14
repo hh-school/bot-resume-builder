@@ -1,5 +1,6 @@
 package ru.hh.resumebuilderbot.testmessengeradapter;
 
+import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.MessengerAdapter;
@@ -37,6 +38,10 @@ public class TestMessengerAdapter implements MessengerAdapter {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void provideSuggests(String queryId, List<InlineQueryResult> inlineQueryResults) {
     }
 
     private Answer getAnswer(Question question) {

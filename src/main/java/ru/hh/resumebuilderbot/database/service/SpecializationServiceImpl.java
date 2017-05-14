@@ -15,4 +15,14 @@ public class SpecializationServiceImpl extends GenericServiceImpl<Specialization
     public SpecializationServiceImpl(SpecializationDAO specializationDAO, SessionFactory sessionFactory) {
         super(specializationDAO, sessionFactory);
     }
+
+    @Override
+    public Specialization getSpecializationByName(String name) {
+        return inTransaction(() -> dao.getSpecializationByName(name));
+    }
+
+    @Override
+    public Specialization getSpecializationByHHId(Integer hhId) {
+        return inTransaction(() -> dao.getSpecializationByHHId(hhId));
+    }
 }
