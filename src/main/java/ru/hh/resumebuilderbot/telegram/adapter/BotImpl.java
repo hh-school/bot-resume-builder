@@ -25,10 +25,6 @@ public class BotImpl extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        handleUpdate(update);
-    }
-
-    private void handleUpdate(Update update){
         if (update.getInlineQuery() != null) {
             provideSuggests(update.getInlineQuery());
         } else if (update.getChosenInlineQuery() != null) {
