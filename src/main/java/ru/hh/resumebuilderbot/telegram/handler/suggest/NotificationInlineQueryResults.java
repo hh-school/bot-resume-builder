@@ -15,7 +15,7 @@ public class NotificationInlineQueryResults {
         InputTextMessageContent messageContent = new InputTextMessageContent();
         messageContent.setMessageText(TextsStorage.getText(TextId.NOTHING_SELECTED));
         InlineQueryResultArticle inlineQueryResult = new InlineQueryResultArticle()
-                .setId("0")
+                .setId("51")
                 .setInputMessageContent(messageContent)
                 .setDescription(TextsStorage.getText(TextId.NEED_MORE_ONE_SYMBOL))
                 .setTitle(TextsStorage.getText(TextId.CONTINUE_INPUT));
@@ -28,7 +28,7 @@ public class NotificationInlineQueryResults {
         InputTextMessageContent messageContent = new InputTextMessageContent();
         messageContent.setMessageText(TextsStorage.getText(TextId.NOTHING_SELECTED));
         InlineQueryResultArticle inlineQueryResult = new InlineQueryResultArticle()
-                .setId("0")
+                .setId("52")
                 .setInputMessageContent(messageContent)
                 .setDescription(TextsStorage.getText(TextId.CHECK_INPUT_DATA))
                 .setTitle(String.format("По запросу '%s' ничего не найдено", query));
@@ -41,7 +41,7 @@ public class NotificationInlineQueryResults {
         InputTextMessageContent messageContent = new InputTextMessageContent();
         messageContent.setMessageText(TextsStorage.getText(TextId.NO_FACULTIES_FOUND));
         InlineQueryResultArticle inlineQueryResult = new InlineQueryResultArticle()
-                .setId("0")
+                .setId("53")
                 .setInputMessageContent(messageContent)
                 .setDescription(TextsStorage.getText(TextId.NO_FACULTIES_FOUND_DESCRIPTION))
                 .setTitle(TextsStorage.getText(TextId.NO_FACULTIES_FOUND));
