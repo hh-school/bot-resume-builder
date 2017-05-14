@@ -29,7 +29,7 @@ public class SuggestHandler extends Handler {
             queryResults = getCommonSuggests(neededSuggest, textForSearch);
         }
         if (queryResults == null || queryResults.isEmpty()) {
-            return NotificationInlineQueryResults.getNotFoundErrorResult(textForSearch);
+            return NotificationResults.getNotFoundErrorResult(textForSearch);
         }
         if (queryResults.size() >= MAX_RESULTS_AMOUNT) {
             queryResults = queryResults.subList(0, MAX_RESULTS_AMOUNT);
@@ -39,11 +39,11 @@ public class SuggestHandler extends Handler {
 
     private List<?> getFacultiesSuggests(Integer instituteId, String textForSearch) {
         if (instituteId == null) {
-            return NotificationInlineQueryResults.getNonFacultiesInstituteResult();
+            return NotificationResults.getNonFacultiesInstituteResult();
         }
         List<Faculty> queryResults = suggestService.getFaculties(instituteId.toString(), textForSearch);
         if (queryResults == null || queryResults.isEmpty()) {
-            return NotificationInlineQueryResults.getNonFacultiesInstituteResult();
+            return NotificationResults.getNonFacultiesInstituteResult();
         }
         return queryResults.stream()
                 .filter(faculty -> faculty.getName().contains(textForSearch))
@@ -52,9 +52,8 @@ public class SuggestHandler extends Handler {
 
     private List<?> getCommonSuggests(SuggestType neededSuggest, String textForSearch) {
         List<?> queryResults;
-        if (textForSearch.length() < MIN_QUERY_LEN &&
-                neededSuggest != SuggestType.FACULTIES_SUGGEST) {
-            return NotificationInlineQueryResults.getShortQueryErrorResult();
+        if (textForSearch.length() < MIN_QUERY_LEN) {
+            return NotificationResults.getShortQueryErrorResult();
         }
         switch (neededSuggest) {
             case INSTITUTES_SUGGEST:

@@ -9,11 +9,13 @@ import ru.hh.resumebuilderbot.http.response.entity.Institute;
 import ru.hh.resumebuilderbot.http.response.entity.Position;
 import ru.hh.resumebuilderbot.http.response.entity.Skill;
 import ru.hh.resumebuilderbot.http.response.entity.Specialization;
+import ru.hh.resumebuilderbot.telegram.handler.suggest.Notification;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.entity.AreaTelegramConverter;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.entity.CompanyTelegramConverter;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.entity.EntityTelegramConverter;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.entity.FacultyTelegramConverter;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.entity.InstituteTelegramConverter;
+import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.entity.NotificationTelegramConverter;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.entity.PositionTelegramConverter;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.entity.SkillTelegramConverter;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.entity.SpecializationTelegramConverter;
@@ -34,7 +36,8 @@ public class TelegramConverter {
                 .register(Institute.class, new InstituteTelegramConverter())
                 .register(Position.class, new PositionTelegramConverter())
                 .register(Skill.class, new SkillTelegramConverter())
-                .register(Specialization.class, new SpecializationTelegramConverter());
+                .register(Specialization.class, new SpecializationTelegramConverter())
+                .register(Notification.class, new NotificationTelegramConverter());
     }
 
     public <T> TelegramConverter register(Class<T> clazz, EntityTelegramConverter<T> entityTelegramConverter) {
