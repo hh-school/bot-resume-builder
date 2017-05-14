@@ -5,17 +5,20 @@ import com.google.inject.Singleton;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
 import ru.hh.resumebuilderbot.telegram.handler.message.MessageHandler;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.SuggestHandler;
+import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.TelegramConverter;
 
 import java.util.List;
 
 @Singleton
 public class BotBodyImpl implements BotBody {
     private final Selector selector;
+    private final TelegramConverter telegramConverter;
     private MessengerAdapter messengerAdapter;
 
     @Inject
-    public BotBodyImpl(Selector selector) {
+    public BotBodyImpl(Selector selector, TelegramConverter telegramConverter) {
         this.selector = selector;
+        this.telegramConverter = telegramConverter;
     }
 
     @Override
@@ -27,8 +30,8 @@ public class BotBodyImpl implements BotBody {
     @Override
     public void provideSuggests(Long telegramId, String queryText, String queryId) {
         SuggestHandler suggestHandler = selector.getSuggestHandler();
-        List<InlineQueryResult> suggests = suggestHandler.getSuggestResults(telegramId, queryText);
-        messengerAdapter.provideSuggests(queryId, suggests);
+        List<?> suggests = suggestHandler.getSuggestResults(telegramId, queryText);
+        messengerAdapter.provideSuggests(queryId, telegramConverter.convertList(suggests));
     }
 
     @Override

@@ -28,15 +28,12 @@ class Selector {
     private final DBService dbService;
     private final Graph graph;
     private final SuggestService suggestService;
-    private final TelegramConverter telegramConverter;
 
     @Inject
-    public Selector(DBService dbService, Provider<Graph> graphProvider,
-                    SuggestService suggestService, TelegramConverter telegramConverter) {
+    public Selector(DBService dbService, Provider<Graph> graphProvider, SuggestService suggestService) {
         this.dbService = dbService;
         this.graph = graphProvider.get();
         this.suggestService = suggestService;
-        this.telegramConverter = telegramConverter;
         parsers = Collections.synchronizedList(new ArrayList<>());
         registerParser("/start", StartMessageHandler.class);
         registerParser("/show", ShowMessageHandler.class);
@@ -63,7 +60,7 @@ class Selector {
     }
 
     SuggestHandler getSuggestHandler() {
-        return new SuggestHandler(dbService, graph, suggestService, telegramConverter);
+        return new SuggestHandler(dbService, graph, suggestService);
     }
 
     ChosenSuggestHandler getChosenSuggestHandler() {
