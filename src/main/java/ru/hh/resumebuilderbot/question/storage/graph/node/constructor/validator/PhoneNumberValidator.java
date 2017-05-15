@@ -1,15 +1,20 @@
 package ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator;
 
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.database.model.User;
 
-import java.util.regex.Pattern;
-
-public class PhoneNumberValidator extends PatternValidator {
+public class PhoneNumberValidator extends Validator {
+    public static final Logger log = LoggerFactory.getLogger(PhoneNumberValidator.class);
+    public static final String DEFAULT_REGION = "RU";
+    private static final PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
     public PhoneNumberValidator() {
-        pattern = Pattern.compile("^\\+?[\\d()-]{7,20}+$");
-        notification = "Хм, это точно номер телефона? Как же расстроится работодатель, " +
-                "когда не сможет с вами связаться! Давайте попробуем еще раз!";
+        super("Хм, это точно номер телефона? Как же расстроится работодатель, " +
+                "когда не сможет с вами связаться! Давайте попробуем еще раз!");
     }
 
     @Override
@@ -20,6 +25,13 @@ public class PhoneNumberValidator extends PatternValidator {
     @Override
     public boolean answerIsValid(Answer answer) {
         String answerAsString = (String) answer.getAnswerBody();
-        return answerAsString.length() <= User.PHONE_LENGTH && pattern.matcher(answerAsString).matches();
+        Phonenumber.PhoneNumber testPhoneNumber;
+        try {
+            testPhoneNumber = phoneUtil.parse(answerAsString, DEFAULT_REGION);
+        } catch (NumberParseException e) {
+            log.error("Phone parsing error", e);
+            return false;
+        }
+        return phoneUtil.isValidNumber(testPhoneNumber) && answerAsString.length() <= User.PHONE_LENGTH;
     }
 }

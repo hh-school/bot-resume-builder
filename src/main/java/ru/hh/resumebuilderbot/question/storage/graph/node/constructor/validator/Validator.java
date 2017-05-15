@@ -7,6 +7,13 @@ import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
 public abstract class Validator {
     protected String notification = TextsStorage.getText(TextId.INVALID_ANSWER);
 
+    protected Validator() {
+    }
+
+    protected Validator(String notification) {
+        this.notification = notification;
+    }
+
     public abstract boolean answerIsValid(Answer answer);
 
     public String getNotification() {

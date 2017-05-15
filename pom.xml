@@ -150,5 +150,11 @@
             <version>2.7.5</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.libphonenumber</groupId>
+            <artifactId>libphonenumber</artifactId>
+            <version>8.4.3</version>
+        </dependency>
     </dependencies>
 </project>

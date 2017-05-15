@@ -17,7 +17,7 @@ import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 
-public class HHHTTPServiceTest {
+public class HHMockHTTPServiceTest {
     public static HHHTTPService hhHTTPService;
     private MockWebServer server;
 

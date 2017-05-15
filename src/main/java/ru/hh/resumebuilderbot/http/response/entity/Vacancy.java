@@ -85,8 +85,12 @@ public class Vacancy {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Vacancy)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Vacancy)) {
+            return false;
+        }
         Vacancy vacancy = (Vacancy) o;
         return Objects.equals(id, vacancy.id) &&
                 Objects.equals(name, vacancy.name) &&
