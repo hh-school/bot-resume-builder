@@ -275,8 +275,9 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format("firstName=%s, lastName='%s', birthDate='%s', phone='%s', area='%s', gender='%s'," +
-                        "educations='%s', experience='%s', skills='%s', salary=%s %s", firstName, lastName, birthDate, phone,
-                area, gender, educations, experiences, skills, salaryAmount, salaryCurrency);
+        return String.format("firstName=%s, \nlastName='%s', \nnbirthDate='%s', \nphone='%s', \narea='%s', " +
+                        "\ngender='%s', \neducations='%s', \nexperience='%s', \nskills='%s', \nsalary=%s %s",
+                firstName, lastName, birthDate, phone, area, gender, educations,
+                experiences, skills, salaryAmount, salaryCurrency);
     }
 }

@@ -85,6 +85,6 @@ public class Company {
 
     @Override
     public String toString() {
-        return String.format("Company{id=%d, name='%s', hhId = '%s', area = '%d'}", id, name, hhId, area.getId());
+        return String.format("Company{id=%d, name='%s', hhId = '%s'}", id, name, hhId);
     }
 }
