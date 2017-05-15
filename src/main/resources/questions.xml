@@ -441,6 +441,11 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Это в какой валюте?">
+                        <variantsOfAnswer othersAllowed="false">
+                            <variant text="RUB"/>
+                            <variant text="USD"/>
+                            <variant text="EUR"/>
+                        </variantsOfAnswer>
                     </question>
                 </classData>
             </base>

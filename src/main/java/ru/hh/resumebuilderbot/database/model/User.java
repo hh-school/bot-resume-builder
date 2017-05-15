@@ -51,12 +51,12 @@ public class User {
     private String phone;
     //TODO заменить EAGER на LAZY
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Education> educations = new HashSet<>(0);
+    private Set<Education> educations;
     @ManyToOne
     @JoinColumn(name = "area_id")
     private Area area;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Experience> experiences = new HashSet<>(0);
+    private Set<Experience> experiences;
     @Convert(converter = GenderConverter.class)
     @Column(name = "gender", length = 1)
     private Gender gender;
@@ -78,7 +78,7 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "skill_id", nullable = false, updatable = false)}
     )
-    private Set<Skill> skills = new HashSet<>(0);
+    private Set<Skill> skills;
     @Column(name = "salary_amount")
     private Integer salaryAmount;
     @Enumerated(EnumType.STRING)
@@ -271,5 +271,12 @@ public class User {
     public int hashCode() {
         return Objects.hash(id, telegramId, birthDate, phone, firstName, lastName, area, gender,
                 careerObjective, salaryAmount, salaryCurrency, createDatetime, nodeId, nodeRelationId);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("firstName=%s, lastName='%s', birthDate='%s', phone='%s', area='%s', gender='%s'," +
+                        "educations='%s', experience='%s', skills='%s', salary=%s %s", firstName, lastName, birthDate, phone,
+                area, gender, educations, experiences, skills, salaryAmount, salaryCurrency);
     }
 }

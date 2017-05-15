@@ -41,7 +41,7 @@ public class Experience {
             joinColumns = {@JoinColumn(name = "experience_id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "industry_id", nullable = false, updatable = false)}
     )
-    private Set<Industry> industries = new HashSet<>(0);
+    private Set<Industry> industries;
     @Column(name = "position")
     private String position;
     @Temporal(TemporalType.DATE)
