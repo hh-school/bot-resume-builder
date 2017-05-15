@@ -59,7 +59,7 @@ public class AnswerMessageHandler extends MessageHandler {
                 dbService.saveBirthDate(telegramId, getDateFromString(value, "yyyy.MM.dd"));
                 break;
             case "gender":
-                dbService.saveGender(telegramId, Gender.fromCode(value.charAt(0)));
+                dbService.saveGender(telegramId, getGenderFromCode(value.charAt(0)));
                 break;
             case "area":
                 dbService.saveUserArea(telegramId, value, null);
@@ -127,5 +127,15 @@ public class AnswerMessageHandler extends MessageHandler {
             log.error("Date conversation failed with error {}", e.getMessage());
             return new Date(System.currentTimeMillis());
         }
+    }
+
+    private Gender getGenderFromCode(char code) {
+        if (code == 'М' || code == 'м' || code == 'О') {
+            return Gender.MALE;
+        }
+        if (code == 'Ж' || code == 'ж' || code == 'Д') {
+            return Gender.FEMALE;
+        }
+        throw new UnsupportedOperationException("The code " + code + " is not supported!");
     }
 }
