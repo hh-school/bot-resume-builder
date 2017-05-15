@@ -37,21 +37,21 @@ public class BotImpl extends TelegramLongPollingBot {
         }
     }
 
-    private void askNextQuestions(TelegramAnswer telegramAnswer){
+    private void askNextQuestions(TelegramAnswer telegramAnswer) {
         long telegramId = telegramAnswer.getChatId();
         String answerText = telegramAnswer.getAnswerText();
         Answer answer = new Answer(answerText);
         this.botBody.askNextQuestions(telegramId, answer);
     }
 
-    private void provideSuggests(InlineQuery inlineQuery){
+    private void provideSuggests(InlineQuery inlineQuery) {
         long telegramId = inlineQuery.getFrom().getId();
         String query = inlineQuery.getQuery();
         String queryId = inlineQuery.getId();
         this.botBody.provideSuggests(telegramId, query, queryId);
     }
 
-    private void saveChosenSuggest(ChosenInlineQuery chosenInlineQuery){
+    private void saveChosenSuggest(ChosenInlineQuery chosenInlineQuery) {
         long telegramId = chosenInlineQuery.getFrom().getId();
         String queryText = chosenInlineQuery.getQuery();
         Integer resultId = Integer.valueOf(chosenInlineQuery.getResultId());

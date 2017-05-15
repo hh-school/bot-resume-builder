@@ -22,10 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TelegramAdapter implements MessengerAdapter {
-    private final TelegramLongPollingBot bot;
     private static final Integer SUGGEST_CACHE_TIME = 1;
-
     private static final Logger log = LoggerFactory.getLogger(TelegramAdapter.class);
+    private final TelegramLongPollingBot bot;
 
     public TelegramAdapter(TelegramLongPollingBot bot) {
         this.bot = bot;
@@ -112,8 +111,7 @@ public class TelegramAdapter implements MessengerAdapter {
             answerInlineQuery.setInlineQueryId(queryId);
             answerInlineQuery.setResults(inlineQueryResults);
             bot.answerInlineQuery(answerInlineQuery);
-        }
-        catch (TelegramApiException e) {
+        } catch (TelegramApiException e) {
             log.error(e.getMessage());
         }
     }
