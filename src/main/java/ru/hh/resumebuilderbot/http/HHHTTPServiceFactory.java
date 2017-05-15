@@ -50,8 +50,6 @@ public class HHHTTPServiceFactory {
                 }.getType(), new ItemsDeserializer<Area>())
                 .registerTypeAdapter(new TypeToken<List<Company>>() {
                 }.getType(), new ItemsDeserializer<Company>())
-                .registerTypeAdapter(new TypeToken<List<Faculty>>() {
-                }.getType(), new ItemsDeserializer<Faculty>())
                 .registerTypeAdapter(new TypeToken<List<Institute>>() {
                 }.getType(), new ItemsDeserializer<Institute>())
                 .registerTypeAdapter(new TypeToken<List<Position>>() {

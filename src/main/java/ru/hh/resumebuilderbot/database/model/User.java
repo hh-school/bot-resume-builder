@@ -70,7 +70,7 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "specialization_id", nullable = false, updatable = false)}
     )
-    private Set<Specialization> specializations = new HashSet<>(0);
+    private Set<Specialization> specializations;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
@@ -275,8 +275,16 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format("firstName=%s, \nlastName='%s', \nnbirthDate='%s', \nphone='%s', \narea='%s', " +
-                        "\ngender='%s', \neducations='%s', \nexperience='%s', \nskills='%s', \nsalary=%s %s",
+        return String.format("firstName=%s, \n" +
+                        "lastName='%s', \n" +
+                        "birthDate='%s', \n" +
+                        "phone='%s', \n" +
+                        "area='%s', \n" +
+                        "gender='%s', \n" +
+                        "educations='%s', \n" +
+                        "experience='%s', \n" +
+                        "skills='%s', \n" +
+                        "salary=%s %s",
                 firstName, lastName, birthDate, phone, area, gender, educations,
                 experiences, skills, salaryAmount, salaryCurrency);
     }

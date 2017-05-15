@@ -11,7 +11,6 @@ public class PlainTextCVBuilder implements CVBuilder {
 
     @Override
     public String build(Long telegramId) {
-        // TODO Выдача резюме в текстовом формате
-        return "not implemented yet";
+        return dbService.getUserInfo(telegramId);
     }
 }
