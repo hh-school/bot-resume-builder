@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -40,7 +41,7 @@ public class Experience {
             joinColumns = {@JoinColumn(name = "experience_id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "industry_id", nullable = false, updatable = false)}
     )
-    private Set<Industry> industries;
+    private Set<Industry> industries = new HashSet<>(0);
     @Column(name = "position")
     private String position;
     @Temporal(TemporalType.DATE)
@@ -139,7 +140,7 @@ public class Experience {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user.getId(), company.getId(),
+        return Objects.hash(id, user.getId(),
                 position, startDate, endDate, description);
     }
 

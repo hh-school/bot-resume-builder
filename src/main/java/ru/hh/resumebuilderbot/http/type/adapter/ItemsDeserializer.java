@@ -15,7 +15,12 @@ public class ItemsDeserializer<T> implements JsonDeserializer<List<T>> {
     @Override
     public List<T> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
-        JsonArray jsonItems = json.getAsJsonObject().getAsJsonArray("items");
+        JsonArray jsonItems;
+        if (json.isJsonArray()) {
+            jsonItems = json.getAsJsonArray();
+        } else {
+            jsonItems = json.getAsJsonObject().getAsJsonArray("items");
+        }
         List<T> results = new ArrayList<>(jsonItems.size());
         for (JsonElement jsonItem : jsonItems) {
             T item = context.deserialize(

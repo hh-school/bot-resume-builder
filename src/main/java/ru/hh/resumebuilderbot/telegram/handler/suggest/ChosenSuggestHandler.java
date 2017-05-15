@@ -48,7 +48,12 @@ public class ChosenSuggestHandler extends Handler {
                     break;
                 case POSITIONS_SUGGEST:
                     Position position = suggestService.getPositions(queryText).get(resultId);
-                    dbService.saveSpecialization(telegramId, position.getText(), Integer.valueOf(position.getId()));
+                    if (getCurrentNode(telegramId).getFieldNameToSave().equals("workPosition")) {
+                        dbService.saveExperiencePosition(telegramId, position.getText());
+                    } else {
+                        //TODO add specialization and profArea save
+                        dbService.saveCareerObjective(telegramId, position.getText());
+                    }
                     break;
                 case AREAS_SUGGEST:
                     Area area = suggestService.getAreas(queryText).get(resultId);

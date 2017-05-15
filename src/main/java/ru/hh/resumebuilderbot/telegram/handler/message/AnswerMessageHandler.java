@@ -2,6 +2,7 @@ package ru.hh.resumebuilderbot.telegram.handler.message;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.DBService;
+import ru.hh.resumebuilderbot.database.model.SalaryCurrency;
 import ru.hh.resumebuilderbot.database.model.education.EducationLevel;
 import ru.hh.resumebuilderbot.database.model.gender.Gender;
 import ru.hh.resumebuilderbot.question.Question;
@@ -43,25 +44,24 @@ public class AnswerMessageHandler extends MessageHandler {
         return questions;
     }
 
-    protected void saveValue(Long telegramId, String field, String value) {
-        DateFormat format = new SimpleDateFormat("yyyy.MM.dd");
+    private void saveValue(Long telegramId, String field, String value) {
         switch (field) {
-            case "phone":
-                dbService.savePhoneNumber(telegramId, value);
-                break;
             case "firstName":
                 dbService.saveFirstname(telegramId, value);
                 break;
             case "lastName":
                 dbService.saveLastName(telegramId, value);
                 break;
+            case "phoneNumber":
+                dbService.savePhoneNumber(telegramId, value);
+                break;
             case "birthDate":
                 dbService.saveBirthDate(telegramId, getDateFromString(value, "yyyy.MM.dd"));
                 break;
-            case "sex":
+            case "gender":
                 dbService.saveGender(telegramId, Gender.fromCode(value.charAt(0)));
                 break;
-            case "town":
+            case "area":
                 dbService.saveUserArea(telegramId, value, null);
                 break;
             case "educationType":
@@ -69,19 +69,27 @@ public class AnswerMessageHandler extends MessageHandler {
                 dbService.saveEducationLevel(telegramId, EducationLevel.fromCode(value));
                 break;
             case "institute":
-                dbService.saveInstitute(telegramId, null, value);
+                dbService.saveInstitute(telegramId, value);
                 break;
             case "faculty":
-                dbService.saveFaculty(telegramId, null, value);
+                dbService.saveFaculty(telegramId, value);
                 break;
             case "speciality":
-                dbService.saveSpeciality(telegramId, null, value);
+                dbService.saveSpeciality(telegramId, value);
                 break;
             case "educationEndDate":
                 dbService.saveEducationYear(telegramId, Integer.valueOf(value));
                 break;
+            case "experienceAdd":
+                if (value.equals("Да")) {
+                    dbService.addNewExperience(telegramId);
+                }
+                break;
             case "company":
-                dbService.saveExperienceCompany(telegramId, value, null);
+                dbService.saveExperienceCompany(telegramId, value);
+                break;
+            case "workPosition":
+                dbService.saveExperiencePosition(telegramId, value);
                 break;
             case "workBeginDate":
                 dbService.saveExperienceStartDate(telegramId, getDateFromString(value, "yyyy.MM"));
@@ -91,6 +99,18 @@ public class AnswerMessageHandler extends MessageHandler {
                 break;
             case "experienceDescription":
                 dbService.saveExperienceDescription(telegramId, value);
+                break;
+            case "career_objective":
+                dbService.saveCareerObjective(telegramId, value);
+                break;
+            case "salaryAmount":
+                dbService.saveSalaryAmount(telegramId, Integer.valueOf(value));
+                break;
+            case "salaryCurrency":
+                dbService.saveSalaryCurrency(telegramId, SalaryCurrency.valueOf(value));
+                break;
+            case "skill":
+                dbService.saveSkill(telegramId, value);
                 break;
             default:
                 log.warn("User {}. Не найдено поле {} в базе данных. Попытка сохранить данные в невалидном поле",
@@ -105,7 +125,7 @@ public class AnswerMessageHandler extends MessageHandler {
             return format.parse(rawDate);
         } catch (ParseException e) {
             log.error("Date conversation failed with error {}", e.getMessage());
-            return new Date();
+            return new Date(System.currentTimeMillis());
         }
     }
 }

@@ -56,7 +56,7 @@ public class User {
     @JoinColumn(name = "area_id")
     private Area area;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Experience> experiences;
+    private Set<Experience> experiences = new HashSet<>(0);
     @Convert(converter = GenderConverter.class)
     @Column(name = "gender", length = 1)
     private Gender gender;
@@ -70,7 +70,7 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "specialization_id", nullable = false, updatable = false)}
     )
-    private Set<Specialization> specializations;
+    private Set<Specialization> specializations = new HashSet<>(0);
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
@@ -78,7 +78,7 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "skill_id", nullable = false, updatable = false)}
     )
-    private Set<Skill> skills;
+    private Set<Skill> skills = new HashSet<>(0);
     @Column(name = "salary_amount")
     private Integer salaryAmount;
     @Enumerated(EnumType.STRING)
