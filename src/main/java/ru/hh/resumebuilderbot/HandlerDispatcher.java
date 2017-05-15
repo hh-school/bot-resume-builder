@@ -15,7 +15,7 @@ import ru.hh.resumebuilderbot.telegram.handler.suggest.ChosenSuggestHandler;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.SuggestHandler;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -31,7 +31,7 @@ class HandlerDispatcher {
     public HandlerDispatcher(DBService dbService, Provider<Graph> graphProvider, SuggestService suggestService) {
         this.dbService = dbService;
         this.graph = graphProvider.get();
-        this.messageHandlers = Collections.synchronizedMap(new HashMap<>());
+        this.messageHandlers = Collections.synchronizedMap(new LinkedHashMap<>());
         this.suggestHandler = new SuggestHandler(dbService, graph, suggestService);
         this.chosenSuggestHandler = new ChosenSuggestHandler(dbService, graph, suggestService);
         messageHandlers.put("/start", new StartMessageHandler(dbService, graph));
