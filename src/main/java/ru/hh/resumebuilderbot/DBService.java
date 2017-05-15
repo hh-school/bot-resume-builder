@@ -327,7 +327,7 @@ public class DBService {
         serviceAggregator.getUserService().update(user);
     }
 
-    public void saveSkill(Long telegramId, String skillName, Integer skillHHId){
+    public void saveSkill(Long telegramId, String skillName, Integer skillHHId) {
         User user = getUser(telegramId);
         Skill skill = getSkill(skillName, skillHHId);
         user.getSkills().add(skill);
@@ -355,7 +355,7 @@ public class DBService {
         return skill;
     }
 
-    public void saveSpecialization(Long telegramId, String specializationName, Integer specializationHHId){
+    public void saveSpecialization(Long telegramId, String specializationName, Integer specializationHHId) {
         User user = getUser(telegramId);
         Specialization specialization = getSpecialization(specializationName, specializationHHId);
         user.getSpecializations().add(specialization);

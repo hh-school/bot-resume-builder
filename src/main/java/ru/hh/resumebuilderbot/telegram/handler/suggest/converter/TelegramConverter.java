@@ -53,7 +53,7 @@ public class TelegramConverter {
         }
 
         EntityTelegramConverter entityTelegramConverter = map.get(suggestEntities.get(0).getClass());
-        for (Integer i = 0; i < suggestEntities.size(); i++){
+        for (Integer i = 0; i < suggestEntities.size(); i++) {
             results.add(convert(suggestEntities.get(i), entityTelegramConverter).setId(i.toString()));
         }
         return results;
