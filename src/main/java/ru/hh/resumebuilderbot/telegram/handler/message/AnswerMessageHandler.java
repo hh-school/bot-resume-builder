@@ -59,7 +59,7 @@ public class AnswerMessageHandler extends MessageHandler {
                 dbService.saveBirthDate(telegramId, getDateFromString(value, "yyyy.MM.dd"));
                 break;
             case "gender":
-                dbService.saveGender(telegramId, getGenderFromCode(value.charAt(0)));
+                dbService.saveGender(telegramId, getGenderFromCode(value));
                 break;
             case "area":
                 dbService.saveUserArea(telegramId, value, null);
@@ -129,11 +129,11 @@ public class AnswerMessageHandler extends MessageHandler {
         }
     }
 
-    private Gender getGenderFromCode(char code) {
-        if (code == 'М' || code == 'м' || code == 'О') {
+    private Gender getGenderFromCode(String code) {
+        if (code.equals("Мужской") || code.equals("Одеколон")) {
             return Gender.MALE;
         }
-        if (code == 'Ж' || code == 'ж' || code == 'Д') {
+        if (code.equals("Женский") || code.equals("Духи")) {
             return Gender.FEMALE;
         }
         throw new UnsupportedOperationException("The code " + code + " is not supported!");

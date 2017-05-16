@@ -260,7 +260,7 @@ public class DBService {
                 return experience;
             }
         }
-        log.error("Не найден опыт работы у пользователя {} по id", telegramId, user.getNodeRelationId());
+        log.error("Не найден опыт работы у пользователя {} по id {}", telegramId, user.getNodeRelationId());
         return null;
     }
 

@@ -11,6 +11,6 @@ public class PlainTextCVBuilder implements CVBuilder {
 
     @Override
     public String build(Long telegramId) {
-        return dbService.getUserInfo(telegramId);
+        return dbService.getUserInfo(telegramId).replaceAll(", ", ", \n");
     }
 }

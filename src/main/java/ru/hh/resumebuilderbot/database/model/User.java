@@ -274,16 +274,8 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format("firstName=%s, \n" +
-                        "lastName='%s', \n" +
-                        "birthDate='%s', \n" +
-                        "phone='%s', \n" +
-                        "area='%s', \n" +
-                        "gender='%s', \n" +
-                        "educations='%s', \n" +
-                        "experience='%s', \n" +
-                        "skills='%s', \n" +
-                        "salary=%s %s",
+        return String.format("firstName=%s, lastName='%s', birthDate='%s', phone='%s', area='%s', " +
+                        "gender='%s, educations='%s', experience='%s', skills='%s', salary=%s %s",
                 firstName, lastName, birthDate, phone, area, gender, educations,
                 experiences, skills, salaryAmount, salaryCurrency);
     }
