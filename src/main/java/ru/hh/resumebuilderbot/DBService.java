@@ -35,7 +35,7 @@ public class DBService {
         return user != null;
     }
 
-    private User getUser(Long telegramId) {
+    public User getUser(Long telegramId) {
         return serviceAggregator.getUserService().getUserByTelegramId(telegramId);
     }
 
@@ -256,8 +256,8 @@ public class DBService {
                 return experience;
             }
         }
-        addNewExperience(telegramId);
-        return serviceAggregator.getExperienceService().get(user.getNodeRelationId());
+        log.error("Не найден опыт работы у пользователя {} по id {}", telegramId, user.getNodeRelationId());
+        return null;
     }
 
     public void saveExperienceStartDate(Long telegramId, Date startDate) {
@@ -266,7 +266,7 @@ public class DBService {
         serviceAggregator.getExperienceService().update(experience);
     }
 
-    public void saveExpirienceEndDate(Long telegramId, Date endDate) {
+    public void saveExperienceEndDate(Long telegramId, Date endDate) {
         Experience experience = getCurrentExperience(telegramId);
         experience.setEndDate(endDate);
         serviceAggregator.getExperienceService().update(experience);
@@ -287,6 +287,13 @@ public class DBService {
     public void saveExperienceCompany(Long telegramId, String companyName, Integer companyHHId) {
         Experience experience = getCurrentExperience(telegramId);
         Company company = getCompany(companyName, companyHHId);
+        experience.setCompany(company);
+        serviceAggregator.getExperienceService().update(experience);
+    }
+
+    public void saveExperienceCompany(Long telegramId, String companyName) {
+        Experience experience = getCurrentExperience(telegramId);
+        Company company = getCompany(companyName, null);
         experience.setCompany(company);
         serviceAggregator.getExperienceService().update(experience);
     }
@@ -330,6 +337,13 @@ public class DBService {
     public void saveSkill(Long telegramId, String skillName, Integer skillHHId) {
         User user = getUser(telegramId);
         Skill skill = getSkill(skillName, skillHHId);
+        user.getSkills().add(skill);
+        serviceAggregator.getUserService().update(user);
+    }
+
+    public void saveSkill(Long telegramId, String skillName) {
+        User user = getUser(telegramId);
+        Skill skill = getSkill(skillName, null);
         user.getSkills().add(skill);
         serviceAggregator.getUserService().update(user);
     }

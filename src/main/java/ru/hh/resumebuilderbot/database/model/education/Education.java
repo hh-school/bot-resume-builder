@@ -124,4 +124,11 @@ public class Education {
     public void setLevel(EducationLevel level) {
         this.level = level;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Education{level='%s', institution='%s': %s, faculty='%s': %s, " +
+                        "speciality='%s': %s, endYear=%s}", level, institutionName, institutionId,
+                facultyName, facultyId, specialityName, specialityId, year);
+    }
 }

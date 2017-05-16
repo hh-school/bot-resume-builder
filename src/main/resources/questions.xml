@@ -4,14 +4,13 @@
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Телефон"/>
+                    <question text="Для начала, давайте познакомимся! Назовите, пожалуйста, ваше имя"/>
                     <skippable>false</skippable>
                 </classData>
             </base>
-            <validator classpath="PhoneNumberValidator"/>
             <saver classpath="DatabaseSaver">
                 <classData>
-                    <databaseField>phone</databaseField>
+                    <databaseField>firstName</databaseField>
                 </classData>
             </saver>
         </nodeConstructor>
@@ -23,14 +22,13 @@
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="E-mail"/>
+                    <question text="И фамилию"/>
                     <skippable>false</skippable>
                 </classData>
             </base>
-            <validator classpath="EMailValidator"/>
             <saver classpath="DatabaseSaver">
                 <classData>
-                    <databaseField>email</databaseField>
+                    <databaseField>lastName</databaseField>
                 </classData>
             </saver>
         </nodeConstructor>
@@ -42,13 +40,14 @@
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Имя"/>
+                    <question text="По какому телефону работодателям лучше звонить вам?"/>
                     <skippable>false</skippable>
                 </classData>
             </base>
+            <validator classpath="PhoneNumberValidator"/>
             <saver classpath="DatabaseSaver">
                 <classData>
-                    <databaseField>firstName</databaseField>
+                    <databaseField>phoneNumber</databaseField>
                 </classData>
             </saver>
         </nodeConstructor>
@@ -60,13 +59,13 @@
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Фамилия"/>
+                    <question text="Отлично! Расскажите ещё немного о себе. Когда вы родились?"/>
                     <skippable>false</skippable>
                 </classData>
             </base>
             <saver classpath="DatabaseSaver">
                 <classData>
-                    <databaseField>lastName</databaseField>
+                    <databaseField>birthDate</databaseField>
                 </classData>
             </saver>
         </nodeConstructor>
@@ -78,17 +77,17 @@
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Пол">
+                    <question text="Одеколон или духи?">
                         <variantsOfAnswer othersAllowed="false">
-                            <variant text="Мужской"/>
-                            <variant text="Женский"/>
+                            <variant text="Одеколон"/>
+                            <variant text="Духи"/>
                         </variantsOfAnswer>
                     </question>
                 </classData>
             </base>
             <saver classpath="DatabaseSaver">
                 <classData>
-                    <databaseField>sex</databaseField>
+                    <databaseField>gender</databaseField>
                 </classData>
             </saver>
         </nodeConstructor>
@@ -100,14 +99,14 @@
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Город проживания">
+                    <question text="В каком городе вы живете?">
                         <suggestType>AREAS_SUGGEST</suggestType>
                     </question>
                 </classData>
             </base>
             <saver classpath="DatabaseSaver">
                 <classData>
-                    <databaseField>town</databaseField>
+                    <databaseField>area</databaseField>
                 </classData>
             </saver>
         </nodeConstructor>
@@ -120,7 +119,7 @@
             <base classpath="QuestionNodeForking">
                 <classData>
                     <answerPattern>Среднее</answerPattern>
-                    <question text="Образование">
+                    <question text="До какого уровня вы прокачали ваше образование?">
                         <variantsOfAnswer othersAllowed="false">
                             <variant text="Высшее"/>
                             <variant text="Неоконченное высшее"/>
@@ -138,23 +137,21 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="nextYes" value="8"/>
+            <link name="nextYes" value="701"/>
             <link name="nextNo" value="71"/>
         </links>
     </graphNode>
-    <graphNode id="71">
+    <graphNode id="701">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Учебное заведение">
-                        <suggestType>INSTITUTES_SUGGEST</suggestType>
-                    </question>
+                    <question text="Где именно вы учились?"/>
                     <skippable>false</skippable>
                 </classData>
             </base>
             <saver classpath="DatabaseSaver">
                 <classData>
-                    <databaseField>institution</databaseField>
+                    <databaseField>institute</databaseField>
                 </classData>
             </saver>
         </nodeConstructor>
@@ -162,7 +159,84 @@
             <link name="next" value="8"/>
         </links>
     </graphNode>
-    <graphNode id="8">
+    <graphNode id="71">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="Где именно вы учились?">
+                        <suggestType>INSTITUTES_SUGGEST</suggestType>
+                    </question>
+                    <skippable>false</skippable>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>institute</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="72"/>
+        </links>
+    </graphNode>
+    <graphNode id="72">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="На каком факультете?">
+                        <suggestType>FACULTIES_SUGGEST</suggestType>
+                    </question>
+                    <skippable>false</skippable>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>faculty</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="73"/>
+        </links>
+    </graphNode>
+    <graphNode id="73">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="А специальность свою сможете вспомнить?">
+                        <suggestType>SPECIALIZATIONS_SUGGEST</suggestType>
+                    </question>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>speciality</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="74"/>
+        </links>
+    </graphNode>
+    <graphNode id="74">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="В каком году закончили (или надеетесь закончить) обучение?">
+                    </question>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>educationEndDate</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="75"/>
+        </links>
+    </graphNode>
+    <graphNode id="75">
         <nodeConstructor>
             <base classpath="QuestionNodeForking">
                 <classData>
@@ -179,13 +253,274 @@
         </nodeConstructor>
         <links>
             <link name="nextYes" value="7"/>
+            <link name="nextNo" value="8"/>
+        </links>
+    </graphNode>
+    <graphNode id="8">
+        <nodeConstructor>
+            <base classpath="QuestionNodeForking">
+                <classData>
+                    <answerPattern>Да</answerPattern>
+                    <question text="Замечательно! С образованием разобрались, пора поговорить про опыт работы. Вы уже работали?">
+                        <variantsOfAnswer othersAllowed="false">
+                            <variant text="Да"/>
+                            <variant text="Нет"/>
+                        </variantsOfAnswer>
+                    </question>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>experienceAdd</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="nextYes" value="81"/>
+            <link name="nextNo" value="9"/>
+        </links>
+    </graphNode>
+    <graphNode id="81">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="Расскажите о своём опыте работы. В какой компании вы работали?">
+                        <suggestType>COMPANIES_SUGGEST</suggestType>
+                    </question>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>company</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="82"/>
+        </links>
+    </graphNode>
+    <graphNode id="82">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="Какую должность вы занимали">
+                        <suggestType>POSITIONS_SUGGEST</suggestType>
+                    </question>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>workPosition</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="83"/>
+        </links>
+    </graphNode>
+    <graphNode id="83">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="Когда начали там работать?">
+                    </question>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>workBeginDate</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="84"/>
+        </links>
+    </graphNode>
+    <graphNode id="84">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="Когда закончили там работать(или работаете до сих пор)?">
+                    </question>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>workEndDate</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="85"/>
+        </links>
+    </graphNode>
+    <graphNode id="85">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question
+                            text="Опишите свои обязанности: что именно вы делали, какую пользу приносили компании, чем гордитесь.">
+                    </question>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>experienceDescription</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="86"/>
+        </links>
+    </graphNode>
+    <graphNode id="86">
+        <nodeConstructor>
+            <base classpath="QuestionNodeForking">
+                <classData>
+                    <answerPattern>Да</answerPattern>
+                    <question text="Хотите рассказать об еще одном месте работы?">
+                        <variantsOfAnswer othersAllowed="false">
+                            <variant text="Да"/>
+                            <variant text="Нет"/>
+                        </variantsOfAnswer>
+                    </question>
+                    <skippable>false</skippable>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>experienceAdd</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="nextYes" value="81"/>
             <link name="nextNo" value="9"/>
         </links>
     </graphNode>
     <graphNode id="9">
         <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question
+                            text="Какую работу ищете? Укажите желаемую должность, чтобы работодатель мог проще вас найти.">
+                        <suggestType>POSITIONS_SUGGEST</suggestType>
+                    </question>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>career_objective</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="91"/>
+        </links>
+    </graphNode>
+    <graphNode id="91">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="Сколько вы хотели бы получать?">
+                    </question>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>salaryAmount</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="92"/>
+        </links>
+    </graphNode>
+    <graphNode id="92">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="Это в какой валюте?">
+                        <variantsOfAnswer othersAllowed="false">
+                            <variant text="RUB"/>
+                            <variant text="USD"/>
+                            <variant text="EUR"/>
+                        </variantsOfAnswer>
+                    </question>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>salaryCurrency</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="10"/>
+        </links>
+    </graphNode>
+    <graphNode id="10">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="Отлично! Осталось совсем чуть-чуть! Перечислите свои навыки: что вы умеете делать лучше всего, что пригодится вам в желаемой работе?">
+                        <suggestType>SKILLS_SUGGEST</suggestType>
+                    </question>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>skill</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="102"/>
+        </links>
+    </graphNode>
+    <graphNode id="101">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="Выберите еще один навык">
+                        <suggestType>SKILLS_SUGGEST</suggestType>
+                    </question>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>skill</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="102"/>
+        </links>
+    </graphNode>
+    <graphNode id="102">
+        <nodeConstructor>
+            <base classpath="QuestionNodeForking">
+                <classData>
+                    <answerPattern>Да</answerPattern>
+                    <question text="Хотите похвастаться еще одним своим навыком?">
+                        <variantsOfAnswer othersAllowed="false">
+                            <variant text="Да"/>
+                            <variant text="Нет"/>
+                        </variantsOfAnswer>
+                    </question>
+                    <skippable>false</skippable>
+                </classData>
+            </base>
+        </nodeConstructor>
+        <links>
+            <link name="nextYes" value="101"/>
+            <link name="nextNo" value="11"/>
+        </links>
+    </graphNode>
+    <graphNode id="11">
+        <nodeConstructor>
             <base classpath="QuestionNodeTerminal">
-                <index>9</index>
+                <index>11</index>
             </base>
         </nodeConstructor>
     </graphNode>

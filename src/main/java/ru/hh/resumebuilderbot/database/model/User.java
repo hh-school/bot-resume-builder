@@ -25,7 +25,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -51,7 +50,7 @@ public class User {
     private String phone;
     //TODO заменить EAGER на LAZY
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Education> educations = new HashSet<>(0);
+    private Set<Education> educations;
     @ManyToOne
     @JoinColumn(name = "area_id")
     private Area area;
@@ -271,5 +270,13 @@ public class User {
     public int hashCode() {
         return Objects.hash(id, telegramId, birthDate, phone, firstName, lastName, area, gender,
                 careerObjective, salaryAmount, salaryCurrency, createDatetime, nodeId, nodeRelationId);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("firstName=%s, lastName='%s', birthDate='%s', phone='%s', area='%s', " +
+                        "gender='%s, educations='%s', experience='%s', skills='%s', salary=%s %s",
+                firstName, lastName, birthDate, phone, area, gender, educations,
+                experiences, skills, salaryAmount, salaryCurrency);
     }
 }

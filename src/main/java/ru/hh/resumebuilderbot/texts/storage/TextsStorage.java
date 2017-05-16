@@ -15,8 +15,7 @@ public class TextsStorage {
                 "зуйтесь /clear");
         textsMap.put(TextId.UNKNOWN, "Ответ не понятен");
         textsMap.put(TextId.OOPS_TRY_RESTART, "УПС! Что-то пошло не так. Начните заново с команды /start");
-        textsMap.put(TextId.HELLO,
-                "Добро пожаловать в Resume Builder Bot. " + instructions);
+        textsMap.put(TextId.HELLO, "Привет! Я помогу составить отличное резюме");
         textsMap.put(TextId.CLEARED,
                 "Ваше резюме было очищено. Опрос начнется сначала");
         textsMap.put(TextId.FINISHED,

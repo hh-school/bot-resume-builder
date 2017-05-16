@@ -2,6 +2,7 @@ package ru.hh.resumebuilderbot.telegram.handler.message;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.DBService;
+import ru.hh.resumebuilderbot.database.model.SalaryCurrency;
 import ru.hh.resumebuilderbot.database.model.education.EducationLevel;
 import ru.hh.resumebuilderbot.database.model.gender.Gender;
 import ru.hh.resumebuilderbot.question.Question;
@@ -10,7 +11,11 @@ import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.Quest
 import ru.hh.resumebuilderbot.texts.storage.TextId;
 import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AnswerMessageHandler extends MessageHandler {
@@ -41,32 +46,96 @@ public class AnswerMessageHandler extends MessageHandler {
 
     private void saveValue(Long telegramId, String field, String value) {
         switch (field) {
-            case "phone":
-                dbService.savePhoneNumber(telegramId, value);
-                break;
             case "firstName":
                 dbService.saveFirstname(telegramId, value);
                 break;
             case "lastName":
                 dbService.saveLastName(telegramId, value);
                 break;
-            case "sex":
-                dbService.saveGender(telegramId, Gender.fromCode(value.charAt(0)));
+            case "phoneNumber":
+                dbService.savePhoneNumber(telegramId, value);
                 break;
-            case "town":
-                dbService.saveUserArea(telegramId, value);
+            case "birthDate":
+                dbService.saveBirthDate(telegramId, getDateFromString(value, "yyyy.MM.dd"));
+                break;
+            case "gender":
+                dbService.saveGender(telegramId, getGenderFromCode(value));
+                break;
+            case "area":
+                dbService.saveUserArea(telegramId, value, null);
                 break;
             case "educationType":
                 dbService.addNewEducation(telegramId);
                 dbService.saveEducationLevel(telegramId, EducationLevel.fromCode(value));
                 break;
-            case "institution":
+            case "institute":
                 dbService.saveInstitute(telegramId, value);
+                break;
+            case "faculty":
+                dbService.saveFaculty(telegramId, value);
+                break;
+            case "speciality":
+                dbService.saveSpeciality(telegramId, value);
+                break;
+            case "educationEndDate":
+                dbService.saveEducationYear(telegramId, Integer.valueOf(value));
+                break;
+            case "experienceAdd":
+                if (value.equals("Да")) {
+                    dbService.addNewExperience(telegramId);
+                }
+                break;
+            case "company":
+                dbService.saveExperienceCompany(telegramId, value);
+                break;
+            case "workPosition":
+                dbService.saveExperiencePosition(telegramId, value);
+                break;
+            case "workBeginDate":
+                dbService.saveExperienceStartDate(telegramId, getDateFromString(value, "yyyy.MM"));
+                break;
+            case "workEndDate":
+                dbService.saveExperienceEndDate(telegramId, getDateFromString(value, "yyyy.MM"));
+                break;
+            case "experienceDescription":
+                dbService.saveExperienceDescription(telegramId, value);
+                break;
+            case "career_objective":
+                dbService.saveCareerObjective(telegramId, value);
+                break;
+            case "salaryAmount":
+                dbService.saveSalaryAmount(telegramId, Integer.valueOf(value));
+                break;
+            case "salaryCurrency":
+                dbService.saveSalaryCurrency(telegramId, SalaryCurrency.valueOf(value));
+                break;
+            case "skill":
+                dbService.saveSkill(telegramId, value);
                 break;
             default:
                 log.warn("User {}. Не найдено поле {} в базе данных. Попытка сохранить данные в невалидном поле",
                         telegramId, field);
                 break;
         }
+    }
+
+    private Date getDateFromString(String rawDate, String pattern) {
+        try {
+            DateFormat format = new SimpleDateFormat(pattern);
+            return format.parse(rawDate);
+        } catch (ParseException e) {
+            log.error("Date conversation failed with error {}", e.getMessage());
+            return new Date(System.currentTimeMillis());
+        }
+    }
+
+    private Gender getGenderFromCode(String code) {
+        if (code.equals("Мужской") || code.equals("Одеколон")) {
+            return Gender.MALE;
+        }
+        if (code.equals("Женский") || code.equals("Духи")) {
+            return Gender.FEMALE;
+        }
+        throw new UnsupportedOperationException("The code " + code + " is not supported!");
     }
 }

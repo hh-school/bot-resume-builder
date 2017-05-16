@@ -10,7 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import ru.hh.resumebuilderbot.Config;
 import ru.hh.resumebuilderbot.http.response.entity.Area;
 import ru.hh.resumebuilderbot.http.response.entity.Company;
-import ru.hh.resumebuilderbot.http.response.entity.Faculty;
 import ru.hh.resumebuilderbot.http.response.entity.Institute;
 import ru.hh.resumebuilderbot.http.response.entity.Position;
 import ru.hh.resumebuilderbot.http.response.entity.Skill;
@@ -50,8 +49,6 @@ public class HHHTTPServiceFactory {
                 }.getType(), new ItemsDeserializer<Area>())
                 .registerTypeAdapter(new TypeToken<List<Company>>() {
                 }.getType(), new ItemsDeserializer<Company>())
-                .registerTypeAdapter(new TypeToken<List<Faculty>>() {
-                }.getType(), new ItemsDeserializer<Faculty>())
                 .registerTypeAdapter(new TypeToken<List<Institute>>() {
                 }.getType(), new ItemsDeserializer<Institute>())
                 .registerTypeAdapter(new TypeToken<List<Position>>() {

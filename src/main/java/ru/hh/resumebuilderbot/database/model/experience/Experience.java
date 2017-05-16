@@ -139,14 +139,18 @@ public class Experience {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user.getId(), company.getId(),
+        Integer userId = (user == null) ? null : user.getId();
+        Integer companyId = (company == null) ? null : company.getId();
+        return Objects.hash(id, userId, companyId,
                 position, startDate, endDate, description);
     }
 
     @Override
     public String toString() {
+        Integer userId = (user == null) ? null : user.getId();
+        String companyInfo = (company == null) ? null : company.toString();
         return String.format("Experience{id=%d, user=%s, company=%s, position='%s', startDate=%s, " +
-                        "endDate=%s, description='%s'}", id, user.getId(), company.getId(), position,
+                        "endDate=%s, description='%s'}", id, userId, companyInfo, position,
                 startDate, endDate, description);
     }
 }
