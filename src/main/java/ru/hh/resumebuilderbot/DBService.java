@@ -35,12 +35,8 @@ public class DBService {
         return user != null;
     }
 
-    private User getUser(Long telegramId) {
+    public User getUser(Long telegramId) {
         return serviceAggregator.getUserService().getUserByTelegramId(telegramId);
-    }
-
-    public String getUserInfo(Long telegramId) {
-        return getUser(telegramId).toString();
     }
 
     private void clear(Long telegramId) {

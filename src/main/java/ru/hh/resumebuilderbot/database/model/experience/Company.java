@@ -80,11 +80,13 @@ public class Company {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, hhId);
+        Integer areaId = area == null ? null : area.getId();
+        return Objects.hash(id, name, hhId, areaId);
     }
 
     @Override
     public String toString() {
-        return String.format("Company{id=%d, name='%s', hhId = '%s'}", id, name, hhId);
+        String areaInfo = area == null ? "no information" : area.toString();
+        return String.format("Company{id=%d, name='%s', hhId='%s', area='%s' }", id, name, hhId, areaInfo);
     }
 }
