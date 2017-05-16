@@ -38,9 +38,31 @@
     </graphNode>
     <graphNode id="3">
         <nodeConstructor>
+            <base classpath="QuestionNodeForking">
+                <classData>
+                    <answerPattern>Ввести другой номер телефона</answerPattern>
+                    <question text="По какому телефону работодателям лучше звонить вам?">
+                        <keyboardType>PHONE_NUMBER</keyboardType>
+                    </question>
+                    <skippable>false</skippable>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>phoneNumber</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="nextYes" value="31"/>
+            <link name="nextNo" value="4"/>
+        </links>
+    </graphNode>
+    <graphNode id="31">
+        <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="По какому телефону работодателям лучше звонить вам?"/>
+                    <question text="Введите номер телефона"/>
                     <skippable>false</skippable>
                 </classData>
             </base>
@@ -59,7 +81,9 @@
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Отлично! Расскажите ещё немного о себе. Когда вы родились?"/>
+                    <question text="Отлично! Расскажите ещё немного о себе. Когда вы родились?">
+                        <keyboardType>DATE</keyboardType>
+                    </question>
                     <skippable>false</skippable>
                 </classData>
             </base>
@@ -78,6 +102,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Одеколон или духи?">
+                        <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
                         <variantsOfAnswer othersAllowed="false">
                             <variant text="Одеколон"/>
                             <variant text="Духи"/>
@@ -100,6 +125,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="В каком городе вы живете?">
+                        <keyboardType>SUGGEST</keyboardType>
                         <suggestType>AREAS_SUGGEST</suggestType>
                     </question>
                 </classData>
@@ -120,6 +146,7 @@
                 <classData>
                     <answerPattern>Среднее</answerPattern>
                     <question text="До какого уровня вы прокачали ваше образование?">
+                        <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
                         <variantsOfAnswer othersAllowed="false">
                             <variant text="Высшее"/>
                             <variant text="Неоконченное высшее"/>
@@ -164,6 +191,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Где именно вы учились?">
+                        <keyboardType>SUGGEST</keyboardType>
                         <suggestType>INSTITUTES_SUGGEST</suggestType>
                     </question>
                     <skippable>false</skippable>
@@ -184,6 +212,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="На каком факультете?">
+                        <keyboardType>SUGGEST</keyboardType>
                         <suggestType>FACULTIES_SUGGEST</suggestType>
                     </question>
                     <skippable>false</skippable>
@@ -204,6 +233,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="А специальность свою сможете вспомнить?">
+                        <keyboardType>SUGGEST</keyboardType>
                         <suggestType>SPECIALIZATIONS_SUGGEST</suggestType>
                     </question>
                 </classData>
@@ -242,6 +272,7 @@
                 <classData>
                     <answerPattern>Да</answerPattern>
                     <question text="Хотите заполнить еще одно образование?">
+                        <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
                         <variantsOfAnswer othersAllowed="false">
                             <variant text="Да"/>
                             <variant text="Нет"/>
@@ -262,6 +293,7 @@
                 <classData>
                     <answerPattern>Да</answerPattern>
                     <question text="Замечательно! С образованием разобрались, пора поговорить про опыт работы. Вы уже работали?">
+                        <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
                         <variantsOfAnswer othersAllowed="false">
                             <variant text="Да"/>
                             <variant text="Нет"/>
@@ -285,6 +317,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Расскажите о своём опыте работы. В какой компании вы работали?">
+                        <keyboardType>SUGGEST</keyboardType>
                         <suggestType>COMPANIES_SUGGEST</suggestType>
                     </question>
                 </classData>
@@ -304,6 +337,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Какую должность вы занимали">
+                        <keyboardType>SUGGEST</keyboardType>
                         <suggestType>POSITIONS_SUGGEST</suggestType>
                     </question>
                 </classData>
@@ -323,6 +357,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Когда начали там работать?">
+                        <keyboardType>DATE</keyboardType>
                     </question>
                 </classData>
             </base>
@@ -341,6 +376,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Когда закончили там работать(или работаете до сих пор)?">
+                        <keyboardType>DATE</keyboardType>
                     </question>
                 </classData>
             </base>
@@ -379,6 +415,7 @@
                 <classData>
                     <answerPattern>Да</answerPattern>
                     <question text="Хотите рассказать об еще одном месте работы?">
+                        <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
                         <variantsOfAnswer othersAllowed="false">
                             <variant text="Да"/>
                             <variant text="Нет"/>
@@ -404,6 +441,7 @@
                 <classData>
                     <question
                             text="Какую работу ищете? Укажите желаемую должность, чтобы работодатель мог проще вас найти.">
+                        <keyboardType>SUGGEST</keyboardType>
                         <suggestType>POSITIONS_SUGGEST</suggestType>
                     </question>
                 </classData>
@@ -441,6 +479,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Это в какой валюте?">
+                        <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
                         <variantsOfAnswer othersAllowed="false">
                             <variant text="RUB"/>
                             <variant text="USD"/>
@@ -464,6 +503,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Отлично! Осталось совсем чуть-чуть! Перечислите свои навыки: что вы умеете делать лучше всего, что пригодится вам в желаемой работе?">
+                        <keyboardType>SUGGEST</keyboardType>
                         <suggestType>SKILLS_SUGGEST</suggestType>
                     </question>
                 </classData>
@@ -483,6 +523,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Выберите еще один навык">
+                        <keyboardType>SUGGEST</keyboardType>
                         <suggestType>SKILLS_SUGGEST</suggestType>
                     </question>
                 </classData>
@@ -503,6 +544,7 @@
                 <classData>
                     <answerPattern>Да</answerPattern>
                     <question text="Хотите похвастаться еще одним своим навыком?">
+                        <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
                         <variantsOfAnswer othersAllowed="false">
                             <variant text="Да"/>
                             <variant text="Нет"/>

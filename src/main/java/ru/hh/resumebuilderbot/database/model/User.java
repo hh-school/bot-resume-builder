@@ -158,7 +158,9 @@ public class User {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        if (phone.length() <= 15) {
+            this.phone = phone;
+        }
     }
 
     public Set<Experience> getExperiences() {
