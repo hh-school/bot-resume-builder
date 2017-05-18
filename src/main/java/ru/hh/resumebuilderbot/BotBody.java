@@ -8,4 +8,6 @@ public interface BotBody {
     void provideSuggests(Long telegramId, String queryText, String queryId);
 
     void saveChosenSuggest(Long telegramId, Integer resultId, String queryText);
+
+    void updateMessage(Long telegramId, Integer messageId, String callbackData);
 }

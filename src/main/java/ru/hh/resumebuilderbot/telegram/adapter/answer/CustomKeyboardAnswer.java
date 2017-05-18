@@ -8,10 +8,15 @@ class CustomKeyboardAnswer extends ProtoTelegramAnswer {
     CustomKeyboardAnswer(Update update) {
         CallbackQuery query = update.getCallbackQuery();
         chatId = query.getMessage().getChatId();
-        answerText = query.getData();
+        String answer = query.getData().split(",")[0];
+        answerText = answer.replace("keyData:", "");
     }
 
     static boolean matches(Update update) {
-        return update.hasCallbackQuery();
+        if (!update.hasCallbackQuery()) {
+            return false;
+        }
+        String callbackQueryData = update.getCallbackQuery().getData();
+        return callbackQueryData.contains("READY");
     }
 }
