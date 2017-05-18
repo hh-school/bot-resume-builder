@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS area (
 CREATE TABLE IF NOT EXISTS "user" (
   id               SERIAL PRIMARY KEY,
   telegram_id      BIGINT UNIQUE NOT NULL,
-  phone            VARCHAR(15),
+  phone            VARCHAR(20),
   birth_date       DATE,
   first_name       VARCHAR(100),
   last_name        VARCHAR(100),

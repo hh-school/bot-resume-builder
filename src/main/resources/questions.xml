@@ -47,6 +47,7 @@
                     <skippable>false</skippable>
                 </classData>
             </base>
+            <validator classpath="PhoneNumberValidator"/>
             <saver classpath="DatabaseSaver">
                 <classData>
                     <databaseField>phoneNumber</databaseField>
