@@ -1,6 +1,8 @@
 package ru.hh.resumebuilderbot.database.model;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.database.model.education.Education;
 import ru.hh.resumebuilderbot.database.model.experience.Experience;
 import ru.hh.resumebuilderbot.database.model.gender.Gender;
@@ -31,6 +33,8 @@ import java.util.Set;
 @Entity
 @Table(name = "`user`")
 public class User {
+    public static final int PHONE_LENGTH = 20;
+    private static final Logger log = LoggerFactory.getLogger(User.class);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -46,7 +50,7 @@ public class User {
     private String firstName;
     @Column(name = "last_name", length = 100)
     private String lastName;
-    @Column(name = "phone", length = 15)
+    @Column(name = "phone", length = PHONE_LENGTH)
     private String phone;
     //TODO заменить EAGER на LAZY
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)

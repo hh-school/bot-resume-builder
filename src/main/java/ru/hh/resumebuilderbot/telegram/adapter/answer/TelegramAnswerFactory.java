@@ -11,6 +11,9 @@ public class TelegramAnswerFactory {
         if (CustomKeyboardAnswer.matches(update)) {
             return new CustomKeyboardAnswer(update);
         }
+        if (ContactAnswer.matches(update)) {
+            return new ContactAnswer(update);
+        }
         return null;
     }
 }

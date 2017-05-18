@@ -7,6 +7,7 @@ import org.telegram.telegrambots.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -16,7 +17,6 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import ru.hh.resumebuilderbot.MessengerAdapter;
 import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.telegram.handler.suggest.SuggestType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +36,7 @@ public class TelegramAdapter implements MessengerAdapter {
                 .setChatId(telegramId)
                 .setText(question.getText());
 
-        List<String> variantsOfAnswer = question.getVariantsOfAnswer();
-        if (!variantsOfAnswer.isEmpty()) {
-            message.setReplyMarkup(generateReplyKeyboard(variantsOfAnswer));
-        } else if (question.getSuggestField().equals(SuggestType.NO_SUGGEST_NEEDED)) {
-            message.setReplyMarkup(new ReplyKeyboardRemove());
-        } else {
-            message.setReplyMarkup(generateSuggestInlineKeyboard());
-        }
+        message.setReplyMarkup(getKeyboard(question));
         try {
             bot.sendMessage(message);
         } catch (TelegramApiException e) {
@@ -51,19 +44,23 @@ public class TelegramAdapter implements MessengerAdapter {
         }
     }
 
-    private InlineKeyboardMarkup generateInlineKeyboard(List<String> variantsOfAnswer) {
-        InlineKeyboardMarkup result = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-
-        for (String variant : variantsOfAnswer) {
-            List<InlineKeyboardButton> rowInline = new ArrayList<>();
-            rowInline.add(new InlineKeyboardButton()
-                    .setText(variant)
-                    .setCallbackData(variant));
-            rowsInline.add(rowInline);
+    private ReplyKeyboard getKeyboard(Question question) {
+        ReplyKeyboard keyboard;
+        switch (question.getReplyKeyboard()) {
+            case PHONE_NUMBER:
+                keyboard = generatePhoneNumberKeyboard();
+                break;
+            case VARIANTS_OF_ANSWER:
+                keyboard = generateVariantsOfAnswerKeyboard(question.getVariantsOfAnswer());
+                break;
+            case SUGGEST:
+                keyboard = generateSuggestInlineKeyboard();
+                break;
+            default:
+                keyboard = new ReplyKeyboardRemove();
+                break;
         }
-        result.setKeyboard(rowsInline);
-        return result;
+        return keyboard;
     }
 
     private InlineKeyboardMarkup generateSuggestInlineKeyboard() {
@@ -78,7 +75,7 @@ public class TelegramAdapter implements MessengerAdapter {
         return result;
     }
 
-    private ReplyKeyboardMarkup generateReplyKeyboard(List<String> variantsOfAnswer) {
+    private ReplyKeyboardMarkup generateVariantsOfAnswerKeyboard(List<String> variantsOfAnswer) {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
         List<KeyboardRow> keyboardRows = new ArrayList<>();
         for (String variant : variantsOfAnswer) {
@@ -87,6 +84,25 @@ public class TelegramAdapter implements MessengerAdapter {
             keyboardRow.add(button);
             keyboardRows.add(keyboardRow);
         }
+        keyboardMarkup.setKeyboard(keyboardRows);
+        keyboardMarkup.setOneTimeKeyboad(true);
+        return keyboardMarkup;
+    }
+
+    private ReplyKeyboardMarkup generatePhoneNumberKeyboard() {
+        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
+        List<KeyboardRow> keyboardRows = new ArrayList<>();
+
+        KeyboardRow firstRow = new KeyboardRow();
+        KeyboardButton currentPhone = new KeyboardButton("Ввести текущий номер телефона");
+        currentPhone.setRequestContact(true);
+        firstRow.add(currentPhone);
+        keyboardRows.add(firstRow);
+
+        KeyboardRow secondRow = new KeyboardRow();
+        secondRow.add("Ввести другой номер телефона");
+        keyboardRows.add(secondRow);
+
         keyboardMarkup.setKeyboard(keyboardRows);
         keyboardMarkup.setOneTimeKeyboad(true);
         return keyboardMarkup;

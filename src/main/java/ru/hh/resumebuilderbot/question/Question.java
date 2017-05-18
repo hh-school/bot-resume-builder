@@ -9,6 +9,7 @@ import java.util.Objects;
 
 public class Question {
     public static final SuggestType DEFAULT_SUGGEST_TYPE = SuggestType.NO_SUGGEST_NEEDED;
+    public static final ReplyKeyboard DEFAULT_KEYBOARD = ReplyKeyboard.NO_KEYBOARD_NEEDED;
 
     private final String text;
 
@@ -16,16 +17,18 @@ public class Question {
     private final boolean otherVariantsAllowed;
 
     private final SuggestType suggestField;
+    private final ReplyKeyboard replyKeyboard;
 
     public Question(String text, List<String> variantsOfAnswer, boolean otherVariantsAllowed) {
-        this(text, variantsOfAnswer, otherVariantsAllowed, DEFAULT_SUGGEST_TYPE);
+        this(text, variantsOfAnswer, otherVariantsAllowed, DEFAULT_SUGGEST_TYPE, DEFAULT_KEYBOARD);
     }
 
     public Question(String text, List<String> variantsOfAnswer, boolean otherVariantsAllowed,
-                    SuggestType suggestType) {
+                    SuggestType suggestType, ReplyKeyboard replyKeyboard) {
         this.text = text;
         this.variantsOfAnswer = variantsOfAnswer;
         this.otherVariantsAllowed = otherVariantsAllowed;
+        this.replyKeyboard = replyKeyboard;
         if (suggestType == null) {
             this.suggestField = DEFAULT_SUGGEST_TYPE;
         } else {
@@ -34,11 +37,11 @@ public class Question {
     }
 
     public Question(String text) {
-        this(text, new ArrayList<>(), true, DEFAULT_SUGGEST_TYPE);
+        this(text, new ArrayList<>(), true, DEFAULT_SUGGEST_TYPE, DEFAULT_KEYBOARD);
     }
 
-    public Question(String text, SuggestType suggestField) {
-        this(text, new ArrayList<>(), true, suggestField);
+    public Question(String text, SuggestType suggestField, ReplyKeyboard replyKeyboard) {
+        this(text, new ArrayList<>(), true, suggestField, replyKeyboard);
     }
 
     public List<String> getVariantsOfAnswer() {
@@ -56,6 +59,10 @@ public class Question {
 
     public SuggestType getSuggestField() {
         return suggestField;
+    }
+
+    public ReplyKeyboard getReplyKeyboard() {
+        return replyKeyboard;
     }
 
     @Override

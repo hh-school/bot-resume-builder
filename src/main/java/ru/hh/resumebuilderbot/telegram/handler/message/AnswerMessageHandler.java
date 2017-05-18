@@ -35,12 +35,18 @@ public class AnswerMessageHandler extends MessageHandler {
             if (databaseField != null) {
                 saveValue(telegramId, databaseField, answer.getAnswerBody().toString());
             }
-            currentNodeId = graph.getNextNodeIndex(currentNodeId, answer);
-            dbService.saveNodeId(telegramId, currentNodeId);
+            Integer nextNodeId = currentQuestionNode.getNextIndex(answer);
+            currentQuestionNode = graph.getNode(nextNodeId);
+            dbService.saveNodeId(telegramId, nextNodeId);
+        } else if (currentNodeId == 3) {
+            //FIXME чтобы не было попытки сохранить строковый ответ в поле телефона, но опросник пошел дальше
+            Integer nextNodeId = currentQuestionNode.getNextIndex(answer);
+            currentQuestionNode = graph.getNode(nextNodeId);
+            dbService.saveNodeId(telegramId, nextNodeId);
         } else {
             questions.add(new Question(TextsStorage.getText(TextId.INVALID_ANSWER)));
         }
-        questions.add(graph.getNode(currentNodeId).getQuestion());
+        questions.add(currentQuestionNode.getQuestion());
         return questions;
     }
 
