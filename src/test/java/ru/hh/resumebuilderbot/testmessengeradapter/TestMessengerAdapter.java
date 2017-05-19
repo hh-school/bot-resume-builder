@@ -6,7 +6,6 @@ import ru.hh.resumebuilderbot.BotBody;
 import ru.hh.resumebuilderbot.MessageUpdate;
 import ru.hh.resumebuilderbot.MessengerAdapter;
 import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.ReplyKeyboardEnum;
 
 import java.io.IOException;
 import java.util.ArrayList;

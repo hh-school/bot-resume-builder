@@ -100,7 +100,12 @@ public class KeyboardGenerator {
         List<KeyboardRow> keyboardRows = new ArrayList<>();
         for (String variant : variantsOfAnswer) {
             KeyboardRow keyboardRow = new KeyboardRow();
-            KeyboardButton button = new KeyboardButton(variant);
+            StringBuffer sb = new StringBuffer();
+            for (String word : variant.split(" ")) {
+                sb.append(isNumber(word) ? Character.toChars(Integer.parseInt(word)) : word.toCharArray());
+                sb.append(" ".toCharArray());
+            }
+            KeyboardButton button = new KeyboardButton(sb.toString());
             keyboardRow.add(button);
             keyboardRows.add(keyboardRow);
         }
@@ -143,7 +148,7 @@ public class KeyboardGenerator {
                 InlineKeyboardButton button = new InlineKeyboardButton();
                 button.setText(String.valueOf(year));
                 button.setCallbackData(String.format("keyData:%d,%s,text:1",
-                        year, keyboardEnum, year));
+                        year, keyboardEnum));
                 row.add(button);
             }
             yearButtons.add(row);
@@ -184,7 +189,7 @@ public class KeyboardGenerator {
                 InlineKeyboardButton button = new InlineKeyboardButton();
                 button.setText(monthName);
 
-                String text = "text:1";//String.format("text:Вы выбрали %s %s", year, monthName);
+                String text = "text:1";
                 String keyboardData = String.format("keyData:%s.%02d", year, monthIndex);
                 String callbackData = String.format("%s,%s,%s", keyboardData, keyboardEnum, text);
 
@@ -193,18 +198,23 @@ public class KeyboardGenerator {
             }
             monthButtons.add(row);
         }
+
+        monthButtons.add(getMonthNavigateButtons(withDay, Integer.valueOf(year)));
+
+        return resultKeyboard.setKeyboard(monthButtons);
+    }
+
+    private static List<InlineKeyboardButton> getMonthNavigateButtons(boolean withDay, Integer year) {
         List<InlineKeyboardButton> backToYearRow = new ArrayList<>();
 
-        keyboardEnum = withDay ? "keyEnum:UPDATE_YEAR_WITH_DAY"
+        String keyboardEnum = withDay ? "keyEnum:UPDATE_YEAR_WITH_DAY"
                 : "keyEnum:UPDATE_YEAR_WITHOUT_DAY";
-        String keyboardData = String.format("keyData:%d", Integer.valueOf(year) - 10);
+        String keyboardData = String.format("keyData:%d", year - 10);
         InlineKeyboardButton backButton = new InlineKeyboardButton()
                 .setText("<< Вернуться к выбору года")
                 .setCallbackData(String.format("%s,%s,text:2", keyboardData, keyboardEnum));
         backToYearRow.add(backButton);
-        monthButtons.add(backToYearRow);
-
-        return resultKeyboard.setKeyboard(monthButtons);
+        return backToYearRow;
     }
 
     private static InlineKeyboardMarkup generateDaysKeyboard(String previousData) {
@@ -255,5 +265,14 @@ public class KeyboardGenerator {
         }
         int[] days = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         return days[month - 1];
+    }
+
+    private static boolean isNumber(String string) {
+        try {
+            Integer.parseInt(string);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }

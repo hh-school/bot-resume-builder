@@ -134,6 +134,7 @@ public class AnswerMessageHandler extends MessageHandler {
     }
 
     private Gender getGenderFromCode(String code) {
+        code = code.split(" ")[0];
         if (code.equals("Мужской") || code.equals("Господин")) {
             return Gender.MALE;
         }

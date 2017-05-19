@@ -118,9 +118,9 @@
                 <classData>
                     <question text="Как к вам обращаться?">
                         <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
-                        <variantsOfAnswer othersAllowed="false">
-                            <variant text="Господин"/>
-                            <variant text="Госпожа"/>
+                        <variantsOfAnswer othersAllowed="true">
+                            <variant text="Господин 128104"/>
+                            <variant text="Госпожа 128105"/>
                         </variantsOfAnswer>
                     </question>
                 </classData>

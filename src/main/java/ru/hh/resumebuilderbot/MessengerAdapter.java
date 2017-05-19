@@ -2,7 +2,6 @@ package ru.hh.resumebuilderbot;
 
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
 import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.ReplyKeyboardEnum;
 
 import java.util.List;
 
