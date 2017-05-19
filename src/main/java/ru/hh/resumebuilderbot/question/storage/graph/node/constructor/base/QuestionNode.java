@@ -15,6 +15,8 @@ public interface QuestionNode {
 
     QuestionNode getNext();
 
+    String getInvalidAnswerNotification();
+
     int getNextIndex(Answer answer);
 
     boolean isSkippable();

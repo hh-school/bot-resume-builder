@@ -5,16 +5,15 @@ import ru.hh.resumebuilderbot.database.model.User;
 
 import java.util.regex.Pattern;
 
-public class PhoneNumberValidator extends PatternValidator {
-    public PhoneNumberValidator() {
-        pattern = Pattern.compile("^\\+?[\\d()-]{7,20}+$");
-        notification = "Хм, это точно номер телефона? Как же расстроится работодатель, " +
-                "когда не сможет с вами связаться! Давайте попробуем еще раз!";
+public class SalaryValidator extends PatternValidator {
+    public SalaryValidator() {
+        pattern = Pattern.compile("^[\\d]+$");
+        notification = "Описание прекрасное, но мы же говорим про деньги? Введите желаемое число цифрами";
     }
 
     @Override
     public Validator clone() {
-        return new PhoneNumberValidator();
+        return new SalaryValidator();
     }
 
     @Override

@@ -6,6 +6,8 @@ public class EMailValidator extends PatternValidator {
 
     public EMailValidator() {
         pattern = Pattern.compile(".+@.+");
+        notification = "Хм, это точно имейл? А как же получать увлекательный спам и дополнительную информацию " +
+                "о приглашениях от работодателей? Давайте попробуем еще раз!";
     }
 
     @Override

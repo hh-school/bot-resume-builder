@@ -82,6 +82,20 @@
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
+                    <question text="А куда писать вам электронные письма?"/>
+                    <skippable>false</skippable>
+                </classData>
+            </base>
+            <validator classpath="EMailValidator"/>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="5"/>
+        </links>
+    </graphNode>
+    <graphNode id="5">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
                     <question text="Отлично! Расскажите ещё немного о себе. Когда вы родились?">
                         <keyboardType>DATE</keyboardType>
                     </question>
@@ -95,18 +109,18 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="5"/>
+            <link name="next" value="6"/>
         </links>
     </graphNode>
-    <graphNode id="5">
+    <graphNode id="6">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Одеколон или духи?">
+                    <question text="Как к вам обращаться?">
                         <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
                         <variantsOfAnswer othersAllowed="false">
-                            <variant text="Одеколон"/>
-                            <variant text="Духи"/>
+                            <variant text="Господин"/>
+                            <variant text="Госпожа"/>
                         </variantsOfAnswer>
                     </question>
                 </classData>
@@ -118,10 +132,10 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="6"/>
+            <link name="next" value="7"/>
         </links>
     </graphNode>
-    <graphNode id="6">
+    <graphNode id="7">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
@@ -138,10 +152,10 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="7"/>
+            <link name="next" value="8"/>
         </links>
     </graphNode>
-    <graphNode id="7">
+    <graphNode id="8">
         <nodeConstructor>
             <base classpath="QuestionNodeForking">
                 <classData>
@@ -165,11 +179,11 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="nextYes" value="701"/>
-            <link name="nextNo" value="71"/>
+            <link name="nextYes" value="801"/>
+            <link name="nextNo" value="81"/>
         </links>
     </graphNode>
-    <graphNode id="701">
+    <graphNode id="801">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
@@ -184,10 +198,10 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="8"/>
+            <link name="next" value="9"/>
         </links>
     </graphNode>
-    <graphNode id="71">
+    <graphNode id="81">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
@@ -205,10 +219,10 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="72"/>
+            <link name="next" value="82"/>
         </links>
     </graphNode>
-    <graphNode id="72">
+    <graphNode id="82">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
@@ -226,10 +240,10 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="73"/>
+            <link name="next" value="83"/>
         </links>
     </graphNode>
-    <graphNode id="73">
+    <graphNode id="83">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
@@ -246,10 +260,10 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="74"/>
+            <link name="next" value="84"/>
         </links>
     </graphNode>
-    <graphNode id="74">
+    <graphNode id="84">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
@@ -264,10 +278,10 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="75"/>
+            <link name="next" value="85"/>
         </links>
     </graphNode>
-    <graphNode id="75">
+    <graphNode id="85">
         <nodeConstructor>
             <base classpath="QuestionNodeForking">
                 <classData>
@@ -284,11 +298,11 @@
             </base>
         </nodeConstructor>
         <links>
-            <link name="nextYes" value="7"/>
-            <link name="nextNo" value="8"/>
+            <link name="nextYes" value="8"/>
+            <link name="nextNo" value="9"/>
         </links>
     </graphNode>
-    <graphNode id="8">
+    <graphNode id="9">
         <nodeConstructor>
             <base classpath="QuestionNodeForking">
                 <classData>
@@ -309,11 +323,11 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="nextYes" value="81"/>
-            <link name="nextNo" value="9"/>
+            <link name="nextYes" value="91"/>
+            <link name="nextNo" value="10"/>
         </links>
     </graphNode>
-    <graphNode id="81">
+    <graphNode id="91">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
@@ -330,10 +344,10 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="82"/>
+            <link name="next" value="92"/>
         </links>
     </graphNode>
-    <graphNode id="82">
+    <graphNode id="92">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
@@ -350,10 +364,10 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="83"/>
+            <link name="next" value="93"/>
         </links>
     </graphNode>
-    <graphNode id="83">
+    <graphNode id="93">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
@@ -369,14 +383,40 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="84"/>
+            <link name="next" value="94"/>
         </links>
     </graphNode>
-    <graphNode id="84">
+    <graphNode id="94">
+        <nodeConstructor>
+            <base classpath="QuestionNodeForking">
+                <classData>
+                    <answerPattern>Уже ушел</answerPattern>
+                    <question text="Вы работаете по настоящее время, или уже ушли из компании?">
+                        <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
+                        <variantsOfAnswer othersAllowed="false">
+                            <variant text="Работаю по настоящее время"/>
+                            <variant text="Уже ушел"/>
+                        </variantsOfAnswer>
+                    </question>
+                    <skippable>false</skippable>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>experienceAdd</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="nextYes" value="95"/>
+            <link name="nextNo" value="96"/>
+        </links>
+    </graphNode>
+    <graphNode id="95">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Когда закончили там работать(или работаете до сих пор)?">
+                    <question text="Когда закончили там работать?">
                         <keyboardType>DATE</keyboardType>
                     </question>
                 </classData>
@@ -388,10 +428,10 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="85"/>
+            <link name="next" value="96"/>
         </links>
     </graphNode>
-    <graphNode id="85">
+    <graphNode id="96">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
@@ -407,10 +447,10 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="86"/>
+            <link name="next" value="97"/>
         </links>
     </graphNode>
-    <graphNode id="86">
+    <graphNode id="97">
         <nodeConstructor>
             <base classpath="QuestionNodeForking">
                 <classData>
@@ -432,11 +472,11 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="nextYes" value="81"/>
-            <link name="nextNo" value="9"/>
+            <link name="nextYes" value="91"/>
+            <link name="nextNo" value="10"/>
         </links>
     </graphNode>
-    <graphNode id="9">
+    <graphNode id="10">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
@@ -454,17 +494,19 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="91"/>
+            <link name="next" value="101"/>
         </links>
     </graphNode>
-    <graphNode id="91">
+    <graphNode id="101">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Сколько вы хотели бы получать?">
+                    <question
+                            text="Сколько вы хотели бы зарабатывать в месяц? Лучше указать сумму, которую вы хотели бы получать на руки, после вычета всех налогов">
                     </question>
                 </classData>
             </base>
+            <validator classpath="SalaryValidator"/>
             <saver classpath="DatabaseSaver">
                 <classData>
                     <databaseField>salaryAmount</databaseField>
@@ -472,19 +514,19 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="92"/>
+            <link name="next" value="102"/>
         </links>
     </graphNode>
-    <graphNode id="92">
+    <graphNode id="102">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Это в какой валюте?">
                         <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
                         <variantsOfAnswer othersAllowed="false">
-                            <variant text="RUB"/>
-                            <variant text="USD"/>
-                            <variant text="EUR"/>
+                            <variant text="Рубли"/>
+                            <variant text="Доллары"/>
+                            <variant text="Евро"/>
                         </variantsOfAnswer>
                     </question>
                 </classData>
@@ -496,10 +538,10 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="10"/>
+            <link name="next" value="11"/>
         </links>
     </graphNode>
-    <graphNode id="10">
+    <graphNode id="11">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
@@ -516,14 +558,15 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="102"/>
+            <link name="next" value="111"/>
         </links>
     </graphNode>
-    <graphNode id="101">
+    <graphNode id="111">
         <nodeConstructor>
-            <base classpath="QuestionNodeLinear">
+            <base classpath="QuestionNodeForking">
                 <classData>
-                    <question text="Выберите еще один навык">
+                    <answerPattern>/stop</answerPattern>
+                    <question text="Хотите похвастаться еще одним своим навыком? Нажмите на /stop, чтобы пропустить">
                         <keyboardType>SUGGEST</keyboardType>
                         <suggestType>SKILLS_SUGGEST</suggestType>
                     </question>
@@ -536,34 +579,14 @@
             </saver>
         </nodeConstructor>
         <links>
-            <link name="next" value="102"/>
+            <link name="nextYes" value="12"/>
+            <link name="nextNo" value="111"/>
         </links>
     </graphNode>
-    <graphNode id="102">
-        <nodeConstructor>
-            <base classpath="QuestionNodeForking">
-                <classData>
-                    <answerPattern>Да</answerPattern>
-                    <question text="Хотите похвастаться еще одним своим навыком?">
-                        <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
-                        <variantsOfAnswer othersAllowed="false">
-                            <variant text="Да"/>
-                            <variant text="Нет"/>
-                        </variantsOfAnswer>
-                    </question>
-                    <skippable>false</skippable>
-                </classData>
-            </base>
-        </nodeConstructor>
-        <links>
-            <link name="nextYes" value="101"/>
-            <link name="nextNo" value="11"/>
-        </links>
-    </graphNode>
-    <graphNode id="11">
+    <graphNode id="12">
         <nodeConstructor>
             <base classpath="QuestionNodeTerminal">
-                <index>11</index>
+                <index>12</index>
             </base>
         </nodeConstructor>
     </graphNode>
