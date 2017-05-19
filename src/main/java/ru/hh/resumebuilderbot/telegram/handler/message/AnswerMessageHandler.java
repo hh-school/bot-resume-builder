@@ -8,8 +8,6 @@ import ru.hh.resumebuilderbot.database.model.gender.Gender;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNode;
-import ru.hh.resumebuilderbot.texts.storage.TextId;
-import ru.hh.resumebuilderbot.texts.storage.TextsStorage;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -44,7 +42,7 @@ public class AnswerMessageHandler extends MessageHandler {
             currentQuestionNode = graph.getNode(nextNodeId);
             dbService.saveNodeId(telegramId, nextNodeId);
         } else {
-            questions.add(new Question(TextsStorage.getText(TextId.INVALID_ANSWER)));
+            questions.add(new Question(currentQuestionNode.getInvalidAnswerNotification()));
         }
         questions.add(currentQuestionNode.getQuestion());
         return questions;
@@ -113,7 +111,7 @@ public class AnswerMessageHandler extends MessageHandler {
                 dbService.saveSalaryAmount(telegramId, Integer.valueOf(value));
                 break;
             case "salaryCurrency":
-                dbService.saveSalaryCurrency(telegramId, SalaryCurrency.valueOf(value));
+                dbService.saveSalaryCurrency(telegramId, getCurrencyFromCode(value));
                 break;
             case "skill":
                 dbService.saveSkill(telegramId, value);
@@ -136,12 +134,27 @@ public class AnswerMessageHandler extends MessageHandler {
     }
 
     private Gender getGenderFromCode(String code) {
-        if (code.equals("Мужской") || code.equals("Одеколон")) {
+        if (code.equals("Мужской") || code.equals("Господин")) {
             return Gender.MALE;
         }
-        if (code.equals("Женский") || code.equals("Духи")) {
+        if (code.equals("Женский") || code.equals("Госпожа")) {
             return Gender.FEMALE;
         }
-        throw new UnsupportedOperationException("The code " + code + " is not supported!");
+        log.error("The code {} is not supported for Gender!", code);
+        return Gender.MALE;
+    }
+
+    private SalaryCurrency getCurrencyFromCode(String code) {
+        if (code.equals("Рубли")) {
+            return SalaryCurrency.RUB;
+        }
+        if (code.equals("Доллары")) {
+            return SalaryCurrency.USD;
+        }
+        if (code.equals("Евро")) {
+            return SalaryCurrency.EUR;
+        }
+        log.error("The code {} is not supported for Currency!", code);
+        return SalaryCurrency.RUB;
     }
 }

@@ -21,6 +21,11 @@ public class QuestionNodeTerminal implements QuestionNode {
     }
 
     @Override
+    public String getInvalidAnswerNotification() {
+        return null;
+    }
+
+    @Override
     public boolean answerIsValid(Answer answer) {
         return true;
     }

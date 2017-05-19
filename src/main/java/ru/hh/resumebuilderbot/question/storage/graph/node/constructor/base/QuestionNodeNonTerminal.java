@@ -23,6 +23,11 @@ public abstract class QuestionNodeNonTerminal implements QuestionNode {
     }
 
     @Override
+    public String getInvalidAnswerNotification() {
+        return validator.getNotification();
+    }
+
+    @Override
     public Question getQuestion() {
         return question;
     }
