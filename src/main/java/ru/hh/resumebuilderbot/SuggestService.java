@@ -54,44 +54,30 @@ public class SuggestService {
     }
 
     public List<Institute> getInstitutes(String searchQuery) {
-        return makeSafeRequest(
-                () -> hhHTTPService.listInstitutes(searchQuery, getQueryLanguage(searchQuery))
-        );
+        return makeSafeRequest(() -> hhHTTPService.listInstitutes(searchQuery, getQueryLanguage(searchQuery)));
     }
 
     public List<Faculty> getFaculties(String instituteId, String searchQuery) {
-        return makeSafeRequest(
-                () -> hhHTTPService.listFaculties(instituteId, getQueryLanguage(searchQuery))
-        );
+        return makeSafeRequest(() -> hhHTTPService.listFaculties(instituteId, getQueryLanguage(searchQuery)));
     }
 
     public List<Company> getCompanies(String searchQuery) {
-        return makeSafeRequest(
-                () -> hhHTTPService.listCompanies(searchQuery, getQueryLanguage(searchQuery))
-        );
+        return makeSafeRequest(() -> hhHTTPService.listCompanies(searchQuery, getQueryLanguage(searchQuery)));
     }
 
     public List<Specialization> getSpecializations(String searchQuery) {
-        return makeSafeRequest(
-                () -> hhHTTPService.listSpecializations(searchQuery, getQueryLanguage(searchQuery))
-        );
+        return makeSafeRequest(() -> hhHTTPService.listSpecializations(searchQuery, getQueryLanguage(searchQuery)));
     }
 
     public List<Skill> getSkills(String searchQuery) {
-        return makeSafeRequest(
-                () -> hhHTTPService.listSkills(searchQuery, getQueryLanguage(searchQuery))
-        );
+        return makeSafeRequest(() -> hhHTTPService.listSkills(searchQuery, getQueryLanguage(searchQuery)));
     }
 
     public List<Position> getPositions(String searchQuery) {
-        return makeSafeRequest(
-                () -> hhHTTPService.listPositions(searchQuery, getQueryLanguage(searchQuery))
-        );
+        return makeSafeRequest(() -> hhHTTPService.listPositions(searchQuery, getQueryLanguage(searchQuery)));
     }
 
     public List<Area> getAreas(String searchQuery) {
-        return makeSafeRequest(
-                () -> hhHTTPService.listAreas(searchQuery, getQueryLanguage(searchQuery))
-        );
+        return makeSafeRequest(() -> hhHTTPService.listAreas(searchQuery, getQueryLanguage(searchQuery)));
     }
 }
