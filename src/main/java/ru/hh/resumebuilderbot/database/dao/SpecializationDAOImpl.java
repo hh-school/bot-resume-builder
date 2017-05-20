@@ -38,7 +38,7 @@ public class SpecializationDAOImpl extends GenericDAOImpl<Specialization, Intege
     }
 
     @Override
-    public Specialization getSpecializationByHHId(Integer hhId) {
+    public Specialization getSpecializationByHHId(String hhId) {
         TypedQuery<Specialization> query = getCurrentSession()
                 .createQuery(SPECIALIZATION_BY_HH_ID, Specialization.class);
         query.setParameter("hh_id", hhId);

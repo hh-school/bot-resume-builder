@@ -17,8 +17,8 @@ public class Specialization {
     private Integer id;
     @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "hh_id")
-    private Integer hhId;
+    @Column(name = "hh_id", length = 100)
+    private String hhId;
 
     public Specialization() {
     }
@@ -39,11 +39,11 @@ public class Specialization {
         this.name = name;
     }
 
-    public Integer getHhId() {
+    public String getHhId() {
         return hhId;
     }
 
-    public void setHhId(Integer hhId) {
+    public void setHhId(String hhId) {
         this.hhId = hhId;
     }
 
@@ -68,6 +68,6 @@ public class Specialization {
 
     @Override
     public String toString() {
-        return String.format("Specialization{id=%d, name='%s', hh_id='%d'}", id, name, hhId);
+        return String.format("Specialization{id=%d, name='%s', hhId='%s'}", id, name, hhId);
     }
 }

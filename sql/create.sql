@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS "user" (
 
 CREATE TABLE IF NOT EXISTS specialization (
   id    SERIAL PRIMARY KEY,
-  hh_id INT,
+  hh_id VARCHAR(100),
   name  VARCHAR(255) NOT NULL
 );
 

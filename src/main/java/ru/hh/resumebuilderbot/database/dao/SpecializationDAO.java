@@ -6,5 +6,5 @@ import ru.hh.resumebuilderbot.database.model.Specialization;
 public interface SpecializationDAO extends GenericDAO<Specialization, Integer> {
     Specialization getSpecializationByName(String name);
 
-    Specialization getSpecializationByHHId(Integer hhId);
+    Specialization getSpecializationByHHId(String hhId);
 }

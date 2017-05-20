@@ -369,14 +369,14 @@ public class DBService {
         return skill;
     }
 
-    public void saveSpecialization(Long telegramId, String specializationName, Integer specializationHHId) {
+    public void saveSpecialization(Long telegramId, String specializationName, String specializationHHId) {
         User user = getUser(telegramId);
         Specialization specialization = getSpecialization(specializationName, specializationHHId);
         user.getSpecializations().add(specialization);
         serviceAggregator.getUserService().update(user);
     }
 
-    private Specialization getSpecialization(String specializationName, Integer specializationHHId) {
+    private Specialization getSpecialization(String specializationName, String specializationHHId) {
         Specialization specialization;
         if (specializationHHId != null) {
             specialization = serviceAggregator.getSpecializationService()
@@ -391,7 +391,7 @@ public class DBService {
         return specialization;
     }
 
-    private Specialization createSpecialization(String specializationName, Integer specializationHHId) {
+    private Specialization createSpecialization(String specializationName, String specializationHHId) {
         Specialization specialization = new Specialization();
         specialization.setName(specializationName);
         specialization.setHhId(specializationHHId);

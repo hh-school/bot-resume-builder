@@ -22,7 +22,7 @@ public class SpecializationServiceImpl extends GenericServiceImpl<Specialization
     }
 
     @Override
-    public Specialization getSpecializationByHHId(Integer hhId) {
+    public Specialization getSpecializationByHHId(String hhId) {
         return inTransaction(() -> dao.getSpecializationByHHId(hhId));
     }
 }
