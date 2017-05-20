@@ -8,6 +8,7 @@ import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.hh.resumebuilderbot.Config;
+import ru.hh.resumebuilderbot.database.model.User;
 import ru.hh.resumebuilderbot.http.response.entity.Area;
 import ru.hh.resumebuilderbot.http.response.entity.Company;
 import ru.hh.resumebuilderbot.http.response.entity.Institute;
@@ -17,6 +18,7 @@ import ru.hh.resumebuilderbot.http.response.entity.Specialization;
 import ru.hh.resumebuilderbot.http.response.entity.Vacancy;
 import ru.hh.resumebuilderbot.http.type.adapter.CompanyDeserializer;
 import ru.hh.resumebuilderbot.http.type.adapter.ItemsDeserializer;
+import ru.hh.resumebuilderbot.http.type.adapter.UserSerializer;
 import ru.hh.resumebuilderbot.http.type.adapter.VacancyDeserializer;
 
 import java.util.List;
@@ -46,6 +48,7 @@ public class HHHTTPServiceUtils {
     public static Gson buildGson() {
         return new GsonBuilder()
                 .registerTypeAdapter(Company.class, new CompanyDeserializer())
+                .registerTypeAdapter(User.class, new UserSerializer())
                 .registerTypeAdapter(Vacancy.class, new VacancyDeserializer())
 
                 .registerTypeAdapter(new TypeToken<List<Area>>() {

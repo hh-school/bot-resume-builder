@@ -30,6 +30,9 @@ public interface HHHTTPService {
     @POST("negotiations")
     Call<Void> createNegotiation(@Body Negotiation negotiation, @Header("Authorization") String authorization);
 
+    @POST("resumes")
+    Call<Void> createResume(@Body User user, @Header("Authorization") String authorization);
+
     @DELETE("resumes/{resume_id}")
     Call<Void> deleteResume(@Path("resume_id") String resumeId, @Header("Authorization") String authorization);
 
