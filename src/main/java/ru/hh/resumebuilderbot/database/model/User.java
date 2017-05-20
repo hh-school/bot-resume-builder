@@ -50,6 +50,8 @@ public class User {
     private String firstName;
     @Column(name = "last_name", length = 100)
     private String lastName;
+    @Column(name = "email")
+    private String email;
     @Column(name = "phone", length = PHONE_LENGTH)
     private String phone;
     //TODO заменить EAGER на LAZY
@@ -157,6 +159,14 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -259,6 +269,7 @@ public class User {
                 Objects.equals(birthDate, user.birthDate) &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
+                Objects.equals(email, user.email) &&
                 Objects.equals(phone, user.phone) &&
                 Objects.equals(area, user.area) &&
                 gender == user.gender &&
@@ -272,7 +283,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, telegramId, birthDate, phone, firstName, lastName, area, gender,
+        return Objects.hash(id, telegramId, birthDate, email, phone, firstName, lastName, area, gender,
                 careerObjective, salaryAmount, salaryCurrency, createDatetime, nodeId, nodeRelationId);
     }
 

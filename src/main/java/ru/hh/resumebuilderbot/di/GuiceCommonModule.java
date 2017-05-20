@@ -8,8 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import ru.hh.resumebuilderbot.Config;
 import ru.hh.resumebuilderbot.database.HibernateMetadataFactory;
-import ru.hh.resumebuilderbot.http.HHHTTPService;
-import ru.hh.resumebuilderbot.http.HHHTTPServiceFactory;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.TelegramConverter;
 
@@ -17,7 +15,6 @@ import javax.inject.Named;
 import java.io.IOException;
 
 public class GuiceCommonModule extends AbstractModule {
-
     @Override
     protected void configure() {
         bind(String.class).annotatedWith(Names.named("GRAPH_XML_FILEPATH")).toInstance(Config.GRAPH_XML_FILEPATH);
@@ -28,12 +25,6 @@ public class GuiceCommonModule extends AbstractModule {
     public SessionFactory provideSessionFactory() {
         Metadata metadata = HibernateMetadataFactory.prod();
         return metadata.getSessionFactoryBuilder().build();
-    }
-
-    @Provides
-    @Singleton
-    public HHHTTPService provideHHSuggestService() {
-        return HHHTTPServiceFactory.get();
     }
 
     @Provides

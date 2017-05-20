@@ -19,7 +19,7 @@
         </filter>
     </appender>
     <!-- Enable the File and Sentry appenders -->
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="File"/>
         <appender-ref ref="Console"/>
         <appender-ref ref="Sentry"/>

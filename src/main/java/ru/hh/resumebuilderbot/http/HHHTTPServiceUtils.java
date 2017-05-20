@@ -8,42 +8,48 @@ import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.hh.resumebuilderbot.Config;
+import ru.hh.resumebuilderbot.database.model.User;
 import ru.hh.resumebuilderbot.http.response.entity.Area;
 import ru.hh.resumebuilderbot.http.response.entity.Company;
 import ru.hh.resumebuilderbot.http.response.entity.Institute;
 import ru.hh.resumebuilderbot.http.response.entity.Position;
 import ru.hh.resumebuilderbot.http.response.entity.Skill;
 import ru.hh.resumebuilderbot.http.response.entity.Specialization;
+import ru.hh.resumebuilderbot.http.response.entity.Vacancy;
 import ru.hh.resumebuilderbot.http.type.adapter.CompanyDeserializer;
 import ru.hh.resumebuilderbot.http.type.adapter.ItemsDeserializer;
+import ru.hh.resumebuilderbot.http.type.adapter.UserSerializer;
+import ru.hh.resumebuilderbot.http.type.adapter.VacancyDeserializer;
 
 import java.util.List;
 
 
-public class HHHTTPServiceFactory {
+public class HHHTTPServiceUtils {
     private static final String HH_BASE_URL = "https://api.hh.ru";
 
-    private static OkHttpClient buildHttpClient() {
+    public static OkHttpClient buildHttpClient() {
         HTTPLoggingInterceptor loggingInterceptor = new HTTPLoggingInterceptor();
 
-        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
-        httpClientBuilder.addInterceptor(loggingInterceptor);
-        httpClientBuilder.addInterceptor(chain -> {
-            Request original = chain.request();
+        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .addInterceptor(chain -> {
+                    Request original = chain.request();
 
-            Request request = original.newBuilder()
-                    .header("User-Agent", "HH-ResumeBuilderBot/" + Config.VERSION)
-                    .method(original.method(), original.body())
-                    .build();
+                    Request request = original.newBuilder()
+                            .header("User-Agent", "HH-ResumeBuilderBot/" + Config.VERSION)
+                            .method(original.method(), original.body())
+                            .build();
 
-            return chain.proceed(request);
-        });
+                    return chain.proceed(request);
+                });
         return httpClientBuilder.build();
     }
 
-    private static Gson buildGson() {
+    public static Gson buildGson() {
         return new GsonBuilder()
                 .registerTypeAdapter(Company.class, new CompanyDeserializer())
+                .registerTypeAdapter(User.class, new UserSerializer())
+                .registerTypeAdapter(Vacancy.class, new VacancyDeserializer())
 
                 .registerTypeAdapter(new TypeToken<List<Area>>() {
                 }.getType(), new ItemsDeserializer<Area>())
@@ -57,15 +63,17 @@ public class HHHTTPServiceFactory {
                 }.getType(), new ItemsDeserializer<Skill>())
                 .registerTypeAdapter(new TypeToken<List<Specialization>>() {
                 }.getType(), new ItemsDeserializer<Specialization>())
+                .registerTypeAdapter(new TypeToken<List<Vacancy>>() {
+                }.getType(), new ItemsDeserializer<Vacancy>())
 
                 .create();
     }
 
-    public static HHHTTPService get() {
+    public static HHHTTPService getService(Gson gson, OkHttpClient okHttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(HH_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(buildGson()))
-                .client(buildHttpClient())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(okHttpClient)
                 .build();
         return retrofit.create(HHHTTPService.class);
     }
