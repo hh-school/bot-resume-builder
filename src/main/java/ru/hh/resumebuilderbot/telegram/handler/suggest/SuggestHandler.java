@@ -43,6 +43,7 @@ public class SuggestHandler extends Handler {
 
     private List<?> getFacultiesSuggests(Integer instituteId, String textForSearch)
             throws NonFacultiesFoundException {
+        String lowCaseTextForSearch = textForSearch.toLowerCase();
         if (instituteId == null) {
             throw new NonFacultiesFoundException();
         }
@@ -51,7 +52,7 @@ public class SuggestHandler extends Handler {
             throw new NonFacultiesFoundException();
         }
         return queryResults.stream()
-                .filter(faculty -> faculty.getName().contains(textForSearch))
+                .filter(faculty -> faculty.getName().toLowerCase().contains(lowCaseTextForSearch))
                 .collect(Collectors.toList());
     }
 

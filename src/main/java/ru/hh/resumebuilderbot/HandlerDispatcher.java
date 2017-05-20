@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
+import ru.hh.resumebuilderbot.telegram.handler.edit.MessageUpdateHandler;
 import ru.hh.resumebuilderbot.telegram.handler.message.AnswerMessageHandler;
 import ru.hh.resumebuilderbot.telegram.handler.message.ClearMessageHandler;
 import ru.hh.resumebuilderbot.telegram.handler.message.MessageHandler;
@@ -24,6 +25,7 @@ class HandlerDispatcher {
     private final DBService dbService;
     private final Graph graph;
     private final Map<String, MessageHandler> messageHandlers;
+    private final MessageUpdateHandler messageUpdateHandler;
     private final SuggestHandler suggestHandler;
     private final ChosenSuggestHandler chosenSuggestHandler;
 
@@ -34,6 +36,7 @@ class HandlerDispatcher {
         this.messageHandlers = Collections.synchronizedMap(new LinkedHashMap<>());
         this.suggestHandler = new SuggestHandler(dbService, graph, suggestService);
         this.chosenSuggestHandler = new ChosenSuggestHandler(dbService, graph, suggestService);
+        this.messageUpdateHandler = new MessageUpdateHandler(dbService, graph);
         messageHandlers.put("/start", new StartMessageHandler(dbService, graph));
         messageHandlers.put("/show", new ShowMessageHandler(dbService, graph));
         messageHandlers.put("/clear", new ClearMessageHandler(dbService, graph));
@@ -57,5 +60,9 @@ class HandlerDispatcher {
 
     public ChosenSuggestHandler getChosenSuggestHandler() {
         return this.chosenSuggestHandler;
+    }
+
+    public MessageUpdateHandler getMessageUpdateHandler() {
+        return messageUpdateHandler;
     }
 }

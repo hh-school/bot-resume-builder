@@ -11,4 +11,6 @@ public interface MessengerAdapter {
     void start();
 
     void provideSuggests(String queryId, List<InlineQueryResult> inlineQueryResults);
+
+    void editMessage(MessageUpdate messageUpdate);
 }

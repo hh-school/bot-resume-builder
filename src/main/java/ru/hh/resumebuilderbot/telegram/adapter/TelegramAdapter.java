@@ -5,20 +5,16 @@ import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageReplyMarkup;
+import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardRemove;
-import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
+import ru.hh.resumebuilderbot.MessageUpdate;
 import ru.hh.resumebuilderbot.MessengerAdapter;
 import ru.hh.resumebuilderbot.question.Question;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TelegramAdapter implements MessengerAdapter {
@@ -36,7 +32,7 @@ public class TelegramAdapter implements MessengerAdapter {
                 .setChatId(telegramId)
                 .setText(question.getText());
 
-        message.setReplyMarkup(getKeyboard(question));
+        message.setReplyMarkup(KeyboardGenerator.getReplyKeyboard(question));
         try {
             bot.sendMessage(message);
         } catch (TelegramApiException e) {
@@ -44,69 +40,6 @@ public class TelegramAdapter implements MessengerAdapter {
         }
     }
 
-    private ReplyKeyboard getKeyboard(Question question) {
-        ReplyKeyboard keyboard;
-        switch (question.getReplyKeyboard()) {
-            case PHONE_NUMBER:
-                keyboard = generatePhoneNumberKeyboard();
-                break;
-            case VARIANTS_OF_ANSWER:
-                keyboard = generateVariantsOfAnswerKeyboard(question.getVariantsOfAnswer());
-                break;
-            case SUGGEST:
-                keyboard = generateSuggestInlineKeyboard();
-                break;
-            default:
-                keyboard = new ReplyKeyboardRemove();
-                break;
-        }
-        return keyboard;
-    }
-
-    private InlineKeyboardMarkup generateSuggestInlineKeyboard() {
-        InlineKeyboardMarkup result = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-        List<InlineKeyboardButton> rowInline = new ArrayList<>();
-        rowInline.add(new InlineKeyboardButton()
-                .setSwitchInlineQueryCurrentChat("")
-                .setText("Нажмите для получения вариантов-подсказки"));
-        rowsInline.add(rowInline);
-        result.setKeyboard(rowsInline);
-        return result;
-    }
-
-    private ReplyKeyboardMarkup generateVariantsOfAnswerKeyboard(List<String> variantsOfAnswer) {
-        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboardRows = new ArrayList<>();
-        for (String variant : variantsOfAnswer) {
-            KeyboardRow keyboardRow = new KeyboardRow();
-            KeyboardButton button = new KeyboardButton(variant);
-            keyboardRow.add(button);
-            keyboardRows.add(keyboardRow);
-        }
-        keyboardMarkup.setKeyboard(keyboardRows);
-        keyboardMarkup.setOneTimeKeyboad(true);
-        return keyboardMarkup;
-    }
-
-    private ReplyKeyboardMarkup generatePhoneNumberKeyboard() {
-        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
-        List<KeyboardRow> keyboardRows = new ArrayList<>();
-
-        KeyboardRow firstRow = new KeyboardRow();
-        KeyboardButton currentPhone = new KeyboardButton("Ввести текущий номер телефона");
-        currentPhone.setRequestContact(true);
-        firstRow.add(currentPhone);
-        keyboardRows.add(firstRow);
-
-        KeyboardRow secondRow = new KeyboardRow();
-        secondRow.add("Ввести другой номер телефона");
-        keyboardRows.add(secondRow);
-
-        keyboardMarkup.setKeyboard(keyboardRows);
-        keyboardMarkup.setOneTimeKeyboad(true);
-        return keyboardMarkup;
-    }
 
     @Override
     public void start() {
@@ -127,6 +60,40 @@ public class TelegramAdapter implements MessengerAdapter {
             answerInlineQuery.setInlineQueryId(queryId);
             answerInlineQuery.setResults(inlineQueryResults);
             bot.answerInlineQuery(answerInlineQuery);
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    @Override
+    public void editMessage(MessageUpdate messageUpdate) {
+        try {
+            if (messageUpdate.isValid()) {
+                InlineKeyboardMarkup keyboard = null;
+                if (messageUpdate.hasKeyboard()) {
+                    keyboard = KeyboardGenerator.getUpdatedKeyboard(messageUpdate.getReplyKeyboardEnum(),
+                            messageUpdate.getKeyboardData());
+                }
+                if (messageUpdate.getUpdatedText() != null) {
+                    EditMessageText editMessageText = new EditMessageText()
+                            .setMessageId(messageUpdate.getMessageId())
+                            .setChatId(messageUpdate.getTelegramId())
+                            .setText(messageUpdate.getUpdatedText());
+                    if (keyboard != null) {
+                        editMessageText.setReplyMarkup(keyboard);
+                    }
+                    bot.editMessageText(editMessageText);
+                } else {
+                    EditMessageReplyMarkup editMessageReplyMarkup = new EditMessageReplyMarkup()
+                            .setMessageId(messageUpdate.getMessageId())
+                            .setChatId(messageUpdate.getTelegramId())
+                            .setReplyMarkup(keyboard);
+                    bot.editMessageReplyMarkup(editMessageReplyMarkup);
+                }
+            } else {
+                log.error("Failed to update message {} for telegramUser {} cause no new Text or Keyboard",
+                        messageUpdate.getMessageId(), messageUpdate.getTelegramId());
+            }
         } catch (TelegramApiException e) {
             log.error(e.getMessage());
         }

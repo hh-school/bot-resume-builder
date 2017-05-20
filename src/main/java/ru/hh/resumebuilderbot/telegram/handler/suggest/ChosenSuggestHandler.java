@@ -60,13 +60,14 @@ public class ChosenSuggestHandler extends Handler {
                     dbService.saveUserArea(telegramId, area.getText(), Integer.valueOf(area.getId()));
                     break;
                 case FACULTIES_SUGGEST:
+                    String lowCaseQueryText = queryText.toLowerCase();
                     String instituteHHId = dbService.getInstituteHHId(telegramId).toString();
                     List<Faculty> queryResults = suggestService.getFaculties(instituteHHId, queryText);
                     if (queryResults == null || queryResults.isEmpty()) {
                         break;
                     }
                     Faculty chosenFaculty = queryResults.stream()
-                            .filter(faculty -> faculty.getName().contains(queryText))
+                            .filter(faculty -> faculty.getName().toLowerCase().contains(lowCaseQueryText))
                             .collect(Collectors.toList())
                             .get(resultId);
                     dbService.saveFaculty(telegramId, Integer.valueOf(chosenFaculty.getId()), chosenFaculty.getName());

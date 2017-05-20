@@ -97,7 +97,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Отлично! Расскажите ещё немного о себе. Когда вы родились?">
-                        <keyboardType>DATE</keyboardType>
+                        <keyboardType>DATE_WITH_DAY</keyboardType>
                     </question>
                     <skippable>false</skippable>
                 </classData>
@@ -118,9 +118,9 @@
                 <classData>
                     <question text="Как к вам обращаться?">
                         <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
-                        <variantsOfAnswer othersAllowed="false">
-                            <variant text="Господин"/>
-                            <variant text="Госпожа"/>
+                        <variantsOfAnswer othersAllowed="true">
+                            <variant text="Господин 128104"/>
+                            <variant text="Госпожа 128105"/>
                         </variantsOfAnswer>
                     </question>
                 </classData>
@@ -372,7 +372,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Когда начали там работать?">
-                        <keyboardType>DATE</keyboardType>
+                        <keyboardType>DATE_WITHOUT_DAY</keyboardType>
                     </question>
                 </classData>
             </base>
@@ -417,7 +417,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Когда закончили там работать?">
-                        <keyboardType>DATE</keyboardType>
+                        <keyboardType>DATE_WITHOUT_DAY</keyboardType>
                     </question>
                 </classData>
             </base>

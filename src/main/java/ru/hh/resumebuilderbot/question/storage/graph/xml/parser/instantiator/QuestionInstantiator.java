@@ -3,7 +3,7 @@ package ru.hh.resumebuilderbot.question.storage.graph.xml.parser.instantiator;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import ru.hh.resumebuilderbot.question.Question;
-import ru.hh.resumebuilderbot.question.ReplyKeyboard;
+import ru.hh.resumebuilderbot.question.ReplyKeyboardEnum;
 import ru.hh.resumebuilderbot.question.storage.graph.xml.parser.XMLAsStream;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.SuggestType;
 
@@ -18,7 +18,7 @@ public class QuestionInstantiator implements Instantiator {
 
         String text = attributes.getNamedItem("text").getNodeValue();
         SuggestType suggestType = Question.DEFAULT_SUGGEST_TYPE;
-        ReplyKeyboard replyKeyboard = Question.DEFAULT_KEYBOARD;
+        ReplyKeyboardEnum replyKeyboardEnum = Question.DEFAULT_KEYBOARD;
 
         Optional<Node> suggestTypeNode = XMLAsStream.getFirstChildByName(questionNode, "suggestType");
         if (suggestTypeNode.isPresent()) {
@@ -27,7 +27,7 @@ public class QuestionInstantiator implements Instantiator {
 
         Optional<Node> keyboardTypeNode = XMLAsStream.getFirstChildByName(questionNode, "keyboardType");
         if (keyboardTypeNode.isPresent()) {
-            replyKeyboard = ReplyKeyboard.valueOf(keyboardTypeNode.get().getTextContent());
+            replyKeyboardEnum = ReplyKeyboardEnum.valueOf(keyboardTypeNode.get().getTextContent());
         }
         Optional<Node> variantsOfAnswerNode = XMLAsStream.getFirstChildByName(questionNode, "variantsOfAnswer");
         if (variantsOfAnswerNode.isPresent()) {
@@ -38,8 +38,8 @@ public class QuestionInstantiator implements Instantiator {
             List<String> variantsOfAnswer = new ArrayList<>();
             XMLAsStream.fromParentNode(variantsOfAnswerNode.get()).forEach((x) ->
                     variantsOfAnswer.add(x.getAttributes().getNamedItem("text").getNodeValue()));
-            return new Question(text, variantsOfAnswer, otherVariantsAllowed, suggestType, replyKeyboard);
+            return new Question(text, variantsOfAnswer, otherVariantsAllowed, suggestType, replyKeyboardEnum);
         }
-        return new Question(text, suggestType, replyKeyboard);
+        return new Question(text, suggestType, replyKeyboardEnum);
     }
 }

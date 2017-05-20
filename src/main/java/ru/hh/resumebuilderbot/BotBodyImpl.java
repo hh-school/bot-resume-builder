@@ -2,7 +2,10 @@ package ru.hh.resumebuilderbot;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
+import ru.hh.resumebuilderbot.telegram.handler.edit.MessageUpdateHandler;
 import ru.hh.resumebuilderbot.telegram.handler.message.MessageHandler;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.NotificationInlineQueryResults;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.SuggestHandler;
@@ -15,6 +18,7 @@ import java.util.List;
 
 @Singleton
 public class BotBodyImpl implements BotBody {
+    private static final Logger log = LoggerFactory.getLogger(BotBodyImpl.class);
     private final HandlerDispatcher handlerDispatcher;
     private final TelegramConverter telegramConverter;
     private MessengerAdapter messengerAdapter;
@@ -51,6 +55,12 @@ public class BotBodyImpl implements BotBody {
     @Override
     public void saveChosenSuggest(Long telegramId, Integer resultId, String queryText) {
         handlerDispatcher.getChosenSuggestHandler().saveChosenSuggest(telegramId, resultId, queryText);
+    }
+
+    @Override
+    public void updateMessage(Long telegramId, Integer messageId, String callbackData) {
+        MessageUpdateHandler handler = handlerDispatcher.getMessageUpdateHandler();
+        messengerAdapter.editMessage(handler.handle(telegramId, messageId, callbackData));
     }
 
     @Override
