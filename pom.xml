@@ -145,5 +145,10 @@
             <version>${retrofit.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.googlecode.libphonenumber</groupId>
+            <artifactId>libphonenumber</artifactId>
+            <version>8.4.3</version>
+        </dependency>
     </dependencies>
 </project>
