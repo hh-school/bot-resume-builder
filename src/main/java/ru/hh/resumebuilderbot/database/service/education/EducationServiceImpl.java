@@ -32,10 +32,28 @@ public class EducationServiceImpl extends GenericServiceImpl<Education, Integer,
     }
 
     @Override
+    public void setCurrentEducationFacultyName(Long telegramId, String facultyName) {
+        inTransaction(() -> {
+            Education education = getCurrentByTelegramId(telegramId);
+            education.setFacultyName(facultyName);
+            update(education);
+        });
+    }
+
+    @Override
     public void setCurrentEducationSpeciality(Long telegramId, Integer specialityId, String specialityName) {
         inTransaction(() -> {
             Education education = getCurrentByTelegramId(telegramId);
             education.setSpecialityId(specialityId);
+            education.setSpecialityName(specialityName);
+            update(education);
+        });
+    }
+
+    @Override
+    public void setCurrentEducationSpecialityName(Long telegramId, String specialityName) {
+        inTransaction(() -> {
+            Education education = getCurrentByTelegramId(telegramId);
             education.setSpecialityName(specialityName);
             update(education);
         });
@@ -55,6 +73,15 @@ public class EducationServiceImpl extends GenericServiceImpl<Education, Integer,
         inTransaction(() -> {
             Education education = getCurrentByTelegramId(telegramId);
             education.setInstitutionId(instituteHHId);
+            education.setInstitutionName(instituteName);
+            update(education);
+        });
+    }
+
+    @Override
+    public void setCurrentEducationInstituteName(Long telegramId, String instituteName) {
+        inTransaction(() -> {
+            Education education = getCurrentByTelegramId(telegramId);
             education.setInstitutionName(instituteName);
             update(education);
         });
