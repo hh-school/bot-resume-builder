@@ -15,11 +15,32 @@ public class AreaServiceImpl extends GenericServiceImpl<Area, Integer, AreaDAO> 
         super(areaDAO, sessionFactory);
     }
 
+    @Override
     public Area getAreaByHHId(Integer hhId) {
         return inTransaction(() -> dao.getAreaByHHId(hhId));
     }
 
+    @Override
     public Area getAreaByName(String name) {
         return inTransaction(() -> dao.getAreaByName(name));
+    }
+
+    @Override
+    public Area getOrCreateArea(String areaName, Integer areaHHId) {
+        return inTransaction(() -> {
+            Area area = null;
+            if (areaHHId != null) {
+                area = getAreaByHHId(areaHHId);
+            } else {
+                if (areaName != null) {
+                    area = getAreaByName(areaName);
+                }
+            }
+            if (area == null) {
+                area = new Area(areaName, areaHHId);
+                create(area);
+            }
+            return area;
+        });
     }
 }

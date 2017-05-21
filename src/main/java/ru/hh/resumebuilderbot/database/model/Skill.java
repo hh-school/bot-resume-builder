@@ -23,6 +23,11 @@ public class Skill {
     public Skill() {
     }
 
+    public Skill(String name, Integer hhId) {
+        this.name = name;
+        this.hhId = hhId;
+    }
+
     public Integer getId() {
         return id;
     }

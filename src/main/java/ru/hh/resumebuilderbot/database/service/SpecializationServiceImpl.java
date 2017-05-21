@@ -25,4 +25,21 @@ public class SpecializationServiceImpl extends GenericServiceImpl<Specialization
     public Specialization getSpecializationByHHId(String hhId) {
         return inTransaction(() -> dao.getSpecializationByHHId(hhId));
     }
+
+    @Override
+    public Specialization getOrCreateSpecialization(String specializationName, String specializationHHId) {
+        return inTransaction(() -> {
+            Specialization specialization;
+            if (specializationHHId != null) {
+                specialization = getSpecializationByHHId(specializationHHId);
+            } else {
+                specialization = getSpecializationByName(specializationName);
+            }
+            if (specialization == null) {
+                specialization = new Specialization(specializationName, specializationHHId);
+                create(specialization);
+            }
+            return specialization;
+        });
+    }
 }

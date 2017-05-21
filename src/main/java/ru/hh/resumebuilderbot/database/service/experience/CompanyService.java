@@ -7,4 +7,6 @@ public interface CompanyService extends GenericService<Company, Integer> {
     Company getCompanyByHHId(Integer hhId);
 
     Company getCompanyByName(String name);
+
+    Company getOrCreateCompany(String companyName, Integer companyHHId);
 }

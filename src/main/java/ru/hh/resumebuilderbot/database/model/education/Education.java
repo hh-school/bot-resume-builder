@@ -45,6 +45,11 @@ public class Education {
     public Education() {
     }
 
+    public Education(User user, EducationLevel level) {
+        this.user = user;
+        this.level = level;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -15,11 +15,30 @@ public class CompanyServiceImpl extends GenericServiceImpl<Company, Integer, Com
         super(companyDAO, sessionFactory);
     }
 
+    @Override
     public Company getCompanyByHHId(Integer hhId) {
         return inTransaction(() -> dao.getCompanyByHHId(hhId));
     }
 
+    @Override
     public Company getCompanyByName(String name) {
         return inTransaction(() -> dao.getCompanyByName(name));
+    }
+
+    @Override
+    public Company getOrCreateCompany(String companyName, Integer companyHHId) {
+        return inTransaction(() -> {
+            Company company;
+            if (companyHHId != null) {
+                company = getCompanyByHHId(companyHHId);
+            } else {
+                company = getCompanyByName(companyName);
+            }
+            if (company == null) {
+                company = new Company(companyName, companyHHId);
+                create(company);
+            }
+            return company;
+        });
     }
 }

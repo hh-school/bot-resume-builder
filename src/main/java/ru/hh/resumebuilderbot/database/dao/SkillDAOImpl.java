@@ -23,6 +23,7 @@ public class SkillDAOImpl extends GenericDAOImpl<Skill, Integer> implements Skil
         super(sessionFactory);
     }
 
+    @Override
     public Skill getSkillByHHId(Integer hhId) {
         TypedQuery<Skill> query = getCurrentSession().createQuery(SKILL_BY_HH_ID, Skill.class);
         query.setParameter("hh_id", hhId);
@@ -35,6 +36,7 @@ public class SkillDAOImpl extends GenericDAOImpl<Skill, Integer> implements Skil
         return skill;
     }
 
+    @Override
     public Skill getSkillByName(String name) {
         TypedQuery<Skill> query = getCurrentSession().createQuery(SKILL_BY_NAME, Skill.class);
         query.setParameter("name", name);

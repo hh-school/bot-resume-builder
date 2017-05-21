@@ -7,4 +7,6 @@ public interface SpecializationService extends GenericService<Specialization, In
     Specialization getSpecializationByName(String name);
 
     Specialization getSpecializationByHHId(String hhId);
+
+    Specialization getOrCreateSpecialization(String specializationName, String specializationHHId);
 }

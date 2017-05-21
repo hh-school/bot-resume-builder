@@ -103,6 +103,11 @@ public class User {
     public User() {
     }
 
+    public User(Long telegramId, Integer rootNodeId) {
+        this.telegramId = telegramId;
+        nodeId = rootNodeId;
+    }
+
     public Integer getNodeId() {
         return nodeId;
     }

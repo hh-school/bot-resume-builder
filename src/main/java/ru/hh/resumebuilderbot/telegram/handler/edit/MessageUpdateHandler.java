@@ -1,6 +1,6 @@
 package ru.hh.resumebuilderbot.telegram.handler.edit;
 
-import ru.hh.resumebuilderbot.DBService;
+import ru.hh.resumebuilderbot.DBProcessor;
 import ru.hh.resumebuilderbot.MessageUpdate;
 import ru.hh.resumebuilderbot.question.ReplyKeyboardEnum;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
@@ -12,8 +12,8 @@ import java.util.Map;
 
 public class MessageUpdateHandler extends Handler {
 
-    public MessageUpdateHandler(DBService dbService, Graph graph) {
-        super(dbService, graph);
+    public MessageUpdateHandler(DBProcessor dbProcessor, Graph graph) {
+        super(dbProcessor, graph);
     }
 
     public MessageUpdate handle(Long telegramId, Integer messageId, String callbackData) {

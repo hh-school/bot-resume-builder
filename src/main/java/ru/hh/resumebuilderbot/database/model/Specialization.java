@@ -23,6 +23,11 @@ public class Specialization {
     public Specialization() {
     }
 
+    public Specialization(String name, String hhId) {
+        this.name = name;
+        this.hhId = hhId;
+    }
+
     public Integer getId() {
         return id;
     }

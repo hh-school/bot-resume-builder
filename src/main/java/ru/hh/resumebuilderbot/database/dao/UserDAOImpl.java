@@ -22,6 +22,7 @@ public class UserDAOImpl extends GenericDAOImpl<User, Integer> implements UserDA
         super(sessionFactory);
     }
 
+    @Override
     public User getByTelegramId(long telegramId) {
         TypedQuery<User> query = getCurrentSession().createQuery(USER_BY_TELEGRAM_ID, User.class);
         query.setParameter("telegram_id", telegramId);

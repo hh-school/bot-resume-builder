@@ -55,6 +55,10 @@ public class Experience {
     public Experience() {
     }
 
+    public Experience(User user) {
+        this.user = user;
+    }
+
     public Integer getId() {
         return id;
     }
