@@ -23,6 +23,7 @@ public class CompanyDAOImpl extends GenericDAOImpl<Company, Integer> implements 
         super(sessionFactory);
     }
 
+    @Override
     public Company getCompanyByHHId(Integer hhId) {
         TypedQuery<Company> query = getCurrentSession().createQuery(COMPANY_BY_HH_ID, Company.class);
         query.setParameter("hh_id", hhId);
@@ -35,6 +36,7 @@ public class CompanyDAOImpl extends GenericDAOImpl<Company, Integer> implements 
         return company;
     }
 
+    @Override
     public Company getCompanyByName(String name) {
         TypedQuery<Company> query = getCurrentSession().createQuery(COMPANY_BY_NAME, Company.class);
         query.setParameter("name", name);

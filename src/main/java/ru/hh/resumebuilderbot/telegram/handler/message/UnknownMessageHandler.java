@@ -2,7 +2,7 @@ package ru.hh.resumebuilderbot.telegram.handler.message;
 
 
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.DBService;
+import ru.hh.resumebuilderbot.DBProcessor;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.texts.storage.TextId;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UnknownMessageHandler extends MessageHandler {
-    public UnknownMessageHandler(DBService dbService, Graph graph) {
-        super(dbService, graph);
+    public UnknownMessageHandler(DBProcessor dbProcessor, Graph graph) {
+        super(dbProcessor, graph);
     }
 
     @Override

@@ -1,16 +1,16 @@
 package ru.hh.resumebuilderbot.cv.builder;
 
-import ru.hh.resumebuilderbot.DBService;
+import ru.hh.resumebuilderbot.DBProcessor;
 
 public class PlainTextCVBuilder implements CVBuilder {
-    private DBService dbService;
+    private DBProcessor dbProcessor;
 
-    public PlainTextCVBuilder(DBService dbService) {
-        this.dbService = dbService;
+    public PlainTextCVBuilder(DBProcessor dbProcessor) {
+        this.dbProcessor = dbProcessor;
     }
 
     @Override
     public String build(Long telegramId) {
-        return dbService.getUser(telegramId).toString().replaceAll(", ", ", \n");
+        return dbProcessor.getUser(telegramId).toString().replaceAll(", ", ", \n");
     }
 }

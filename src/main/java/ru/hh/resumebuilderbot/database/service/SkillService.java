@@ -7,4 +7,6 @@ public interface SkillService extends GenericService<Skill, Integer> {
     Skill getSkillByName(String name);
 
     Skill getSkillByHHId(Integer hhId);
+
+    Skill getOrCreateSkill(String skillName, Integer skillHHId);
 }

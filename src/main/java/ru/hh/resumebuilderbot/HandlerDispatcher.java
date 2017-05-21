@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 
 @Singleton
 class HandlerDispatcher {
-    private final DBService dbService;
+    private final DBProcessor dbProcessor;
     private final Graph graph;
     private final Map<String, MessageHandler> messageHandlers;
     private final MessageUpdateHandler messageUpdateHandler;
@@ -30,18 +30,18 @@ class HandlerDispatcher {
     private final ChosenSuggestHandler chosenSuggestHandler;
 
     @Inject
-    public HandlerDispatcher(DBService dbService, Provider<Graph> graphProvider, SuggestService suggestService) {
-        this.dbService = dbService;
+    public HandlerDispatcher(DBProcessor dbProcessor, Provider<Graph> graphProvider, SuggestService suggestService) {
+        this.dbProcessor = dbProcessor;
         this.graph = graphProvider.get();
         this.messageHandlers = Collections.synchronizedMap(new LinkedHashMap<>());
-        this.suggestHandler = new SuggestHandler(dbService, graph, suggestService);
-        this.chosenSuggestHandler = new ChosenSuggestHandler(dbService, graph, suggestService);
-        this.messageUpdateHandler = new MessageUpdateHandler(dbService, graph);
-        messageHandlers.put("/start", new StartMessageHandler(dbService, graph));
-        messageHandlers.put("/show", new ShowMessageHandler(dbService, graph));
-        messageHandlers.put("/clear", new ClearMessageHandler(dbService, graph));
-        messageHandlers.put("/skip", new SkipMessageHandler(dbService, graph));
-        messageHandlers.put(".*", new AnswerMessageHandler(dbService, graph));
+        this.suggestHandler = new SuggestHandler(dbProcessor, graph, suggestService);
+        this.chosenSuggestHandler = new ChosenSuggestHandler(dbProcessor, graph, suggestService);
+        this.messageUpdateHandler = new MessageUpdateHandler(dbProcessor, graph);
+        messageHandlers.put("/start", new StartMessageHandler(dbProcessor, graph));
+        messageHandlers.put("/show", new ShowMessageHandler(dbProcessor, graph));
+        messageHandlers.put("/clear", new ClearMessageHandler(dbProcessor, graph));
+        messageHandlers.put("/skip", new SkipMessageHandler(dbProcessor, graph));
+        messageHandlers.put(".*", new AnswerMessageHandler(dbProcessor, graph));
     }
 
     public MessageHandler getMessageHandler(Answer answer) {
@@ -51,7 +51,7 @@ class HandlerDispatcher {
                 return entry.getValue();
             }
         }
-        return new UnknownMessageHandler(dbService, graph);
+        return new UnknownMessageHandler(dbProcessor, graph);
     }
 
     public SuggestHandler getSuggestHandler() {

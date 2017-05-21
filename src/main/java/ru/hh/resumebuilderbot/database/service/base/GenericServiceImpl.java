@@ -1,5 +1,6 @@
 package ru.hh.resumebuilderbot.database.service.base;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import ru.hh.resumebuilderbot.database.dao.base.GenericDAO;
@@ -64,11 +65,15 @@ public abstract class GenericServiceImpl<T, PK extends Serializable, DAOT extend
     }
 
     protected Optional<Transaction> beginTransaction() {
-        Transaction transaction = sessionFactory.getCurrentSession().getTransaction();
+        Transaction transaction = getCurrentSession().getTransaction();
         if (!transaction.isActive()) {
             transaction.begin();
             return Optional.of(transaction);
         }
         return Optional.empty();
+    }
+
+    protected Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
     }
 }

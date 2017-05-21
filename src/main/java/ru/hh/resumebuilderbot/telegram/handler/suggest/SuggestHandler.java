@@ -1,6 +1,6 @@
 package ru.hh.resumebuilderbot.telegram.handler.suggest;
 
-import ru.hh.resumebuilderbot.DBService;
+import ru.hh.resumebuilderbot.DBProcessor;
 import ru.hh.resumebuilderbot.SuggestService;
 import ru.hh.resumebuilderbot.http.response.entity.Faculty;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
@@ -17,8 +17,8 @@ public class SuggestHandler extends Handler {
     private static final Integer MIN_QUERY_LEN = 2;
     private final SuggestService suggestService;
 
-    public SuggestHandler(DBService dbService, Graph graph, SuggestService suggestService) {
-        super(dbService, graph);
+    public SuggestHandler(DBProcessor dbProcessor, Graph graph, SuggestService suggestService) {
+        super(dbProcessor, graph);
         this.suggestService = suggestService;
     }
 
@@ -27,7 +27,7 @@ public class SuggestHandler extends Handler {
         SuggestType neededSuggest = getCurrentNode(telegramId).getQuestion().getSuggestField();
         List<?> queryResults;
         if (neededSuggest == SuggestType.FACULTIES_SUGGEST) {
-            Integer instituteId = dbService.getInstituteHHId(telegramId);
+            Integer instituteId = dbProcessor.getInstituteHHId(telegramId);
             queryResults = getFacultiesSuggests(instituteId, textForSearch);
         } else {
             queryResults = getCommonSuggests(neededSuggest, textForSearch);

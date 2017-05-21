@@ -36,6 +36,7 @@ public class AreaDAOImpl extends GenericDAOImpl<Area, Integer> implements AreaDA
         return area;
     }
 
+    @Override
     public Area getAreaByName(String name) {
         TypedQuery<Area> query = getCurrentSession().createQuery(AREA_BY_NAME, Area.class);
         query.setParameter("name", name);

@@ -6,7 +6,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hibernate.version>5.2.9.Final</hibernate.version>
+        <hibernate.version>5.2.10.Final</hibernate.version>
         <retrofit.version>2.2.0</retrofit.version>
     </properties>
 

@@ -1,6 +1,6 @@
 package ru.hh.resumebuilderbot.telegram.handler.suggest;
 
-import ru.hh.resumebuilderbot.DBService;
+import ru.hh.resumebuilderbot.DBProcessor;
 import ru.hh.resumebuilderbot.SuggestService;
 import ru.hh.resumebuilderbot.http.response.entity.Area;
 import ru.hh.resumebuilderbot.http.response.entity.Company;
@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 public class ChosenSuggestHandler extends Handler {
     private final SuggestService suggestService;
 
-    public ChosenSuggestHandler(DBService dbService, Graph graph, SuggestService suggestService) {
-        super(dbService, graph);
+    public ChosenSuggestHandler(DBProcessor dbProcessor, Graph graph, SuggestService suggestService) {
+        super(dbProcessor, graph);
         this.suggestService = suggestService;
     }
 
@@ -31,37 +31,45 @@ public class ChosenSuggestHandler extends Handler {
             switch (neededSuggest) {
                 case INSTITUTES_SUGGEST:
                     Institute institute = suggestService.getInstitutes(queryText).get(resultId);
-                    dbService.saveInstitute(telegramId, Integer.valueOf(institute.getId()), institute.getText());
+                    dbProcessor.saveInstitute(
+                            telegramId,
+                            Integer.valueOf(institute.getId()),
+                            institute.getText()
+                    );
                     break;
                 case COMPANIES_SUGGEST:
                     Company company = suggestService.getCompanies(queryText).get(resultId);
-                    dbService.saveExperienceCompany(telegramId, company.getName(), Integer.valueOf(company.getId()));
+                    dbProcessor.saveCurrentExperienceCompany(
+                            telegramId,
+                            company.getName(),
+                            Integer.valueOf(company.getId())
+                    );
                     break;
                 case SPECIALIZATIONS_SUGGEST:
                     Specialization specialization = suggestService.getSpecializations(queryText).get(resultId);
-                    dbService.saveSpeciality(telegramId, Integer.valueOf(specialization.getId()),
+                    dbProcessor.setCurrentEducationSpeciality(telegramId, Integer.valueOf(specialization.getId()),
                             specialization.getText());
                     break;
                 case SKILLS_SUGGEST:
                     Skill skill = suggestService.getSkills(queryText).get(resultId);
-                    dbService.saveSkill(telegramId, skill.getText(), Integer.valueOf(skill.getId()));
+                    dbProcessor.saveUserSkill(telegramId, skill.getText(), Integer.valueOf(skill.getId()));
                     break;
                 case POSITIONS_SUGGEST:
                     Position position = suggestService.getPositions(queryText).get(resultId);
                     if (getCurrentNode(telegramId).getFieldNameToSave().equals("workPosition")) {
-                        dbService.saveExperiencePosition(telegramId, position.getText());
+                        dbProcessor.setCurrentExperiencePosition(telegramId, position.getText());
                     } else {
                         //TODO add specialization and profArea save
-                        dbService.saveCareerObjective(telegramId, position.getText());
+                        dbProcessor.setCareerObjective(telegramId, position.getText());
                     }
                     break;
                 case AREAS_SUGGEST:
                     Area area = suggestService.getAreas(queryText).get(resultId);
-                    dbService.saveUserArea(telegramId, area.getText(), Integer.valueOf(area.getId()));
+                    dbProcessor.saveUserArea(telegramId, area.getText(), Integer.valueOf(area.getId()));
                     break;
                 case FACULTIES_SUGGEST:
                     String lowCaseQueryText = queryText.toLowerCase();
-                    String instituteHHId = dbService.getInstituteHHId(telegramId).toString();
+                    String instituteHHId = dbProcessor.getInstituteHHId(telegramId).toString();
                     List<Faculty> queryResults = suggestService.getFaculties(instituteHHId, queryText);
                     if (queryResults == null || queryResults.isEmpty()) {
                         break;
@@ -70,7 +78,11 @@ public class ChosenSuggestHandler extends Handler {
                             .filter(faculty -> faculty.getName().toLowerCase().contains(lowCaseQueryText))
                             .collect(Collectors.toList())
                             .get(resultId);
-                    dbService.saveFaculty(telegramId, Integer.valueOf(chosenFaculty.getId()), chosenFaculty.getName());
+                    dbProcessor.setCurrentEducationFaculty(
+                            telegramId,
+                            Integer.valueOf(chosenFaculty.getId()),
+                            chosenFaculty.getName()
+                    );
                     break;
                 default:
                     throw new UnsupportedOperationException();

@@ -15,4 +15,48 @@ public class EducationServiceImpl extends GenericServiceImpl<Education, Integer,
     public EducationServiceImpl(EducationDAO educationDAO, SessionFactory sessionFactory) {
         super(educationDAO, sessionFactory);
     }
+
+    @Override
+    public Education getCurrentByTelegramId(Long telegramId) {
+        return inTransaction(() -> dao.getCurrentByTelegramId(telegramId));
+    }
+
+    @Override
+    public void setCurrentEducationFaculty(Long telegramId, Integer facultyId, String facultyName) {
+        inTransaction(() -> {
+            Education education = getCurrentByTelegramId(telegramId);
+            education.setFacultyId(facultyId);
+            education.setFacultyName(facultyName);
+            update(education);
+        });
+    }
+
+    @Override
+    public void setCurrentEducationSpeciality(Long telegramId, Integer specialityId, String specialityName) {
+        inTransaction(() -> {
+            Education education = getCurrentByTelegramId(telegramId);
+            education.setSpecialityId(specialityId);
+            education.setSpecialityName(specialityName);
+            update(education);
+        });
+    }
+
+    @Override
+    public void setCurrentEducationYear(Long telegramId, Integer educationYear) {
+        inTransaction(() -> {
+            Education education = getCurrentByTelegramId(telegramId);
+            education.setYear(educationYear);
+            update(education);
+        });
+    }
+
+    @Override
+    public void setCurrentEducationInstitute(Long telegramId, Integer instituteHHId, String instituteName) {
+        inTransaction(() -> {
+            Education education = getCurrentByTelegramId(telegramId);
+            education.setInstitutionId(instituteHHId);
+            education.setInstitutionName(instituteName);
+            update(education);
+        });
+    }
 }

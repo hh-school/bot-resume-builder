@@ -1,7 +1,7 @@
 package ru.hh.resumebuilderbot.telegram.handler.message;
 
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.DBService;
+import ru.hh.resumebuilderbot.DBProcessor;
 import ru.hh.resumebuilderbot.database.model.SalaryCurrency;
 import ru.hh.resumebuilderbot.database.model.education.EducationLevel;
 import ru.hh.resumebuilderbot.database.model.gender.Gender;
@@ -17,13 +17,13 @@ import java.util.Date;
 import java.util.List;
 
 public class AnswerMessageHandler extends MessageHandler {
-    public AnswerMessageHandler(DBService dbService, Graph graph) {
-        super(dbService, graph);
+    public AnswerMessageHandler(DBProcessor dbProcessor, Graph graph) {
+        super(dbProcessor, graph);
     }
 
     @Override
     public List<Question> handle(Long telegramId, Answer answer) {
-        Integer currentNodeId = dbService.getNodeId(telegramId);
+        Integer currentNodeId = dbProcessor.getNodeId(telegramId);
         QuestionNode currentQuestionNode = graph.getNode(currentNodeId);
         log.info("User {} answer {} for question {}", telegramId, answer.getAnswerBody(),
                 currentQuestionNode.getQuestion().getText());
@@ -35,12 +35,12 @@ public class AnswerMessageHandler extends MessageHandler {
             }
             Integer nextNodeId = currentQuestionNode.getNextIndex(answer);
             currentQuestionNode = graph.getNode(nextNodeId);
-            dbService.saveNodeId(telegramId, nextNodeId);
+            dbProcessor.setNodeId(telegramId, nextNodeId);
         } else if (currentNodeId == 3) {
             //FIXME чтобы не было попытки сохранить строковый ответ в поле телефона, но опросник пошел дальше
             Integer nextNodeId = currentQuestionNode.getNextIndex(answer);
             currentQuestionNode = graph.getNode(nextNodeId);
-            dbService.saveNodeId(telegramId, nextNodeId);
+            dbProcessor.setNodeId(telegramId, nextNodeId);
         } else {
             questions.add(new Question(currentQuestionNode.getInvalidAnswerNotification()));
         }
@@ -51,70 +51,69 @@ public class AnswerMessageHandler extends MessageHandler {
     private void saveValue(Long telegramId, String field, String value) {
         switch (field) {
             case "firstName":
-                dbService.saveFirstname(telegramId, value);
+                dbProcessor.setFirstName(telegramId, value);
                 break;
             case "lastName":
-                dbService.saveLastName(telegramId, value);
+                dbProcessor.setLastName(telegramId, value);
                 break;
             case "phoneNumber":
-                dbService.savePhoneNumber(telegramId, value);
+                dbProcessor.setPhoneNumber(telegramId, value);
                 break;
             case "birthDate":
-                dbService.saveBirthDate(telegramId, getDateFromString(value, "yyyy.MM.dd"));
+                dbProcessor.setBirthDate(telegramId, getDateFromString(value, "yyyy.MM.dd"));
                 break;
             case "gender":
-                dbService.saveGender(telegramId, getGenderFromCode(value));
+                dbProcessor.setGender(telegramId, getGenderFromCode(value));
                 break;
             case "area":
-                dbService.saveUserArea(telegramId, value, null);
+                dbProcessor.saveUserArea(telegramId, value, null);
                 break;
             case "educationType":
-                dbService.addNewEducation(telegramId);
-                dbService.saveEducationLevel(telegramId, EducationLevel.fromCode(value));
+                dbProcessor.createUserEducation(telegramId, EducationLevel.fromCode(value));
                 break;
             case "institute":
-                dbService.saveInstitute(telegramId, value);
+                dbProcessor.saveInstitute(telegramId, value);
                 break;
             case "faculty":
-                dbService.saveFaculty(telegramId, value);
+                dbProcessor.setCurrentEducationFaculty(telegramId, value);
                 break;
             case "speciality":
-                dbService.saveSpeciality(telegramId, value);
+                dbProcessor.setCurrentEducationSpeciality(telegramId, value);
                 break;
             case "educationEndDate":
-                dbService.saveEducationYear(telegramId, Integer.valueOf(value));
+                dbProcessor.setCurrentEducationYear(telegramId, Integer.valueOf(value));
                 break;
             case "experienceAdd":
                 if (value.equals("Да")) {
-                    dbService.addNewExperience(telegramId);
+                    dbProcessor.createUserExperience(telegramId);
                 }
                 break;
             case "company":
-                dbService.saveExperienceCompany(telegramId, value);
+                dbProcessor.saveCurrentExperienceCompany(telegramId, value);
                 break;
             case "workPosition":
-                dbService.saveExperiencePosition(telegramId, value);
+                dbProcessor.setCurrentExperiencePosition(telegramId, value);
                 break;
             case "workBeginDate":
-                dbService.saveExperienceStartDate(telegramId, getDateFromString(value, "yyyy.MM"));
+                dbProcessor.setCurrentExperienceStartDate(telegramId, getDateFromString(value, "yyyy.MM"));
                 break;
             case "workEndDate":
-                dbService.saveExperienceEndDate(telegramId, getDateFromString(value, "yyyy.MM"));
+                dbProcessor.setCurrentExperienceEndDate(telegramId, getDateFromString(value, "yyyy.MM"));
                 break;
             case "experienceDescription":
-                dbService.saveExperienceDescription(telegramId, value);
+                dbProcessor.setCurrentExperienceDescription(telegramId, value);
                 break;
             case "career_objective":
-                dbService.saveCareerObjective(telegramId, value);
+                dbProcessor.setCareerObjective(telegramId, value);
                 break;
             case "salaryAmount":
-                dbService.saveSalaryAmount(telegramId, Integer.valueOf(value));
+                dbProcessor.saveSalaryAmount(telegramId, Integer.valueOf(value));
                 break;
             case "salaryCurrency":
-                dbService.saveSalaryCurrency(telegramId, getCurrencyFromCode(value));
+                dbProcessor.saveSalaryCurrency(telegramId, getCurrencyFromCode(value));
                 break;
             case "skill":
-                dbService.saveSkill(telegramId, value);
+                dbProcessor.saveUserSkill(telegramId, value);
                 break;
             default:
                 log.warn("User {}. Не найдено поле {} в базе данных. Попытка сохранить данные в невалидном поле",

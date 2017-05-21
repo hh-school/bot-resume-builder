@@ -25,4 +25,21 @@ public class SkillServiceImpl extends GenericServiceImpl<Skill, Integer, SkillDA
     public Skill getSkillByName(String name) {
         return inTransaction(() -> dao.getSkillByName(name));
     }
+
+    @Override
+    public Skill getOrCreateSkill(String skillName, Integer skillHHId) {
+        return inTransaction(() -> {
+            Skill skill;
+            if (skillHHId != null) {
+                skill = getSkillByHHId(skillHHId);
+            } else {
+                skill = getSkillByName(skillName);
+            }
+            if (skill == null) {
+                skill = new Skill(skillName, skillHHId);
+                create(skill);
+            }
+            return skill;
+        });
+    }
 }

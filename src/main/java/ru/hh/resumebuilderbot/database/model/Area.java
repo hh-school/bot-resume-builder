@@ -23,6 +23,11 @@ public class Area {
     public Area() {
     }
 
+    public Area(String name, Integer hhId) {
+        this.name = name;
+        this.hhId = hhId;
+    }
+
     public Integer getId() {
         return id;
     }

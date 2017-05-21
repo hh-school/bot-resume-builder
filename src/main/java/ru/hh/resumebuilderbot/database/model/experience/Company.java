@@ -31,6 +31,11 @@ public class Company {
     public Company() {
     }
 
+    public Company(String name, Integer hhId) {
+        this.name = name;
+        this.hhId = hhId;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -7,4 +7,6 @@ public interface AreaService extends GenericService<Area, Integer> {
     Area getAreaByHHId(Integer hhId);
 
     Area getAreaByName(String name);
+
+    Area getOrCreateArea(String areaName, Integer areaHHId);
 }
