@@ -8,9 +8,15 @@ public interface EducationService extends GenericService<Education, Integer> {
 
     void setCurrentEducationFaculty(Long telegramId, Integer facultyId, String facultyName);
 
+    void setCurrentEducationFacultyName(Long telegramId, String facultyName);
+
     void setCurrentEducationSpeciality(Long telegramId, Integer specialityId, String specialityName);
+
+    void setCurrentEducationSpecialityName(Long telegramId, String specialityName);
 
     void setCurrentEducationYear(Long telegramId, Integer educationYear);
 
     void setCurrentEducationInstitute(Long telegramId, Integer instituteHHId, String instituteName);
+
+    void setCurrentEducationInstituteName(Long telegramId, String instituteName);
 }

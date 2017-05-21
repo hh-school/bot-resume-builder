@@ -31,7 +31,7 @@ public class ChosenSuggestHandler extends Handler {
             switch (neededSuggest) {
                 case INSTITUTES_SUGGEST:
                     Institute institute = suggestService.getInstitutes(queryText).get(resultId);
-                    dbProcessor.saveInstitute(
+                    dbProcessor.setCurrentEducationInstitute(
                             telegramId,
                             Integer.valueOf(institute.getId()),
                             institute.getText()

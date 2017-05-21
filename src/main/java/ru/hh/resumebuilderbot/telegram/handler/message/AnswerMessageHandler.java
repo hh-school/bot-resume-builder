@@ -72,13 +72,13 @@ public class AnswerMessageHandler extends MessageHandler {
                 dbProcessor.createUserEducation(telegramId, EducationLevel.fromCode(value));
                 break;
             case "institute":
-                dbProcessor.saveInstitute(telegramId, value);
+                dbProcessor.setCurrentEducationInstituteName(telegramId, value);
                 break;
             case "faculty":
-                dbProcessor.setCurrentEducationFaculty(telegramId, value);
+                dbProcessor.setCurrentEducationFacultyName(telegramId, value);
                 break;
             case "speciality":
-                dbProcessor.setCurrentEducationSpeciality(telegramId, value);
+                dbProcessor.setCurrentEducationSpecialityName(telegramId, value);
                 break;
             case "educationEndDate":
                 dbProcessor.setCurrentEducationYear(telegramId, Integer.valueOf(value));

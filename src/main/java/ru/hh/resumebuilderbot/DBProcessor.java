@@ -56,12 +56,12 @@ public class DBProcessor {
         return getUser(telegramId).getNodeId();
     }
 
-    public void saveInstitute(Long telegramId, Integer instituteHHId, String instituteName) {
+    public void setCurrentEducationInstitute(Long telegramId, Integer instituteHHId, String instituteName) {
         educationService.setCurrentEducationInstitute(telegramId, instituteHHId, instituteName);
     }
 
-    public void saveInstitute(Long telegramId, String instituteName) {
-        saveInstitute(telegramId, null, instituteName);
+    public void setCurrentEducationInstituteName(Long telegramId, String instituteName) {
+        educationService.setCurrentEducationInstituteName(telegramId, instituteName);
     }
 
     public Integer getInstituteHHId(Long telegramId) {
@@ -72,16 +72,16 @@ public class DBProcessor {
         educationService.setCurrentEducationFaculty(telegramId, facultyId, facultyName);
     }
 
-    public void setCurrentEducationFaculty(Long telegramId, String facultyName) {
-        setCurrentEducationFaculty(telegramId, null, facultyName);
+    public void setCurrentEducationFacultyName(Long telegramId, String facultyName) {
+        educationService.setCurrentEducationFacultyName(telegramId, facultyName);
     }
 
     public void setCurrentEducationSpeciality(Long telegramId, Integer specialityId, String specialityName) {
         educationService.setCurrentEducationSpeciality(telegramId, specialityId, specialityName);
     }
 
-    public void setCurrentEducationSpeciality(Long telegramId, String specialityName) {
-        setCurrentEducationSpeciality(telegramId, null, specialityName);
+    public void setCurrentEducationSpecialityName(Long telegramId, String specialityName) {
+        educationService.setCurrentEducationSpecialityName(telegramId, specialityName);
     }
 
     public void setCurrentEducationYear(Long telegramId, Integer educationYear) {
