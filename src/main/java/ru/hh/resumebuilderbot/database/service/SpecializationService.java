@@ -6,5 +6,5 @@ import ru.hh.resumebuilderbot.database.service.base.GenericService;
 public interface SpecializationService extends GenericService<Specialization, Integer> {
     Specialization getSpecializationByName(String name);
 
-    Specialization getSpecializationByHHId(Integer hhId);
+    Specialization getSpecializationByHHId(String hhId);
 }
