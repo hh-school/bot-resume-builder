@@ -105,8 +105,8 @@ public class AnswerMessageHandler extends MessageHandler {
             case "career_objective":
                 dbProcessor.setCareerObjective(telegramId, value);
                 break;
-            case "salaryAmount":
-                dbProcessor.saveSalaryAmount(telegramId, Integer.valueOf(value));
+            case "salary":
+                dbProcessor.saveSalary(telegramId, Integer.valueOf(value));
                 break;
             case "skill":
                 if (!value.equals("/stop")) {

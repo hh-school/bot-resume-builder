@@ -511,7 +511,7 @@
             <validator classpath="SalaryValidator"/>
             <saver classpath="DatabaseSaver">
                 <classData>
-                    <databaseField>salaryAmount</databaseField>
+                    <databaseField>salary</databaseField>
                 </classData>
             </saver>
         </nodeConstructor>
@@ -616,11 +616,6 @@
                     </question>
                 </classData>
             </base>
-            <saver classpath="DatabaseSaver">
-                <classData>
-                    <databaseField>skill</databaseField>
-                </classData>
-            </saver>
         </nodeConstructor>
         <links>
             <link name="next" value="15"/>

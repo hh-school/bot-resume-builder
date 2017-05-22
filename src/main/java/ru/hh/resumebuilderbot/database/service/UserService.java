@@ -17,9 +17,7 @@ public interface UserService extends GenericService<User, Integer> {
 
     void saveUserSpecialization(Long telegramId, String specializationName, String specializationHHId);
 
-    void setSalaryAmount(Long telegramId, Integer salaryAmount);
-
-    void setSalaryCurrency(Long telegramId, SalaryCurrency salaryCurrency);
+    void setSalary(Long telegramId, Integer salaryAmount, SalaryCurrency salaryCurrency);
 
     void setNodeId(Long telegramId, Integer nodeId);
 

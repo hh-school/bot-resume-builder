@@ -17,7 +17,7 @@ import java.util.Date;
 
 @Singleton
 public class DBProcessor {
-    public static final Logger log = LoggerFactory.getLogger(DBProcessor.class);
+    private static final Logger log = LoggerFactory.getLogger(DBProcessor.class);
     private final EducationService educationService;
     private final ExperienceService experienceService;
     private final UserService userService;
@@ -103,9 +103,8 @@ public class DBProcessor {
         userService.saveUserSpecialization(telegramId, specializationName, specializationHHId);
     }
 
-    public void saveSalaryAmount(Long telegramId, Integer salaryAmount) {
-        userService.setSalaryAmount(telegramId, salaryAmount);
-        userService.setSalaryCurrency(telegramId, SalaryCurrency.RUB);
+    public void saveSalary(Long telegramId, Integer salaryAmount) {
+        userService.setSalary(telegramId, salaryAmount, SalaryCurrency.RUB);
     }
 
     public void setNodeId(Long telegramId, Integer nodeId) {
