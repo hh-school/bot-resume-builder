@@ -76,18 +76,10 @@ public class UserServiceImpl extends GenericServiceImpl<User, Integer, UserDAO> 
     }
 
     @Override
-    public void setSalaryAmount(Long telegramId, Integer salaryAmount) {
+    public void setSalary(Long telegramId, Integer salaryAmount, SalaryCurrency salaryCurrency) {
         inTransaction(() -> {
             User user = getUserByTelegramId(telegramId);
             user.setSalaryAmount(salaryAmount);
-            update(user);
-        });
-    }
-
-    @Override
-    public void setSalaryCurrency(Long telegramId, SalaryCurrency salaryCurrency) {
-        inTransaction(() -> {
-            User user = getUserByTelegramId(telegramId);
             user.setSalaryCurrency(salaryCurrency);
             update(user);
         });

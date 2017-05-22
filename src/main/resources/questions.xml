@@ -125,6 +125,7 @@
                     </question>
                 </classData>
             </base>
+            <validator classpath="GenderValidator"/>
             <saver classpath="DatabaseSaver">
                 <classData>
                     <databaseField>gender</databaseField>
@@ -268,6 +269,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="В каком году закончили (или надеетесь закончить) обучение?">
+                        <keyboardType>YEAR</keyboardType>
                     </question>
                 </classData>
             </base>
@@ -502,38 +504,14 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question
-                            text="Сколько вы хотели бы зарабатывать в месяц? Лучше указать сумму, которую вы хотели бы получать на руки, после вычета всех налогов">
+                            text="Сколько вы хотели бы зарабатывать в месяц? Укажите сумму в рублях, которую вы хотели бы получать на руки, после вычета всех налогов">
                     </question>
                 </classData>
             </base>
             <validator classpath="SalaryValidator"/>
             <saver classpath="DatabaseSaver">
                 <classData>
-                    <databaseField>salaryAmount</databaseField>
-                </classData>
-            </saver>
-        </nodeConstructor>
-        <links>
-            <link name="next" value="102"/>
-        </links>
-    </graphNode>
-    <graphNode id="102">
-        <nodeConstructor>
-            <base classpath="QuestionNodeLinear">
-                <classData>
-                    <question text="Это в какой валюте?">
-                        <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
-                        <variantsOfAnswer othersAllowed="false">
-                            <variant text="Рубли"/>
-                            <variant text="Доллары"/>
-                            <variant text="Евро"/>
-                        </variantsOfAnswer>
-                    </question>
-                </classData>
-            </base>
-            <saver classpath="DatabaseSaver">
-                <classData>
-                    <databaseField>salaryCurrency</databaseField>
+                    <databaseField>salary</databaseField>
                 </classData>
             </saver>
         </nodeConstructor>
@@ -585,9 +563,67 @@
     </graphNode>
     <graphNode id="12">
         <nodeConstructor>
-            <base classpath="QuestionNodeTerminal">
-                <index>12</index>
+            <base classpath="QuestionNodeForking">
+                <classData>
+                    <answerPattern>Опубликовать резюме на сайте hh.ru</answerPattern>
+                    <question text="Ура, все готово! Новая работа уже совсем близко! ">
+                        <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
+                        <variantsOfAnswer othersAllowed="false">
+                            <variant text="Опубликовать резюме на сайте hh.ru"/>
+                            <variant text="Получить резюме в выбранном формате"/>
+                        </variantsOfAnswer>
+                    </question>
+                    <skippable>false</skippable>
+                </classData>
             </base>
+        </nodeConstructor>
+        <links>
+            <link name="nextYes" value="13"/>
+            <link name="nextNo" value="14"/>
+        </links>
+    </graphNode>
+    <graphNode id="13">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question
+                            text="Резюме загружено на сайт hh.ru. Уже совсем скоро вам начнут поступать звонки от заинтересованных работодателей.">
+                    </question>
+                </classData>
+            </base>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>skill</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="15"/>
+        </links>
+    </graphNode>
+    <graphNode id="14">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="В каком формате вы хотите получить резюме">
+                        <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
+                        <variantsOfAnswer othersAllowed="false">
+                            <variant text="TXT"/>
+                            <variant text="XML"/>
+                            <variant text="HTML"/>
+                            <variant text="PDF"/>
+                        </variantsOfAnswer>
+                    </question>
+                </classData>
+            </base>
+        </nodeConstructor>
+        <links>
+            <link name="next" value="15"/>
+        </links>
+    </graphNode>
+    <graphNode id="15">
+        <nodeConstructor>
+            <base classpath="QuestionNodeTerminal"/>
         </nodeConstructor>
     </graphNode>
 </graphNodes>

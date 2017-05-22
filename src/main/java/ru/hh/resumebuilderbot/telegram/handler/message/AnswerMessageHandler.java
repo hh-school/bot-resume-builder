@@ -2,12 +2,11 @@ package ru.hh.resumebuilderbot.telegram.handler.message;
 
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.DBProcessor;
-import ru.hh.resumebuilderbot.database.model.SalaryCurrency;
 import ru.hh.resumebuilderbot.database.model.education.EducationLevel;
-import ru.hh.resumebuilderbot.database.model.gender.Gender;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNode;
+import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator.GenderValidator;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -36,7 +35,7 @@ public class AnswerMessageHandler extends MessageHandler {
             Integer nextNodeId = currentQuestionNode.getNextIndex(answer);
             currentQuestionNode = graph.getNode(nextNodeId);
             dbProcessor.setNodeId(telegramId, nextNodeId);
-        } else if (currentNodeId == 3) {
+        } else if (currentNodeId == 3 && answer.getAnswerBody().toString().equals("Ввести другой номер телефона")) {
             //FIXME чтобы не было попытки сохранить строковый ответ в поле телефона, но опросник пошел дальше
             Integer nextNodeId = currentQuestionNode.getNextIndex(answer);
             currentQuestionNode = graph.getNode(nextNodeId);
@@ -63,7 +62,7 @@ public class AnswerMessageHandler extends MessageHandler {
                 dbProcessor.setBirthDate(telegramId, getDateFromString(value, "yyyy.MM.dd"));
                 break;
             case "gender":
-                dbProcessor.setGender(telegramId, getGenderFromCode(value));
+                dbProcessor.setGender(telegramId, GenderValidator.getGenderFromCode(value));
                 break;
             case "area":
                 dbProcessor.saveUserArea(telegramId, value, null);
@@ -106,14 +105,13 @@ public class AnswerMessageHandler extends MessageHandler {
             case "career_objective":
                 dbProcessor.setCareerObjective(telegramId, value);
                 break;
-            case "salaryAmount":
-                dbProcessor.saveSalaryAmount(telegramId, Integer.valueOf(value));
-                break;
-            case "salaryCurrency":
-                dbProcessor.saveSalaryCurrency(telegramId, getCurrencyFromCode(value));
+            case "salary":
+                dbProcessor.saveSalary(telegramId, Integer.valueOf(value));
                 break;
             case "skill":
-                dbProcessor.saveUserSkill(telegramId, value);
+                if (!value.equals("/stop")) {
+                    dbProcessor.saveUserSkill(telegramId, value);
+                }
                 break;
             default:
                 log.warn("User {}. Не найдено поле {} в базе данных. Попытка сохранить данные в невалидном поле",
@@ -130,31 +128,5 @@ public class AnswerMessageHandler extends MessageHandler {
             log.error("Date conversation failed", e);
             return new Date(System.currentTimeMillis());
         }
-    }
-
-    private Gender getGenderFromCode(String code) {
-        code = code.split(" ")[0];
-        if (code.equals("Мужской") || code.equals("Господин")) {
-            return Gender.MALE;
-        }
-        if (code.equals("Женский") || code.equals("Госпожа")) {
-            return Gender.FEMALE;
-        }
-        log.error("The code {} is not supported for Gender!", code);
-        return Gender.MALE;
-    }
-
-    private SalaryCurrency getCurrencyFromCode(String code) {
-        if (code.equals("Рубли")) {
-            return SalaryCurrency.RUB;
-        }
-        if (code.equals("Доллары")) {
-            return SalaryCurrency.USD;
-        }
-        if (code.equals("Евро")) {
-            return SalaryCurrency.EUR;
-        }
-        log.error("The code {} is not supported for Currency!", code);
-        return SalaryCurrency.RUB;
     }
 }
