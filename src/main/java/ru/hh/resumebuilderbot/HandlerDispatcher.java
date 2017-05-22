@@ -1,7 +1,6 @@
 package ru.hh.resumebuilderbot;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.telegram.handler.edit.MessageUpdateHandler;
@@ -30,9 +29,9 @@ class HandlerDispatcher {
     private final ChosenSuggestHandler chosenSuggestHandler;
 
     @Inject
-    public HandlerDispatcher(DBProcessor dbProcessor, Provider<Graph> graphProvider, SuggestService suggestService) {
+    public HandlerDispatcher(DBProcessor dbProcessor, Graph graph, SuggestService suggestService) {
         this.dbProcessor = dbProcessor;
-        this.graph = graphProvider.get();
+        this.graph = graph;
         this.messageHandlers = Collections.synchronizedMap(new LinkedHashMap<>());
         this.suggestHandler = new SuggestHandler(dbProcessor, graph, suggestService);
         this.chosenSuggestHandler = new ChosenSuggestHandler(dbProcessor, graph, suggestService);

@@ -34,17 +34,11 @@ public class GuiceCommonModule extends AbstractModule {
 
     @Provides
     @Singleton
-    @Named("GRAPH_FROM_XML")
     public Graph provideXMLGraph(@Named("GRAPH_XML_FILEPATH") String xmlFilepath) {
         try {
             return Graph.fromXMLFile(xmlFilepath);
         } catch (IOException e) {
             throw new RuntimeException("Error building graph", e);
         }
-    }
-
-    @Provides
-    public Graph provideGraph(@Named("GRAPH_FROM_XML") Graph graph) {
-        return graph.cloneContent();
     }
 }
