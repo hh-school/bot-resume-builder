@@ -7,4 +7,6 @@ public interface AreaDAO extends GenericDAO<Area, Integer> {
     Area getAreaByHHId(Integer hhId);
 
     Area getAreaByName(String name);
+
+    Area getAreaByHHIdOrName(Integer hhId, String name);
 }

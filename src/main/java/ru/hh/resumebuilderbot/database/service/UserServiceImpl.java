@@ -182,11 +182,13 @@ public class UserServiceImpl extends GenericServiceImpl<User, Integer, UserDAO> 
 
     @Override
     public void createUserExperience(Long telegramId) {
-        User user = getUserByTelegramId(telegramId);
-        Experience experience = new Experience(user);
-        experienceService.create(experience);
-        getCurrentSession().refresh(user);
-        user.setNodeRelationId(experience.getId());
-        update(user);
+        inTransaction(() -> {
+            User user = getUserByTelegramId(telegramId);
+            Experience experience = new Experience(user);
+            experienceService.create(experience);
+            getCurrentSession().refresh(user);
+            user.setNodeRelationId(experience.getId());
+            update(user);
+        });
     }
 }

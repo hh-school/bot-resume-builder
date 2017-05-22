@@ -7,4 +7,6 @@ public interface SpecializationDAO extends GenericDAO<Specialization, Integer> {
     Specialization getSpecializationByName(String name);
 
     Specialization getSpecializationByHHId(String hhId);
+
+    Specialization getSpecializationByHHIdOrName(String hhId, String name);
 }

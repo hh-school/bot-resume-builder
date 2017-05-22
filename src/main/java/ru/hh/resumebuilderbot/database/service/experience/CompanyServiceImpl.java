@@ -28,12 +28,7 @@ public class CompanyServiceImpl extends GenericServiceImpl<Company, Integer, Com
     @Override
     public Company getOrCreateCompany(String companyName, Integer companyHHId) {
         return inTransaction(() -> {
-            Company company;
-            if (companyHHId != null) {
-                company = getCompanyByHHId(companyHHId);
-            } else {
-                company = getCompanyByName(companyName);
-            }
+            Company company = dao.getCompanyByHHIdOrName(companyHHId, companyName);
             if (company == null) {
                 company = new Company(companyName, companyHHId);
                 create(company);

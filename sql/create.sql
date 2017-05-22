@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS area (
   id    SERIAL PRIMARY KEY,
-  hh_id INT,
+  hh_id INT UNIQUE,
   name  VARCHAR(255) NOT NULL
 );
 
@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS "user" (
 
 CREATE TABLE IF NOT EXISTS specialization (
   id    SERIAL PRIMARY KEY,
-  hh_id VARCHAR(100),
-  name  VARCHAR(255) NOT NULL
+  hh_id VARCHAR(100) UNIQUE,
+  name  VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS user__specialization (
@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS user__specialization (
 
 CREATE TABLE IF NOT EXISTS skill (
   id    SERIAL PRIMARY KEY,
-  hh_id INT,
-  name  VARCHAR(255) NOT NULL
+  hh_id INT UNIQUE,
+  name  VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS user__skill (
@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS user__skill (
 
 CREATE TABLE IF NOT EXISTS company (
   id      SERIAL PRIMARY KEY,
-  name    VARCHAR(255) NOT NULL,
-  hh_id   INT,
+  name    VARCHAR(255) UNIQUE NOT NULL,
+  hh_id   INT UNIQUE,
   area_id INT REFERENCES area (id)
 );
 
