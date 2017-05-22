@@ -7,4 +7,6 @@ public interface SkillDAO extends GenericDAO<Skill, Integer> {
     Skill getSkillByName(String name);
 
     Skill getSkillByHHId(Integer hhId);
+
+    Skill getSkillByHHIdOrName(Integer hhId, String name);
 }

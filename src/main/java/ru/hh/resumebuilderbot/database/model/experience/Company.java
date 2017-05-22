@@ -19,9 +19,9 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
-    @Column(name = "hh_id")
+    @Column(name = "hh_id", unique = true)
     private Integer hhId;
 
     @ManyToOne

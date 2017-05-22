@@ -28,14 +28,7 @@ public class AreaServiceImpl extends GenericServiceImpl<Area, Integer, AreaDAO> 
     @Override
     public Area getOrCreateArea(String areaName, Integer areaHHId) {
         return inTransaction(() -> {
-            Area area = null;
-            if (areaHHId != null) {
-                area = getAreaByHHId(areaHHId);
-            } else {
-                if (areaName != null) {
-                    area = getAreaByName(areaName);
-                }
-            }
+            Area area = dao.getAreaByHHIdOrName(areaHHId, areaName);
             if (area == null) {
                 area = new Area(areaName, areaHHId);
                 create(area);

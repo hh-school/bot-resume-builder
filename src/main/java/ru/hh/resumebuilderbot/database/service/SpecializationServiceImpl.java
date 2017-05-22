@@ -29,12 +29,7 @@ public class SpecializationServiceImpl extends GenericServiceImpl<Specialization
     @Override
     public Specialization getOrCreateSpecialization(String specializationName, String specializationHHId) {
         return inTransaction(() -> {
-            Specialization specialization;
-            if (specializationHHId != null) {
-                specialization = getSpecializationByHHId(specializationHHId);
-            } else {
-                specialization = getSpecializationByName(specializationName);
-            }
+            Specialization specialization = dao.getSpecializationByHHIdOrName(specializationHHId, specializationName);
             if (specialization == null) {
                 specialization = new Specialization(specializationName, specializationHHId);
                 create(specialization);

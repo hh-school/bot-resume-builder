@@ -15,9 +15,9 @@ public class Specialization {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
-    @Column(name = "hh_id", length = 100)
+    @Column(name = "hh_id", length = 100, unique = true)
     private String hhId;
 
     public Specialization() {

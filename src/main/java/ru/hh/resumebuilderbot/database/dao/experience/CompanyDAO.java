@@ -7,4 +7,6 @@ public interface CompanyDAO extends GenericDAO<Company, Integer> {
     Company getCompanyByHHId(Integer hhId);
 
     Company getCompanyByName(String name);
+
+    Company getCompanyByHHIdOrName(Integer hhId, String name);
 }
