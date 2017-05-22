@@ -46,10 +46,13 @@ public class KeyboardGenerator {
                 keyboard = generateSuggestKeyboard();
                 break;
             case DATE_WITH_DAY:
-                keyboard = generateYearsKeyboard(1980, true);
+                keyboard = generateYearsKeyboard(1980, "Day");
                 break;
             case DATE_WITHOUT_DAY:
-                keyboard = generateYearsKeyboard(1998, false);
+                keyboard = generateYearsKeyboard(1998, "Month");
+                break;
+            case YEAR:
+                keyboard = generateYearsKeyboard(2001, "Year");
                 break;
             default:
                 keyboard = new ReplyKeyboardRemove();
@@ -62,10 +65,13 @@ public class KeyboardGenerator {
         InlineKeyboardMarkup inlineKeyboard;
         switch (keyboardEnum) {
             case UPDATE_YEAR_WITH_DAY:
-                inlineKeyboard = generateYearsKeyboard(Integer.valueOf(dateInfo), true);
+                inlineKeyboard = generateYearsKeyboard(Integer.valueOf(dateInfo), "Day");
                 break;
             case UPDATE_YEAR_WITHOUT_DAY:
-                inlineKeyboard = generateYearsKeyboard(Integer.valueOf(dateInfo), false);
+                inlineKeyboard = generateYearsKeyboard(Integer.valueOf(dateInfo), "Month");
+                break;
+            case UPDATE_YEAR_WITHOUT_MONTH:
+                inlineKeyboard = generateYearsKeyboard(Integer.valueOf(dateInfo), "Year");
                 break;
             case UPDATE_MONTH_WITH_DAY:
                 inlineKeyboard = generateMonthsKeyboard(dateInfo, true);
@@ -89,7 +95,7 @@ public class KeyboardGenerator {
         List<InlineKeyboardButton> rowInline = new ArrayList<>();
         rowInline.add(new InlineKeyboardButton()
                 .setSwitchInlineQueryCurrentChat("")
-                .setText("Нажмите для получения вариантов-подсказки"));
+                .setText("Для появления подсказки нажмите на эту кнопку"));
         rowsInline.add(rowInline);
         result.setKeyboard(rowsInline);
         return result;
@@ -133,14 +139,23 @@ public class KeyboardGenerator {
         return keyboardMarkup;
     }
 
-    private static InlineKeyboardMarkup generateYearsKeyboard(Integer beginYear, boolean withDay) {
+    private static InlineKeyboardMarkup generateYearsKeyboard(Integer beginYear, String type) {
         int rowsAmount = 5;
         int colsAmount = 4;
         InlineKeyboardMarkup resultKeyboard = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> yearButtons = new ArrayList<>(rowsAmount + 1);
-        String keyboardEnum = withDay ? "keyEnum:UPDATE_MONTH_WITH_DAY"
-                : "keyEnum:UPDATE_MONTH_WITHOUT_DAY";
-
+        String keyboardEnum = "";
+        switch (type) {
+            case "Year":
+                keyboardEnum = "status:READY";
+                break;
+            case "Month":
+                keyboardEnum = "keyEnum:UPDATE_MONTH_WITHOUT_DAY";
+                break;
+            case "Day":
+                keyboardEnum = "keyEnum:UPDATE_MONTH_WITH_DAY";
+                break;
+        }
         for (int i = 0; i < rowsAmount; i++) {
             int rowBeginYear = beginYear + i * colsAmount;
             List<InlineKeyboardButton> row = new ArrayList<>(colsAmount);
@@ -154,14 +169,24 @@ public class KeyboardGenerator {
             yearButtons.add(row);
         }
 
-        yearButtons.add(getYearNavigateButtons(beginYear, rowsAmount * colsAmount, withDay));
+        yearButtons.add(getYearNavigateButtons(beginYear, rowsAmount * colsAmount, type));
         return resultKeyboard.setKeyboard(yearButtons);
     }
 
-    private static List<InlineKeyboardButton> getYearNavigateButtons(int beginYear, int diff, boolean withDay) {
+    private static List<InlineKeyboardButton> getYearNavigateButtons(int beginYear, int diff, String type) {
         List<InlineKeyboardButton> navigateRow = new ArrayList<>(2);
-        String keyboardEnum = withDay ? "keyEnum:UPDATE_YEAR_WITH_DAY"
-                : "keyEnum:UPDATE_YEAR_WITHOUT_DAY";
+        String keyboardEnum = "";
+        switch (type) {
+            case "Year":
+                keyboardEnum = "keyEnum:UPDATE_YEAR_WITHOUT_MONTH";
+                break;
+            case "Month":
+                keyboardEnum = "keyEnum:UPDATE_YEAR_WITHOUT_DAY";
+                break;
+            case "Day":
+                keyboardEnum = "keyEnum:UPDATE_YEAR_WITH_DAY";
+                break;
+        }
         InlineKeyboardButton backButton = new InlineKeyboardButton()
                 .setText("<<  Назад")
                 .setCallbackData(String.format("keyData:%d,%s", beginYear - diff, keyboardEnum));

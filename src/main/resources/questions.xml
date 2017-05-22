@@ -268,6 +268,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="В каком году закончили (или надеетесь закончить) обучение?">
+                        <keyboardType>YEAR</keyboardType>
                     </question>
                 </classData>
             </base>
@@ -502,7 +503,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question
-                            text="Сколько вы хотели бы зарабатывать в месяц? Лучше указать сумму, которую вы хотели бы получать на руки, после вычета всех налогов">
+                            text="Сколько вы хотели бы зарабатывать в месяц? Укажите сумму в рублях, которую вы хотели бы получать на руки, после вычета всех налогов">
                     </question>
                 </classData>
             </base>
@@ -510,30 +511,6 @@
             <saver classpath="DatabaseSaver">
                 <classData>
                     <databaseField>salaryAmount</databaseField>
-                </classData>
-            </saver>
-        </nodeConstructor>
-        <links>
-            <link name="next" value="102"/>
-        </links>
-    </graphNode>
-    <graphNode id="102">
-        <nodeConstructor>
-            <base classpath="QuestionNodeLinear">
-                <classData>
-                    <question text="Это в какой валюте?">
-                        <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
-                        <variantsOfAnswer othersAllowed="false">
-                            <variant text="Рубли"/>
-                            <variant text="Доллары"/>
-                            <variant text="Евро"/>
-                        </variantsOfAnswer>
-                    </question>
-                </classData>
-            </base>
-            <saver classpath="DatabaseSaver">
-                <classData>
-                    <databaseField>salaryCurrency</databaseField>
                 </classData>
             </saver>
         </nodeConstructor>

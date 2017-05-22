@@ -17,6 +17,7 @@ import java.util.Date;
 
 @Singleton
 public class DBProcessor {
+    public static final Logger log = LoggerFactory.getLogger(DBProcessor.class);
     private final EducationService educationService;
     private final ExperienceService experienceService;
     private final UserService userService;
@@ -29,8 +30,6 @@ public class DBProcessor {
         this.experienceService = experienceService;
         this.userService = userService;
     }
-
-    public static final Logger log = LoggerFactory.getLogger(DBProcessor.class);
 
     public boolean contains(Long telegramId) {
         User user = getUser(telegramId);
@@ -106,10 +105,7 @@ public class DBProcessor {
 
     public void saveSalaryAmount(Long telegramId, Integer salaryAmount) {
         userService.setSalaryAmount(telegramId, salaryAmount);
-    }
-
-    public void saveSalaryCurrency(Long telegramId, SalaryCurrency salaryCurrency) {
-        userService.setSalaryCurrency(telegramId, salaryCurrency);
+        userService.setSalaryCurrency(telegramId, SalaryCurrency.RUB);
     }
 
     public void setNodeId(Long telegramId, Integer nodeId) {
