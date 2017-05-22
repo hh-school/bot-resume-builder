@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ClearMessageHandler extends MessageHandler {
     public ClearMessageHandler(DBProcessor dbProcessor, Graph graph) {
-        super(dbProcessor, graph);
+        super(dbProcessor, graph, ClearMessageHandler.class);
     }
 
     @Override

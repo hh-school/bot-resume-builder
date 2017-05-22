@@ -10,8 +10,8 @@ import java.util.List;
 
 public abstract class MessageHandler extends Handler {
 
-    protected MessageHandler(DBProcessor dbProcessor, Graph graph) {
-        super(dbProcessor, graph);
+    protected MessageHandler(DBProcessor dbProcessor, Graph graph, Class<?> logClass) {
+        super(dbProcessor, graph, logClass);
     }
 
     public abstract List<Question> handle(Long telegramId, Answer answer);

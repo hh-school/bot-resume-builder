@@ -36,7 +36,7 @@ public class TelegramAdapter implements MessengerAdapter {
         try {
             bot.sendMessage(message);
         } catch (TelegramApiException e) {
-            log.error(e.getMessage());
+            log.error("Ask error", e);
         }
     }
 
@@ -61,7 +61,7 @@ public class TelegramAdapter implements MessengerAdapter {
             answerInlineQuery.setResults(inlineQueryResults);
             bot.answerInlineQuery(answerInlineQuery);
         } catch (TelegramApiException e) {
-            log.error(e.getMessage());
+            log.error("provideSuggests error", e);
         }
     }
 
@@ -95,7 +95,7 @@ public class TelegramAdapter implements MessengerAdapter {
                         messageUpdate.getMessageId(), messageUpdate.getTelegramId());
             }
         } catch (TelegramApiException e) {
-            log.error(e.getMessage());
+            log.error("message edit error", e);
         }
     }
 }

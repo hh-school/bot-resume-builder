@@ -12,7 +12,7 @@ import java.util.List;
 
 public class StartMessageHandler extends MessageHandler {
     public StartMessageHandler(DBProcessor dbProcessor, Graph graph) {
-        super(dbProcessor, graph);
+        super(dbProcessor, graph, StartMessageHandler.class);
     }
 
     @Override

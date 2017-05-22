@@ -13,7 +13,7 @@ import java.util.List;
 
 public class UnknownMessageHandler extends MessageHandler {
     public UnknownMessageHandler(DBProcessor dbProcessor, Graph graph) {
-        super(dbProcessor, graph);
+        super(dbProcessor, graph, UnknownMessageHandler.class);
     }
 
     @Override

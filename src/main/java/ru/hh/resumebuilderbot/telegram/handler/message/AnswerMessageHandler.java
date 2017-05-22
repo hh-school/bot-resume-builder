@@ -18,7 +18,7 @@ import java.util.List;
 
 public class AnswerMessageHandler extends MessageHandler {
     public AnswerMessageHandler(DBProcessor dbProcessor, Graph graph) {
-        super(dbProcessor, graph);
+        super(dbProcessor, graph, AnswerMessageHandler.class);
     }
 
     @Override
@@ -127,7 +127,7 @@ public class AnswerMessageHandler extends MessageHandler {
             DateFormat format = new SimpleDateFormat(pattern);
             return format.parse(rawDate);
         } catch (ParseException e) {
-            log.error("Date conversation failed with error {}", e.getMessage());
+            log.error("Date conversation failed", e);
             return new Date(System.currentTimeMillis());
         }
     }
