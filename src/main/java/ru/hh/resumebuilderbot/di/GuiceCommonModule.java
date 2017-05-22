@@ -7,7 +7,11 @@ import com.google.inject.name.Names;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import ru.hh.resumebuilderbot.Config;
+import ru.hh.resumebuilderbot.DBProcessor;
+import ru.hh.resumebuilderbot.HandlerDispatcher;
+import ru.hh.resumebuilderbot.SuggestService;
 import ru.hh.resumebuilderbot.database.HibernateMetadataFactory;
+import ru.hh.resumebuilderbot.http.HHHTTPService;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.TelegramConverter;
 
@@ -40,5 +44,12 @@ public class GuiceCommonModule extends AbstractModule {
         } catch (IOException e) {
             throw new RuntimeException("Error building graph", e);
         }
+    }
+
+    @Provides
+    @Singleton
+    public HandlerDispatcher provideHandlerDispatcher(DBProcessor dbProcessor, Graph graph,
+                                                      SuggestService suggestService, HHHTTPService hhhttpService) {
+        return HandlerDispatcher.buildWithHandlers(dbProcessor, graph, suggestService, hhhttpService);
     }
 }

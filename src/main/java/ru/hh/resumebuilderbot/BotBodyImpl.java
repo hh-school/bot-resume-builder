@@ -32,7 +32,7 @@ public class BotBodyImpl implements BotBody {
     @Override
     public void askNextQuestions(Long telegramId, Answer answer) {
         MessageHandler messageHandler = handlerDispatcher.getMessageHandler(answer);
-        messageHandler.handle(telegramId, answer).forEach((question) -> messengerAdapter.ask(telegramId, question));
+        messageHandler.handle(telegramId, answer).forEach(question -> messengerAdapter.ask(telegramId, question));
     }
 
     @Override
