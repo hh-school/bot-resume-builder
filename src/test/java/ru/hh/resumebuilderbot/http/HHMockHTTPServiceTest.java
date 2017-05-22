@@ -79,7 +79,7 @@ public class HHMockHTTPServiceTest {
         List<Vacancy> vacancies = response.body();
         List<Vacancy> expectedVacancies = getExpectedVacancies();
         assertEquals(vacancies.size(), expectedVacancies.size());
-        for (int i = 0; i < vacancies.size(); ++i){
+        for (int i = 0; i < vacancies.size(); ++i) {
             assertEquals(vacancies.get(i), expectedVacancies.get(i));
         }
     }

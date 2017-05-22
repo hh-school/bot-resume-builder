@@ -43,8 +43,7 @@ public class AnswerMessageHandler extends MessageHandler {
         } else {
             questions.add(new Question(currentQuestionNode.getInvalidAnswerNotification()));
         }
-        if (currentNodeId == 13)
-        {
+        if (currentNodeId == 13) {
             // push
         }
         questions.add(currentQuestionNode.getQuestion());

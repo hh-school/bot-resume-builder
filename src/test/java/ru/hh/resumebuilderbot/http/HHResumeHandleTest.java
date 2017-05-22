@@ -29,11 +29,10 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class HHResumeHandleTest {
+    public static final Pattern createResponsePattern = Pattern.compile("^/resumes/(.*?)$");
     private static final String AUTHORIZATION_HEADER = "Bearer " +
             "KBM2SU7D6L6CIS44VERLJ91S242K86C5J5953Q8A6EVIHUUDUSC9N6ONNLIRL5I9";
     private static HHHTTPService hhHTTPService;
-    public static final Pattern createResponsePattern = Pattern.compile("^/resumes/(.*?)$");
-
     private String resumeId;
 
     @BeforeClass
