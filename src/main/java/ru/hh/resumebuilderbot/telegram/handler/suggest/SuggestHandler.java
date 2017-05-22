@@ -18,7 +18,7 @@ public class SuggestHandler extends Handler {
     private final SuggestService suggestService;
 
     public SuggestHandler(DBProcessor dbProcessor, Graph graph, SuggestService suggestService) {
-        super(dbProcessor, graph);
+        super(dbProcessor, graph, SuggestHandler.class);
         this.suggestService = suggestService;
     }
 

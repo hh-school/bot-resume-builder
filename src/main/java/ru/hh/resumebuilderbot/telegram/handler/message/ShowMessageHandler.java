@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ShowMessageHandler extends MessageHandler {
     public ShowMessageHandler(DBProcessor dbProcessor, Graph graph) {
-        super(dbProcessor, graph);
+        super(dbProcessor, graph, ShowMessageHandler.class);
     }
 
     @Override

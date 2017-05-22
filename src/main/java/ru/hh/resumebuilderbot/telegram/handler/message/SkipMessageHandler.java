@@ -12,7 +12,7 @@ import java.util.List;
 
 public class SkipMessageHandler extends MessageHandler {
     public SkipMessageHandler(DBProcessor dbProcessor, Graph graph) {
-        super(dbProcessor, graph);
+        super(dbProcessor, graph, SkipMessageHandler.class);
     }
 
     @Override

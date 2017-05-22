@@ -8,7 +8,7 @@
     <!--Console appender -->
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%highlight(%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n)</pattern>
+            <pattern>%highlight(%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%file:%line] - %msg%n)</pattern>
         </encoder>
     </appender>
 

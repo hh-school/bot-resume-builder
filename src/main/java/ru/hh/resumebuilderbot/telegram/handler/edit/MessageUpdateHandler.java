@@ -13,7 +13,7 @@ import java.util.Map;
 public class MessageUpdateHandler extends Handler {
 
     public MessageUpdateHandler(DBProcessor dbProcessor, Graph graph) {
-        super(dbProcessor, graph);
+        super(dbProcessor, graph, MessageUpdateHandler.class);
     }
 
     public MessageUpdate handle(Long telegramId, Integer messageId, String callbackData) {

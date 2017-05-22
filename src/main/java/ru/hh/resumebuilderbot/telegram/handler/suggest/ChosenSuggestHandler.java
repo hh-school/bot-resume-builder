@@ -19,7 +19,7 @@ public class ChosenSuggestHandler extends Handler {
     private final SuggestService suggestService;
 
     public ChosenSuggestHandler(DBProcessor dbProcessor, Graph graph, SuggestService suggestService) {
-        super(dbProcessor, graph);
+        super(dbProcessor, graph, ChosenSuggestHandler.class);
         this.suggestService = suggestService;
     }
 

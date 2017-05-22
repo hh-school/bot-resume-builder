@@ -7,12 +7,13 @@ import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNode;
 
 public abstract class Handler {
-    protected static final Logger log = LoggerFactory.getLogger(Handler.class);
+    protected final Logger log;
     protected DBProcessor dbProcessor;
     protected Graph graph;
 
-    protected Handler(DBProcessor dbProcessor, Graph graph) {
+    protected Handler(DBProcessor dbProcessor, Graph graph, Class<?> logClass) {
         // TODO not all handlers require DBProcessor
+        log = LoggerFactory.getLogger(logClass);
         this.dbProcessor = dbProcessor;
         this.graph = graph;
     }
