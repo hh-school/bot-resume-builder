@@ -3,10 +3,10 @@ package ru.hh.resumebuilderbot.telegram.handler.message;
 import ru.hh.resumebuilderbot.Answer;
 import ru.hh.resumebuilderbot.DBProcessor;
 import ru.hh.resumebuilderbot.database.model.education.EducationLevel;
-import ru.hh.resumebuilderbot.database.model.gender.Gender;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNode;
+import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator.GenderValidator;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -62,7 +62,7 @@ public class AnswerMessageHandler extends MessageHandler {
                 dbProcessor.setBirthDate(telegramId, getDateFromString(value, "yyyy.MM.dd"));
                 break;
             case "gender":
-                dbProcessor.setGender(telegramId, getGenderFromCode(value));
+                dbProcessor.setGender(telegramId, GenderValidator.getGenderFromCode(value));
                 break;
             case "area":
                 dbProcessor.saveUserArea(telegramId, value, null);
@@ -128,17 +128,5 @@ public class AnswerMessageHandler extends MessageHandler {
             log.error("Date conversation failed", e);
             return new Date(System.currentTimeMillis());
         }
-    }
-
-    private Gender getGenderFromCode(String code) {
-        code = code.split(" ")[0];
-        if (code.equals("Мужской") || code.equals("Господин")) {
-            return Gender.MALE;
-        }
-        if (code.equals("Женский") || code.equals("Госпожа")) {
-            return Gender.FEMALE;
-        }
-        log.error("The code {} is not supported for Gender!", code);
-        return Gender.MALE;
     }
 }
