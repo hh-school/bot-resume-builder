@@ -12,6 +12,7 @@ public class PhoneNumberValidator extends Validator {
     public static final Logger log = LoggerFactory.getLogger(PhoneNumberValidator.class);
     public static final String DEFAULT_REGION = "RU";
     private static final PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+
     public PhoneNumberValidator() {
         super("Хм, это точно номер телефона? Как же расстроится работодатель, " +
                 "когда не сможет с вами связаться! Давайте попробуем еще раз!");

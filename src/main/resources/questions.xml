@@ -309,7 +309,8 @@
             <base classpath="QuestionNodeForking">
                 <classData>
                     <answerPattern>Да</answerPattern>
-                    <question text="Замечательно! С образованием разобрались, пора поговорить про опыт работы. Вы уже работали?">
+                    <question
+                            text="Замечательно! С образованием разобрались, пора поговорить про опыт работы. Вы уже работали?">
                         <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
                         <variantsOfAnswer othersAllowed="false">
                             <variant text="Да"/>
@@ -523,7 +524,8 @@
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <question text="Отлично! Осталось совсем чуть-чуть! Перечислите свои навыки: что вы умеете делать лучше всего, что пригодится вам в желаемой работе?">
+                    <question
+                            text="Отлично! Осталось совсем чуть-чуть! Перечислите свои навыки: что вы умеете делать лучше всего, что пригодится вам в желаемой работе?">
                         <keyboardType>SUGGEST</keyboardType>
                         <suggestType>SKILLS_SUGGEST</suggestType>
                     </question>
