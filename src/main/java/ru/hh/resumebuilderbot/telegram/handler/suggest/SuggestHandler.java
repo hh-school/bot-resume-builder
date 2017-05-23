@@ -69,8 +69,8 @@ public class SuggestHandler extends Handler {
             case COMPANIES_SUGGEST:
                 queryResults = suggestService.getCompanies(textForSearch);
                 break;
-            case SPECIALIZATIONS_SUGGEST:
-                queryResults = suggestService.getSpecializations(textForSearch);
+            case STUDY_FIELDS_SUGGEST:
+                queryResults = suggestService.getStudyFields(textForSearch);
                 break;
             case SKILLS_SUGGEST:
                 queryResults = suggestService.getSkills(textForSearch);

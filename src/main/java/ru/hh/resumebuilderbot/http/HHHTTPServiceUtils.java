@@ -14,7 +14,7 @@ import ru.hh.resumebuilderbot.http.response.entity.Company;
 import ru.hh.resumebuilderbot.http.response.entity.Institute;
 import ru.hh.resumebuilderbot.http.response.entity.Position;
 import ru.hh.resumebuilderbot.http.response.entity.Skill;
-import ru.hh.resumebuilderbot.http.response.entity.Specialization;
+import ru.hh.resumebuilderbot.http.response.entity.StudyField;
 import ru.hh.resumebuilderbot.http.response.entity.Vacancy;
 import ru.hh.resumebuilderbot.http.type.adapter.CompanyDeserializer;
 import ru.hh.resumebuilderbot.http.type.adapter.ItemsDeserializer;
@@ -61,8 +61,8 @@ public class HHHTTPServiceUtils {
                 }.getType(), new ItemsDeserializer<Position>())
                 .registerTypeAdapter(new TypeToken<List<Skill>>() {
                 }.getType(), new ItemsDeserializer<Skill>())
-                .registerTypeAdapter(new TypeToken<List<Specialization>>() {
-                }.getType(), new ItemsDeserializer<Specialization>())
+                .registerTypeAdapter(new TypeToken<List<StudyField>>() {
+                }.getType(), new ItemsDeserializer<StudyField>())
                 .registerTypeAdapter(new TypeToken<List<Vacancy>>() {
                 }.getType(), new ItemsDeserializer<Vacancy>())
 
