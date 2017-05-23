@@ -8,6 +8,7 @@
                     <skippable>false</skippable>
                 </classData>
             </base>
+            <validator classpath="NameValidator"/>
             <saver classpath="DatabaseSaver">
                 <classData>
                     <databaseField>firstName</databaseField>
@@ -26,6 +27,7 @@
                     <skippable>false</skippable>
                 </classData>
             </base>
+            <validator classpath="NameValidator"/>
             <saver classpath="DatabaseSaver">
                 <classData>
                     <databaseField>lastName</databaseField>
@@ -87,6 +89,11 @@
                 </classData>
             </base>
             <validator classpath="EMailValidator"/>
+            <saver classpath="DatabaseSaver">
+            <classData>
+                <databaseField>email</databaseField>
+            </classData>
+        </saver>
         </nodeConstructor>
         <links>
             <link name="next" value="5"/>

@@ -15,6 +15,7 @@ public class StartMessageHandlerFactory implements MessageHandlerFactory {
         this.dbProcessor = dbProcessor;
         this.graph = graph;
     }
+
     @Override
     public MessageHandler get() {
         return new StartMessageHandler(dbProcessor, graph);

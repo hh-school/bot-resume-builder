@@ -1,14 +1,10 @@
 package ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator;
 
 import ru.hh.resumebuilderbot.Answer;
-import ru.hh.resumebuilderbot.database.model.User;
 
-import java.util.regex.Pattern;
-
-public class SalaryValidator extends PatternValidator {
+public class SalaryValidator extends Validator {
     public SalaryValidator() {
-        pattern = Pattern.compile("^[\\d]+$");
-        notification = "Описание прекрасное, но мы же говорим про деньги? Введите желаемое число цифрами";
+        super("Описание прекрасное, но мы же говорим про деньги? Введите желаемое число цифрами");
     }
 
     @Override
@@ -18,7 +14,11 @@ public class SalaryValidator extends PatternValidator {
 
     @Override
     public boolean answerIsValid(Answer answer) {
-        String answerAsString = (String) answer.getAnswerBody();
-        return answerAsString.length() <= User.PHONE_LENGTH && pattern.matcher(answerAsString).matches();
+        try {
+            Integer salary = Integer.parseInt((String) answer.getAnswerBody());
+            return salary > 0;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }

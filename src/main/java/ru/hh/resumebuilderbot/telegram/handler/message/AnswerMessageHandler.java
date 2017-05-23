@@ -77,6 +77,9 @@ public class AnswerMessageHandler extends MessageHandler {
             case "phoneNumber":
                 dbProcessor.setPhoneNumber(telegramId, value);
                 break;
+            case "email":
+                dbProcessor.setEmail(telegramId, value);
+                break;
             case "birthDate":
                 dbProcessor.setBirthDate(telegramId, getDateFromString(value, "yyyy.MM.dd"));
                 break;

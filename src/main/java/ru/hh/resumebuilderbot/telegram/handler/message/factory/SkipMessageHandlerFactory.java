@@ -15,6 +15,7 @@ public class SkipMessageHandlerFactory implements MessageHandlerFactory {
         this.dbProcessor = dbProcessor;
         this.graph = graph;
     }
+
     @Override
     public MessageHandler get() {
         return new SkipMessageHandler(dbProcessor, graph);
