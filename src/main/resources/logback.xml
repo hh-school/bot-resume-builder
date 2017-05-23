@@ -24,4 +24,10 @@
         <appender-ref ref="Console"/>
         <appender-ref ref="Sentry"/>
     </root>
+
+    <logger name="okhttp3.logging.wire" additivity="false" level="DEBUG">
+        <appender-ref ref="File"/>
+        <appender-ref ref="Console"/>
+        <appender-ref ref="Sentry"/>
+    </logger>
 </configuration>
