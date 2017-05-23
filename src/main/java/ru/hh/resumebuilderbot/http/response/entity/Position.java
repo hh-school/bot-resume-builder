@@ -1,8 +1,18 @@
 package ru.hh.resumebuilderbot.http.response.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Position {
     private String id;
-    private String text;
+    private String name;
+    private List<Specialization> specializations = new ArrayList<>();
+
+    public Position(String id, String name, List<Specialization> specializations) {
+        this.id = id;
+        this.name = name;
+        this.specializations = specializations;
+    }
 
     public String getId() {
         return id;
@@ -12,16 +22,24 @@ public class Position {
         this.id = id;
     }
 
-    public String getText() {
-        return text;
+    public String getName() {
+        return name;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Specialization> getSpecializations() {
+        return specializations;
+    }
+
+    public void setSpecializations(List<Specialization> specializations) {
+        this.specializations = specializations;
     }
 
     @Override
     public String toString() {
-        return String.format("Position{id='%s', text='%s'}", id, text);
+        return String.format("Position{id='%s', name='%s'}", id, name);
     }
 }

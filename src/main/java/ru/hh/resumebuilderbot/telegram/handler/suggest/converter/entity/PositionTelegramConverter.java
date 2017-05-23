@@ -4,13 +4,19 @@ import org.telegram.telegrambots.api.objects.inlinequery.inputmessagecontent.Inp
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResultArticle;
 import ru.hh.resumebuilderbot.http.response.entity.Position;
 
+import java.util.stream.Collectors;
+
 public class PositionTelegramConverter implements EntityTelegramConverter<Position> {
     @Override
     public InlineQueryResultArticle convert(Position position) {
         InputTextMessageContent messageContent = new InputTextMessageContent();
-        messageContent.setMessageText(position.getText());
+        messageContent.setMessageText(position.getName());
+        String description = String.join(", ", position.getSpecializations().stream()
+                .map(specialization -> specialization.getName())
+                .collect(Collectors.toList()));
         return new InlineQueryResultArticle()
-                .setTitle(position.getText())
-                .setInputMessageContent(messageContent);
+                .setTitle(position.getName())
+                .setInputMessageContent(messageContent)
+                .setDescription(description);
     }
 }

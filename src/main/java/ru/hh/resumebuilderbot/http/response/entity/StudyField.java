@@ -1,8 +1,8 @@
 package ru.hh.resumebuilderbot.http.response.entity;
 
-public class Specialization {
+public class StudyField {
     private String id;
-    private String name;
+    private String text;
 
     public String getId() {
         return id;
@@ -12,16 +12,16 @@ public class Specialization {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getText() {
+        return text;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setText(String text) {
+        this.text = text;
     }
 
     @Override
     public String toString() {
-        return String.format("Specialization{id='%s', name='%s'}", id, name);
+        return String.format("StudyField{id='%s', text='%s'}", id, text);
     }
 }

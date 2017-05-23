@@ -250,7 +250,7 @@
                 <classData>
                     <question text="А специальность свою сможете вспомнить?">
                         <keyboardType>SUGGEST</keyboardType>
-                        <suggestType>SPECIALIZATIONS_SUGGEST</suggestType>
+                        <suggestType>STUDY_FIELDS_SUGGEST</suggestType>
                     </question>
                 </classData>
             </base>

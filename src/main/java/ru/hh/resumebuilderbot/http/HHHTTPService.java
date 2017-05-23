@@ -17,7 +17,7 @@ import ru.hh.resumebuilderbot.http.response.entity.Faculty;
 import ru.hh.resumebuilderbot.http.response.entity.Institute;
 import ru.hh.resumebuilderbot.http.response.entity.Position;
 import ru.hh.resumebuilderbot.http.response.entity.Skill;
-import ru.hh.resumebuilderbot.http.response.entity.Specialization;
+import ru.hh.resumebuilderbot.http.response.entity.StudyField;
 import ru.hh.resumebuilderbot.http.response.entity.Vacancy;
 
 import java.util.List;
@@ -55,7 +55,7 @@ public interface HHHTTPService {
     Call<List<Institute>> listInstitutes(@Query("text") String text, @Query("locale") String locale);
 
     @GET("suggests/fields_of_study")
-    Call<List<Specialization>> listSpecializations(@Query("text") String text, @Query("locale") String locale);
+    Call<List<StudyField>> listStudyFields(@Query("text") String text, @Query("locale") String locale);
 
     @GET("suggests/positions")
     Call<List<Position>> listPositions(@Query("text") String text, @Query("locale") String locale);

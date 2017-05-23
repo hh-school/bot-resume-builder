@@ -13,7 +13,7 @@ import ru.hh.resumebuilderbot.http.response.entity.Faculty;
 import ru.hh.resumebuilderbot.http.response.entity.Institute;
 import ru.hh.resumebuilderbot.http.response.entity.Position;
 import ru.hh.resumebuilderbot.http.response.entity.Skill;
-import ru.hh.resumebuilderbot.http.response.entity.Specialization;
+import ru.hh.resumebuilderbot.http.response.entity.StudyField;
 
 import java.io.IOException;
 import java.util.List;
@@ -65,8 +65,8 @@ public class SuggestService {
         return makeSafeRequest(() -> hhHTTPService.listCompanies(searchQuery, getQueryLanguage(searchQuery)));
     }
 
-    public List<Specialization> getSpecializations(String searchQuery) {
-        return makeSafeRequest(() -> hhHTTPService.listSpecializations(searchQuery, getQueryLanguage(searchQuery)));
+    public List<StudyField> getStudyFields(String searchQuery) {
+        return makeSafeRequest(() -> hhHTTPService.listStudyFields(searchQuery, getQueryLanguage(searchQuery)));
     }
 
     public List<Skill> getSkills(String searchQuery) {

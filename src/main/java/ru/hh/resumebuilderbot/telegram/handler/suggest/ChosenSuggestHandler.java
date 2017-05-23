@@ -8,7 +8,7 @@ import ru.hh.resumebuilderbot.http.response.entity.Faculty;
 import ru.hh.resumebuilderbot.http.response.entity.Institute;
 import ru.hh.resumebuilderbot.http.response.entity.Position;
 import ru.hh.resumebuilderbot.http.response.entity.Skill;
-import ru.hh.resumebuilderbot.http.response.entity.Specialization;
+import ru.hh.resumebuilderbot.http.response.entity.StudyField;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.telegram.handler.Handler;
 
@@ -45,10 +45,10 @@ public class ChosenSuggestHandler extends Handler {
                             Integer.valueOf(company.getId())
                     );
                     break;
-                case SPECIALIZATIONS_SUGGEST:
-                    Specialization specialization = suggestService.getSpecializations(queryText).get(resultId);
-                    dbProcessor.setCurrentEducationSpeciality(telegramId, Integer.valueOf(specialization.getId()),
-                            specialization.getText());
+                case STUDY_FIELDS_SUGGEST:
+                    StudyField studyField = suggestService.getStudyFields(queryText).get(resultId);
+                    dbProcessor.setCurrentEducationSpeciality(telegramId, Integer.valueOf(studyField.getId()),
+                            studyField.getText());
                     break;
                 case SKILLS_SUGGEST:
                     Skill skill = suggestService.getSkills(queryText).get(resultId);
@@ -57,10 +57,11 @@ public class ChosenSuggestHandler extends Handler {
                 case POSITIONS_SUGGEST:
                     Position position = suggestService.getPositions(queryText).get(resultId);
                     if (getCurrentNode(telegramId).getFieldNameToSave().equals("workPosition")) {
-                        dbProcessor.setCurrentExperiencePosition(telegramId, position.getText());
+                        dbProcessor.setCurrentExperiencePosition(telegramId, position.getName());
                     } else {
-                        //TODO add specialization and profArea save
-                        dbProcessor.setCareerObjective(telegramId, position.getText());
+                        dbProcessor.setCareerObjective(telegramId, position.getName());
+                        position.getSpecializations().forEach((spec ->
+                                dbProcessor.saveUserSpecialization(telegramId, spec.getName(), spec.getId())));
                     }
                     break;
                 case AREAS_SUGGEST:
