@@ -1,13 +1,18 @@
 package ru.hh.resumebuilderbot.telegram.handler.message;
 
+import retrofit2.Response;
 import ru.hh.resumebuilderbot.Answer;
+import ru.hh.resumebuilderbot.Config;
 import ru.hh.resumebuilderbot.DBProcessor;
+import ru.hh.resumebuilderbot.database.model.User;
 import ru.hh.resumebuilderbot.database.model.education.EducationLevel;
+import ru.hh.resumebuilderbot.http.HHHTTPService;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNode;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator.GenderValidator;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,8 +21,11 @@ import java.util.Date;
 import java.util.List;
 
 public class AnswerMessageHandler extends MessageHandler {
-    public AnswerMessageHandler(DBProcessor dbProcessor, Graph graph) {
+    private final HHHTTPService hhHTTPService;
+
+    public AnswerMessageHandler(DBProcessor dbProcessor, Graph graph, HHHTTPService hhHTTPService) {
         super(dbProcessor, graph, AnswerMessageHandler.class);
+        this.hhHTTPService = hhHTTPService;
     }
 
     @Override
@@ -43,8 +51,16 @@ public class AnswerMessageHandler extends MessageHandler {
         } else {
             questions.add(new Question(currentQuestionNode.getInvalidAnswerNotification()));
         }
-        if (currentNodeId == 13) {
-            // push
+        if (currentNodeId == 12 && answer.getAnswerBody().toString().equals("Опубликовать резюме на сайте hh.ru")) {
+            User user = dbProcessor.getUser(telegramId);
+            try {
+                Response<Void> response = hhHTTPService.createResume(user, Config.AUTHORIZATION_HEADER).execute();
+                if (response.code() != 200) {
+                    log.error("Error at resume push {}", response.errorBody().string());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         questions.add(currentQuestionNode.getQuestion());
         return questions;
