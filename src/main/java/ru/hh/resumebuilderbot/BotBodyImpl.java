@@ -42,6 +42,9 @@ public class BotBodyImpl implements BotBody {
         try {
             List<?> suggests = suggestHandler.getSuggestResults(telegramId, queryText);
             queryResults = telegramConverter.convertList(suggests);
+            if (queryResults.size() < 3) {
+                queryResults.add(NotificationInlineQueryResults.getNotFoundErrorResult(queryText).get(0));
+            }
         } catch (NonFacultiesFoundException e) {
             queryResults = NotificationInlineQueryResults.getNonFacultiesInstituteResult();
         } catch (NoSuggestsFoundException e) {

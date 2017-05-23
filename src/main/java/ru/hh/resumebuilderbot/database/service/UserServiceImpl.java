@@ -131,6 +131,15 @@ public class UserServiceImpl extends GenericServiceImpl<User, Integer, UserDAO> 
     }
 
     @Override
+    public void setEmail(Long telegramId, String email) {
+        inTransaction(() -> {
+            User user = getUserByTelegramId(telegramId);
+            user.setEmail(email);
+            update(user);
+        });
+    }
+
+    @Override
     public void setGender(Long telegramId, Gender gender) {
         inTransaction(() -> {
             User user = getUserByTelegramId(telegramId);

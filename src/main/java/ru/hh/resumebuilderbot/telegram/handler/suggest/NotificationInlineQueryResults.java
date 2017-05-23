@@ -26,11 +26,13 @@ public class NotificationInlineQueryResults {
     public static List<InlineQueryResult> getNotFoundErrorResult(String query) {
         List<InlineQueryResult> inlineQueryResults = new ArrayList<>(1);
         InputTextMessageContent messageContent = new InputTextMessageContent();
-        messageContent.setMessageText(TextsStorage.getText(TextId.NOTHING_SELECTED));
+        messageContent.setMessageText(query);
         InlineQueryResultArticle inlineQueryResult = new InlineQueryResultArticle()
                 .setId("52")
                 .setInputMessageContent(messageContent)
-                .setDescription(TextsStorage.getText(TextId.CHECK_INPUT_DATA))
+                .setDescription(String.format("Это всё, что нам удалось найти по запросу '%s'. Будет лучше, если " +
+                        "вы постараетесь выбрать вариант из списка, но если вы уверены, что ввели всё правильно, " +
+                        "выбирайте этот вариант", query))
                 .setTitle(String.format("По запросу '%s' ничего не найдено", query));
         inlineQueryResults.add(inlineQueryResult);
         return inlineQueryResults;

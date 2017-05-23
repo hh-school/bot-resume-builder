@@ -55,10 +55,11 @@ public class TelegramAdapter implements MessengerAdapter {
     @Override
     public void provideSuggests(String queryId, List<InlineQueryResult> inlineQueryResults) {
         try {
-            AnswerInlineQuery answerInlineQuery = new AnswerInlineQuery();
-            answerInlineQuery.setCacheTime(SUGGEST_CACHE_TIME);
-            answerInlineQuery.setInlineQueryId(queryId);
-            answerInlineQuery.setResults(inlineQueryResults);
+            AnswerInlineQuery answerInlineQuery = new AnswerInlineQuery()
+                    .setCacheTime(SUGGEST_CACHE_TIME)
+                    .setPersonal(true)
+                    .setInlineQueryId(queryId)
+                    .setResults(inlineQueryResults);
             bot.answerInlineQuery(answerInlineQuery);
         } catch (TelegramApiException e) {
             log.error("provideSuggests error", e);

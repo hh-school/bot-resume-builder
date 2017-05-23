@@ -127,6 +127,10 @@ public class DBProcessor {
         userService.setPhoneNumber(telegramId, phoneNumber);
     }
 
+    public void setEmail(Long telegramId, String email) {
+        userService.setEmail(telegramId, email);
+    }
+
     public void setGender(Long telegramId, Gender gender) {
         userService.setGender(telegramId, gender);
     }

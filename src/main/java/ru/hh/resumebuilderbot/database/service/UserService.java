@@ -29,6 +29,8 @@ public interface UserService extends GenericService<User, Integer> {
 
     void setPhoneNumber(Long telegramId, String phoneNumber);
 
+    void setEmail(Long telegramId, String email);
+
     void setGender(Long telegramId, Gender gender);
 
     void setCareerObjective(Long telegramId, String careerObjective);
