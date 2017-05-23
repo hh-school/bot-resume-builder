@@ -18,7 +18,6 @@ import ru.hh.resumebuilderbot.http.response.entity.StudyField;
 import ru.hh.resumebuilderbot.http.response.entity.Vacancy;
 import ru.hh.resumebuilderbot.http.type.adapter.CompanyDeserializer;
 import ru.hh.resumebuilderbot.http.type.adapter.ItemsDeserializer;
-import ru.hh.resumebuilderbot.http.type.adapter.PositionDeserializer;
 import ru.hh.resumebuilderbot.http.type.adapter.UserSerializer;
 import ru.hh.resumebuilderbot.http.type.adapter.VacancyDeserializer;
 
@@ -49,7 +48,6 @@ public class HHHTTPServiceUtils {
     public static Gson buildGson() {
         return new GsonBuilder()
                 .registerTypeAdapter(Company.class, new CompanyDeserializer())
-                .registerTypeAdapter(Position.class, new PositionDeserializer())
                 .registerTypeAdapter(User.class, new UserSerializer())
                 .registerTypeAdapter(Vacancy.class, new VacancyDeserializer())
 

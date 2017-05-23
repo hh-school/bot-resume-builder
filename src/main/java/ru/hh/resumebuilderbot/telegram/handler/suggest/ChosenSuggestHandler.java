@@ -8,6 +8,7 @@ import ru.hh.resumebuilderbot.http.response.entity.Faculty;
 import ru.hh.resumebuilderbot.http.response.entity.Institute;
 import ru.hh.resumebuilderbot.http.response.entity.Position;
 import ru.hh.resumebuilderbot.http.response.entity.Skill;
+import ru.hh.resumebuilderbot.http.response.entity.Specialization;
 import ru.hh.resumebuilderbot.http.response.entity.StudyField;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.telegram.handler.Handler;
@@ -60,8 +61,10 @@ public class ChosenSuggestHandler extends Handler {
                         dbProcessor.setCurrentExperiencePosition(telegramId, position.getName());
                     } else {
                         dbProcessor.setCareerObjective(telegramId, position.getName());
-                        position.getSpecializations().forEach((spec ->
-                                dbProcessor.saveUserSpecialization(telegramId, spec.getName(), spec.getId())));
+                        for (Specialization specialization : position.getSpecializations()) {
+                            dbProcessor.saveUserSpecialization(telegramId,
+                                    specialization.getName(), specialization.getId());
+                        }
                     }
                     break;
                 case AREAS_SUGGEST:

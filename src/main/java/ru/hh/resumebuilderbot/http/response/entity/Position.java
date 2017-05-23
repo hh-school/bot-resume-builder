@@ -1,18 +1,15 @@
 package ru.hh.resumebuilderbot.http.response.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Position {
     private String id;
+    @SerializedName(value = "text")
     private String name;
     private List<Specialization> specializations = new ArrayList<>();
-
-    public Position(String id, String name, List<Specialization> specializations) {
-        this.id = id;
-        this.name = name;
-        this.specializations = specializations;
-    }
 
     public String getId() {
         return id;
