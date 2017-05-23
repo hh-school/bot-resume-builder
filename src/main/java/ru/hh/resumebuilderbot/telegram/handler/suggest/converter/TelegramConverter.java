@@ -16,7 +16,7 @@ import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.entity.FacultyT
 import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.entity.InstituteTelegramConverter;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.entity.PositionTelegramConverter;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.entity.SkillTelegramConverter;
-import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.entity.SpecializationTelegramConverter;
+import ru.hh.resumebuilderbot.telegram.handler.suggest.converter.entity.StudyFieldTelegramConverter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class TelegramConverter {
                 .register(Institute.class, new InstituteTelegramConverter())
                 .register(Position.class, new PositionTelegramConverter())
                 .register(Skill.class, new SkillTelegramConverter())
-                .register(StudyField.class, new SpecializationTelegramConverter());
+                .register(StudyField.class, new StudyFieldTelegramConverter());
     }
 
     public <T> TelegramConverter register(Class<T> clazz, EntityTelegramConverter<T> entityTelegramConverter) {

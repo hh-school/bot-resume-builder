@@ -14,10 +14,14 @@ import ru.hh.resumebuilderbot.database.model.gender.Gender;
 import ru.hh.resumebuilderbot.database.service.base.GenericServiceImpl;
 import ru.hh.resumebuilderbot.database.service.education.EducationService;
 import ru.hh.resumebuilderbot.database.service.experience.ExperienceService;
+import ru.hh.resumebuilderbot.http.response.entity.Position;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 
 @Singleton
 public class UserServiceImpl extends GenericServiceImpl<User, Integer, UserDAO> implements UserService {
@@ -41,7 +45,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, Integer, UserDAO> 
 
     @Override
     public User getUserByTelegramId(long telegramId) {
-        return inTransaction(() -> dao.getByTelegramId(telegramId));
+        return inTransaction(() -> getCurrentSession().bySimpleNaturalId(User.class).load(telegramId));
     }
 
     @Override
@@ -60,17 +64,6 @@ public class UserServiceImpl extends GenericServiceImpl<User, Integer, UserDAO> 
             Skill skill = skillService.getOrCreateSkill(skillName, skillHHId);
             User user = getUserByTelegramId(telegramId);
             user.getSkills().add(skill);
-            update(user);
-        });
-    }
-
-    @Override
-    public void saveUserSpecialization(Long telegramId, String specializationName, String specializationHHId) {
-        inTransaction(() -> {
-            Specialization specialization = specializationService
-                    .getOrCreateSpecialization(specializationName, specializationHHId);
-            User user = getUserByTelegramId(telegramId);
-            user.getSpecializations().add(specialization);
             update(user);
         });
     }
@@ -145,6 +138,22 @@ public class UserServiceImpl extends GenericServiceImpl<User, Integer, UserDAO> 
             // TODO set in one query
             User user = getUserByTelegramId(telegramId);
             user.setCareerObjective(careerObjective);
+            update(user);
+        });
+    }
+
+    @Override
+    public void setCareerObjectiveWithSpecializations(Long telegramId, Position position) {
+        inTransaction(() -> {
+            User user = getUserByTelegramId(telegramId);
+            user.setCareerObjective(position.getName());
+            List<Specialization> specializations = new ArrayList<>(position.getSpecializations().size());
+            for (ru.hh.resumebuilderbot.http.response.entity.Specialization responseSpecialization :
+                    position.getSpecializations()) {
+                specializations.add(specializationService
+                        .getOrCreateSpecialization(responseSpecialization.getName(), responseSpecialization.getId()));
+            }
+            user.setSpecializations(new HashSet<>(specializations));
             update(user);
         });
     }

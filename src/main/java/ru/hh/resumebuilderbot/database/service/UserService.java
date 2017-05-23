@@ -5,6 +5,7 @@ import ru.hh.resumebuilderbot.database.model.User;
 import ru.hh.resumebuilderbot.database.model.education.EducationLevel;
 import ru.hh.resumebuilderbot.database.model.gender.Gender;
 import ru.hh.resumebuilderbot.database.service.base.GenericService;
+import ru.hh.resumebuilderbot.http.response.entity.Position;
 
 import java.util.Date;
 
@@ -14,8 +15,6 @@ public interface UserService extends GenericService<User, Integer> {
     void saveUserArea(Long telegramId, String areaName, Integer areaHHId);
 
     void saveUserSkill(Long telegramId, String skillName, Integer skillHHId);
-
-    void saveUserSpecialization(Long telegramId, String specializationName, String specializationHHId);
 
     void setSalary(Long telegramId, Integer salaryAmount, SalaryCurrency salaryCurrency);
 
@@ -32,6 +31,8 @@ public interface UserService extends GenericService<User, Integer> {
     void setGender(Long telegramId, Gender gender);
 
     void setCareerObjective(Long telegramId, String careerObjective);
+
+    void setCareerObjectiveWithSpecializations(Long telegramId, Position position);
 
     void delete(Long telegramId);
 

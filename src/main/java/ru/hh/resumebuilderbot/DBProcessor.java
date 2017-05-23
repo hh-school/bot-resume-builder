@@ -11,6 +11,7 @@ import ru.hh.resumebuilderbot.database.model.gender.Gender;
 import ru.hh.resumebuilderbot.database.service.UserService;
 import ru.hh.resumebuilderbot.database.service.education.EducationService;
 import ru.hh.resumebuilderbot.database.service.experience.ExperienceService;
+import ru.hh.resumebuilderbot.http.response.entity.Position;
 
 import java.util.Date;
 
@@ -99,10 +100,6 @@ public class DBProcessor {
         saveUserSkill(telegramId, skillName, null);
     }
 
-    public void saveUserSpecialization(Long telegramId, String specializationName, String specializationHHId) {
-        userService.saveUserSpecialization(telegramId, specializationName, specializationHHId);
-    }
-
     public void saveSalary(Long telegramId, Integer salaryAmount) {
         userService.setSalary(telegramId, salaryAmount, SalaryCurrency.RUB);
     }
@@ -133,6 +130,10 @@ public class DBProcessor {
 
     public void setCareerObjective(Long telegramId, String careerObjective) {
         userService.setCareerObjective(telegramId, careerObjective);
+    }
+
+    public void setCareerObjectiveWithSpecializations(Long telegramId, Position position) {
+        userService.setCareerObjectiveWithSpecializations(telegramId, position);
     }
 
     private void clear(Long telegramId) {
