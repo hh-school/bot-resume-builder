@@ -55,7 +55,7 @@ public class AnswerMessageHandler extends MessageHandler {
             User user = dbProcessor.getUser(telegramId);
             try {
                 Response<Void> response = hhHTTPService.createResume(user, Config.AUTHORIZATION_HEADER).execute();
-                if (response.code() != 200) {
+                if (response.code() != 201) {
                     log.error("Error at resume push {}", response.errorBody().string());
                 }
             } catch (IOException e) {

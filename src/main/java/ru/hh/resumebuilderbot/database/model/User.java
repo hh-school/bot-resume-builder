@@ -1,6 +1,7 @@
 package ru.hh.resumebuilderbot.database.model;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.NaturalId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.database.model.education.Education;
@@ -41,6 +42,7 @@ public class User {
     private Integer id;
     // Некоторые проверки на null убраны, чтобы можно было последовательно заполнять резюме, необходимо будет проверять
     // это в коде (telegram_id оставлен, чтобы нельзя было создать пользователя без привязки к telegram)
+    @NaturalId
     @Column(name = "telegram_id", nullable = false, unique = true, updatable = false)
     private long telegramId;
     @Temporal(TemporalType.DATE)
