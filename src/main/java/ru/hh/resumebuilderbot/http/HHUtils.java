@@ -6,8 +6,11 @@ import ru.hh.resumebuilderbot.database.model.gender.Gender;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HHUtils {
+    private static final Pattern createResponsePattern = Pattern.compile("^/resumes/(.*?)$");
     private static final Map<SalaryCurrency, String> currencyStringMap = new HashMap<>();
 
     static {
@@ -61,6 +64,19 @@ public class HHUtils {
 
         public String getTypeName() {
             return typeName;
+        }
+    }
+
+    public static String buildAuthorizationHeader(String tokenType, String accessToken) {
+        return String.format("%s %s", tokenType, accessToken);
+    }
+
+    public static String getResumeId(String locationHeader) {
+        Matcher matcher = createResponsePattern.matcher(locationHeader);
+        if (matcher.find()) {
+            return matcher.group(1);
+        } else {
+            throw new RuntimeException("Invalid location");
         }
     }
 }

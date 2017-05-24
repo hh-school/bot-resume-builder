@@ -22,16 +22,15 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class HHResumeHandleTest {
-    public static final Pattern createResponsePattern = Pattern.compile("^/resumes/(.*?)$");
-    private static final String AUTHORIZATION_HEADER = "Bearer " +
-            "KBM2SU7D6L6CIS44VERLJ91S242K86C5J5953Q8A6EVIHUUDUSC9N6ONNLIRL5I9";
+    private static final String AUTHORIZATION_HEADER = HHUtils.buildAuthorizationHeader(
+            "Bearer",
+            "KBM2SU7D6L6CIS44VERLJ91S242K86C5J5953Q8A6EVIHUUDUSC9N6ONNLIRL5I9"
+    );
     private static HHHTTPService hhHTTPService;
     private String resumeId;
 
@@ -120,12 +119,7 @@ public class HHResumeHandleTest {
         assertEquals(createResponse.code(), 201);
 
         String locationHeader = createResponse.headers().get("Location");
-        Matcher matcher = createResponsePattern.matcher(locationHeader);
-        if (matcher.find()) {
-            resumeId = matcher.group(1);
-        } else {
-            throw new RuntimeException("Invalid regexp");
-        }
+        resumeId = HHUtils.getResumeId(locationHeader);
 
         Response<Void> publishResponse = hhHTTPService.publishResume(resumeId, AUTHORIZATION_HEADER).execute();
         assertEquals(publishResponse.code(), 204);
