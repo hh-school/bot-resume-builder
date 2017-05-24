@@ -6,7 +6,6 @@ import ru.hh.resumebuilderbot.DBProcessor;
 import ru.hh.resumebuilderbot.MessageUpdate;
 import ru.hh.resumebuilderbot.http.HHHTTPService;
 import ru.hh.resumebuilderbot.http.HHUtils;
-import ru.hh.resumebuilderbot.http.request.entity.Negotiation;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.telegram.handler.Handler;
 
@@ -47,12 +46,10 @@ public class NegotiationHandler extends Handler {
                 Config.ACCESS_TOKEN_TYPE,
                 Config.ACCESS_TOKEN
         );
-        Negotiation negotiation = new Negotiation();
-        negotiation.setResumeId(resumeId);
-        negotiation.setVacancyId(vacancyId);
-        negotiation.setMessage("Отправлено при помощи HHResumeBot");
         try {
-            Response<Void> createResponse = hhHTTPService.createNegotiation(negotiation, authorizationHeader).execute();
+            Response<Void> createResponse = hhHTTPService
+                    .createNegotiation(resumeId, vacancyId, "Отправлено при помощи HHResumeBot", authorizationHeader)
+                    .execute();
             if (createResponse.code() != 201) {
                 log.error("Error at resume push {}", createResponse.errorBody().string());
             }

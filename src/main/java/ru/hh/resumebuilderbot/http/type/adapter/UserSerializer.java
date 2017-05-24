@@ -39,7 +39,9 @@ public class UserSerializer implements JsonSerializer<User> {
         if (birthDate != null) {
             userJson.addProperty("birth_date", formatter.format(birthDate));
         }
-        userJson.addProperty("title", user.getCareerObjective());
+        // hack для демонстрации, обход уникальности названий резюме
+        // userJson.addProperty("title", user.getCareerObjective());
+        userJson.addProperty("title", String.format("%s %d", user.getCareerObjective(), user.getTelegramId()));
 
         String phone = user.getPhone();
         String email = user.getEmail();

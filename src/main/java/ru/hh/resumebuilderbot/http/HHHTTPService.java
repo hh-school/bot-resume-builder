@@ -10,7 +10,6 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import ru.hh.resumebuilderbot.database.model.User;
-import ru.hh.resumebuilderbot.http.request.entity.Negotiation;
 import ru.hh.resumebuilderbot.http.response.entity.Area;
 import ru.hh.resumebuilderbot.http.response.entity.Company;
 import ru.hh.resumebuilderbot.http.response.entity.Faculty;
@@ -28,7 +27,12 @@ public interface HHHTTPService {
     Call<List<Faculty>> listFaculties(@Path("institution_id") String institutionId, @Query("locale") String locale);
 
     @POST("negotiations")
-    Call<Void> createNegotiation(@Body Negotiation negotiation, @Header("Authorization") String authorization);
+    Call<Void> createNegotiation(
+            @Query("resume_id") String resumeId,
+            @Query("vacancy_id") String vacancyId,
+            @Query("message") String message,
+            @Header("Authorization") String authorization
+    );
 
     @POST("resumes")
     Call<Void> createResume(@Body User user, @Header("Authorization") String authorization);
