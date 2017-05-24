@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.http.HHHTTPService;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.telegram.handler.edit.MessageUpdateHandler;
+import ru.hh.resumebuilderbot.telegram.handler.edit.NegotiationHandler;
 import ru.hh.resumebuilderbot.telegram.handler.message.MessageHandler;
 import ru.hh.resumebuilderbot.telegram.handler.message.UnknownMessageHandler;
 import ru.hh.resumebuilderbot.telegram.handler.message.factory.AnswerMessageHandlerFactory;
@@ -32,6 +33,7 @@ public class HandlerDispatcher {
     private SuggestHandler suggestHandler;
     private ChosenSuggestHandler chosenSuggestHandler;
     private MessageHandler unknownMessageHandler;
+    private NegotiationHandler negotiationHandler;
 
     public static HandlerDispatcher buildWithHandlers(DBProcessor dbProcessor, Graph graph,
                                                       SuggestService suggestService, HHHTTPService hhHTTPService) {
@@ -45,7 +47,8 @@ public class HandlerDispatcher {
                 .registerUnknownMessageHandler(new UnknownMessageHandler(dbProcessor, graph))
                 .registerChosenSuggestHandler(new ChosenSuggestHandler(dbProcessor, graph, suggestService))
                 .registerSuggestHandler(new SuggestHandler(dbProcessor, graph, suggestService))
-                .registerMessageUpdateHandler(new MessageUpdateHandler(dbProcessor, graph));
+                .registerMessageUpdateHandler(new MessageUpdateHandler(dbProcessor, graph))
+                .registerNegotiationHandler(new NegotiationHandler(dbProcessor, graph, hhHTTPService));
     }
 
     public HandlerDispatcher registerUnknownMessageHandler(MessageHandler messageHandler) {
@@ -73,6 +76,11 @@ public class HandlerDispatcher {
         return this;
     }
 
+    public HandlerDispatcher registerNegotiationHandler(NegotiationHandler negotiationHandler) {
+        this.negotiationHandler = negotiationHandler;
+        return this;
+    }
+
     public MessageHandler getMessageHandler(Answer answer) {
         String answerText = answer.getAnswerBody().toString();
         for (Map.Entry<Pattern, MessageHandlerFactory> entry : messageHandlerFactories.entrySet()) {
@@ -97,5 +105,9 @@ public class HandlerDispatcher {
 
     public MessageUpdateHandler getMessageUpdateHandler() {
         return messageUpdateHandler;
+    }
+
+    public NegotiationHandler getNegotiationHandler() {
+        return negotiationHandler;
     }
 }

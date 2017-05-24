@@ -31,7 +31,7 @@ public class BotImpl extends TelegramLongPollingBot {
         } else if (update.getChosenInlineQuery() != null) {
             saveChosenSuggest(update.getChosenInlineQuery());
         } else if (update.getCallbackQuery() != null) {
-            updateMessage(update.getCallbackQuery());
+            callbackHandle(update.getCallbackQuery());
         }
         TelegramAnswer telegramAnswer = TelegramAnswerFactory.create(update);
         if (telegramAnswer != null) {
@@ -60,11 +60,15 @@ public class BotImpl extends TelegramLongPollingBot {
         this.botBody.saveChosenSuggest(telegramId, resultId, queryText);
     }
 
-    private void updateMessage(CallbackQuery callbackQuery) {
+    private void callbackHandle(CallbackQuery callbackQuery) {
         long telegramId = callbackQuery.getFrom().getId();
         Integer messageId = callbackQuery.getMessage().getMessageId();
         String callbackData = callbackQuery.getData();
-        this.botBody.updateMessage(telegramId, messageId, callbackData);
+        if (callbackData.contains("negotiation")) {
+            this.botBody.performNegotiation(telegramId, messageId, callbackData);
+        } else {
+            this.botBody.updateMessage(telegramId, messageId, callbackData);
+        }
     }
 
     @Override

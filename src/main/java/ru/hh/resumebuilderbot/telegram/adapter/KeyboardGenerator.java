@@ -55,6 +55,9 @@ public class KeyboardGenerator {
             case YEAR:
                 keyboard = generateYearsKeyboard(2001, "Year");
                 break;
+            case NEGOTIATION:
+                keyboard = generateNegotiationKeyboard(question.getCallbackData());
+                break;
             default:
                 keyboard = new ReplyKeyboardRemove();
                 break;
@@ -97,6 +100,18 @@ public class KeyboardGenerator {
         rowInline.add(new InlineKeyboardButton()
                 .setSwitchInlineQueryCurrentChat("")
                 .setText("Для появления подсказки нажмите на эту кнопку"));
+        rowsInline.add(rowInline);
+        result.setKeyboard(rowsInline);
+        return result;
+    }
+
+    private static InlineKeyboardMarkup generateNegotiationKeyboard(String callbackData) {
+        InlineKeyboardMarkup result = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+        List<InlineKeyboardButton> rowInline = new ArrayList<>();
+        rowInline.add(new InlineKeyboardButton()
+                .setText("Откликнуться на вакансию")
+                .setCallbackData(callbackData));
         rowsInline.add(rowInline);
         result.setKeyboard(rowsInline);
         return result;

@@ -18,6 +18,7 @@ public class Question {
 
     private final SuggestType suggestField;
     private final ReplyKeyboardEnum replyKeyboardEnum;
+    private String callbackData;
 
     public Question(String text, List<String> variantsOfAnswer, boolean otherVariantsAllowed) {
         this(text, variantsOfAnswer, otherVariantsAllowed, DEFAULT_SUGGEST_TYPE, DEFAULT_KEYBOARD);
@@ -50,6 +51,14 @@ public class Question {
 
     public String getText() {
         return text;
+    }
+
+    public String getCallbackData() {
+        return callbackData;
+    }
+
+    public void setCallbackData(String callbackData) {
+        this.callbackData = callbackData;
     }
 
     public boolean answerIsAllowed(Answer answer) {
