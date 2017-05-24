@@ -33,8 +33,10 @@ public class Experience {
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH},
+            fetch = FetchType.EAGER
+    )
     @JoinTable(
             name = "experience__industry",
             joinColumns = {@JoinColumn(name = "experience_id", nullable = false, updatable = false)},

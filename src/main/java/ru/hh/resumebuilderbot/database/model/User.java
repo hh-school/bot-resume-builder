@@ -60,7 +60,10 @@ public class User {
     //TODO заменить EAGER на LAZY
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Education> educations;
-    @ManyToOne
+    @ManyToOne(
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH},
+            fetch = FetchType.EAGER
+    )
     @JoinColumn(name = "area_id")
     private Area area;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
@@ -72,7 +75,10 @@ public class User {
     @Column(name = "career_objective")
     private String careerObjective;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH},
+            fetch = FetchType.EAGER
+    )
     @JoinTable(
             name = "user__specialization",
             joinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)},
@@ -80,7 +86,10 @@ public class User {
     )
     private Set<Specialization> specializations;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH},
+            fetch = FetchType.EAGER
+    )
     @JoinTable(
             name = "user__skill",
             joinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)},
