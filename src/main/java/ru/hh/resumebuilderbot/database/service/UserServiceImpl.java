@@ -157,13 +157,20 @@ public class UserServiceImpl extends GenericServiceImpl<User, Integer, UserDAO> 
         inTransaction(() -> {
             User user = getUserByTelegramId(telegramId);
             user.setCareerObjective(position.getName());
-            List<Specialization> specializations = new ArrayList<>(position.getSpecializations().size());
-            for (ru.hh.resumebuilderbot.http.response.entity.Specialization responseSpecialization :
-                    position.getSpecializations()) {
-                specializations.add(specializationService
-                        .getOrCreateSpecialization(responseSpecialization.getName(), responseSpecialization.getId()));
+            if (!user.getExperiences().isEmpty()) {
+                List<Specialization> specializations = new ArrayList<>(position.getSpecializations().size());
+                for (ru.hh.resumebuilderbot.http.response.entity.Specialization responseSpecialization :
+                        position.getSpecializations()) {
+                    specializations.add(
+                            specializationService
+                                    .getOrCreateSpecialization(
+                                            responseSpecialization.getName(),
+                                            responseSpecialization.getId()
+                                    )
+                    );
+                }
+                user.setSpecializations(new HashSet<>(specializations));
             }
-            user.setSpecializations(new HashSet<>(specializations));
             update(user);
         });
     }
