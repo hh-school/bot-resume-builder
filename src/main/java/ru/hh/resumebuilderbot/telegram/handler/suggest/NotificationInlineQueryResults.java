@@ -26,13 +26,11 @@ public class NotificationInlineQueryResults {
     public static List<InlineQueryResult> getNotFoundErrorResult(String query) {
         List<InlineQueryResult> inlineQueryResults = new ArrayList<>(1);
         InputTextMessageContent messageContent = new InputTextMessageContent();
-        messageContent.setMessageText(query);
+        messageContent.setMessageText(TextsStorage.getText(TextId.NOTHING_SELECTED));
         InlineQueryResultArticle inlineQueryResult = new InlineQueryResultArticle()
                 .setId("52")
                 .setInputMessageContent(messageContent)
-                .setDescription(String.format("Это всё, что нам удалось найти по запросу '%s'. Будет лучше, если " +
-                        "вы постараетесь выбрать вариант из списка, но если вы уверены, что ввели всё правильно, " +
-                        "выбирайте этот вариант", query))
+                .setDescription(TextsStorage.getText(TextId.CHECK_INPUT_DATA))
                 .setTitle(String.format("По запросу '%s' ничего не найдено", query));
         inlineQueryResults.add(inlineQueryResult);
         return inlineQueryResults;
@@ -47,6 +45,21 @@ public class NotificationInlineQueryResults {
                 .setInputMessageContent(messageContent)
                 .setDescription(TextsStorage.getText(TextId.NO_FACULTIES_FOUND_DESCRIPTION))
                 .setTitle(TextsStorage.getText(TextId.NO_FACULTIES_FOUND));
+        inlineQueryResults.add(inlineQueryResult);
+        return inlineQueryResults;
+    }
+
+    public static List<InlineQueryResult> getUserInputNotFoundResult(String query) {
+        List<InlineQueryResult> inlineQueryResults = new ArrayList<>(1);
+        InputTextMessageContent messageContent = new InputTextMessageContent();
+        messageContent.setMessageText(query);
+        InlineQueryResultArticle inlineQueryResult = new InlineQueryResultArticle()
+                .setId("54")
+                .setInputMessageContent(messageContent)
+                .setDescription(String.format("Это всё, что нам удалось найти по запросу '%s'. Будет лучше, если " +
+                        "вы постараетесь выбрать вариант из списка, но если вы уверены, что ввели всё правильно, " +
+                        "выбирайте этот вариант", query))
+                .setTitle(String.format("По запросу '%s' больше ничего не найдено", query));
         inlineQueryResults.add(inlineQueryResult);
         return inlineQueryResults;
     }

@@ -42,7 +42,8 @@ public class KeyboardGenerator {
             case VARIANTS_OF_ANSWER:
                 keyboard = generateVariantsOfAnswerKeyboard(question.getVariantsOfAnswer());
                 break;
-            case SUGGEST:
+            case WEAK_SUGGEST:
+            case STRONG_SUGGEST:
                 keyboard = generateSuggestKeyboard();
                 break;
             case DATE_WITH_DAY:

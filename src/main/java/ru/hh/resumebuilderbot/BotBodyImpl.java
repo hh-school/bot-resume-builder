@@ -39,16 +39,21 @@ public class BotBodyImpl implements BotBody {
     public void provideSuggests(Long telegramId, String queryText, String queryId) {
         List<InlineQueryResult> queryResults;
         SuggestHandler suggestHandler = handlerDispatcher.getSuggestHandler();
+        boolean isStrongSuggest = suggestHandler.isStrongSuggest(telegramId);
         try {
             List<?> suggests = suggestHandler.getSuggestResults(telegramId, queryText);
             queryResults = telegramConverter.convertList(suggests);
-            if (queryResults.size() < 3) {
-                queryResults.add(NotificationInlineQueryResults.getNotFoundErrorResult(queryText).get(0));
+            if (queryResults.size() < 3 && !isStrongSuggest) {
+                queryResults.add(NotificationInlineQueryResults.getUserInputNotFoundResult(queryText).get(0));
             }
         } catch (NonFacultiesFoundException e) {
             queryResults = NotificationInlineQueryResults.getNonFacultiesInstituteResult();
         } catch (NoSuggestsFoundException e) {
-            queryResults = NotificationInlineQueryResults.getNotFoundErrorResult(e.getTextForSearch());
+            if (isStrongSuggest) {
+                queryResults = NotificationInlineQueryResults.getNotFoundErrorResult(e.getTextForSearch());
+            } else {
+                queryResults = NotificationInlineQueryResults.getUserInputNotFoundResult(e.getTextForSearch());
+            }
         } catch (ShortSearchQueryException e) {
             queryResults = NotificationInlineQueryResults.getShortQueryErrorResult();
         }
