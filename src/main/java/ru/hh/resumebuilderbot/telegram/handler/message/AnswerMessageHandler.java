@@ -8,6 +8,7 @@ import ru.hh.resumebuilderbot.database.model.User;
 import ru.hh.resumebuilderbot.database.model.education.EducationLevel;
 import ru.hh.resumebuilderbot.http.HHHTTPService;
 import ru.hh.resumebuilderbot.http.HHUtils;
+import ru.hh.resumebuilderbot.http.response.entity.Vacancy;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.ReplyKeyboardEnum;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
@@ -52,6 +53,10 @@ public class AnswerMessageHandler extends MessageHandler {
             handleResumePush(telegramId);
         }
         questions.add(currentQuestionNode.getQuestion());
+
+        if (currentNodeId == 12 && answer.getAnswerBody().toString().equals("Опубликовать резюме на сайте hh.ru")) {
+            questions.addAll(getSimilarVacancies(telegramId));
+        }
         return questions;
     }
 
@@ -74,8 +79,35 @@ public class AnswerMessageHandler extends MessageHandler {
                 log.error("Error at resume publish {}", publishResponse.errorBody().string());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Error at resume push", e);
         }
+    }
+
+    private List<Question> getSimilarVacancies(Long telegramId) {
+        User user = dbProcessor.getUser(telegramId);
+        String authorizationHeader = HHUtils.buildAuthorizationHeader(
+                Config.ACCESS_TOKEN_TYPE,
+                Config.ACCESS_TOKEN
+        );
+        List<Question> questions = new ArrayList<>();
+        try {
+            Response<List<Vacancy>> vacancyResponse = hhHTTPService.listResumeSimilarVacancies(user.getHhResumeId(),
+                    authorizationHeader).execute();
+            if (vacancyResponse.code() != 200) {
+                log.error("Error at vacancy get {}", vacancyResponse.errorBody().string());
+                return questions;
+            }
+            int maxQuestionAmount = vacancyResponse.body().size() > 3 ? 3 : vacancyResponse.body().size();
+            for (Vacancy vacancy : vacancyResponse.body().subList(0, maxQuestionAmount)) {
+                Question question = new Question(vacancy.getUrl(), Question.DEFAULT_SUGGEST_TYPE,
+                        ReplyKeyboardEnum.NEGOTIATION);
+                question.setCallbackData("negotiation:" + vacancy.getId());
+                questions.add(question);
+            }
+        } catch (IOException e) {
+            log.error("Error at vacancies get", e);
+        }
+        return questions;
     }
 
     private void saveValue(Long telegramId, String field, String value) {

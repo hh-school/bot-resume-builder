@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<graphNodes root="1">
+<graphNodes root="13">
     <graphNode id="1">
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
@@ -600,7 +600,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question
-                            text="Резюме загружено на сайт hh.ru. Уже совсем скоро вам начнут поступать звонки от заинтересованных работодателей.">
+                            text="Резюме загружено на сайт hh.ru. Уже совсем скоро вам начнут поступать звонки от заинтересованных работодателей. Мы нашли для вас несколько подходящих вакансий:">
                     </question>
                 </classData>
             </base>

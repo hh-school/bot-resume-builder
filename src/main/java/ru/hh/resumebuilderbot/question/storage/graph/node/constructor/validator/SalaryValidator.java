@@ -15,8 +15,7 @@ public class SalaryValidator extends Validator {
     @Override
     public boolean answerIsValid(Answer answer) {
         try {
-            Integer salary = Integer.parseInt((String) answer.getAnswerBody());
-            return salary > 0;
+            return Integer.parseInt((String) answer.getAnswerBody()) > 0;
         } catch (NumberFormatException e) {
             return false;
         }

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.api.objects.inlinequery.result.InlineQueryResult;
 import ru.hh.resumebuilderbot.telegram.handler.edit.MessageUpdateHandler;
+import ru.hh.resumebuilderbot.telegram.handler.edit.NegotiationHandler;
 import ru.hh.resumebuilderbot.telegram.handler.message.MessageHandler;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.NotificationInlineQueryResults;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.SuggestHandler;
@@ -68,6 +69,12 @@ public class BotBodyImpl implements BotBody {
     @Override
     public void updateMessage(Long telegramId, Integer messageId, String callbackData) {
         MessageUpdateHandler handler = handlerDispatcher.getMessageUpdateHandler();
+        messengerAdapter.editMessage(handler.handle(telegramId, messageId, callbackData));
+    }
+
+    @Override
+    public void performNegotiation(Long telegramId, Integer messageId, String callbackData) {
+        NegotiationHandler handler = handlerDispatcher.getNegotiationHandler();
         messengerAdapter.editMessage(handler.handle(telegramId, messageId, callbackData));
     }
 

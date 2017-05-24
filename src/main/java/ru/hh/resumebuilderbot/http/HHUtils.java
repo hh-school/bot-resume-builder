@@ -52,6 +52,19 @@ public class HHUtils {
         }
     }
 
+    public static String buildAuthorizationHeader(String tokenType, String accessToken) {
+        return String.format("%s %s", tokenType, accessToken);
+    }
+
+    public static String getResumeId(String locationHeader) {
+        Matcher matcher = createResponsePattern.matcher(locationHeader);
+        if (matcher.find()) {
+            return matcher.group(1);
+        } else {
+            throw new RuntimeException("Invalid location");
+        }
+    }
+
     public enum EducationType {
         ELEMENTARY("elementary"),
         PRIMARY("primary");
@@ -64,19 +77,6 @@ public class HHUtils {
 
         public String getTypeName() {
             return typeName;
-        }
-    }
-
-    public static String buildAuthorizationHeader(String tokenType, String accessToken) {
-        return String.format("%s %s", tokenType, accessToken);
-    }
-
-    public static String getResumeId(String locationHeader) {
-        Matcher matcher = createResponsePattern.matcher(locationHeader);
-        if (matcher.find()) {
-            return matcher.group(1);
-        } else {
-            throw new RuntimeException("Invalid location");
         }
     }
 }
