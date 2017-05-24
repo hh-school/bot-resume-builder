@@ -109,6 +109,7 @@
                     <skippable>false</skippable>
                 </classData>
             </base>
+            <validator classpath="BirthDateValidator"/>
             <saver classpath="DatabaseSaver">
                 <classData>
                     <databaseField>birthDate</databaseField>
@@ -538,6 +539,7 @@
                     </question>
                 </classData>
             </base>
+            <validator classpath="SkillValidator"/>
             <saver classpath="DatabaseSaver">
                 <classData>
                     <databaseField>skill</databaseField>
