@@ -43,6 +43,8 @@ public class DBProcessor {
 
     private void addNewUser(Long telegramId, Integer rootNodeId) {
         userService.create(new User(telegramId, rootNodeId));
+        // TODO move to experience choosing node
+        setStudentUserSpecialization(telegramId);
     }
 
     public void startNewChat(Long telegramId, Integer rootNodeId) {
@@ -174,6 +176,10 @@ public class DBProcessor {
 
     public void saveCurrentExperienceCompany(Long telegramId, String companyName) {
         saveCurrentExperienceCompany(telegramId, companyName, null);
+    }
+
+    public void setStudentUserSpecialization(Long telegramId) {
+        userService.setStudentUserSpecialization(telegramId);
     }
 
     public void setHHResumeId(Long telegramId, String hhResumeId) {

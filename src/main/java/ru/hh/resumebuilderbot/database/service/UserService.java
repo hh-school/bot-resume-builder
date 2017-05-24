@@ -43,4 +43,6 @@ public interface UserService extends GenericService<User, Integer> {
     void createUserExperience(Long telegramId);
 
     void setHHResumeId(Long telegramId, String hhResumeId);
+
+    void setStudentUserSpecialization(Long telegramId);
 }

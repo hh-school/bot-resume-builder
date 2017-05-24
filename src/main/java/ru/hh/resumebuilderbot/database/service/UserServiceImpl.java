@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Singleton
 public class UserServiceImpl extends GenericServiceImpl<User, Integer, UserDAO> implements UserService {
@@ -207,6 +208,24 @@ public class UserServiceImpl extends GenericServiceImpl<User, Integer, UserDAO> 
         inTransaction(() -> {
             User user = getUserByTelegramId(telegramId);
             user.setHhResumeId(hhResumeId);
+            update(user);
+        });
+    }
+
+    @Override
+    public void setStudentUserSpecialization(Long telegramId) {
+        inTransaction(() -> {
+            // Специализация захардкожена, так как в api hh, только при профобласти "15" - "Начало карьеры, студенты"
+            // можно не указывать опыт работы. Это требуется так как в опроснике явно не задаются специализации, а
+            // берутся из текущего
+            Specialization specialization = specializationService.getOrCreateSpecialization(
+                    "Наука, Образование",
+                    "15.167"
+            );
+            User user = getUserByTelegramId(telegramId);
+            Set<Specialization> specializations = user.getSpecializations();
+            specializations.clear();
+            specializations.add(specialization);
             update(user);
         });
     }
