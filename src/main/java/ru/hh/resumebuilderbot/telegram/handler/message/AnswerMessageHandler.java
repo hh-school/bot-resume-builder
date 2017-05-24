@@ -38,7 +38,7 @@ public class AnswerMessageHandler extends MessageHandler {
         log.info("User {} answer {} for question {}", telegramId, answer.getAnswerBody(),
                 currentQuestionNode.getQuestion().getText());
         List<Question> questions = new ArrayList<>(2);
-        if (answerIsValid(currentQuestionNode, answer, telegramId)) {
+        if (answerIsValid(currentNodeId, answer, telegramId)) {
             String databaseField = currentQuestionNode.getFieldNameToSave();
             if (databaseField != null) {
                 saveValue(telegramId, databaseField, answer.getAnswerBody().toString());
@@ -97,8 +97,11 @@ public class AnswerMessageHandler extends MessageHandler {
                 log.error("Error at vacancy get {}", vacancyResponse.errorBody().string());
                 return questions;
             }
-            int maxQuestionAmount = vacancyResponse.body().size() > 3 ? 3 : vacancyResponse.body().size();
-            for (Vacancy vacancy : vacancyResponse.body().subList(0, maxQuestionAmount)) {
+            List<Vacancy> vacancies = vacancyResponse.body();
+            if (vacancies.size() > 3) {
+                vacancies = vacancies.subList(0, 3);
+            }
+            for (Vacancy vacancy : vacancies) {
                 Question question = new Question(vacancy.getUrl(), Question.DEFAULT_SUGGEST_TYPE,
                         ReplyKeyboardEnum.NEGOTIATION);
                 question.setCallbackData("negotiation:" + vacancy.getId());
@@ -199,7 +202,8 @@ public class AnswerMessageHandler extends MessageHandler {
         }
     }
 
-    private boolean answerIsValid(QuestionNode currentQuestionNode, Answer answer, Long telegramId) {
+    private boolean answerIsValid(int currentNodeId, Answer answer, Long telegramId) {
+        QuestionNode currentQuestionNode = graph.getNode(currentNodeId);
         if (currentQuestionNode.getQuestion().getReplyKeyboardEnum() == ReplyKeyboardEnum.STRONG_SUGGEST) {
             if (currentQuestionNode.getFieldNameToSave().equals("area") &&
                     dbProcessor.getUser(telegramId).getArea() == null) {
@@ -208,6 +212,9 @@ public class AnswerMessageHandler extends MessageHandler {
                     dbProcessor.getUser(telegramId).getCareerObjective() == null) {
                 return false;
             }
+        }
+        if (currentNodeId == 3 && answer.getAnswerBody().equals("Ввести другой номер телефона")) {
+            return true;
         }
         return currentQuestionNode.answerIsValid(answer);
     }
