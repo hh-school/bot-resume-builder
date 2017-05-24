@@ -3,6 +3,7 @@ package ru.hh.resumebuilderbot.telegram.handler.suggest;
 import ru.hh.resumebuilderbot.DBProcessor;
 import ru.hh.resumebuilderbot.SuggestService;
 import ru.hh.resumebuilderbot.http.response.entity.Faculty;
+import ru.hh.resumebuilderbot.question.ReplyKeyboardEnum;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.telegram.handler.Handler;
 import ru.hh.resumebuilderbot.telegram.handler.suggest.exceptions.NoSuggestsFoundException;
@@ -85,5 +86,9 @@ public class SuggestHandler extends Handler {
                 throw new UnsupportedOperationException();
         }
         return queryResults;
+    }
+
+    public boolean isStrongSuggest(Long telegramId) {
+        return getCurrentNode(telegramId).getQuestion().getReplyKeyboardEnum() == ReplyKeyboardEnum.STRONG_SUGGEST;
     }
 }

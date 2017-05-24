@@ -149,11 +149,12 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="В каком городе вы живете?">
-                        <keyboardType>SUGGEST</keyboardType>
+                        <keyboardType>STRONG_SUGGEST</keyboardType>
                         <suggestType>AREAS_SUGGEST</suggestType>
                     </question>
                 </classData>
             </base>
+            <validator classpath="StrongSuggestChoiceValidator"/>
             <saver classpath="DatabaseSaver">
                 <classData>
                     <databaseField>area</databaseField>
@@ -215,7 +216,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Где именно вы учились?">
-                        <keyboardType>SUGGEST</keyboardType>
+                        <keyboardType>WEAK_SUGGEST</keyboardType>
                         <suggestType>INSTITUTES_SUGGEST</suggestType>
                     </question>
                     <skippable>false</skippable>
@@ -236,7 +237,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="На каком факультете?">
-                        <keyboardType>SUGGEST</keyboardType>
+                        <keyboardType>WEAK_SUGGEST</keyboardType>
                         <suggestType>FACULTIES_SUGGEST</suggestType>
                     </question>
                     <skippable>false</skippable>
@@ -257,7 +258,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="А специальность свою сможете вспомнить?">
-                        <keyboardType>SUGGEST</keyboardType>
+                        <keyboardType>WEAK_SUGGEST</keyboardType>
                         <suggestType>STUDY_FIELDS_SUGGEST</suggestType>
                     </question>
                 </classData>
@@ -343,7 +344,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Расскажите о своём опыте работы. В какой компании вы работали?">
-                        <keyboardType>SUGGEST</keyboardType>
+                        <keyboardType>WEAK_SUGGEST</keyboardType>
                         <suggestType>COMPANIES_SUGGEST</suggestType>
                     </question>
                 </classData>
@@ -363,7 +364,7 @@
             <base classpath="QuestionNodeLinear">
                 <classData>
                     <question text="Какую должность вы занимали">
-                        <keyboardType>SUGGEST</keyboardType>
+                        <keyboardType>WEAK_SUGGEST</keyboardType>
                         <suggestType>POSITIONS_SUGGEST</suggestType>
                     </question>
                 </classData>
@@ -493,11 +494,12 @@
                 <classData>
                     <question
                             text="Какую работу ищете? Укажите желаемую должность, чтобы работодатель мог проще вас найти.">
-                        <keyboardType>SUGGEST</keyboardType>
+                        <keyboardType>STRONG_SUGGEST</keyboardType>
                         <suggestType>POSITIONS_SUGGEST</suggestType>
                     </question>
                 </classData>
             </base>
+            <validator classpath="StrongSuggestChoiceValidator"/>
             <saver classpath="DatabaseSaver">
                 <classData>
                     <databaseField>career_objective</databaseField>
@@ -534,7 +536,7 @@
                 <classData>
                     <question
                             text="Отлично! Осталось совсем чуть-чуть! Перечислите свои навыки: что вы умеете делать лучше всего, что пригодится вам в желаемой работе?">
-                        <keyboardType>SUGGEST</keyboardType>
+                        <keyboardType>WEAK_SUGGEST</keyboardType>
                         <suggestType>SKILLS_SUGGEST</suggestType>
                     </question>
                 </classData>
@@ -556,7 +558,7 @@
                 <classData>
                     <answerPattern>/stop</answerPattern>
                     <question text="Хотите похвастаться еще одним своим навыком? Нажмите на /stop, чтобы пропустить">
-                        <keyboardType>SUGGEST</keyboardType>
+                        <keyboardType>WEAK_SUGGEST</keyboardType>
                         <suggestType>SKILLS_SUGGEST</suggestType>
                     </question>
                 </classData>

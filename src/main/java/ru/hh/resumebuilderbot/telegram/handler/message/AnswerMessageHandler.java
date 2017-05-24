@@ -9,6 +9,7 @@ import ru.hh.resumebuilderbot.database.model.education.EducationLevel;
 import ru.hh.resumebuilderbot.http.HHHTTPService;
 import ru.hh.resumebuilderbot.http.HHUtils;
 import ru.hh.resumebuilderbot.question.Question;
+import ru.hh.resumebuilderbot.question.ReplyKeyboardEnum;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNode;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.validator.GenderValidator;
@@ -36,16 +37,11 @@ public class AnswerMessageHandler extends MessageHandler {
         log.info("User {} answer {} for question {}", telegramId, answer.getAnswerBody(),
                 currentQuestionNode.getQuestion().getText());
         List<Question> questions = new ArrayList<>(2);
-        if (currentQuestionNode.answerIsValid(answer)) {
+        if (answerIsValid(currentQuestionNode, answer, telegramId)) {
             String databaseField = currentQuestionNode.getFieldNameToSave();
             if (databaseField != null) {
                 saveValue(telegramId, databaseField, answer.getAnswerBody().toString());
             }
-            Integer nextNodeId = currentQuestionNode.getNextIndex(answer);
-            currentQuestionNode = graph.getNode(nextNodeId);
-            dbProcessor.setNodeId(telegramId, nextNodeId);
-        } else if (currentNodeId == 3 && answer.getAnswerBody().toString().equals("Ввести другой номер телефона")) {
-            //FIXME чтобы не было попытки сохранить строковый ответ в поле телефона, но опросник пошел дальше
             Integer nextNodeId = currentQuestionNode.getNextIndex(answer);
             currentQuestionNode = graph.getNode(nextNodeId);
             dbProcessor.setNodeId(telegramId, nextNodeId);
@@ -91,7 +87,10 @@ public class AnswerMessageHandler extends MessageHandler {
                 dbProcessor.setLastName(telegramId, value);
                 break;
             case "phoneNumber":
-                dbProcessor.setPhoneNumber(telegramId, value);
+                //FIXME чтобы не было попытки сохранить строковый ответ в поле телефона, но опросник пошел дальше
+                if (!value.equals("Ввести другой номер телефона")) {
+                    dbProcessor.setPhoneNumber(telegramId, value);
+                }
                 break;
             case "email":
                 dbProcessor.setEmail(telegramId, value);
@@ -166,5 +165,18 @@ public class AnswerMessageHandler extends MessageHandler {
             log.error("Date conversation failed", e);
             return new Date(System.currentTimeMillis());
         }
+    }
+
+    private boolean answerIsValid(QuestionNode currentQuestionNode, Answer answer, Long telegramId) {
+        if (currentQuestionNode.getQuestion().getReplyKeyboardEnum() == ReplyKeyboardEnum.STRONG_SUGGEST) {
+            if (currentQuestionNode.getFieldNameToSave().equals("area") &&
+                    dbProcessor.getUser(telegramId).getArea() == null) {
+                return false;
+            } else if (currentQuestionNode.getFieldNameToSave().equals("career_objective") &&
+                    dbProcessor.getUser(telegramId).getCareerObjective() == null) {
+                return false;
+            }
+        }
+        return currentQuestionNode.answerIsValid(answer);
     }
 }
