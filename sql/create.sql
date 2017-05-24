@@ -18,8 +18,10 @@ CREATE TABLE IF NOT EXISTS "user" (
   salary_amount    INT,
   salary_currency  VARCHAR(3),
   create_datetime  TIMESTAMP WITH TIME ZONE,
+  update_datetime  TIMESTAMP WITH TIME ZONE,
   node_id          INT,
-  node_relation_id INT
+  node_relation_id INT,
+  hh_resume_id        VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS specialization (

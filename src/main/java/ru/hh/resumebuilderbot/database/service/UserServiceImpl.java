@@ -201,4 +201,13 @@ public class UserServiceImpl extends GenericServiceImpl<User, Integer, UserDAO> 
             update(user);
         });
     }
+
+    @Override
+    public void setHHResumeId(Long telegramId, String hhResumeId) {
+        inTransaction(() -> {
+            User user = getUserByTelegramId(telegramId);
+            user.setHhResumeId(hhResumeId);
+            update(user);
+        });
+    }
 }

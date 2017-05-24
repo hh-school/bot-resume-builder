@@ -7,6 +7,7 @@ import ru.hh.resumebuilderbot.DBProcessor;
 import ru.hh.resumebuilderbot.database.model.User;
 import ru.hh.resumebuilderbot.database.model.education.EducationLevel;
 import ru.hh.resumebuilderbot.http.HHHTTPService;
+import ru.hh.resumebuilderbot.http.HHUtils;
 import ru.hh.resumebuilderbot.question.Question;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.question.storage.graph.node.constructor.base.QuestionNode;
@@ -52,18 +53,33 @@ public class AnswerMessageHandler extends MessageHandler {
             questions.add(new Question(currentQuestionNode.getInvalidAnswerNotification()));
         }
         if (currentNodeId == 12 && answer.getAnswerBody().toString().equals("Опубликовать резюме на сайте hh.ru")) {
-            User user = dbProcessor.getUser(telegramId);
-            try {
-                Response<Void> response = hhHTTPService.createResume(user, Config.AUTHORIZATION_HEADER).execute();
-                if (response.code() != 201) {
-                    log.error("Error at resume push {}", response.errorBody().string());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            handleResumePush(telegramId);
         }
         questions.add(currentQuestionNode.getQuestion());
         return questions;
+    }
+
+    private void handleResumePush(Long telegramId) {
+        User user = dbProcessor.getUser(telegramId);
+        String authorizationHeader = HHUtils.buildAuthorizationHeader(
+                Config.ACCESS_TOKEN_TYPE,
+                Config.ACCESS_TOKEN
+        );
+        try {
+            Response<Void> createResponse = hhHTTPService.createResume(user, authorizationHeader).execute();
+            if (createResponse.code() != 201) {
+                log.error("Error at resume push {}", createResponse.errorBody().string());
+                return;
+            }
+            String hhResumeId = HHUtils.getResumeId(createResponse.headers().get("Location"));
+            dbProcessor.setHHResumeId(telegramId, hhResumeId);
+            Response<Void> publishResponse = hhHTTPService.publishResume(hhResumeId, authorizationHeader).execute();
+            if (publishResponse.code() != 204) {
+                log.error("Error at resume publish {}", publishResponse.errorBody().string());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void saveValue(Long telegramId, String field, String value) {

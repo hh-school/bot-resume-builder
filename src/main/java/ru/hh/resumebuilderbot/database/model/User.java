@@ -2,6 +2,7 @@ package ru.hh.resumebuilderbot.database.model;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.hh.resumebuilderbot.database.model.education.Education;
@@ -92,15 +93,22 @@ public class User {
     @Column(name = "salary_currency", length = 3)
     private SalaryCurrency salaryCurrency;
 
-    @Column(name = "create_datetime")
     @CreationTimestamp
+    @Column(name = "create_datetime")
     private Date createDatetime;
+
+    @UpdateTimestamp
+    @Column(name = "update_datetime")
+    private Date updateDatetime;
 
     @Column(name = "node_id")
     private Integer nodeId;
 
     @Column(name = "node_relation_id")
     private Integer nodeRelationId;
+
+    @Column(name = "hh_resume_id")
+    private String hhResumeId;
 
     public User() {
     }
@@ -254,12 +262,28 @@ public class User {
         this.createDatetime = createDatetime;
     }
 
+    public Date getUpdateDatetime() {
+        return updateDatetime;
+    }
+
+    public void setUpdateDatetime(Date updateDatetime) {
+        this.updateDatetime = updateDatetime;
+    }
+
     public Set<Education> getEducations() {
         return educations;
     }
 
     public void setEducations(Set<Education> educations) {
         this.educations = educations;
+    }
+
+    public String getHhResumeId() {
+        return hhResumeId;
+    }
+
+    public void setHhResumeId(String hhResumeId) {
+        this.hhResumeId = hhResumeId;
     }
 
     @Override
@@ -284,14 +308,16 @@ public class User {
                 Objects.equals(salaryAmount, user.salaryAmount) &&
                 salaryCurrency == user.salaryCurrency &&
                 Objects.equals(createDatetime, user.createDatetime) &&
+                Objects.equals(updateDatetime, user.updateDatetime) &&
                 Objects.equals(nodeId, user.nodeId) &&
-                Objects.equals(nodeRelationId, user.nodeRelationId);
+                Objects.equals(nodeRelationId, user.nodeRelationId) &&
+                Objects.equals(hhResumeId, user.hhResumeId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, telegramId, birthDate, email, phone, firstName, lastName, area, gender,
-                careerObjective, salaryAmount, salaryCurrency, createDatetime, nodeId, nodeRelationId);
+        return Objects.hash(id, telegramId, birthDate, email, phone, firstName, lastName, area, gender, careerObjective,
+                salaryAmount, salaryCurrency, createDatetime, updateDatetime, nodeId, nodeRelationId, hhResumeId);
     }
 
     @Override

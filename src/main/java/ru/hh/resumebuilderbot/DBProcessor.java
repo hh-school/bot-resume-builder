@@ -175,4 +175,8 @@ public class DBProcessor {
     public void saveCurrentExperienceCompany(Long telegramId, String companyName) {
         saveCurrentExperienceCompany(telegramId, companyName, null);
     }
+
+    public void setHHResumeId(Long telegramId, String hhResumeId) {
+        userService.setHHResumeId(telegramId, hhResumeId);
+    }
 }
