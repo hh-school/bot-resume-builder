@@ -10,6 +10,7 @@ import ru.hh.resumebuilderbot.Config;
 import ru.hh.resumebuilderbot.DBProcessor;
 import ru.hh.resumebuilderbot.HandlerDispatcher;
 import ru.hh.resumebuilderbot.SuggestService;
+import ru.hh.resumebuilderbot.cv.builder.PlainTextCVBuilder;
 import ru.hh.resumebuilderbot.database.HibernateMetadataFactory;
 import ru.hh.resumebuilderbot.http.HHHTTPService;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
@@ -49,7 +50,14 @@ public class GuiceCommonModule extends AbstractModule {
     @Provides
     @Singleton
     public HandlerDispatcher provideHandlerDispatcher(DBProcessor dbProcessor, Graph graph,
-                                                      SuggestService suggestService, HHHTTPService hhhttpService) {
-        return HandlerDispatcher.buildWithHandlers(dbProcessor, graph, suggestService, hhhttpService);
+                                                      SuggestService suggestService, HHHTTPService hhhttpService,
+                                                      PlainTextCVBuilder plainTextCVBuilder) {
+        return HandlerDispatcher.buildWithHandlers(
+                dbProcessor,
+                graph,
+                suggestService,
+                hhhttpService,
+                plainTextCVBuilder
+        );
     }
 }

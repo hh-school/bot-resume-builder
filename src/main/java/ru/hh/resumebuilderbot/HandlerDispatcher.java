@@ -3,6 +3,7 @@ package ru.hh.resumebuilderbot;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.hh.resumebuilderbot.cv.builder.PlainTextCVBuilder;
 import ru.hh.resumebuilderbot.http.HHHTTPService;
 import ru.hh.resumebuilderbot.question.storage.graph.Graph;
 import ru.hh.resumebuilderbot.telegram.handler.edit.MessageUpdateHandler;
@@ -37,10 +38,14 @@ public class HandlerDispatcher {
     private NegotiationHandler negotiationHandler;
 
     public static HandlerDispatcher buildWithHandlers(DBProcessor dbProcessor, Graph graph,
-                                                      SuggestService suggestService, HHHTTPService hhHTTPService) {
+                                                      SuggestService suggestService, HHHTTPService hhHTTPService,
+                                                      PlainTextCVBuilder plainTextCVBuilder) {
         return new HandlerDispatcher()
                 .registerMessageHandlerFactory("/start", new StartMessageHandlerFactory(dbProcessor, graph))
-                .registerMessageHandlerFactory("/show", new ShowMessageHandlerFactory(dbProcessor, graph))
+                .registerMessageHandlerFactory(
+                        "/show",
+                        new ShowMessageHandlerFactory(dbProcessor, graph, plainTextCVBuilder)
+                )
                 .registerMessageHandlerFactory("/clear", new ClearMessageHandlerFactory(dbProcessor, graph))
                 .registerMessageHandlerFactory("/skip", new SkipMessageHandlerFactory(dbProcessor, graph))
                 .registerMessageHandlerFactory("/push",

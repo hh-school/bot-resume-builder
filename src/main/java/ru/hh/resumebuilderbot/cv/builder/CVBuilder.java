@@ -1,5 +1,7 @@
 package ru.hh.resumebuilderbot.cv.builder;
 
-public interface CVBuilder {
-    String build(Long telegramId);
+import ru.hh.resumebuilderbot.database.model.User;
+
+public interface CVBuilder<T> {
+    T build(User telegramId);
 }
