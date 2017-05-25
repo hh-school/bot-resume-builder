@@ -208,6 +208,26 @@
             </saver>
         </nodeConstructor>
         <links>
+            <link name="next" value="802"/>
+        </links>
+    </graphNode>
+    <graphNode id="802">
+        <nodeConstructor>
+            <base classpath="QuestionNodeLinear">
+                <classData>
+                    <question text="В каком году закончили обучение?">
+                        <keyboardType>YEAR</keyboardType>
+                    </question>
+                </classData>
+            </base>
+            <validator classpath="EducationYearValidator"/>
+            <saver classpath="DatabaseSaver">
+                <classData>
+                    <databaseField>educationEndDate</databaseField>
+                </classData>
+            </saver>
+        </nodeConstructor>
+        <links>
             <link name="next" value="9"/>
         </links>
     </graphNode>

@@ -5,6 +5,7 @@ import ru.hh.resumebuilderbot.Answer;
 public class EducationYearValidator extends Validator {
     private static final int MAX_YEAR = 2025;
     private static final int MIN_YEAR = 1950;
+
     public EducationYearValidator() {
         super("Пожалуйста, выберите корректный год.");
     }
