@@ -1,7 +1,7 @@
 package ru.hh.resumebuilderbot.cv.builder;
 
 import org.joda.time.Interval;
-import ru.hh.resumebuilderbot.DBProcessor;
+import ru.hh.resumebuilderbot.database.model.Skill;
 import ru.hh.resumebuilderbot.database.model.User;
 import ru.hh.resumebuilderbot.database.model.education.Education;
 import ru.hh.resumebuilderbot.database.model.education.EducationLevel;
@@ -11,16 +11,9 @@ import ru.hh.resumebuilderbot.database.model.gender.Gender;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-public class PlainTextCVBuilder implements CVBuilder {
-    private DBProcessor dbProcessor;
-
-    public PlainTextCVBuilder(DBProcessor dbProcessor) {
-        this.dbProcessor = dbProcessor;
-    }
-
+public class PlainTextCVBuilder implements CVBuilder<String> {
     @Override
-    public String build(Long telegramId) {
-        User user = dbProcessor.getUser(telegramId);
+    public String build(User user) {
         StringBuilder resumeText = new StringBuilder();
         resumeText.append("Резюме: \n");
         resumeText.append(String.format("%s %s\n", user.getFirstName(), user.getLastName()));
@@ -30,7 +23,7 @@ public class PlainTextCVBuilder implements CVBuilder {
         resumeText.append(String.format("Телефон: %s\n", user.getPhone()));
         resumeText.append(String.format("Электронная почта: %s\n\n", user.getEmail()));
         resumeText.append(String.format("Город проживания: %s\n\n", user.getArea().getName()));
-        resumeText.append(user.getCareerObjective() + "\n\n");
+        resumeText.append(user.getCareerObjective()).append("\n\n");
         resumeText.append("Занятость: полная занятость\n" +
                 "График работы: полный день, гибкий график \n\n" +
                 "Опыт работы:\n");
@@ -56,7 +49,7 @@ public class PlainTextCVBuilder implements CVBuilder {
         }
         resumeText.append("Ключевые навыки:\n");
         String skills = String.join(", ", user.getSkills().stream()
-                .map(skill -> skill.getName())
+                .map(Skill::getName)
                 .collect(Collectors.toList()));
         resumeText.append(String.format("%s.", skills));
 
