@@ -12,6 +12,7 @@ import ru.hh.resumebuilderbot.telegram.handler.message.UnknownMessageHandler;
 import ru.hh.resumebuilderbot.telegram.handler.message.factory.AnswerMessageHandlerFactory;
 import ru.hh.resumebuilderbot.telegram.handler.message.factory.ClearMessageHandlerFactory;
 import ru.hh.resumebuilderbot.telegram.handler.message.factory.MessageHandlerFactory;
+import ru.hh.resumebuilderbot.telegram.handler.message.factory.PushMessageHandlerFactory;
 import ru.hh.resumebuilderbot.telegram.handler.message.factory.ShowMessageHandlerFactory;
 import ru.hh.resumebuilderbot.telegram.handler.message.factory.SkipMessageHandlerFactory;
 import ru.hh.resumebuilderbot.telegram.handler.message.factory.StartMessageHandlerFactory;
@@ -42,7 +43,9 @@ public class HandlerDispatcher {
                 .registerMessageHandlerFactory("/show", new ShowMessageHandlerFactory(dbProcessor, graph))
                 .registerMessageHandlerFactory("/clear", new ClearMessageHandlerFactory(dbProcessor, graph))
                 .registerMessageHandlerFactory("/skip", new SkipMessageHandlerFactory(dbProcessor, graph))
-                .registerMessageHandlerFactory(".*", new AnswerMessageHandlerFactory(dbProcessor, graph, hhHTTPService))
+                .registerMessageHandlerFactory("/push",
+                        new PushMessageHandlerFactory(dbProcessor, graph, hhHTTPService))
+                .registerMessageHandlerFactory(".*", new AnswerMessageHandlerFactory(dbProcessor, graph))
 
                 .registerUnknownMessageHandler(new UnknownMessageHandler(dbProcessor, graph))
                 .registerChosenSuggestHandler(new ChosenSuggestHandler(dbProcessor, graph, suggestService))

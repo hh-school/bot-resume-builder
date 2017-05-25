@@ -578,7 +578,6 @@
         <nodeConstructor>
             <base classpath="QuestionNodeLinear">
                 <classData>
-                    <answerPattern>Опубликовать резюме на сайте hh.ru</answerPattern>
                     <question text="Ура, все готово! Новая работа уже совсем близко! Чтобы просмотреть получившееся резюме, нажмите на /show. Чтобы разместить и опубликовать резюме на сайте hh.ru, нажмите на /push"/>
                     <skippable>false</skippable>
                 </classData>
