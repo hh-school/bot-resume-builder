@@ -49,7 +49,7 @@ public interface HHHTTPService {
             @Header("Authorization") String authorization
     );
 
-    @GET("suggests/areas")
+    @GET("suggests/area_leaves")
     Call<List<Area>> listAreas(@Query("text") String text, @Query("locale") String locale);
 
     @GET("suggests/companies")
