@@ -576,65 +576,19 @@
     </graphNode>
     <graphNode id="12">
         <nodeConstructor>
-            <base classpath="QuestionNodeForking">
+            <base classpath="QuestionNodeLinear">
                 <classData>
                     <answerPattern>Опубликовать резюме на сайте hh.ru</answerPattern>
-                    <question text="Ура, все готово! Новая работа уже совсем близко! ">
-                        <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
-                        <variantsOfAnswer othersAllowed="false">
-                            <variant text="Опубликовать резюме на сайте hh.ru"/>
-                            <variant text="Получить резюме в выбранном формате"/>
-                        </variantsOfAnswer>
-                    </question>
+                    <question text="Ура, все готово! Новая работа уже совсем близко! Чтобы просмотреть получившееся резюме, нажмите на /show. Чтобы разместить и опубликовать резюме на сайте hh.ru, нажмите на /push"/>
                     <skippable>false</skippable>
                 </classData>
             </base>
         </nodeConstructor>
         <links>
-            <link name="nextYes" value="13"/>
-            <link name="nextNo" value="14"/>
+            <link name="next" value="13"/>
         </links>
     </graphNode>
     <graphNode id="13">
-        <nodeConstructor>
-            <base classpath="QuestionNodeLinear">
-                <classData>
-                    <question
-                            text="Резюме загружено на сайт hh.ru. Уже совсем скоро вам начнут поступать звонки от заинтересованных работодателей. Мы нашли для вас несколько подходящих вакансий:">
-                    </question>
-                </classData>
-            </base>
-            <saver classpath="DatabaseSaver">
-                <classData>
-                    <databaseField>skill</databaseField>
-                </classData>
-            </saver>
-        </nodeConstructor>
-        <links>
-            <link name="next" value="15"/>
-        </links>
-    </graphNode>
-    <graphNode id="14">
-        <nodeConstructor>
-            <base classpath="QuestionNodeLinear">
-                <classData>
-                    <question text="В каком формате вы хотите получить резюме">
-                        <keyboardType>VARIANTS_OF_ANSWER</keyboardType>
-                        <variantsOfAnswer othersAllowed="false">
-                            <variant text="TXT"/>
-                            <variant text="XML"/>
-                            <variant text="HTML"/>
-                            <variant text="PDF"/>
-                        </variantsOfAnswer>
-                    </question>
-                </classData>
-            </base>
-        </nodeConstructor>
-        <links>
-            <link name="next" value="15"/>
-        </links>
-    </graphNode>
-    <graphNode id="15">
         <nodeConstructor>
             <base classpath="QuestionNodeTerminal"/>
         </nodeConstructor>
