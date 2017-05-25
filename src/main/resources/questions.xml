@@ -282,6 +282,7 @@
                     </question>
                 </classData>
             </base>
+            <validator classpath="EducationYearValidator"/>
             <saver classpath="DatabaseSaver">
                 <classData>
                     <databaseField>educationEndDate</databaseField>

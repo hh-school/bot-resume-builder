@@ -29,11 +29,16 @@ public class PushMessageHandler extends MessageHandler {
         List<Question> questions = new ArrayList<>(5);
         int currentNodeId = dbProcessor.getUser(telegramId).getNodeId();
         if (currentNodeId > 11) {
-            handleResumePush(telegramId);
-            questions.add(new Question("Резюме успешно опубликовано. Мы нашли для вас несколько подходящих вакансий:"));
-            questions.addAll(getSimilarVacancies(telegramId));
-            questions.add(new Question("Спасибо, что воспользовались нашим ботом! Надеюсь, заполнение резюме " +
-                    "не вызвало у вас трудностей."));
+            if (handleResumePush(telegramId)) {
+                questions.add(new Question("Резюме успешно опубликовано. " +
+                        "Мы нашли для вас несколько подходящих вакансий:"));
+                questions.addAll(getSimilarVacancies(telegramId));
+                questions.add(new Question("Спасибо, что воспользовались нашим ботом! Надеюсь, заполнение резюме " +
+                        "не вызвало у вас трудностей."));
+            } else {
+                questions.add(new Question("Извините, возникла ошибка при попытке отправить ваше резюме. " +
+                        "Пожалуйста, попробуйте еще раз."));
+            }
         } else {
             questions.add(new Question("Резюме не готово к отправке. Пожалуйста, ответье на все вопросы, " +
                     "прежде чем отправлять резюме"));
@@ -42,7 +47,7 @@ public class PushMessageHandler extends MessageHandler {
         return questions;
     }
 
-    private void handleResumePush(Long telegramId) {
+    private boolean handleResumePush(Long telegramId) {
         User user = dbProcessor.getUser(telegramId);
         String authorizationHeader = HHUtils.buildAuthorizationHeader(
                 Config.ACCESS_TOKEN_TYPE,
@@ -52,16 +57,19 @@ public class PushMessageHandler extends MessageHandler {
             Response<Void> createResponse = hhHTTPService.createResume(user, authorizationHeader).execute();
             if (createResponse.code() != 201) {
                 log.error("Error at resume push {}", createResponse.errorBody().string());
-                return;
+                return false;
             }
             String hhResumeId = HHUtils.getResumeId(createResponse.headers().get("Location"));
             dbProcessor.setHHResumeId(telegramId, hhResumeId);
             Response<Void> publishResponse = hhHTTPService.publishResume(hhResumeId, authorizationHeader).execute();
             if (publishResponse.code() != 204) {
                 log.error("Error at resume publish {}", publishResponse.errorBody().string());
+                return false;
             }
+            return true;
         } catch (IOException e) {
             log.error("Error at resume push", e);
+            return false;
         }
     }
 
