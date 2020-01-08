@@ -113,7 +113,7 @@ public class HHResumeHandleTest {
         return user;
     }
 
-    @Test
+    @Test(enabled = false)
     public void testCreateResume() throws Exception {
         Response<Void> createResponse = hhHTTPService.createResume(prepareUser(), AUTHORIZATION_HEADER).execute();
         assertEquals(createResponse.code(), 201);
